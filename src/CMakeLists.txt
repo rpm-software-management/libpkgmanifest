@@ -1,0 +1,3 @@
+file(GLOB_RECURSE LIBLOCKFILE_SOURCES *.cpp)
+
+add_library(liblockfile SHARED ${LIBLOCKFILE_SOURCES})

@@ -11,10 +11,15 @@ option(WITH_TESTS "Build unit tests" ON)
 option(WITH_DOCS "Build documentation" ON)
 option(WITH_PYTHON "Build Python bindings" ON)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(yaml-cpp REQUIRED)
+
 add_compile_options(-Wall -Wextra -Werror)
+
+include_directories("${PROJECT_SOURCE_DIR}/include")
 
 add_subdirectory("bindings")
 add_subdirectory("docs")
 add_subdirectory("include")
-add_subdirectory("lib")
+add_subdirectory("src")
 add_subdirectory("tests")
