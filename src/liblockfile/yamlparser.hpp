@@ -6,18 +6,20 @@
 
 namespace liblockfile {
 
-template <typename T>
-class YamlParser : IYamlParser<T> {
+class YamlFileError : public std::runtime_error {
 public:
-    YamlParser(const YAML::Parser & parser)
-        : parser(parser) {}
+    YamlFileError(const std::string & message);
+};
 
-    virtual T get(const std::string & key) const {
-        // TODO
-    }
+class YamlParseError : public std::runtime_error {
+public:
+    YamlParseError(const std::string & message);
+};
 
-private:
-    YAML::Parser & parser;
+class YamlParser : IYamlParser {
+public:
+    virtual std::unique_ptr<IYamlNode> from_string(const std::string & yaml) const override;
+    virtual std::unique_ptr<IYamlNode> from_file(const std::string & path) const override;
 };
 
 }

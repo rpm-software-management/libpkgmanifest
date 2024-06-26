@@ -1,15 +1,18 @@
 #pragma once
 
+#include "iyamlnode.hpp"
+
+#include <memory>
 #include <string>
 
 namespace liblockfile {
 
-template <typename T>
 class IYamlParser {
 public:
     virtual ~IYamlParser() = default;
 
-    virtual T get(const std::string & key) const = 0;
+    virtual std::unique_ptr<IYamlNode> from_string(const std::string & yaml) const = 0;
+    virtual std::unique_ptr<IYamlNode> from_file(const std::string & path) const = 0;
 };
 
 }
