@@ -1,8 +1,6 @@
-#include "yamlparser.hpp"
+#include "yaml/yamlparser.hpp"
 
 #include <gtest/gtest.h>
-
-#include <sstream>
 
 namespace {
 

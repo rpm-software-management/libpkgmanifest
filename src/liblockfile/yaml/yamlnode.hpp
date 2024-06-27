@@ -1,6 +1,6 @@
 #pragma once
 
-#include "liblockfile/iyamlnode.hpp"
+#include "iyamlnode.hpp"
 
 #include <yaml-cpp/yaml.h>
 

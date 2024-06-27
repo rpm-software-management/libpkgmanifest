@@ -11,6 +11,7 @@ class IPackage {
 public:
     virtual ~IPackage() = default;
 
+    virtual std::string get_arch() const = 0;
     virtual std::string get_repo_id() const = 0;
     virtual std::string get_url() const = 0; // TODO: return URL object?
     virtual const IChecksum & get_checksum() const = 0;

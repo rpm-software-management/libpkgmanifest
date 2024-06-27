@@ -1,0 +1,16 @@
+#include "iversion.hpp"
+
+#include <gmock/gmock.h>
+
+using namespace liblockfile;
+
+namespace {
+
+class VersionMock : public IVersion {
+public:
+    MOCK_METHOD(int, get_major, (), (const, override));
+    MOCK_METHOD(int, get_minor, (), (const, override));
+    MOCK_METHOD(int, get_patch, (), (const, override));
+};
+
+}

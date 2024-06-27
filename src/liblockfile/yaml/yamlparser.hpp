@@ -1,6 +1,6 @@
 #pragma once
 
-#include "liblockfile/iyamlparser.hpp"
+#include "iyamlparser.hpp"
 
 #include <yaml-cpp/yaml.h>
 

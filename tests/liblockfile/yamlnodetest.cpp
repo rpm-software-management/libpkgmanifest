@@ -1,13 +1,13 @@
-#include "yamlnode.hpp"
+#include "yaml/yamlnode.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <sstream>
-
 namespace {
 
 using namespace liblockfile;
+
+using ::testing::ElementsAre;
 
 TEST(YamlNodeTest, ParseNonExistingItemFromYamlThrowsAnException) {
     YamlNode node(YAML::Load(""));
@@ -17,16 +17,6 @@ TEST(YamlNodeTest, ParseNonExistingItemFromYamlThrowsAnException) {
 TEST(YamlNodeTest, ParseNodeFromYaml) {
     YamlNode node(YAML::Load("string_item: \"value\""));
     EXPECT_EQ("value", node.get("string_item")->as_string());
-}
-
-TEST(YamlNodeTest, ParseInnerNodeFromYaml) {
-    // TODO
-    // const std::string yaml = R"(
-    //     item:
-    //         nested_item: "value"
-    // )";
-    // YamlNode node(YAML::Load(yaml));
-    // EXPECT_EQ("value", node.get("nested_item")->as_string());
 }
 
 TEST(YamlNodeTest, ParseStringFromYaml) {
@@ -61,11 +51,25 @@ TEST(YamlNodeTest, ParseSimpleListFromYaml) {
     std::transform(list.begin(), list.end(), int_list.begin(), [](const std::unique_ptr<IYamlNode> & node) {
         return node->as_int();
     });
-    EXPECT_THAT(int_list, testing::ElementsAre(1, 2, 3, 4));
+    EXPECT_THAT(int_list, ElementsAre(1, 2, 3, 4));
 }
 
 TEST(YamlNodeTest, ParseComplexListFromYaml) {
-    // TODO
+    const std::string complex_list_yaml = R"(
+        - field1: "abcd"
+          field2: 111
+        - field1: "efgh"
+          field2: 112
+    )";
+
+    YamlNode node(YAML::Load(complex_list_yaml));
+    auto list = node.as_list();
+
+    EXPECT_EQ(2, list.size());
+    EXPECT_EQ("abcd", list[0]->get("field1")->as_string());
+    EXPECT_EQ(111, list[0]->get("field2")->as_int());
+    EXPECT_EQ("efgh", list[1]->get("field1")->as_string());
+    EXPECT_EQ(112, list[1]->get("field2")->as_int());
 }
 
 }
