@@ -1,9 +1,10 @@
+#include "lockfile.hpp"
 #include "lockfilefactory.hpp"
 
 namespace liblockfile {
 
 std::unique_ptr<ILockFileInternal> LockFileFactory::create() const {
-    throw; // TODO: return std::make_unique<LockFile>();
+    return std::unique_ptr<ILockFileInternal>(new LockFile());
 }   
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <stdint.h>
 #include <string>
@@ -15,8 +16,10 @@ public:
 
     virtual std::string as_string() const = 0;
     virtual int as_int() const = 0;
+    virtual unsigned as_uint() const = 0;
     virtual uint64_t as_uint64() const = 0;
     virtual std::vector<std::unique_ptr<IYamlNode>> as_list() const = 0;
+    virtual std::map<std::string, std::unique_ptr<IYamlNode>> as_map() const = 0;
 };
 
 }

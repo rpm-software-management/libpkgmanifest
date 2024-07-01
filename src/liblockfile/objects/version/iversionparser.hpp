@@ -1,6 +1,7 @@
 #pragma once
 
-#include "liblockfile/iversion.hpp"
+#include "iversioninternal.hpp"
+
 #include "liblockfile/yaml/iyamlnode.hpp"
 
 #include <memory>
@@ -11,7 +12,7 @@ class IVersionParser {
 public:
     virtual ~IVersionParser() = default;
 
-    virtual std::unique_ptr<IVersion> parse(IYamlNode & node) const = 0;
+    virtual std::unique_ptr<IVersionInternal> parse(const IYamlNode & node) const = 0;
 };
 
 }

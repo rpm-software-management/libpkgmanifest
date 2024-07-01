@@ -6,7 +6,7 @@
 
 namespace liblockfile {
 
-class ILockFileInternal : ILockFile, ILockFileSetter {
+class ILockFileInternal : public ILockFile, public ILockFileSetter {
 };
 
 }

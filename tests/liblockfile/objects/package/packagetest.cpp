@@ -1,6 +1,6 @@
-#include "objects/package/package.hpp"
+#include "liblockfile/mocks/objects/checksum/checksummock.hpp"
 
-#include "ichecksummock.hpp"
+#include "liblockfile/objects/package/package.hpp"
 
 #include <gtest/gtest.h>
 

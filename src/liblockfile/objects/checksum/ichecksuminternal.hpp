@@ -6,7 +6,7 @@
 
 namespace liblockfile {
 
-class IChecksumInternal : IChecksum, IChecksumSetter {
+class IChecksumInternal : public IChecksum, public IChecksumSetter {
 };
 
 }

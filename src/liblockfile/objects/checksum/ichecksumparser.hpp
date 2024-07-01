@@ -1,6 +1,7 @@
 #pragma once
 
-#include "liblockfile/ichecksum.hpp"
+#include "ichecksuminternal.hpp"
+
 #include "liblockfile/yaml/iyamlnode.hpp"
 
 #include <memory>
@@ -11,7 +12,7 @@ class IChecksumParser {
 public:
     virtual ~IChecksumParser() = default;
 
-    virtual std::unique_ptr<IChecksum> parse(IYamlNode & node) const = 0;
+    virtual std::unique_ptr<IChecksumInternal> parse(const IYamlNode & node) const = 0;
 };
 
 }

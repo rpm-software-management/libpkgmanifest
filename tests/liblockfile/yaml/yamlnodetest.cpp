@@ -1,4 +1,4 @@
-#include "yaml/yamlnode.hpp"
+#include "liblockfile/yaml/yamlnode.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -32,6 +32,16 @@ TEST(YamlNodeTest, ParseIntegerFromYaml) {
 TEST(YamlNodeTest, ParseInvalidIntegerValueFromYamlThrowsAnException) {
     YamlNode node(YAML::Load("abcd"));
     EXPECT_THROW(node.as_int(), YamlInvalidValueConversionError);
+}
+
+TEST(YamlNodeTest, ParseUnsignedFromYaml) {
+    YamlNode node(YAML::Load("200"));
+    EXPECT_EQ(200, node.as_uint());
+}
+
+TEST(YamlNodeTest, ParseInvalidUnsignedValueFromYamlThrowsAnException) {
+    YamlNode node(YAML::Load("-5000"));
+    EXPECT_THROW(node.as_uint(), YamlInvalidValueConversionError);
 }
 
 TEST(YamlNodeTest, ParseUnsignedLongIntegerFromYaml) {
@@ -70,6 +80,30 @@ TEST(YamlNodeTest, ParseComplexListFromYaml) {
     EXPECT_EQ(111, list[0]->get("field2")->as_int());
     EXPECT_EQ("efgh", list[1]->get("field1")->as_string());
     EXPECT_EQ(112, list[1]->get("field2")->as_int());
+}
+
+TEST(YamlNodeTest, ParseComplexMapFromYaml) {
+    const std::string complex_map_yaml = R"(
+        key1:
+            - field1: "value1"
+              field2: 323
+            - field1: "value2"
+              field2: 454
+        key2:
+            - field1: "value3"
+              field2: 777
+    )";
+
+    YamlNode node(YAML::Load(complex_map_yaml));
+    auto map = node.as_map();
+
+    EXPECT_EQ(2, map.size());
+    EXPECT_EQ("value1", map["key1"]->as_list()[0]->get("field1")->as_string());
+    EXPECT_EQ(323, map["key1"]->as_list()[0]->get("field2")->as_int());
+    EXPECT_EQ("value2", map["key1"]->as_list()[1]->get("field1")->as_string());
+    EXPECT_EQ(454, map["key1"]->as_list()[1]->get("field2")->as_int());
+    EXPECT_EQ("value3", map["key2"]->as_list()[0]->get("field1")->as_string());
+    EXPECT_EQ(777, map["key2"]->as_list()[0]->get("field2")->as_int());
 }
 
 }

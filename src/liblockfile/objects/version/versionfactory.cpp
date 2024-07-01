@@ -1,9 +1,10 @@
+#include "version.hpp"
 #include "versionfactory.hpp"
 
 namespace liblockfile {
 
 std::unique_ptr<IVersionInternal> VersionFactory::create() const {
-    throw; // TODO: return std::make_unique<Version>();
+    return std::unique_ptr<IVersionInternal>(new Version());
 }   
 
 }

@@ -4,8 +4,10 @@
 
 namespace liblockfile {
 
-class Checksum : IChecksumInternal {
+class Checksum : public IChecksumInternal {
 public:
+    Checksum();
+
     virtual ChecksumMethod get_method() const override;
     virtual std::string get_digest() const override;
 

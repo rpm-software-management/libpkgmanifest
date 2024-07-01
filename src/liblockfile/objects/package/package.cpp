@@ -2,6 +2,15 @@
 
 namespace liblockfile {
 
+Package::Package()
+    : arch()
+    , repo_id()
+    , url()
+    , checksum(nullptr)
+    , size(0)
+    , nevra()
+    , srpm() {}
+
 std::string Package::get_arch() const {
     return arch;
 }

@@ -1,7 +1,7 @@
-#include "objects/lockfile/lockfile.hpp"
+#include "liblockfile/mocks/objects/packages/packagesmock.hpp"
+#include "liblockfile/mocks/objects/version/versionmock.hpp"
 
-#include "ipackagesmock.hpp"
-#include "iversionmock.hpp"
+#include "liblockfile/objects/lockfile/lockfile.hpp"
 
 #include <gtest/gtest.h>
 

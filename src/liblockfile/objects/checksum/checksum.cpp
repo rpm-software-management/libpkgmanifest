@@ -2,6 +2,10 @@
 
 namespace liblockfile {
 
+Checksum::Checksum()
+    : method(ChecksumMethod::SHA256)
+    , digest() {}
+
 ChecksumMethod Checksum::get_method() const {
     return method;
 }

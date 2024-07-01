@@ -1,4 +1,4 @@
-#include "yaml/yamlparser.hpp"
+#include "liblockfile/yaml/yamlparser.hpp"
 
 #include <gtest/gtest.h>
 

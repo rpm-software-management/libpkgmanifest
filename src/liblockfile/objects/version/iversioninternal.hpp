@@ -6,7 +6,7 @@
 
 namespace liblockfile {
 
-class IVersionInternal : IVersion, IVersionSetter {
+class IVersionInternal : public IVersion, public IVersionSetter {
 };
 
 }

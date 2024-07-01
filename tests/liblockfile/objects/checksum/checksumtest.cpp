@@ -1,4 +1,4 @@
-#include "objects/checksum/checksum.hpp"
+#include "liblockfile/objects/checksum/checksum.hpp"
 
 #include <gtest/gtest.h>
 

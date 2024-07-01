@@ -6,7 +6,7 @@
 
 namespace liblockfile {
 
-class IPackageInternal : IPackage, IPackageSetter {
+class IPackageInternal : public IPackage, public IPackageSetter {
 };
 
 }

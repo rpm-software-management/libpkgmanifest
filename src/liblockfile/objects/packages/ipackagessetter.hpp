@@ -10,7 +10,7 @@ class IPackagesSetter {
 public:
     virtual ~IPackagesSetter() = default;
 
-    virtual void add_package(std::unique_ptr<IPackage> package) = 0;
+    virtual void add(std::unique_ptr<IPackage> package) = 0;
 };
 
 }

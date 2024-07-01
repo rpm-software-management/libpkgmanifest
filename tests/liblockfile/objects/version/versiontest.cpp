@@ -1,4 +1,4 @@
-#include "objects/version/version.hpp"
+#include "liblockfile/objects/version/version.hpp"
 
 #include <gtest/gtest.h>
 

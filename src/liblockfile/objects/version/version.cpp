@@ -2,27 +2,32 @@
 
 namespace liblockfile {
 
-int Version::get_major() const {
+Version::Version()
+    : major(0)
+    , minor(0)
+    , patch(0) {}
+
+unsigned Version::get_major() const {
     return major;
 }
 
-int Version::get_minor() const {
+unsigned Version::get_minor() const {
     return minor;
 }
 
-int Version::get_patch() const {
+unsigned Version::get_patch() const {
     return patch;
 }
 
-void Version::set_major(int major) {
+void Version::set_major(unsigned major) {
     this->major = major;
 }
 
-void Version::set_minor(int minor) {
+void Version::set_minor(unsigned minor) {
     this->minor = minor;
 }
 
-void Version::set_patch(int patch) {
+void Version::set_patch(unsigned patch) {
     this->patch = patch;
 }
 

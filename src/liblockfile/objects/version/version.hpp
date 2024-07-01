@@ -4,20 +4,22 @@
 
 namespace liblockfile {
 
-class Version : IVersionInternal {
+class Version : public IVersionInternal {
 public:
-    virtual int get_major() const override;
-    virtual int get_minor() const override;
-    virtual int get_patch() const override;
+    Version();
 
-    virtual void set_major(int major) override;
-    virtual void set_minor(int minor) override;
-    virtual void set_patch(int patch) override;
+    virtual unsigned get_major() const override;
+    virtual unsigned get_minor() const override;
+    virtual unsigned get_patch() const override;
+
+    virtual void set_major(unsigned major) override;
+    virtual void set_minor(unsigned minor) override;
+    virtual void set_patch(unsigned patch) override;
 
 private:
-    int major;
-    int minor;
-    int patch;
+    unsigned major;
+    unsigned minor;
+    unsigned patch;
 };
 
 }

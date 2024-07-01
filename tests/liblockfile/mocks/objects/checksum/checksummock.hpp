@@ -1,4 +1,4 @@
-#include "ichecksum.hpp"
+#include "liblockfile/ichecksum.hpp"
 
 #include <gmock/gmock.h>
 

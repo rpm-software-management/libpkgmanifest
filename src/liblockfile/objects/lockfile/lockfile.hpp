@@ -6,8 +6,10 @@
 
 namespace liblockfile {
 
-class LockFile : ILockFileInternal {
+class LockFile : public ILockFileInternal {
 public:
+    LockFile();
+
     virtual std::string get_document() const override;
     virtual const IVersion & get_version() const override;
     virtual const IPackages & get_packages() const override;

@@ -1,6 +1,11 @@
 #include "lockfile.hpp"
 
 namespace liblockfile {
+
+LockFile::LockFile()
+    : document()
+    , version(nullptr)
+    , packages(nullptr) {}
     
 std::string LockFile::get_document() const {
     return document;

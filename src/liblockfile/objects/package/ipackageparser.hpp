@@ -1,6 +1,7 @@
 #pragma once
 
-#include "liblockfile/ipackage.hpp"
+#include "ipackageinternal.hpp"
+
 #include "liblockfile/yaml/iyamlnode.hpp"
 
 #include <memory>
@@ -11,7 +12,7 @@ class IPackageParser {
 public:
     virtual ~IPackageParser() = default;
 
-    virtual std::unique_ptr<IPackage> parse(IYamlNode & node) const = 0;
+    virtual std::unique_ptr<IPackageInternal> parse(const std::string & arch, const IYamlNode & node) const = 0;
 };
 
 }

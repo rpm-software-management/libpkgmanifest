@@ -24,8 +24,10 @@ public:
 
     virtual std::string as_string() const override;
     virtual int as_int() const override;
+    virtual unsigned as_uint() const override;
     virtual uint64_t as_uint64() const override;
     virtual std::vector<std::unique_ptr<IYamlNode>> as_list() const override;
+    virtual std::map<std::string, std::unique_ptr<IYamlNode>> as_map() const override;
 
 private:
     template<typename T>

@@ -6,8 +6,10 @@
 
 namespace liblockfile {
 
-class Package : IPackageInternal {
+class Package : public IPackageInternal {
 public:
+    Package();
+
     virtual std::string get_arch() const override;
     virtual std::string get_repo_id() const override;
     virtual std::string get_url() const override;
