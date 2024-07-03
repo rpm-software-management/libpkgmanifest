@@ -8,19 +8,19 @@
 
 namespace liblockfile {
 
-class LockFileParser : ILockFileParser {
+class LockFileParser : public ILockFileParser {
 public:
     LockFileParser(
-        const ILockFileFactory & file_factory,
-        const IPackagesParser & packages_parser,
-        const IVersionParser & version_parser);
+        std::unique_ptr<ILockFileFactory> file_factory,
+        std::unique_ptr<IPackagesParser> packages_parser,
+        std::unique_ptr<IVersionParser> version_parser);
 
     virtual std::unique_ptr<ILockFileInternal> parse(const IYamlNode & node) const override;
 
 private:
-    const ILockFileFactory & file_factory;
-    const IPackagesParser & packages_parser;
-    const IVersionParser & version_parser;
+    std::unique_ptr<ILockFileFactory> file_factory;
+    std::unique_ptr<IPackagesParser> packages_parser;
+    std::unique_ptr<IVersionParser> version_parser;
 };
 
 }

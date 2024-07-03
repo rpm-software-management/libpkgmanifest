@@ -7,15 +7,15 @@
 
 namespace liblockfile {
 
-class PackageParser : IPackageParser {
+class PackageParser : public IPackageParser {
 public:
-    PackageParser(const IChecksumParser & checksum_parser, const IPackageFactory & package_factory);
+    PackageParser(std::unique_ptr<IChecksumParser> checksum_parser, std::unique_ptr<IPackageFactory> package_factory);
 
     virtual std::unique_ptr<IPackageInternal> parse(const std::string & arch, const IYamlNode & node) const override;
 
 private:
-    const IChecksumParser & checksum_parser;
-    const IPackageFactory & package_factory;
+    std::unique_ptr<IChecksumParser> checksum_parser;
+    std::unique_ptr<IPackageFactory> package_factory;
 };
 
 }

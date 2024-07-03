@@ -95,8 +95,11 @@ TEST(YamlNodeTest, ParseComplexMapFromYaml) {
     )";
 
     YamlNode node(YAML::Load(complex_map_yaml));
-    auto map = node.as_map();
 
+    EXPECT_EQ(2, node.get("key1")->as_list().size());
+    EXPECT_EQ(1, node.get("key2")->as_list().size());
+
+    auto map = node.as_map();
     EXPECT_EQ(2, map.size());
     EXPECT_EQ("value1", map["key1"]->as_list()[0]->get("field1")->as_string());
     EXPECT_EQ(323, map["key1"]->as_list()[0]->get("field2")->as_int());

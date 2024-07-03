@@ -6,15 +6,15 @@
 
 namespace liblockfile {
 
-class Parser : IParser {
+class Parser : public IParser {
 public:
-    Parser(const IYamlParser & yaml_parser, const ILockFileParser & file_parser);
+    Parser(std::unique_ptr<IYamlParser> yaml_parser, std::unique_ptr<ILockFileParser> file_parser);
 
     virtual std::unique_ptr<ILockFile> parse(const std::string & path) const override;
 
 private:
-    const IYamlParser & yaml_parser;
-    const ILockFileParser & file_parser;
+    std::unique_ptr<IYamlParser> yaml_parser;
+    std::unique_ptr<ILockFileParser> file_parser;
 };
 
 }

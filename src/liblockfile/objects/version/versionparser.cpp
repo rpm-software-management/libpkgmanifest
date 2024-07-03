@@ -3,15 +3,28 @@
 namespace liblockfile {
 
 VersionParser::VersionParser(
-    const IVersionFactory & version_factory)
-    : version_factory(version_factory) {}
+    std::unique_ptr<IVersionFactory> version_factory,
+    std::shared_ptr<IStringSplitter> string_splitter)
+    : version_factory(std::move(version_factory)) 
+    , string_splitter(string_splitter) {}
 
 std::unique_ptr<IVersionInternal> VersionParser::parse(const IYamlNode & node) const {
-    auto version = version_factory.create();
+    // TODO: Handle invalid version parts number?
+    // TODO: Handle invalid non-number version parts?
+    auto version = version_factory->create();
+    auto version_parts = string_splitter->split(node.as_string(), '.');
 
-    version->set_major(node.get("major")->as_uint());
-    version->set_minor(node.get("minor")->as_uint());
-    version->set_patch(node.get("patch")->as_uint());
+    if(version_parts.size() > 0) {
+        version->set_major(std::stoul(version_parts[0]));
+    }
+
+    if(version_parts.size() > 1) {
+        version->set_minor(std::stoul(version_parts[1]));
+    }
+
+    if(version_parts.size() > 2) {
+        version->set_patch(std::stoul(version_parts[2]));
+    }
 
     return version;
 }

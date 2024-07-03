@@ -31,9 +31,9 @@ TEST(PackagesTest, AddedPackageIsReturnedByItsArch) {
     auto package = std::make_unique<NiceMock<PackageMock>>();
     auto package_ptr = package.get();
 
-    ON_CALL(*package_ptr, get_arch()).WillByDefault(Return("arch"));
-
     Packages packages;
+
+    EXPECT_CALL(*package_ptr, get_arch()).WillOnce(Return("arch"));
     packages.add(std::move(package));
 
     auto & packages_vector = packages.get("arch");

@@ -4,7 +4,7 @@
 
 namespace liblockfile {
 
-class Packages : IPackagesInternal {
+class Packages : public IPackagesInternal {
 public:
     Packages();
 

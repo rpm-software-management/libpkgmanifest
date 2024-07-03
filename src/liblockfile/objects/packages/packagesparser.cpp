@@ -2,15 +2,15 @@
 
 namespace liblockfile {
 
-PackagesParser::PackagesParser(const IPackageParser & package_parser, const IPackagesFactory & packages_factory)
-    : package_parser(package_parser)
-    , packages_factory(packages_factory) {}
+PackagesParser::PackagesParser(std::unique_ptr<IPackageParser> package_parser, std::unique_ptr<IPackagesFactory> packages_factory)
+    : package_parser(std::move(package_parser))
+    , packages_factory(std::move(packages_factory)) {}
 
 std::unique_ptr<IPackagesInternal> PackagesParser::parse(const IYamlNode & node) const {
-    auto packages = packages_factory.create();
+    auto packages = packages_factory->create();
     for(auto const & [arch, package_nodes] : node.as_map()) {
         for(auto & package_node : package_nodes->as_list()) {
-            auto package = package_parser.parse(arch, *package_node);
+            auto package = package_parser->parse(arch, *package_node);
             packages->add(std::move(package));
         }
     }

@@ -1,5 +1,6 @@
 #include "liblockfile/mocks/objects/version/versionfactorymock.hpp"
 #include "liblockfile/mocks/objects/version/versioninternalmock.hpp"
+#include "liblockfile/mocks/tools/stringsplittermock.hpp"
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 
 #include "liblockfile/objects/version/versionparser.hpp"
@@ -23,55 +24,51 @@ protected:
         auto version = std::make_unique<NiceMock<VersionInternalMock>>();
         version_ptr = version.get();
 
-        EXPECT_CALL(version_factory, create()).WillOnce(Return(std::move(version)));
+        auto version_factory_wrapper = std::make_unique<NiceMock<VersionFactoryMock>>();
+        EXPECT_CALL(*version_factory_wrapper, create()).WillOnce(Return(std::move(version)));
 
         EXPECT_CALL(yaml_node, get(_))
             .Times(AnyNumber())
             .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
+        
+        string_splitter = std::make_shared<NiceMock<StringSplitterMock>>();
+        parser = std::make_unique<VersionParser>(std::move(version_factory_wrapper), string_splitter);
     }
 
-    NiceMock<VersionFactoryMock> version_factory;
+    std::shared_ptr<NiceMock<StringSplitterMock>> string_splitter;
+
     NiceMock<VersionInternalMock> * version_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
-    VersionParser parser{version_factory};
+    std::unique_ptr<VersionParser> parser;
 };
 
-TEST_F(VersionParserTest, ParserSetsMajorValueFromYamlNode) {
-    auto major_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto major_node_ptr = major_node.get();
-    ON_CALL(*major_node, as_uint()).WillByDefault(Return(1));
-    
-    EXPECT_CALL(yaml_node, get("major")).WillOnce(Return(std::move(major_node)));
-    EXPECT_CALL(*major_node_ptr, as_uint());
+TEST_F(VersionParserTest, ParserSetsMajorValueFromSingleValue) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("1"));
+    EXPECT_CALL(*string_splitter, split("1", '.')).WillOnce(Return(std::vector<std::string>{"1"}));
     EXPECT_CALL(*version_ptr, set_major(1));
-    parser.parse(yaml_node);
+    parser->parse(yaml_node);
 }
 
-TEST_F(VersionParserTest, ParserSetsMinorValueFromYamlNode) {
-    auto minor_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto minor_node_ptr = minor_node.get();
-    ON_CALL(*minor_node, as_uint()).WillByDefault(Return(4));
-
-    EXPECT_CALL(yaml_node, get("minor")).WillOnce(Return(std::move(minor_node)));
-    EXPECT_CALL(*minor_node_ptr, as_uint());
-    EXPECT_CALL(*version_ptr, set_minor(4));
-    parser.parse(yaml_node);
+TEST_F(VersionParserTest, ParserSetsMajorAndMinorValueFromTwoValues) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("1.2"));
+    EXPECT_CALL(*string_splitter, split("1.2", '.')).WillOnce(Return(std::vector<std::string>{"1", "2"}));
+    EXPECT_CALL(*version_ptr, set_major(1));
+    EXPECT_CALL(*version_ptr, set_minor(2));
+    parser->parse(yaml_node);
 }
 
-TEST_F(VersionParserTest, ParserSetsPatchValueFromYamlNode) {
-    auto patch_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto patch_node_ptr = patch_node.get();
-    ON_CALL(*patch_node, as_uint()).WillByDefault(Return(7));
-
-    EXPECT_CALL(yaml_node, get("patch")).WillOnce(Return(std::move(patch_node)));
-    EXPECT_CALL(*patch_node_ptr, as_uint());
-    EXPECT_CALL(*version_ptr, set_patch(7));
-    parser.parse(yaml_node);
+TEST_F(VersionParserTest, ParserSetsAllVersionPartsFromThreeValues) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("1.2.3"));
+    EXPECT_CALL(*string_splitter, split("1.2.3", '.')).WillOnce(Return(std::vector<std::string>{"1", "2", "3"}));
+    EXPECT_CALL(*version_ptr, set_major(1));
+    EXPECT_CALL(*version_ptr, set_minor(2));
+    EXPECT_CALL(*version_ptr, set_patch(3));
+    parser->parse(yaml_node);
 }
 
 TEST_F(VersionParserTest, ParserReturnsTheObjectCreatedByFactory) {
-    auto parsed_version = parser.parse(yaml_node);
+    auto parsed_version = parser->parse(yaml_node);
     EXPECT_EQ(parsed_version.get(), version_ptr);
 }
 

@@ -28,15 +28,23 @@ protected:
         auto packages = std::make_unique<NiceMock<PackagesInternalMock>>();
         packages_ptr = packages.get();
 
-        EXPECT_CALL(packages_factory, create()).WillOnce(Return(std::move(packages)));
+        auto packages_factory_wrapper = std::make_unique<NiceMock<PackagesFactoryMock>>();
+        EXPECT_CALL(*packages_factory_wrapper, create()).WillOnce(Return(std::move(packages)));
+
+        auto package_parser_wrapper = std::make_unique<NiceMock<PackageParserMock>>();
+        package_parser = package_parser_wrapper.get();
+
+        parser = std::make_unique<PackagesParser>(
+            std::move(package_parser_wrapper),
+            std::move(packages_factory_wrapper)
+        );
     }
 
-    NiceMock<PackageParserMock> package_parser;
-    NiceMock<PackagesFactoryMock> packages_factory;
+    NiceMock<PackageParserMock> * package_parser;
     NiceMock<PackagesInternalMock> * packages_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
-    PackagesParser parser{package_parser, packages_factory};
+    std::unique_ptr<PackagesParser> parser;
 };
 
 TEST_F(PackagesParserTest, ParserAddsAllPackagesForEachArchInYamlNode) {
@@ -78,21 +86,21 @@ TEST_F(PackagesParserTest, ParserAddsAllPackagesForEachArchInYamlNode) {
     EXPECT_CALL(*aarch64_node_ptr, as_list()).WillOnce(Return(std::move(aarch64_package_nodes)));
     EXPECT_CALL(*i686_node_ptr, as_list()).WillOnce(Return(std::move(i686_package_nodes)));
 
-    EXPECT_CALL(package_parser, parse("aarch64", Ref(*aarch64_pkg1_node_ptr))).WillOnce(Return(std::move(aarch64_pkg1)));
-    EXPECT_CALL(package_parser, parse("aarch64", Ref(*aarch64_pkg2_node_ptr))).WillOnce(Return(std::move(aarch64_pkg2)));
-    EXPECT_CALL(package_parser, parse("i686", Ref(*i686_pkg1_node_ptr))).WillOnce(Return(std::move(i686_pkg1)));
-    EXPECT_CALL(package_parser, parse("i686", Ref(*i686_pkg2_node_ptr))).WillOnce(Return(std::move(i686_pkg2)));
+    EXPECT_CALL(*package_parser, parse("aarch64", Ref(*aarch64_pkg1_node_ptr))).WillOnce(Return(std::move(aarch64_pkg1)));
+    EXPECT_CALL(*package_parser, parse("aarch64", Ref(*aarch64_pkg2_node_ptr))).WillOnce(Return(std::move(aarch64_pkg2)));
+    EXPECT_CALL(*package_parser, parse("i686", Ref(*i686_pkg1_node_ptr))).WillOnce(Return(std::move(i686_pkg1)));
+    EXPECT_CALL(*package_parser, parse("i686", Ref(*i686_pkg2_node_ptr))).WillOnce(Return(std::move(i686_pkg2)));
 
     EXPECT_CALL(*packages_ptr, add(Pointer(aarch64_pkg1_ptr)));
     EXPECT_CALL(*packages_ptr, add(Pointer(aarch64_pkg2_ptr)));
     EXPECT_CALL(*packages_ptr, add(Pointer(i686_pkg1_ptr)));
     EXPECT_CALL(*packages_ptr, add(Pointer(i686_pkg2_ptr)));
 
-    parser.parse(yaml_node);
+    parser->parse(yaml_node);
 }
 
 TEST_F(PackagesParserTest, ParserReturnsTheObjectCreatedByFactory) {
-    auto parsed_packages = parser.parse(yaml_node);
+    auto parsed_packages = parser->parse(yaml_node);
     EXPECT_EQ(parsed_packages.get(), packages_ptr);
 }
 

@@ -3,16 +3,19 @@
 #include "iversionfactory.hpp"
 #include "iversionparser.hpp"
 
+#include "liblockfile/tools/istringsplitter.hpp"
+
 namespace liblockfile {
 
-class VersionParser : IVersionParser {
+class VersionParser : public IVersionParser {
 public:
-    VersionParser(const IVersionFactory & version_factory);
+    VersionParser(std::unique_ptr<IVersionFactory> version_factory, std::shared_ptr<IStringSplitter> string_splitter);
 
     virtual std::unique_ptr<IVersionInternal> parse(const IYamlNode & node) const override;
 
 private:
-    const IVersionFactory & version_factory;
+    std::unique_ptr<IVersionFactory> version_factory;
+    std::shared_ptr<IStringSplitter> string_splitter;
 };
 
 }

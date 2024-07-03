@@ -4,7 +4,7 @@
 
 namespace liblockfile {
 
-class ChecksumFactory : IChecksumFactory {
+class ChecksumFactory : public IChecksumFactory {
 public:
     virtual std::unique_ptr<IChecksumInternal> create() const override;
 };

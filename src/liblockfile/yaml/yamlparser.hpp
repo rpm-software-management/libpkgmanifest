@@ -16,7 +16,7 @@ public:
     YamlParseError(const std::string & message);
 };
 
-class YamlParser : IYamlParser {
+class YamlParser : public IYamlParser {
 public:
     virtual std::unique_ptr<IYamlNode> from_string(const std::string & yaml) const override;
     virtual std::unique_ptr<IYamlNode> from_file(const std::string & path) const override;

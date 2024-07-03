@@ -4,7 +4,7 @@
 
 namespace liblockfile {
 
-class VersionFactory : IVersionFactory {
+class VersionFactory : public IVersionFactory {
 public:
     virtual std::unique_ptr<IVersionInternal> create() const override;
 };
