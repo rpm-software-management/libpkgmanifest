@@ -109,4 +109,56 @@ TEST(YamlNodeTest, ParseComplexMapFromYaml) {
     EXPECT_EQ(777, map["key2"]->as_list()[0]->get("field2")->as_int());
 }
 
+TEST(YamlNodeTest, SetStringValue) {
+    YamlNode node;
+    node.set("value");
+    EXPECT_EQ("value", node.as_string());
+}
+
+TEST(YamlNodeTest, SetIntegerValue) {
+    YamlNode node;
+    node.set(1);
+    EXPECT_EQ(1, node.as_int());
+}
+
+TEST(YamlNodeTest, SetUnsignedValue) {
+    YamlNode node;
+    node.set(363U);
+    EXPECT_EQ(363, node.as_uint());
+}
+
+TEST(YamlNodeTest, SetUnsignedLongValue) {
+    YamlNode node;
+    node.set(123456789123456789U);
+    EXPECT_EQ(123456789123456789U, node.as_uint64());
+}
+
+TEST(YamlNodeTest, AddNodesToList) {
+    auto string_node = std::make_unique<YamlNode>();
+    string_node->set("value");
+    auto int_node = std::make_unique<YamlNode>();
+    int_node->set(5);
+
+    YamlNode node;
+    node.add(std::move(string_node));
+    node.add(std::move(int_node));
+
+    auto list = node.as_list();
+    EXPECT_EQ(2, list.size());
+    EXPECT_EQ("value", list[0]->as_string());
+    EXPECT_EQ(5, list[1]->as_int());
+}
+
+TEST(YamlNodeTest, InsertNodeToMap) {
+    auto inner_node = std::make_unique<YamlNode>();
+    inner_node->set(1234);
+
+    YamlNode node;
+    node.insert("key", std::move(inner_node));
+
+    auto map = node.as_map();
+    EXPECT_EQ(1, map.size());
+    EXPECT_EQ(1234, map["key"]->as_int());
+}
+
 }

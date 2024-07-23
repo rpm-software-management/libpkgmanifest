@@ -1,4 +1,4 @@
-#include "liblockfile/parserfactory.hpp"
+#include "liblockfile/factory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -56,7 +56,7 @@ TEST_F(ParserFactoryTest, ParseSimpleLockFile) {
     std::ofstream yaml_file(file_path);
     yaml_file << simple_lockfile_yaml << std::flush;
 
-    auto parser = ParserFactory::create();
+    auto parser = Factory::create_parser();
     auto lock_file = parser->parse(file_path);
 
     EXPECT_EQ("rpm-lockfile", lock_file->get_document());

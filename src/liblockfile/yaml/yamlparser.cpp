@@ -1,6 +1,8 @@
 #include "yamlnode.hpp"
 #include "yamlparser.hpp"
 
+#include <yaml-cpp/yaml.h>
+
 namespace liblockfile {
 
 YamlFileError::YamlFileError(const std::string & message)
@@ -22,6 +24,8 @@ std::unique_ptr<IYamlNode> YamlParser::from_file(const std::string & path) const
         return std::unique_ptr<YamlNode>(new YamlNode(YAML::LoadFile(path)));
     } catch(YAML::BadFile & ex) {
         throw YamlFileError(ex.msg);
+    } catch(YAML::ParserException & ex) {
+        throw YamlParseError(ex.msg);
     }
 }
 

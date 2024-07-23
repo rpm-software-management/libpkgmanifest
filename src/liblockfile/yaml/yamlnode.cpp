@@ -8,6 +8,8 @@ YamlUnknownKeyError::YamlUnknownKeyError(const std::string & message)
 YamlInvalidValueConversionError::YamlInvalidValueConversionError(const std::string & message)
     : std::runtime_error(message) {}
 
+YamlNode::YamlNode() {}
+
 YamlNode::YamlNode(const YAML::Node & node)
     : node(node) {}
 
@@ -49,6 +51,34 @@ std::map<std::string, std::unique_ptr<IYamlNode>> YamlNode::as_map() const {
         nodes.insert({it->first.as<std::string>(), std::unique_ptr<IYamlNode>(new YamlNode(it->second))});
     }
     return nodes;
+}
+
+void YamlNode::set(const std::string & value) {
+    node = value;
+}
+
+void YamlNode::set(int value) {
+    node = value;
+}
+
+void YamlNode::set(unsigned value) {
+    node = value;
+}
+
+void YamlNode::set(uint64_t value) {
+    node = value;
+}
+
+void YamlNode::add(std::unique_ptr<IYamlNode> value) {
+    node.push_back(static_cast<YamlNode*>(value.get())->node);
+}
+
+void YamlNode::insert(const std::string & key, std::unique_ptr<IYamlNode> value) {
+    node[key] = static_cast<YamlNode*>(value.get())->node;
+}
+
+const YAML::Node & YamlNode::get_node() const {
+    return node;
 }
 
 }

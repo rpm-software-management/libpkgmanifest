@@ -2,8 +2,6 @@
 
 #include "iyamlparser.hpp"
 
-#include <yaml-cpp/yaml.h>
-
 namespace liblockfile {
 
 class YamlFileError : public std::runtime_error {
