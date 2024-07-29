@@ -1,4 +1,4 @@
-#include "liblockfile/ilockfile.hpp"
+#include "liblockfile/objects/lockfile/ilockfile.hpp"
 
 #include <gmock/gmock.h>
 

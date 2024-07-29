@@ -1,8 +1,7 @@
 #pragma once
 
+#include "ilockfile.hpp"
 #include "ilockfilesetter.hpp"
-
-#include "liblockfile/ilockfile.hpp"
 
 namespace liblockfile {
 

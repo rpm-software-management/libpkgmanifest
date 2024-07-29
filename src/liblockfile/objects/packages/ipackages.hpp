@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ipackage.hpp"
+#include "liblockfile/objects/package/ipackage.hpp"
 
 #include <map>
 #include <memory>

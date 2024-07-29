@@ -1,8 +1,7 @@
 #pragma once
 
+#include "iversion.hpp"
 #include "iversionsetter.hpp"
-
-#include "liblockfile/iversion.hpp"
 
 namespace liblockfile {
 

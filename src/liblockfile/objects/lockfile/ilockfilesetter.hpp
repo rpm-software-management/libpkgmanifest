@@ -1,7 +1,7 @@
 #pragma once
 
-#include "liblockfile/ipackages.hpp"
-#include "liblockfile/iversion.hpp"
+#include "liblockfile/objects/packages/ipackages.hpp"
+#include "liblockfile/objects/version/iversion.hpp"
 
 #include <memory>
 #include <string>

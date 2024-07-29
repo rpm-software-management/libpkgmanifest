@@ -1,4 +1,4 @@
-#include "liblockfile/ipackage.hpp"
+#include "liblockfile/objects/package/ipackage.hpp"
 
 #include <gmock/gmock.h>
 

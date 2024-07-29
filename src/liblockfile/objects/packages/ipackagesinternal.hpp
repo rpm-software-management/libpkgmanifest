@@ -1,8 +1,7 @@
 #pragma once
 
+#include "ipackages.hpp"
 #include "ipackagessetter.hpp"
-
-#include "liblockfile/ipackages.hpp"
 
 namespace liblockfile {
 

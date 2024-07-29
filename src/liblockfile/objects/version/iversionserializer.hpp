@@ -1,6 +1,6 @@
 #pragma once
 
-#include "liblockfile/iversion.hpp"
+#include "iversion.hpp"
 
 #include "liblockfile/yaml/iyamlnode.hpp"
 

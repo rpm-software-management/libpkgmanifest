@@ -1,6 +1,6 @@
 #pragma once
 
-#include "liblockfile/ichecksum.hpp"
+#include "liblockfile/objects/checksum/ichecksum.hpp"
 
 #include <memory>
 #include <stdint.h>

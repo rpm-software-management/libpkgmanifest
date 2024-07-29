@@ -1,6 +1,6 @@
 #pragma once
 
-#include "liblockfile/ichecksum.hpp"
+#include "ichecksum.hpp"
 
 #include <string>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ilockfile.hpp"
+#include "liblockfile/objects/lockfile/ilockfile.hpp"
 
 #include <string>
 

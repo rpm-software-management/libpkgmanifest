@@ -1,4 +1,4 @@
-#include "liblockfile/iversion.hpp"
+#include "liblockfile/objects/version/iversion.hpp"
 
 #include <gmock/gmock.h>
 

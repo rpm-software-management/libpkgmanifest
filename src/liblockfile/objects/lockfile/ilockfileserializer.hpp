@@ -1,6 +1,6 @@
 #pragma once
 
-#include "liblockfile/ilockfile.hpp"
+#include "ilockfile.hpp"
 
 #include "liblockfile/yaml/iyamlnode.hpp"
 

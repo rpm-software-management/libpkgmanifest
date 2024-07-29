@@ -1,8 +1,7 @@
 #pragma once
 
+#include "ichecksum.hpp"
 #include "ichecksumsetter.hpp"
-
-#include "liblockfile/ichecksum.hpp"
 
 namespace liblockfile {
 
