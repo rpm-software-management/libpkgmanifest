@@ -3,7 +3,7 @@
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 #include "liblockfile/mocks/yaml/yamlserializermock.hpp"
 
-#include "liblockfile/serializer.hpp"
+#include "liblockfile/wrappers/serializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

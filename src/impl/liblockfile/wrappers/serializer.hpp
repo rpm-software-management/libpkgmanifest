@@ -1,6 +1,7 @@
 #pragma once
 
-#include "liblockfile/iserializer.hpp"
+#include "iserializer.hpp"
+
 #include "liblockfile/objects/lockfile/ilockfileserializer.hpp"
 #include "liblockfile/yaml/iyamlserializer.hpp"
 

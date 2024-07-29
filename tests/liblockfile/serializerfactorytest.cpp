@@ -4,7 +4,7 @@
 #include "liblockfile/mocks/objects/packages/packagesmock.hpp"
 #include "liblockfile/mocks/objects/version/versionmock.hpp"
 
-#include "liblockfile/factory.hpp"
+#include "liblockfile/wrappers/factory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -68,7 +68,7 @@ data:
 
     auto checksum1 = std::make_unique<NiceMock<ChecksumMock>>();
     auto checksum1_ptr = checksum1.get();
-    EXPECT_CALL(*checksum1, get_method()).WillOnce(Return(ChecksumMethod::SHA512));
+    EXPECT_CALL(*checksum1, get_method()).WillOnce(Return(liblockfile::ChecksumMethod::SHA512));
     EXPECT_CALL(*checksum1, get_digest()).WillOnce(Return("abcdef"));
 
     auto package1 = std::make_unique<NiceMock<PackageMock>>();
@@ -81,7 +81,7 @@ data:
 
     auto checksum2 = std::make_unique<NiceMock<ChecksumMock>>();
     auto checksum2_ptr = checksum2.get();
-    EXPECT_CALL(*checksum2, get_method()).WillOnce(Return(ChecksumMethod::MD5));
+    EXPECT_CALL(*checksum2, get_method()).WillOnce(Return(liblockfile::ChecksumMethod::MD5));
     EXPECT_CALL(*checksum2, get_digest()).WillOnce(Return("fedcba"));
 
     auto package2 = std::make_unique<NiceMock<PackageMock>>();
@@ -94,7 +94,7 @@ data:
 
     auto checksum3 = std::make_unique<NiceMock<ChecksumMock>>();
     auto checksum3_ptr = checksum3.get();
-    EXPECT_CALL(*checksum3, get_method()).WillOnce(Return(ChecksumMethod::SHA256));
+    EXPECT_CALL(*checksum3, get_method()).WillOnce(Return(liblockfile::ChecksumMethod::SHA256));
     EXPECT_CALL(*checksum3, get_digest()).WillOnce(Return("qpwoeiru"));
 
     auto package3 = std::make_unique<NiceMock<PackageMock>>();

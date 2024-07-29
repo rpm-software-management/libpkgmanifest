@@ -1,7 +1,6 @@
+#include "factory.hpp"
 #include "parser.hpp"
 #include "serializer.hpp"
-
-#include "liblockfile/factory.hpp"
 
 #include "liblockfile/objects/checksum/checksumfactory.hpp"
 #include "liblockfile/objects/checksum/checksumparser.hpp"

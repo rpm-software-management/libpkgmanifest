@@ -1,4 +1,4 @@
-#include "liblockfile/factory.hpp"
+#include "liblockfile/wrappers/factory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -72,7 +72,7 @@ TEST_F(ParserFactoryTest, ParseSimpleLockFile) {
     EXPECT_EQ("i686", package1->get_arch());
     EXPECT_EQ("repo1", package1->get_repo_id());
     EXPECT_EQ("url1", package1->get_url());
-    EXPECT_EQ(ChecksumMethod::SHA512, package1->get_checksum().get_method());
+    EXPECT_EQ(liblockfile::ChecksumMethod::SHA512, package1->get_checksum().get_method());
     EXPECT_EQ("abcdef", package1->get_checksum().get_digest());
     EXPECT_EQ(152384, package1->get_size());
     EXPECT_EQ("nevra1", package1->get_nevra());
@@ -82,7 +82,7 @@ TEST_F(ParserFactoryTest, ParseSimpleLockFile) {
     EXPECT_EQ("i686", package2->get_arch());
     EXPECT_EQ("repo2", package2->get_repo_id());
     EXPECT_EQ("url2", package2->get_url());
-    EXPECT_EQ(ChecksumMethod::MD5, package2->get_checksum().get_method());
+    EXPECT_EQ(liblockfile::ChecksumMethod::MD5, package2->get_checksum().get_method());
     EXPECT_EQ("fedcba", package2->get_checksum().get_digest());
     EXPECT_EQ(378124894, package2->get_size());
     EXPECT_EQ("nevra2", package2->get_nevra());
@@ -92,7 +92,7 @@ TEST_F(ParserFactoryTest, ParseSimpleLockFile) {
     EXPECT_EQ("src", package3->get_arch());
     EXPECT_EQ("repo3", package3->get_repo_id());
     EXPECT_EQ("http://some.server.org/folder/nevra3.rpm", package3->get_url());
-    EXPECT_EQ(ChecksumMethod::SHA256, package3->get_checksum().get_method());
+    EXPECT_EQ(liblockfile::ChecksumMethod::SHA256, package3->get_checksum().get_method());
     EXPECT_EQ("qpwoeiru", package3->get_checksum().get_digest());
     EXPECT_EQ(97643154, package3->get_size());
     EXPECT_EQ("nevra3", package3->get_nevra());

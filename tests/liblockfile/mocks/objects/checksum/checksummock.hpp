@@ -8,7 +8,7 @@ namespace {
 
 class ChecksumMock : public IChecksum {
 public:
-    MOCK_METHOD(ChecksumMethod, get_method, (), (const, override));
+    MOCK_METHOD(liblockfile::ChecksumMethod, get_method, (), (const, override));
     MOCK_METHOD(std::string, get_digest, (), (const, override));
 };
 

@@ -43,7 +43,7 @@ TEST_F(ChecksumParserTest, ParserSetsSHA256MethodFromYamlNode) {
     EXPECT_CALL(*string_splitter, split("SHA256:aaabbb", ':')).WillOnce(
         Return(std::vector<std::string>{"SHA256", "aaabbb"})
     );
-    EXPECT_CALL(*checksum_ptr, set_method(ChecksumMethod::SHA256));
+    EXPECT_CALL(*checksum_ptr, set_method(liblockfile::ChecksumMethod::SHA256));
     parser->parse(yaml_node);
 }
 
@@ -52,7 +52,7 @@ TEST_F(ChecksumParserTest, ParserSetsSHA512MethodFromYamlNode) {
     EXPECT_CALL(*string_splitter, split("SHA512:abcdefgh", ':')).WillOnce(
         Return(std::vector<std::string>{"SHA512", "abcdefgh"})
     );
-    EXPECT_CALL(*checksum_ptr, set_method(ChecksumMethod::SHA512));
+    EXPECT_CALL(*checksum_ptr, set_method(liblockfile::ChecksumMethod::SHA512));
     parser->parse(yaml_node);
 }
 
@@ -61,7 +61,7 @@ TEST_F(ChecksumParserTest, ParserSetsMD5MethodFromYamlNode) {
     EXPECT_CALL(*string_splitter, split("MD5:hgfedcba", ':')).WillOnce(
         Return(std::vector<std::string>{"MD5", "hgfedcba"})
     );
-    EXPECT_CALL(*checksum_ptr, set_method(ChecksumMethod::MD5));
+    EXPECT_CALL(*checksum_ptr, set_method(liblockfile::ChecksumMethod::MD5));
     parser->parse(yaml_node);
 }
 
@@ -70,7 +70,7 @@ TEST_F(ChecksumParserTest, ParserSetsCRC32MethodFromYamlNode) {
     EXPECT_CALL(*string_splitter, split("CRC32:bcxbxcvx", ':')).WillOnce(
         Return(std::vector<std::string>{"CRC32", "bcxbxcvx"})
     );
-    EXPECT_CALL(*checksum_ptr, set_method(ChecksumMethod::CRC32));
+    EXPECT_CALL(*checksum_ptr, set_method(liblockfile::ChecksumMethod::CRC32));
     parser->parse(yaml_node);
 }
 
@@ -79,7 +79,7 @@ TEST_F(ChecksumParserTest, ParserSetsCRC64MethodFromYamlNode) {
     EXPECT_CALL(*string_splitter, split("CRC64:nvnccf", ':')).WillOnce(
         Return(std::vector<std::string>{"CRC64", "nvnccf"})
     );
-    EXPECT_CALL(*checksum_ptr, set_method(ChecksumMethod::CRC64));
+    EXPECT_CALL(*checksum_ptr, set_method(liblockfile::ChecksumMethod::CRC64));
     parser->parse(yaml_node);
 }
 
@@ -88,7 +88,7 @@ TEST_F(ChecksumParserTest, ParserSetsLowercaseMethodFromYamlNode) {
     EXPECT_CALL(*string_splitter, split("sha512:bcxvf", ':')).WillOnce(
         Return(std::vector<std::string>{"sha512", "bcxvf"})
     );
-    EXPECT_CALL(*checksum_ptr, set_method(ChecksumMethod::SHA512));
+    EXPECT_CALL(*checksum_ptr, set_method(liblockfile::ChecksumMethod::SHA512));
     parser->parse(yaml_node);
 }
 

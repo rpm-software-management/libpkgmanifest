@@ -7,7 +7,7 @@ namespace {
 using namespace liblockfile::internal;
 
 TEST(ChecksumTest, DefaultMethodIsSHA256) {
-    EXPECT_EQ(ChecksumMethod::SHA256, Checksum().get_method());
+    EXPECT_EQ(liblockfile::ChecksumMethod::SHA256, Checksum().get_method());
 }
 
 TEST(ChecksumTest, DefaultDigestIsEmpty) {
@@ -16,8 +16,8 @@ TEST(ChecksumTest, DefaultDigestIsEmpty) {
 
 TEST(ChecksumTest, SetMethodIsReturned) {
     Checksum checksum;
-    checksum.set_method(ChecksumMethod::MD5);
-    EXPECT_EQ(ChecksumMethod::MD5, checksum.get_method());
+    checksum.set_method(liblockfile::ChecksumMethod::MD5);
+    EXPECT_EQ(liblockfile::ChecksumMethod::MD5, checksum.get_method());
 }
 
 TEST(ChecksumTest, SetDigestIsReturned) {

@@ -3,7 +3,7 @@
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 #include "liblockfile/mocks/yaml/yamlparsermock.hpp"
 
-#include "liblockfile/parser.hpp"
+#include "liblockfile/wrappers/parser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

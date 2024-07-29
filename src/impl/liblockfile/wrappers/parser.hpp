@@ -1,6 +1,7 @@
 #pragma once
 
-#include "liblockfile/iparser.hpp"
+#include "iparser.hpp"
+
 #include "liblockfile/objects/lockfile/ilockfileparser.hpp"
 #include "liblockfile/yaml/iyamlparser.hpp"
 
