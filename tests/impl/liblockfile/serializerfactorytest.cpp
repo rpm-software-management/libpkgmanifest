@@ -35,7 +35,7 @@ protected:
     std::filesystem::path file_path;
 };
 
-TEST_F(SerializerFactoryTest, SerializerSimpleLockFile) {
+TEST_F(SerializerFactoryTest, SerializeSimpleLockFile) {
     const std::string simple_lockfile_yaml = R"(document: rpm-lockfile
 version: 1.2.3
 data:
