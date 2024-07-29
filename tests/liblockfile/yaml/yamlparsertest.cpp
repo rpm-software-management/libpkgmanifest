@@ -4,7 +4,7 @@
 
 namespace {
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 TEST(YamlParserTest, ParseInvalidYamlFromStringThrowsAnException) {
     YamlParser parser;

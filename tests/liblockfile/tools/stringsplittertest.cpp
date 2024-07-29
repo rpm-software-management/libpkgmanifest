@@ -4,7 +4,7 @@
 
 namespace {
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 TEST(StringSplitterTest, SplitEmptyStringReturnsAnEmptyVector) {
     EXPECT_EQ(std::vector<std::string>(), StringSplitter().split("", ' '));

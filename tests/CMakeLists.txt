@@ -8,7 +8,7 @@ enable_testing()
 file(GLOB_RECURSE TEST_LIBLOCKFILE_SOURCES *.cpp)
 
 include_directories(.)
-include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src/impl)
 
 add_executable(liblockfile_tests_runner ${TEST_LIBLOCKFILE_SOURCES})
 

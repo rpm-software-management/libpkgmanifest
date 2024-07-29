@@ -2,7 +2,7 @@
 
 #include <gmock/gmock.h>
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 namespace {
 

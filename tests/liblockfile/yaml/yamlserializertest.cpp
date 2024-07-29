@@ -4,7 +4,7 @@
 
 namespace {
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 // TODO: Test exceptions
 // TODO: Test API

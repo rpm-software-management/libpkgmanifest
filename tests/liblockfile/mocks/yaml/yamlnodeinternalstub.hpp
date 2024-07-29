@@ -1,6 +1,6 @@
 #include "liblockfile/yaml/iyamlnodeinternal.hpp"
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 namespace {
 

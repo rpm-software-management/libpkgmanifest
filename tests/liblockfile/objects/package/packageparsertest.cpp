@@ -11,7 +11,7 @@
 
 namespace {
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 using ::testing::_;
 using ::testing::AnyNumber;

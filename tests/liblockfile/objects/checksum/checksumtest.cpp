@@ -4,7 +4,7 @@
 
 namespace {
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 TEST(ChecksumTest, DefaultMethodIsSHA256) {
     EXPECT_EQ(ChecksumMethod::SHA256, Checksum().get_method());

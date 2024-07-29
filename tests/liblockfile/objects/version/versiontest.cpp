@@ -4,7 +4,7 @@
 
 namespace {
 
-using namespace liblockfile;
+using namespace liblockfile::internal;
 
 TEST(VersionTest, DefaultMajorIsZero) {
     EXPECT_EQ(0, Version().get_major());
