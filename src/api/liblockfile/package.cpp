@@ -1,14 +1,29 @@
-#include "liblockfile/package.hpp"
-
 #include "package_impl.hpp"
+
+#include "liblockfile/package.hpp"
 
 namespace liblockfile {
 
 Package::Package() : p_impl(std::make_unique<Impl>()) {}
 
-Package::Package(Package && other) noexcept : p_impl(std::move(other.p_impl)) {}
-
 Package::~Package() = default;
+
+Package::Package(const Package & other) : p_impl(new Impl(*other.p_impl)) {}
+
+Package & Package::operator=(const Package & other) {
+    if (this != &other) {
+        if (p_impl) {
+            *p_impl = *other.p_impl;
+        } else {
+            p_impl = std::make_unique<Impl>(*other.p_impl);
+        }
+    }
+
+    return *this;
+}
+
+Package::Package(Package && other) noexcept = default;
+Package & Package::operator=(Package && other) noexcept = default;
 
 std::string Package::get_arch() const {
     return p_impl->package->get_arch();

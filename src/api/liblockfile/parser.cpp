@@ -1,8 +1,8 @@
+#include "lockfile_impl.hpp"
+
 #include "liblockfile/parser.hpp"
 
 #include "liblockfile/wrappers/factory.hpp"
-
-#include "lockfile_impl.hpp"
 
 namespace liblockfile {
 

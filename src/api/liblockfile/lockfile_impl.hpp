@@ -9,12 +9,16 @@
 #include "packages_impl.hpp"
 #include "version_impl.hpp"
 
-#include <memory>
-
 namespace liblockfile {
 
 class LockFile::Impl {
 public:
+    ~Impl() {
+        if (file) {
+            delete file;
+        }
+    }
+
     const internal::ILockFile & get() const {
         return *file;
     }
@@ -22,11 +26,11 @@ public:
     void set(std::unique_ptr<internal::ILockFile> file) {
         version.p_impl->set(file->get_version());
         packages.p_impl->set(file->get_packages());
-        this->file = std::move(file);
+        this->file = file.release();
     }
 private:
     friend LockFile;
-    std::unique_ptr<internal::ILockFile> file;
+    internal::ILockFile * file;
     Version version;
     Packages packages;
 };

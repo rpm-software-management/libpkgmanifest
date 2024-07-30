@@ -11,6 +11,14 @@ enum class ChecksumMethod {
 
 class Checksum {
 public:
+    ~Checksum();
+
+    Checksum(const Checksum & other);
+    Checksum & operator=(const Checksum & other);
+
+    Checksum(Checksum && other) noexcept;
+    Checksum & operator=(Checksum && other) noexcept;
+
     ChecksumMethod get_method() const;
     std::string get_digest() const;
 
@@ -18,7 +26,6 @@ private:
     friend class Package;
 
     Checksum();
-    ~Checksum();
 
     class Impl;
     std::unique_ptr<Impl> p_impl;

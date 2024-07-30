@@ -4,3 +4,4 @@ include_directories(./api)
 include_directories(./impl)
 
 add_library(lockfile SHARED ${LIBLOCKFILE_SOURCES})
+set_property(TARGET lockfile PROPERTY POSITION_INDEPENDENT_CODE ON)

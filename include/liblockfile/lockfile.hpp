@@ -10,8 +10,13 @@ namespace liblockfile {
 
 class LockFile {
 public:
-    LockFile(LockFile && other) noexcept;
     ~LockFile();
+
+    LockFile(const LockFile & other);
+    LockFile & operator=(const LockFile & other);
+
+    LockFile(LockFile && other) noexcept;
+    LockFile & operator=(LockFile && other) noexcept;
 
     std::string get_document() const;
     const Version & get_version() const;

@@ -10,8 +10,13 @@ namespace liblockfile {
 
 class Package {
 public:
-    Package(Package && other) noexcept;
     ~Package();
+
+    Package(const Package & other);
+    Package & operator=(const Package & other);
+
+    Package(Package && other) noexcept;
+    Package & operator=(Package && other) noexcept;
 
     std::string get_arch() const;
     std::string get_repo_id() const;
