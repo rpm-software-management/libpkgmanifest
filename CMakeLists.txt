@@ -11,6 +11,8 @@ option(WITH_TESTS "Build unit tests" ON)
 option(WITH_DOCS "Build documentation" ON)
 option(WITH_PYTHON "Build Python bindings" ON)
 
+include(GNUInstallDirs)
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(YAMLCPP REQUIRED yaml-cpp)
 
