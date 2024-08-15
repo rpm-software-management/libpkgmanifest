@@ -6,6 +6,7 @@ namespace liblockfile {
 
 class Version {
 public:
+    Version();
     ~Version();
 
     Version(const Version & other);
@@ -18,10 +19,12 @@ public:
     unsigned get_minor() const;
     unsigned get_patch() const;
 
+    void set_major(unsigned major);
+    void set_minor(unsigned minor);
+    void set_patch(unsigned patch);
+
 private:
     friend class LockFile;
-
-    Version();
 
     class Impl;
     std::unique_ptr<Impl> p_impl;

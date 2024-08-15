@@ -8,7 +8,7 @@ namespace {
 
 class ChecksumParserMock : public IChecksumParser {
 public:
-    MOCK_METHOD(std::unique_ptr<IChecksumInternal>, parse, (const IYamlNode &), (const, override));
+    MOCK_METHOD(std::unique_ptr<IChecksum>, parse, (const IYamlNode &), (const, override));
 };
 
 }

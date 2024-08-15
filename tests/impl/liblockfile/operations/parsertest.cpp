@@ -1,9 +1,9 @@
-#include "liblockfile/mocks/objects/lockfile/lockfileinternalmock.hpp"
+#include "liblockfile/mocks/objects/lockfile/lockfilemock.hpp"
 #include "liblockfile/mocks/objects/lockfile/lockfileparsermock.hpp"
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 #include "liblockfile/mocks/yaml/yamlparsermock.hpp"
 
-#include "liblockfile/wrappers/parser.hpp"
+#include "liblockfile/operations/parser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@ using ::testing::Return;
 TEST(ParserTest, NodeFromYamlParserIsPassedToLockFileParser) {
     auto yaml_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto yaml_node_ptr = yaml_node.get();
-    auto lock_file = std::make_unique<NiceMock<LockFileInternalMock>>();
+    auto lock_file = std::make_unique<NiceMock<LockFileMock>>();
     auto lock_file_ptr = lock_file.get();
     auto file_parser = std::make_unique<NiceMock<LockFileParserMock>>();
     auto file_parser_ptr = file_parser.get();

@@ -15,7 +15,7 @@ public:
         std::unique_ptr<IPackagesParser> packages_parser,
         std::unique_ptr<IVersionParser> version_parser);
 
-    virtual std::unique_ptr<ILockFileInternal> parse(const IYamlNode & node) const override;
+    virtual std::unique_ptr<ILockFile> parse(const IYamlNode & node) const override;
 
 private:
     std::unique_ptr<ILockFileFactory> file_factory;

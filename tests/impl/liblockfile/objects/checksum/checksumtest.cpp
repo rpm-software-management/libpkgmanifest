@@ -26,4 +26,14 @@ TEST(ChecksumTest, SetDigestIsReturned) {
     EXPECT_EQ("abcd", checksum.get_digest());
 }
 
+TEST(ChecksumTest, ClonedObjectHasSameValuesAsOriginal) {
+    Checksum checksum;
+    checksum.set_method(liblockfile::ChecksumMethod::CRC64);
+    checksum.set_digest("aaaaaa");
+
+    auto clone(checksum.clone());
+    EXPECT_EQ(checksum.get_method(), clone->get_method());
+    EXPECT_EQ(checksum.get_digest(), clone->get_digest());
+}
+
 }

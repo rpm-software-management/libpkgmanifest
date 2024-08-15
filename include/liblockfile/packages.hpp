@@ -11,6 +11,7 @@ namespace liblockfile {
 
 class Packages {
 public:
+    Packages();
     ~Packages();
 
     Packages(const Packages & other);
@@ -19,13 +20,13 @@ public:
     Packages(Packages && other) noexcept;
     Packages & operator=(Packages && other) noexcept;
 
-    const std::map<std::string, std::vector<Package>> & get() const;
-    const std::vector<Package> & get(const std::string & arch) const;
+    std::map<std::string, std::vector<Package>> get() const;
+    std::vector<Package> get(const std::string & arch) const;
+
+    void add(Package & package);
 
 private:
     friend class LockFile;
-
-    Packages();
 
     class Impl;
     std::unique_ptr<Impl> p_impl;

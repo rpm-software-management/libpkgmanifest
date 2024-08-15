@@ -1,7 +1,7 @@
-#include "liblockfile/mocks/objects/checksum/checksuminternalmock.hpp"
+#include "liblockfile/mocks/objects/checksum/checksummock.hpp"
 #include "liblockfile/mocks/objects/checksum/checksumparsermock.hpp"
 #include "liblockfile/mocks/objects/package/packagefactorymock.hpp"
-#include "liblockfile/mocks/objects/package/packageinternalmock.hpp"
+#include "liblockfile/mocks/objects/package/packagemock.hpp"
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 
 #include "liblockfile/objects/package/packageparser.hpp"
@@ -24,7 +24,7 @@ using ::testing::Test;
 class PackageParserTest : public Test {
 protected:
     virtual void SetUp() {
-        auto package = std::make_unique<NiceMock<PackageInternalMock>>();
+        auto package = std::make_unique<NiceMock<PackageMock>>();
         package_ptr = package.get();
 
         auto package_factory_wrapper = std::make_unique<NiceMock<PackageFactoryMock>>();
@@ -44,7 +44,7 @@ protected:
     }
 
     NiceMock<ChecksumParserMock> * checksum_parser;
-    NiceMock<PackageInternalMock> * package_ptr;
+    NiceMock<PackageMock> * package_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
     std::unique_ptr<PackageParser> parser;
@@ -78,7 +78,7 @@ TEST_F(PackageParserTest, ParserSetsUrlFromYamlNode) {
 TEST_F(PackageParserTest, ParserSetsChecksumFromChecksumParser) {
     auto checksum_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto checksum_node_ptr = checksum_node.get();
-    auto checksum = std::make_unique<NiceMock<ChecksumInternalMock>>();
+    auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
     auto checksum_ptr = checksum.get();
 
     EXPECT_CALL(yaml_node, get("checksum")).WillOnce(Return(std::move(checksum_node)));

@@ -3,8 +3,8 @@
 
 namespace liblockfile::internal {
 
-std::unique_ptr<IPackageInternal> PackageFactory::create() const {
-    return std::unique_ptr<IPackageInternal>(new Package());
+std::unique_ptr<IPackage> PackageFactory::create() const {
+    return std::unique_ptr<IPackage>(new Package());
 }   
 
 }

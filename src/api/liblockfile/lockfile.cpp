@@ -26,15 +26,29 @@ LockFile::LockFile(LockFile && other) noexcept = default;
 LockFile & LockFile::operator=(LockFile && other) noexcept = default;
 
 std::string LockFile::get_document() const {
-    return p_impl->file->get_document();
+    return p_impl->get()->get_document();
 }
 
-const Version & LockFile::get_version() const {
+Version & LockFile::get_version() {
     return p_impl->version;
 }
 
-const Packages & LockFile::get_packages() const {
+Packages & LockFile::get_packages() {
     return p_impl->packages;
+}
+
+void LockFile::set_document(const std::string & document) {
+    p_impl->get()->set_document(document);
+}
+
+void LockFile::set_version(Version & version) {
+    p_impl->version.p_impl->from_internal(version.p_impl->get());
+    p_impl->get()->set_version(version.p_impl->get_factory_object());
+}
+
+void LockFile::set_packages(Packages & packages) {
+    p_impl->packages.p_impl->from_internal(packages.p_impl->get());
+    p_impl->get()->set_packages(packages.p_impl->get_factory_object());
 }
 
 }

@@ -1,5 +1,5 @@
+#include "liblockfile/mocks/objects/checksum/checksummock.hpp"
 #include "liblockfile/mocks/objects/checksum/checksumfactorymock.hpp"
-#include "liblockfile/mocks/objects/checksum/checksuminternalmock.hpp"
 #include "liblockfile/mocks/tools/stringsplittermock.hpp"
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 
@@ -20,7 +20,7 @@ using ::testing::Test;
 class ChecksumParserTest : public Test {
 protected:
     virtual void SetUp() {
-        auto checksum = std::make_unique<NiceMock<ChecksumInternalMock>>();
+        auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
         checksum_ptr = checksum.get();
 
         auto checksum_factory = std::make_unique<NiceMock<ChecksumFactoryMock>>();
@@ -32,7 +32,7 @@ protected:
 
     std::shared_ptr<NiceMock<StringSplitterMock>> string_splitter;
 
-    NiceMock<ChecksumInternalMock> * checksum_ptr;
+    NiceMock<ChecksumMock> * checksum_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
     std::unique_ptr<ChecksumParser> parser;

@@ -26,11 +26,19 @@ Checksum::Checksum(Checksum && other) noexcept = default;
 Checksum & Checksum::operator=(Checksum && other) noexcept = default;
 
 ChecksumMethod Checksum::get_method() const {
-    return p_impl->checksum->get_method();
+    return p_impl->get()->get_method();
 }
     
 std::string Checksum::get_digest() const {
-    return p_impl->checksum->get_digest();
+    return p_impl->get()->get_digest();
+}
+
+void Checksum::set_method(ChecksumMethod method) {
+    p_impl->get()->set_method(method);
+}
+
+void Checksum::set_digest(const std::string & digest) {
+    p_impl->get()->set_digest(digest);
 }
 
 }

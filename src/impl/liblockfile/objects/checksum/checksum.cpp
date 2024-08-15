@@ -6,6 +6,10 @@ Checksum::Checksum()
     : method(ChecksumMethod::SHA256)
     , digest() {}
 
+std::unique_ptr<IChecksum> Checksum::clone() const {
+    return std::unique_ptr<IChecksum>(new Checksum(*this));
+}
+
 ChecksumMethod Checksum::get_method() const {
     return method;
 }

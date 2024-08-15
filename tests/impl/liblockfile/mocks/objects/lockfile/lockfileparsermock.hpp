@@ -8,7 +8,7 @@ namespace {
 
 class LockFileParserMock : public ILockFileParser {
 public:
-    MOCK_METHOD(std::unique_ptr<ILockFileInternal>, parse, (const IYamlNode &), (const, override));
+    MOCK_METHOD(std::unique_ptr<ILockFile>, parse, (const IYamlNode &), (const, override));
 };
 
 }

@@ -3,8 +3,8 @@
 
 namespace liblockfile::internal {
 
-std::unique_ptr<IChecksumInternal> ChecksumFactory::create() const {
-    return std::unique_ptr<IChecksumInternal>(new Checksum());
+std::unique_ptr<IChecksum> ChecksumFactory::create() const {
+    return std::unique_ptr<IChecksum>(new Checksum());
 }   
 
 }

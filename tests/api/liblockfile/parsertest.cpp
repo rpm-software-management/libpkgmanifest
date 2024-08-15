@@ -64,11 +64,18 @@ TEST_F(ApiParserTest, ParseSimpleLockFile) {
     EXPECT_EQ(2, lock_file.get_version().get_minor());
     EXPECT_EQ(3, lock_file.get_version().get_patch());
 
-    EXPECT_EQ(2, lock_file.get_packages().get().size());
-    EXPECT_EQ(2, lock_file.get_packages().get("i686").size());
-    EXPECT_EQ(1, lock_file.get_packages().get("src").size());
+    auto packages = lock_file.get_packages().get();
+    EXPECT_EQ(2, packages.size());
+    EXPECT_EQ(2, packages["i686"].size());
+    EXPECT_EQ(1, packages["src"].size());
 
-    auto & package1 = lock_file.get_packages().get().at("i686")[0];
+    auto i686_packages = lock_file.get_packages().get("i686");
+    EXPECT_EQ(2, i686_packages.size());
+
+    auto src_packages = lock_file.get_packages().get("src");
+    EXPECT_EQ(1, src_packages.size());
+
+    auto & package1 = packages.at("i686")[0];
     EXPECT_EQ("i686", package1.get_arch());
     EXPECT_EQ("repo1", package1.get_repo_id());
     EXPECT_EQ("url1", package1.get_url());
@@ -78,7 +85,7 @@ TEST_F(ApiParserTest, ParseSimpleLockFile) {
     EXPECT_EQ("nevra1", package1.get_nevra());
     EXPECT_EQ("srpm1", package1.get_srpm());
 
-    auto & package2 = lock_file.get_packages().get().at("i686")[1];
+    auto & package2 = packages.at("i686")[1];
     EXPECT_EQ("i686", package2.get_arch());
     EXPECT_EQ("repo2", package2.get_repo_id());
     EXPECT_EQ("url2", package2.get_url());
@@ -88,7 +95,7 @@ TEST_F(ApiParserTest, ParseSimpleLockFile) {
     EXPECT_EQ("nevra2", package2.get_nevra());
     EXPECT_EQ("srpm2", package2.get_srpm());
 
-    auto & package3 = lock_file.get_packages().get().at("src")[0];
+    auto & package3 = packages.at("src")[0];
     EXPECT_EQ("src", package3.get_arch());
     EXPECT_EQ("repo3", package3.get_repo_id());
     EXPECT_EQ("http://some.server.org/folder/nevra3.rpm", package3.get_url());

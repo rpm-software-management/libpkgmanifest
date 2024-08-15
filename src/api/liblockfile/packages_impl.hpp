@@ -3,7 +3,7 @@
 #include "liblockfile/packages.hpp"
 #include "liblockfile/package.hpp"
 
-#include "liblockfile/objects/packages/ipackages.hpp"
+#include "liblockfile/objects/packages/packagesfactory.hpp"
 
 #include "package_impl.hpp"
 
@@ -11,21 +11,48 @@ namespace liblockfile {
 
 class Packages::Impl {
 public:
-    void set(const internal::IPackages & packages) {
-        for (const auto & [arch, internal_arch_packages] : packages.get()) {
-            std::vector<Package> arch_packages;
-            arch_packages.reserve(internal_arch_packages.size());
-            for (const auto & internal_package : internal_arch_packages) {
-                Package package;
-                package.p_impl->set(*internal_package);
-                arch_packages.push_back(std::move(package));
-            }
-            packages_map.insert({arch, std::move(arch_packages)});
+    Impl() 
+        : packages(nullptr)
+        , factory_packages(nullptr) {}
+    
+    Impl(const Impl & other) 
+        : packages(other.packages)
+        , factory_packages(other.factory_packages->clone()) {}
+
+    Impl & operator=(const Impl & other) {
+        if (this != &other) {
+            packages = other.packages;
+            factory_packages = other.factory_packages->clone();
+        }
+
+        return *this;
+    }
+
+    void ensure_object_exists() {
+        if (!packages) {
+            factory_packages = internal::PackagesFactory().create();
+            packages = factory_packages.get();
         }
     }
+    
+    internal::IPackages * get() {
+        ensure_object_exists();
+        return packages;
+    }
+
+    std::unique_ptr<internal::IPackages> get_factory_object() {
+        ensure_object_exists();
+        return std::move(factory_packages);
+    }
+
+    void from_internal(internal::IPackages * packages) {
+        this->packages = packages;
+    }
+
 private:
     friend Packages;
-    std::map<std::string, std::vector<Package>> packages_map;
+    internal::IPackages * packages;
+    std::unique_ptr<internal::IPackages> factory_packages;
 };
 
 }

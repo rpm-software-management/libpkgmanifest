@@ -41,7 +41,7 @@ protected:
                 return std::make_unique<YamlNodeInternalStub>(); 
             });
         
-        EXPECT_CALL(package, get_checksum()).WillOnce(ReturnPointee(&checksum));
+        EXPECT_CALL(Const(package), get_checksum()).WillOnce(ReturnPointee(&checksum));
 
         serializer = std::make_unique<PackageSerializer>(node_factory, std::move(checksum_serializer));
     }

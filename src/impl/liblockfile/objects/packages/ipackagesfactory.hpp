@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ipackagesinternal.hpp"
+#include "ipackages.hpp"
 
 #include <memory>
 
@@ -10,7 +10,7 @@ class IPackagesFactory {
 public:
     virtual ~IPackagesFactory() = default;
 
-    virtual std::unique_ptr<IPackagesInternal> create() const = 0;
+    virtual std::unique_ptr<IPackages> create() const = 0;
 };
 
 }

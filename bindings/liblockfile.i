@@ -58,7 +58,7 @@ create_attributes_from_getters_and_setters(Version)
 %}
 
 %extend liblockfile::Packages {
-    const std::vector<liblockfile::Package> & __getitem__(const std::string & key) const {
+    std::vector<liblockfile::Package> __getitem__(const std::string & key) const {
         return self->get(key);
     }
 }

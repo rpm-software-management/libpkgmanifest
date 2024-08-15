@@ -11,7 +11,7 @@ class ChecksumParser : public IChecksumParser {
 public:
     ChecksumParser(std::unique_ptr<IChecksumFactory> checksum_factory, std::shared_ptr<IStringSplitter> string_splitter);
 
-    virtual std::unique_ptr<IChecksumInternal> parse(const IYamlNode & node) const override;
+    virtual std::unique_ptr<IChecksum> parse(const IYamlNode & node) const override;
 
 private:
     std::unique_ptr<IChecksumFactory> checksum_factory;

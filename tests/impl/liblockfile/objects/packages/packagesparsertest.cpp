@@ -1,7 +1,7 @@
-#include "liblockfile/mocks/objects/package/packageinternalmock.hpp"
+#include "liblockfile/mocks/objects/package/packagemock.hpp"
 #include "liblockfile/mocks/objects/package/packageparsermock.hpp"
 #include "liblockfile/mocks/objects/packages/packagesfactorymock.hpp"
-#include "liblockfile/mocks/objects/packages/packagesinternalmock.hpp"
+#include "liblockfile/mocks/objects/packages/packagesmock.hpp"
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 
 #include "liblockfile/objects/packages/packagesparser.hpp"
@@ -25,7 +25,7 @@ using ::testing::Test;
 class PackagesParserTest : public Test {
 protected:
     virtual void SetUp() {
-        auto packages = std::make_unique<NiceMock<PackagesInternalMock>>();
+        auto packages = std::make_unique<NiceMock<PackagesMock>>();
         packages_ptr = packages.get();
 
         auto packages_factory_wrapper = std::make_unique<NiceMock<PackagesFactoryMock>>();
@@ -41,7 +41,7 @@ protected:
     }
 
     NiceMock<PackageParserMock> * package_parser;
-    NiceMock<PackagesInternalMock> * packages_ptr;
+    NiceMock<PackagesMock> * packages_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
     std::unique_ptr<PackagesParser> parser;
@@ -54,9 +54,9 @@ TEST_F(PackagesParserTest, ParserAddsAllPackagesForEachArchInYamlNode) {
     auto aarch64_pkg1_node_ptr = aarch64_pkg1_node.get();
     auto aarch64_pkg2_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto aarch64_pkg2_node_ptr = aarch64_pkg2_node.get();
-    auto aarch64_pkg1 = std::make_unique<NiceMock<PackageInternalMock>>();
+    auto aarch64_pkg1 = std::make_unique<NiceMock<PackageMock>>();
     auto aarch64_pkg1_ptr = aarch64_pkg1.get();
-    auto aarch64_pkg2 = std::make_unique<NiceMock<PackageInternalMock>>();
+    auto aarch64_pkg2 = std::make_unique<NiceMock<PackageMock>>();
     auto aarch64_pkg2_ptr = aarch64_pkg2.get();
 
     auto i686_node = std::make_unique<NiceMock<YamlNodeMock>>();
@@ -65,9 +65,9 @@ TEST_F(PackagesParserTest, ParserAddsAllPackagesForEachArchInYamlNode) {
     auto i686_pkg1_node_ptr = i686_pkg1_node.get();
     auto i686_pkg2_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto i686_pkg2_node_ptr = i686_pkg2_node.get();
-    auto i686_pkg1 = std::make_unique<NiceMock<PackageInternalMock>>();
+    auto i686_pkg1 = std::make_unique<NiceMock<PackageMock>>();
     auto i686_pkg1_ptr = i686_pkg1.get();
-    auto i686_pkg2 = std::make_unique<NiceMock<PackageInternalMock>>();
+    auto i686_pkg2 = std::make_unique<NiceMock<PackageMock>>();
     auto i686_pkg2_ptr = i686_pkg2.get();
 
     std::vector<std::unique_ptr<IYamlNode>> aarch64_package_nodes;

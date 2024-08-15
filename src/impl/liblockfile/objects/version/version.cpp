@@ -7,6 +7,10 @@ Version::Version()
     , minor(0)
     , patch(0) {}
 
+std::unique_ptr<IVersion> Version::clone() const {
+    return std::unique_ptr<IVersion>(new Version(*this));
+}
+
 unsigned Version::get_major() const {
     return major;
 }

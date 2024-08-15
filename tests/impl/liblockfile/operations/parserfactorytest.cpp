@@ -1,4 +1,4 @@
-#include "liblockfile/wrappers/factory.hpp"
+#include "liblockfile/operations/parserfactory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -56,7 +56,8 @@ TEST_F(ParserFactoryTest, ParseSimpleLockFile) {
     std::ofstream yaml_file(file_path);
     yaml_file << simple_lockfile_yaml << std::flush;
 
-    auto parser = Factory::create_parser();
+    ParserFactory parser_factory;
+    auto parser = parser_factory.create();
     auto lock_file = parser->parse(file_path);
 
     EXPECT_EQ("rpm-lockfile", lock_file->get_document());
@@ -65,8 +66,8 @@ TEST_F(ParserFactoryTest, ParseSimpleLockFile) {
     EXPECT_EQ(3, lock_file->get_version().get_patch());
 
     EXPECT_EQ(2, lock_file->get_packages().get().size());
-    EXPECT_EQ(2, lock_file->get_packages().get("i686").size());
-    EXPECT_EQ(1, lock_file->get_packages().get("src").size());
+    EXPECT_EQ(2, lock_file->get_packages().get()["i686"].size());
+    EXPECT_EQ(1, lock_file->get_packages().get()["src"].size());
 
     auto & package1 = lock_file->get_packages().get().at("i686")[0];
     EXPECT_EQ("i686", package1->get_arch());

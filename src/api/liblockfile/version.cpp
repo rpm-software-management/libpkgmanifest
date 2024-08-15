@@ -26,15 +26,27 @@ Version::Version(Version && other) noexcept = default;
 Version & Version::operator=(Version && other) noexcept = default;
 
 unsigned Version::get_major() const {
-    return p_impl->version->get_major();
+    return p_impl->get()->get_major();
 }
 
 unsigned Version::get_minor() const {
-    return p_impl->version->get_minor();
+    return p_impl->get()->get_minor();
 }
 
 unsigned Version::get_patch() const {
-    return p_impl->version->get_patch();
+    return p_impl->get()->get_patch();
+}
+
+void Version::set_major(unsigned major) {
+    p_impl->get()->set_major(major);
+}
+
+void Version::set_minor(unsigned minor) {
+    p_impl->get()->set_minor(minor);
+}
+
+void Version::set_patch(unsigned patch) {
+    p_impl->get()->set_patch(patch);
 }
 
 }

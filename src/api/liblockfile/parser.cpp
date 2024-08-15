@@ -2,13 +2,15 @@
 
 #include "liblockfile/parser.hpp"
 
-#include "liblockfile/wrappers/factory.hpp"
+#include "liblockfile/operations/parserfactory.hpp"
 
 namespace liblockfile {
 
 class Parser::Impl {
 public:
-    Impl() : parser(internal::Factory::create_parser()) {}
+    Impl() {
+        parser = internal::ParserFactory().create();
+    }
 private:
     friend Parser;
     std::unique_ptr<internal::IParser> parser;

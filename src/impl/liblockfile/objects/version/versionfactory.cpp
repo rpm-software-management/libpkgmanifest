@@ -3,8 +3,8 @@
 
 namespace liblockfile::internal {
 
-std::unique_ptr<IVersionInternal> VersionFactory::create() const {
-    return std::unique_ptr<IVersionInternal>(new Version());
+std::unique_ptr<IVersion> VersionFactory::create() const {
+    return std::unique_ptr<IVersion>(new Version());
 }   
 
 }

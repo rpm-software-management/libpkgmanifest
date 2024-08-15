@@ -10,7 +10,7 @@ LockFileParser::LockFileParser(
     , packages_parser(std::move(packages_parser))
     , version_parser(std::move(version_parser)) {}
 
-std::unique_ptr<ILockFileInternal> LockFileParser::parse(const IYamlNode & node) const {
+std::unique_ptr<ILockFile> LockFileParser::parse(const IYamlNode & node) const {
     auto file = file_factory->create();
 
     file->set_document(node.get("document")->as_string());

@@ -8,7 +8,7 @@ namespace {
 
 class PackagesFactoryMock : public IPackagesFactory {
 public:
-    MOCK_METHOD(std::unique_ptr<IPackagesInternal>, create, (), (const, override));
+    MOCK_METHOD(std::unique_ptr<IPackages>, create, (), (const, override));
 };
 
 }

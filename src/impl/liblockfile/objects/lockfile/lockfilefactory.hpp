@@ -6,7 +6,7 @@ namespace liblockfile::internal {
 
 class LockFileFactory : public ILockFileFactory {
 public:
-    virtual std::unique_ptr<ILockFileInternal> create() const override;
+    virtual std::unique_ptr<ILockFile> create() const override;
 };
 
 }

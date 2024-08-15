@@ -8,7 +8,7 @@ VersionParser::VersionParser(
     : version_factory(std::move(version_factory)) 
     , string_splitter(string_splitter) {}
 
-std::unique_ptr<IVersionInternal> VersionParser::parse(const IYamlNode & node) const {
+std::unique_ptr<IVersion> VersionParser::parse(const IYamlNode & node) const {
     // TODO: Handle invalid version parts number?
     // TODO: Handle invalid non-number version parts?
     auto version = version_factory->create();

@@ -1,8 +1,8 @@
 #include "liblockfile/mocks/objects/lockfile/lockfilefactorymock.hpp"
-#include "liblockfile/mocks/objects/lockfile/lockfileinternalmock.hpp"
-#include "liblockfile/mocks/objects/packages/packagesinternalmock.hpp"
+#include "liblockfile/mocks/objects/lockfile/lockfilemock.hpp"
+#include "liblockfile/mocks/objects/packages/packagesmock.hpp"
 #include "liblockfile/mocks/objects/packages/packagesparsermock.hpp"
-#include "liblockfile/mocks/objects/version/versioninternalmock.hpp"
+#include "liblockfile/mocks/objects/version/versionmock.hpp"
 #include "liblockfile/mocks/objects/version/versionparsermock.hpp"
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 
@@ -26,7 +26,7 @@ using ::testing::Test;
 class LockFileParserTest : public Test {
 protected:
     virtual void SetUp() {
-        auto file_wrapper = std::make_unique<NiceMock<LockFileInternalMock>>();
+        auto file_wrapper = std::make_unique<NiceMock<LockFileMock>>();
         file = file_wrapper.get();
 
         auto file_factory_wrapper = std::make_unique<NiceMock<LockFileFactoryMock>>();
@@ -49,7 +49,7 @@ protected:
         );
     }
 
-    NiceMock<LockFileInternalMock> * file;
+    NiceMock<LockFileMock> * file;
     NiceMock<PackagesParserMock> * packages_parser;
     NiceMock<VersionParserMock> * version_parser;
     NiceMock<YamlNodeMock> yaml_node;
@@ -71,7 +71,7 @@ TEST_F(LockFileParserTest, ParserSetsVersionFromVersionParser) {
     auto version_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto version_node_ptr = version_node.get();
 
-    auto version = std::make_unique<NiceMock<VersionInternalMock>>();
+    auto version = std::make_unique<NiceMock<VersionMock>>();
     auto version_ptr = version.get();
 
     EXPECT_CALL(yaml_node, get("version")).WillOnce(Return(std::move(version_node)));
@@ -86,7 +86,7 @@ TEST_F(LockFileParserTest, ParserSetsPackagesFromPackagesParser) {
     auto packages_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto packages_node_ptr = packages_node.get();
 
-    auto packages = std::make_unique<NiceMock<PackagesInternalMock>>();
+    auto packages = std::make_unique<NiceMock<PackagesMock>>();
     auto packages_ptr = packages.get();
 
     EXPECT_CALL(yaml_node, get("data")).WillOnce(Return(std::move(data_node)));

@@ -36,4 +36,16 @@ TEST(VersionTest, SetPatchIsReturned) {
     EXPECT_EQ(1, version.get_patch());
 }
 
+TEST(VersionTest, ClonedObjectHasSameValuesAsOriginal) {
+    Version version;
+    version.set_major(5);
+    version.set_minor(7);
+    version.set_patch(9);
+
+    auto clone(version.clone());
+    EXPECT_EQ(version.get_major(), clone->get_major());
+    EXPECT_EQ(version.get_minor(), clone->get_minor());
+    EXPECT_EQ(version.get_patch(), clone->get_patch());
+}
+
 }

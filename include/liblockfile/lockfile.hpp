@@ -10,6 +10,7 @@ namespace liblockfile {
 
 class LockFile {
 public:
+    LockFile();
     ~LockFile();
 
     LockFile(const LockFile & other);
@@ -19,14 +20,16 @@ public:
     LockFile & operator=(LockFile && other) noexcept;
 
     std::string get_document() const;
-    const Version & get_version() const;
-    const Packages & get_packages() const;
+    Version & get_version();
+    Packages & get_packages();
+
+    void set_document(const std::string & document);
+    void set_version(Version & version);
+    void set_packages(Packages & packages);
 
 private:
     friend class Parser;
     friend class Serializer;
-
-    LockFile();
 
     class Impl;
     std::unique_ptr<Impl> p_impl;

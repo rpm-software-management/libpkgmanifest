@@ -1,17 +1,20 @@
 #pragma once
 
-#include "ilockfileinternal.hpp"
-
-#include <memory>
+#include "ilockfile.hpp"
 
 namespace liblockfile::internal {
 
-class LockFile : public ILockFileInternal {
+class LockFile : public ILockFile {
 public:
     LockFile();
+    LockFile(const LockFile & other);
+
+    virtual std::unique_ptr<ILockFile> clone() const override;
 
     virtual std::string get_document() const override;
+    virtual IVersion & get_version() override;
     virtual const IVersion & get_version() const override;
+    virtual IPackages & get_packages() override;
     virtual const IPackages & get_packages() const override;
 
     virtual void set_document(const std::string & document) override;

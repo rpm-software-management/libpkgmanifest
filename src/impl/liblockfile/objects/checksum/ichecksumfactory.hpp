@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ichecksuminternal.hpp"
+#include "ichecksum.hpp"
 
 #include <memory>
 
@@ -10,7 +10,7 @@ class IChecksumFactory {
 public:
     virtual ~IChecksumFactory() = default;
 
-    virtual std::unique_ptr<IChecksumInternal> create() const = 0;
+    virtual std::unique_ptr<IChecksum> create() const = 0;
 };
 
 }

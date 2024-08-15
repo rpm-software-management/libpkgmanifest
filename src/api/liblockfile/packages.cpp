@@ -25,12 +25,35 @@ Packages & Packages::operator=(const Packages & other) {
 Packages::Packages(Packages && other) noexcept = default;
 Packages & Packages::operator=(Packages && other) noexcept = default;
 
-const std::map<std::string, std::vector<Package>> & Packages::get() const {
-    return p_impl->packages_map;
+std::map<std::string, std::vector<Package>> Packages::get() const {
+    std::map<std::string, std::vector<Package>> packages_map;
+    for (auto & [arch, internal_arch_packages] : p_impl->get()->get()) {
+        std::vector<Package> arch_packages;
+        arch_packages.reserve(internal_arch_packages.size());
+        for (auto & internal_package : internal_arch_packages) {
+            Package package;
+            package.p_impl->from_internal(internal_package.get());
+            arch_packages.push_back(std::move(package));
+        }
+        packages_map.insert({arch, std::move(arch_packages)});
+    }
+    return packages_map;
 }
 
-const std::vector<Package> & Packages::get(const std::string & arch) const {
-    return p_impl->packages_map.at(arch);
+std::vector<Package> Packages::get(const std::string & arch) const {
+    std::vector<Package> packages;
+    auto & internal_packages = p_impl->get()->get()[arch];
+    packages.reserve(internal_packages.size());
+    for (auto & internal_package : internal_packages) {
+        Package package;
+        package.p_impl->from_internal(internal_package.get());
+        packages.push_back(std::move(package));
+    }
+    return packages;
+}
+
+void Packages::add(Package & package) {
+    p_impl->get()->add(package.p_impl->get_factory_object());
 }
 
 }

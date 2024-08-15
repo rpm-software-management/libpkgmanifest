@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iversioninternal.hpp"
+#include "iversion.hpp"
 
 #include <memory>
 
@@ -10,7 +10,7 @@ class IVersionFactory {
 public:
     virtual ~IVersionFactory() = default;
 
-    virtual std::unique_ptr<IVersionInternal> create() const = 0;
+    virtual std::unique_ptr<IVersion> create() const = 0;
 };
 
 }

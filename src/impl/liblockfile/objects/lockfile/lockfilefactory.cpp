@@ -3,8 +3,8 @@
 
 namespace liblockfile::internal {
 
-std::unique_ptr<ILockFileInternal> LockFileFactory::create() const {
-    return std::unique_ptr<ILockFileInternal>(new LockFile());
+std::unique_ptr<ILockFile> LockFileFactory::create() const {
+    return std::unique_ptr<ILockFile>(new LockFile());
 }   
 
 }

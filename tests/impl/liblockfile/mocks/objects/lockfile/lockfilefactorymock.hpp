@@ -8,7 +8,7 @@ namespace {
 
 class LockFileFactoryMock : public ILockFileFactory {
 public:
-    MOCK_METHOD(std::unique_ptr<ILockFileInternal>, create, (), (const, override));
+    MOCK_METHOD(std::unique_ptr<ILockFile>, create, (), (const, override));
 };
 
 }

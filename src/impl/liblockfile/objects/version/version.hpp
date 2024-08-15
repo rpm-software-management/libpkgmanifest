@@ -1,12 +1,14 @@
 #pragma once
 
-#include "iversioninternal.hpp"
+#include "iversion.hpp"
 
 namespace liblockfile::internal {
 
-class Version : public IVersionInternal {
+class Version : public IVersion {
 public:
     Version();
+
+    virtual std::unique_ptr<IVersion> clone() const override;
 
     virtual unsigned get_major() const override;
     virtual unsigned get_minor() const override;

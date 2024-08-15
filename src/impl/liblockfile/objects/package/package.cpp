@@ -11,6 +11,19 @@ Package::Package()
     , nevra()
     , srpm() {}
 
+Package::Package(const Package & other) 
+    : arch(other.arch)
+    , repo_id(other.repo_id)
+    , url(other.url)
+    , checksum(other.checksum->clone())
+    , size(other.size)
+    , nevra(other.nevra)
+    , srpm(other.srpm) {}
+
+std::unique_ptr<IPackage> Package::clone() const {
+    return std::unique_ptr<IPackage>(new Package(*this));
+}
+
 std::string Package::get_arch() const {
     return arch;
 }
@@ -24,6 +37,10 @@ std::string Package::get_url() const {
 }
 
 const IChecksum & Package::get_checksum() const {
+    return *checksum;
+}
+
+IChecksum & Package::get_checksum() {
     return *checksum;
 }
 

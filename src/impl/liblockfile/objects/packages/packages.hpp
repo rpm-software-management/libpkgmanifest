@@ -1,15 +1,18 @@
 #pragma once
 
-#include "ipackagesinternal.hpp"
+#include "ipackages.hpp"
 
 namespace liblockfile::internal {
 
-class Packages : public IPackagesInternal {
+class Packages : public IPackages {
 public:
     Packages();
+    Packages(const Packages & other);
 
+    virtual std::unique_ptr<IPackages> clone() const override;
+
+    virtual std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() override;
     virtual const std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() const override;
-    virtual const std::vector<std::unique_ptr<IPackage>> & get(const std::string & arch) const override;
     virtual void add(std::unique_ptr<IPackage> package) override;
 
 private:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ilockfileinternal.hpp"
+#include "ilockfile.hpp"
 
 #include "liblockfile/yaml/iyamlnode.hpp"
 
@@ -12,7 +12,7 @@ class ILockFileParser {
 public:
     virtual ~ILockFileParser() = default;
 
-    virtual std::unique_ptr<ILockFileInternal> parse(const IYamlNode & node) const = 0;
+    virtual std::unique_ptr<ILockFile> parse(const IYamlNode & node) const = 0;
 };
 
 }

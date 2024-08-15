@@ -11,7 +11,7 @@ ChecksumParser::ChecksumParser(
     : checksum_factory(std::move(checksum_factory))
     , string_splitter(string_splitter) {}
 
-std::unique_ptr<IChecksumInternal> ChecksumParser::parse(const IYamlNode & node) const {
+std::unique_ptr<IChecksum> ChecksumParser::parse(const IYamlNode & node) const {
     auto checksum = checksum_factory->create();
     auto checksum_string = node.as_string();
 

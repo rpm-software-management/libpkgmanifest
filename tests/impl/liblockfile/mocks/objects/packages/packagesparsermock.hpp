@@ -8,7 +8,7 @@ namespace {
 
 class PackagesParserMock : public IPackagesParser {
 public:
-    MOCK_METHOD(std::unique_ptr<IPackagesInternal>, parse, (const IYamlNode &), (const, override));
+    MOCK_METHOD(std::unique_ptr<IPackages>, parse, (const IYamlNode &), (const, override));
 };
 
 }

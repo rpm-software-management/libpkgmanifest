@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ilockfileinternal.hpp"
+#include "ilockfile.hpp"
 
 #include <memory>
 
@@ -10,7 +10,7 @@ class ILockFileFactory {
 public:
     virtual ~ILockFileFactory() = default;
 
-    virtual std::unique_ptr<ILockFileInternal> create() const = 0;
+    virtual std::unique_ptr<ILockFile> create() const = 0;
 };
 
 }

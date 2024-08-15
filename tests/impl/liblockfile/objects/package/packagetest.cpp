@@ -9,6 +9,7 @@ namespace {
 using namespace liblockfile::internal;
 
 using ::testing::NiceMock;
+using ::testing::Return;
 
 TEST(PackageTest, DefaultArchIsEmpty) {
     EXPECT_EQ(std::string(), Package().get_arch());
@@ -64,6 +65,9 @@ TEST(PackageTest, SetChecksumObjectIsReturned) {
     package.set_checksum(std::move(checksum));
 
     EXPECT_EQ(checksum_ptr, &package.get_checksum());
+
+    const auto & const_package = package;
+    EXPECT_EQ(checksum_ptr, &const_package.get_checksum());
 }
 
 TEST(PackageTest, SetSizeIsReturned) {
@@ -82,6 +86,32 @@ TEST(PackageTest, SetSrpmIsReturned) {
     Package package;
     package.set_srpm("srpm");
     EXPECT_EQ("srpm", package.get_srpm());
+}
+
+TEST(PackageTest, ClonedObjectHasSameValuesAsOriginal) {
+    auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    auto cloned_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    EXPECT_CALL(*checksum, get_digest()).WillOnce(Return("same_digest"));
+    EXPECT_CALL(*cloned_checksum, get_digest()).WillOnce(Return("same_digest"));
+    EXPECT_CALL(*checksum, clone()).WillOnce(Return(std::move(cloned_checksum)));
+
+    Package package;
+    package.set_arch("x86_64");
+    package.set_repo_id("id1234");
+    package.set_url("no-url");
+    package.set_size(1979843615U);
+    package.set_nevra("NEVRA");
+    package.set_srpm("source-rpm-name");
+    package.set_checksum(std::move(checksum));
+
+    auto clone(package.clone());
+    EXPECT_EQ(package.get_arch(), clone->get_arch());
+    EXPECT_EQ(package.get_repo_id(), clone->get_repo_id());
+    EXPECT_EQ(package.get_url(), clone->get_url());
+    EXPECT_EQ(package.get_size(), clone->get_size());
+    EXPECT_EQ(package.get_nevra(), clone->get_nevra());
+    EXPECT_EQ(package.get_srpm(), clone->get_srpm());
+    EXPECT_EQ(package.get_checksum().get_digest(), clone->get_checksum().get_digest());
 }
 
 }

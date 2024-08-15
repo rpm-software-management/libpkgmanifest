@@ -8,7 +8,7 @@ namespace {
 
 class VersionFactoryMock : public IVersionFactory {
 public:
-    MOCK_METHOD(std::unique_ptr<IVersionInternal>, create, (), (const, override));
+    MOCK_METHOD(std::unique_ptr<IVersion>, create, (), (const, override));
 };
 
 }

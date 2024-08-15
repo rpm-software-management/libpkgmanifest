@@ -44,8 +44,8 @@ protected:
                 return std::make_unique<YamlNodeInternalStub>(); 
             });
         
-        EXPECT_CALL(file, get_packages()).WillOnce(ReturnPointee(&packages));
-        EXPECT_CALL(file, get_version()).WillOnce(ReturnPointee(&version));
+        EXPECT_CALL(Const(file), get_packages()).WillOnce(ReturnPointee(&packages));
+        EXPECT_CALL(Const(file), get_version()).WillOnce(ReturnPointee(&version));
 
         serializer = std::make_unique<LockFileSerializer>(node_factory, std::move(packages_serializer), std::move(version_serializer));
     }

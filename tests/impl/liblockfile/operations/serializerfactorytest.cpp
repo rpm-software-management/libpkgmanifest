@@ -4,7 +4,7 @@
 #include "liblockfile/mocks/objects/packages/packagesmock.hpp"
 #include "liblockfile/mocks/objects/version/versionmock.hpp"
 
-#include "liblockfile/wrappers/factory.hpp"
+#include "liblockfile/operations/serializerfactory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -74,7 +74,7 @@ data:
     auto package1 = std::make_unique<NiceMock<PackageMock>>();
     EXPECT_CALL(*package1, get_repo_id()).WillOnce(Return("repo1"));
     EXPECT_CALL(*package1, get_url()).WillOnce(Return("url1"));
-    EXPECT_CALL(*package1, get_checksum()).WillOnce(ReturnPointee(checksum1_ptr));
+    EXPECT_CALL(Const(*package1), get_checksum()).WillOnce(ReturnPointee(checksum1_ptr));
     EXPECT_CALL(*package1, get_size()).WillOnce(Return(152384));
     EXPECT_CALL(*package1, get_nevra()).WillOnce(Return("nevra1"));
     EXPECT_CALL(*package1, get_srpm()).WillOnce(Return("srpm1"));
@@ -87,7 +87,7 @@ data:
     auto package2 = std::make_unique<NiceMock<PackageMock>>();
     EXPECT_CALL(*package2, get_repo_id()).WillOnce(Return("repo2"));
     EXPECT_CALL(*package2, get_url()).WillOnce(Return("url2"));
-    EXPECT_CALL(*package2, get_checksum()).WillOnce(ReturnPointee(checksum2_ptr));
+    EXPECT_CALL(Const(*package2), get_checksum()).WillOnce(ReturnPointee(checksum2_ptr));
     EXPECT_CALL(*package2, get_size()).WillOnce(Return(378124894));
     EXPECT_CALL(*package2, get_nevra()).WillOnce(Return("nevra2"));
     EXPECT_CALL(*package2, get_srpm()).WillOnce(Return("srpm2"));
@@ -100,7 +100,7 @@ data:
     auto package3 = std::make_unique<NiceMock<PackageMock>>();
     EXPECT_CALL(*package3, get_repo_id()).WillOnce(Return("repo3"));
     EXPECT_CALL(*package3, get_url()).WillOnce(Return("http://some.server.org/folder/nevra3.rpm"));
-    EXPECT_CALL(*package3, get_checksum()).WillOnce(ReturnPointee(checksum3_ptr));
+    EXPECT_CALL(Const(*package3), get_checksum()).WillOnce(ReturnPointee(checksum3_ptr));
     EXPECT_CALL(*package3, get_size()).WillOnce(Return(97643154));
     EXPECT_CALL(*package3, get_nevra()).WillOnce(Return("nevra3"));
     EXPECT_CALL(*package3, get_srpm()).WillOnce(Return("srpm3"));
@@ -117,14 +117,15 @@ data:
     package_map["src"] = std::move(src_packages);
 
     NiceMock<PackagesMock> packages;
-    EXPECT_CALL(packages, get()).WillOnce(ReturnPointee(&package_map));
+    EXPECT_CALL(Const(packages), get()).WillOnce(ReturnPointee(&package_map));
 
     NiceMock<LockFileMock> file;
     EXPECT_CALL(file, get_document()).WillOnce(Return("rpm-lockfile"));
-    EXPECT_CALL(file, get_version()).WillOnce(ReturnPointee(&version));
-    EXPECT_CALL(file, get_packages()).WillOnce(ReturnPointee(&packages));
+    EXPECT_CALL(Const(file), get_version()).WillOnce(ReturnPointee(&version));
+    EXPECT_CALL(Const(file), get_packages()).WillOnce(ReturnPointee(&packages));
 
-    auto serializer = Factory::create_serializer();
+    SerializerFactory serializer_factory;
+    auto serializer = serializer_factory.create();
     serializer->serialize(file, file_path);
 
     std::ifstream output_file(file_path);

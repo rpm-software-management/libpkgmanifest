@@ -1,12 +1,14 @@
 #pragma once
 
-#include "ichecksuminternal.hpp"
+#include "ichecksum.hpp"
 
 namespace liblockfile::internal {
 
-class Checksum : public IChecksumInternal {
+class Checksum : public IChecksum {
 public:
     Checksum();
+
+    virtual std::unique_ptr<IChecksum> clone() const override;
 
     virtual ChecksumMethod get_method() const override;
     virtual std::string get_digest() const override;

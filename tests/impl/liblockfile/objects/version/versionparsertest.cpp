@@ -1,5 +1,5 @@
 #include "liblockfile/mocks/objects/version/versionfactorymock.hpp"
-#include "liblockfile/mocks/objects/version/versioninternalmock.hpp"
+#include "liblockfile/mocks/objects/version/versionmock.hpp"
 #include "liblockfile/mocks/tools/stringsplittermock.hpp"
 #include "liblockfile/mocks/yaml/yamlnodemock.hpp"
 
@@ -21,7 +21,7 @@ using ::testing::Test;
 class VersionParserTest : public Test {
 protected:
     virtual void SetUp() {
-        auto version = std::make_unique<NiceMock<VersionInternalMock>>();
+        auto version = std::make_unique<NiceMock<VersionMock>>();
         version_ptr = version.get();
 
         auto version_factory_wrapper = std::make_unique<NiceMock<VersionFactoryMock>>();
@@ -37,7 +37,7 @@ protected:
 
     std::shared_ptr<NiceMock<StringSplitterMock>> string_splitter;
 
-    NiceMock<VersionInternalMock> * version_ptr;
+    NiceMock<VersionMock> * version_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
     std::unique_ptr<VersionParser> parser;

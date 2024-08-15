@@ -1,19 +1,21 @@
 #pragma once
 
-#include "ipackageinternal.hpp"
-
-#include <memory>
+#include "ipackage.hpp"
 
 namespace liblockfile::internal {
 
-class Package : public IPackageInternal {
+class Package : public IPackage {
 public:
     Package();
+    Package(const Package & other);
+
+    virtual std::unique_ptr<IPackage> clone() const override;
 
     virtual std::string get_arch() const override;
     virtual std::string get_repo_id() const override;
     virtual std::string get_url() const override;
     virtual const IChecksum & get_checksum() const override;
+    virtual IChecksum & get_checksum() override;
     virtual uint64_t get_size() const override;
     virtual std::string get_nevra() const override;
     virtual std::string get_srpm() const override;

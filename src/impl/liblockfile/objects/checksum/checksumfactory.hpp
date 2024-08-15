@@ -6,7 +6,7 @@ namespace liblockfile::internal {
 
 class ChecksumFactory : public IChecksumFactory {
 public:
-    virtual std::unique_ptr<IChecksumInternal> create() const override;
+    virtual std::unique_ptr<IChecksum> create() const override;
 };
 
 }

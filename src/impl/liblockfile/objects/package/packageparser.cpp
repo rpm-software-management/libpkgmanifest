@@ -6,7 +6,7 @@ PackageParser::PackageParser(std::unique_ptr<IChecksumParser> checksum_parser, s
     : checksum_parser(std::move(checksum_parser))
     , package_factory(std::move(package_factory)) {}
 
-std::unique_ptr<IPackageInternal> PackageParser::parse(const std::string & arch, const IYamlNode & node) const {
+std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const IYamlNode & node) const {
     auto package = package_factory->create();
 
     package->set_arch(arch);
