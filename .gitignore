@@ -4,3 +4,5 @@ build/*
 # dbox container build directories
 _build/*
 _install/*
+
+*.pyc

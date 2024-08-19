@@ -19,6 +19,7 @@ def create_attributes_from_getters_and_setters(cls):
         ))
 %}
 
+%include <stdint.i>
 %include <std_map.i>
 %include <std_string.i>
 %include <std_vector.i>

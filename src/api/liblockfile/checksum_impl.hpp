@@ -12,24 +12,16 @@ public:
         : checksum(nullptr)
         , factory_checksum(nullptr) {}
     
-    Impl(const Impl & other) 
-        : checksum(other.checksum)
-        , factory_checksum(other.checksum->clone()) {}
+    Impl(const Impl & other) {
+        copy_object(other);
+    }
 
     Impl & operator=(const Impl & other) {
         if (this != &other) {
-            checksum = other.checksum;
-            factory_checksum = other.factory_checksum->clone();
+            copy_object(other);
         }
 
         return *this;
-    }
-
-    void ensure_object_exists() {
-        if (!checksum) {
-            factory_checksum = internal::ChecksumFactory().create();
-            checksum = factory_checksum.get();
-        }
     }
 
     internal::IChecksum * get() {
@@ -47,6 +39,22 @@ public:
     }
 
 private:
+    void copy_object(const Impl & other) {
+        if (other.factory_checksum) {
+            factory_checksum = other.factory_checksum->clone();
+            checksum = factory_checksum.get();
+        } else {
+            checksum = other.checksum;
+        }
+    }
+
+    void ensure_object_exists() {
+        if (!checksum) {
+            factory_checksum = internal::ChecksumFactory().create();
+            checksum = factory_checksum.get();
+        }
+    }
+
     friend Checksum;
     internal::IChecksum * checksum;
     std::unique_ptr<internal::IChecksum> factory_checksum;

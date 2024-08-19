@@ -19,35 +19,19 @@ public:
         , parsed_file(nullptr)
         , version()
         , packages() {}
-    
-    Impl(const Impl & other) 
-        : file(other.file)
-        , factory_file(other.factory_file->clone())
-        , parsed_file(other.parsed_file->clone())
-        , version(other.version)
-        , packages(other.packages) {}
+
+    Impl(const Impl & other) {
+        copy_object(other);
+    }
 
     Impl & operator=(const Impl & other) {
         if (this != &other) {
-            file = other.file;
-            factory_file = other.factory_file->clone();
-            parsed_file = other.parsed_file->clone();
-            version = other.version;
-            packages = other.packages;
+            copy_object(other);
         }
 
         return *this;
     }
 
-    void ensure_object_exists() {
-        if (!file) {
-            factory_file = internal::LockFileFactory().create();
-            file = factory_file.get();
-            file->set_version(version.p_impl->get_factory_object());
-            file->set_packages(packages.p_impl->get_factory_object());
-        }
-    }
-    
     internal::ILockFile * get() {
         ensure_object_exists();
         return file;
@@ -70,6 +54,28 @@ public:
     }
 
 private:
+    void copy_object(const Impl & other) {
+        version = other.version;
+        packages = other.packages;
+
+        if (other.parsed_file) {
+            parsed_file = other.parsed_file->clone();
+            from_internal(parsed_file.get());
+        } else if (other.factory_file) {
+            factory_file = other.factory_file->clone();
+            from_internal(factory_file.get());
+        }
+    }
+
+    void ensure_object_exists() {
+        if (!file) {
+            factory_file = internal::LockFileFactory().create();
+            file = factory_file.get();
+            file->set_version(version.p_impl->get_factory_object());
+            file->set_packages(packages.p_impl->get_factory_object());
+        }
+    }
+
     friend LockFile;
     internal::ILockFile * file;
     std::unique_ptr<internal::ILockFile> factory_file;

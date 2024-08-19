@@ -14,27 +14,19 @@ public:
     Impl() 
         : packages(nullptr)
         , factory_packages(nullptr) {}
-    
-    Impl(const Impl & other) 
-        : packages(other.packages)
-        , factory_packages(other.factory_packages->clone()) {}
+
+    Impl(const Impl & other) {
+        copy_object(other);
+    }
 
     Impl & operator=(const Impl & other) {
         if (this != &other) {
-            packages = other.packages;
-            factory_packages = other.factory_packages->clone();
+            copy_object(other);
         }
 
         return *this;
     }
 
-    void ensure_object_exists() {
-        if (!packages) {
-            factory_packages = internal::PackagesFactory().create();
-            packages = factory_packages.get();
-        }
-    }
-    
     internal::IPackages * get() {
         ensure_object_exists();
         return packages;
@@ -50,6 +42,22 @@ public:
     }
 
 private:
+    void copy_object(const Impl & other) {
+        if (other.factory_packages) {
+            factory_packages = other.factory_packages->clone();
+            packages = factory_packages.get();
+        } else {
+            packages = other.packages;
+        }
+    }
+
+    void ensure_object_exists() {
+        if (!packages) {
+            factory_packages = internal::PackagesFactory().create();
+            packages = factory_packages.get();
+        }
+    }
+
     friend Packages;
     internal::IPackages * packages;
     std::unique_ptr<internal::IPackages> factory_packages;

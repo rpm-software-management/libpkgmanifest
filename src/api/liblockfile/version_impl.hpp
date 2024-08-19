@@ -11,25 +11,17 @@ public:
     Impl() 
         : version(nullptr)
         , factory_version(nullptr) {}
-    
-    Impl(const Impl & other) 
-        : version(other.version)
-        , factory_version(other.version->clone()) {}
+
+    Impl(const Impl & other) {
+        copy_object(other);
+    }
 
     Impl & operator=(const Impl & other) {
         if (this != &other) {
-            version = other.version;
-            factory_version = other.factory_version->clone();
+            copy_object(other);
         }
 
         return *this;
-    }
-
-    void ensure_object_exists() {
-        if (!version) {
-            factory_version = internal::VersionFactory().create();
-            version = factory_version.get();
-        }
     }
 
     internal::IVersion * get() {
@@ -45,7 +37,24 @@ public:
     void from_internal(internal::IVersion * version) {
         this->version = version;
     }
+
 private:
+    void copy_object(const Impl & other) {
+        if (other.factory_version) {
+            factory_version = other.factory_version->clone();
+            version = factory_version.get();
+        } else {
+            version = other.version;
+        }
+    }
+
+    void ensure_object_exists() {
+        if (!version) {
+            factory_version = internal::VersionFactory().create();
+            version = factory_version.get();
+        }
+    }
+
     friend Version;
     internal::IVersion * version;
     std::unique_ptr<internal::IVersion> factory_version;
