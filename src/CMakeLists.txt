@@ -1,24 +1,24 @@
-file(GLOB_RECURSE LIBLOCKFILE_SOURCES *.cpp)
+file(GLOB_RECURSE libpkgmanifest_SOURCES *.cpp)
 
-list(APPEND LIBLOCKFILE_PC_REQUIRES)
-list(APPEND LIBLOCKFILE_PC_REQUIRES_PRIVATE)
+list(APPEND libpkgmanifest_PC_REQUIRES)
+list(APPEND libpkgmanifest_PC_REQUIRES_PRIVATE)
 
 include_directories(./api)
 include_directories(./impl)
 
-add_library(liblockfile SHARED ${LIBLOCKFILE_SOURCES})
-set_target_properties(liblockfile PROPERTIES OUTPUT_NAME "lockfile")
-set_property(TARGET liblockfile PROPERTY POSITION_INDEPENDENT_CODE ON)
+add_library(libpkgmanifest SHARED ${libpkgmanifest_SOURCES})
+set_target_properties(libpkgmanifest PROPERTIES OUTPUT_NAME "pkgmanifest")
+set_property(TARGET libpkgmanifest PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-install(TARGETS liblockfile LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
+install(TARGETS libpkgmanifest LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
 
-list(APPEND LIBLOCKFILE_PC_REQUIRES "${YAMLCPP_MODULE_NAME}")
-target_link_libraries(liblockfile PRIVATE ${YAMLCPP_LIBRARIES})
+list(APPEND libpkgmanifest_PC_REQUIRES "${YAMLCPP_MODULE_NAME}")
+target_link_libraries(libpkgmanifest PRIVATE ${YAMLCPP_LIBRARIES})
 
-list(SORT LIBLOCKFILE_PC_REQUIRES)
-list(JOIN LIBLOCKFILE_PC_REQUIRES ", " LIBLOCKFILE_PC_REQUIRES_STRING)
-list(SORT LIBLOCKFILE_PC_REQUIRES_PRIVATE)
-list(JOIN LIBLOCKFILE_PC_REQUIRES_PRIVATE ", " LIBLOCKFILE_PC_REQUIRES_PRIVATE_STRING)
+list(SORT libpkgmanifest_PC_REQUIRES)
+list(JOIN libpkgmanifest_PC_REQUIRES ", " libpkgmanifest_PC_REQUIRES_STRING)
+list(SORT libpkgmanifest_PC_REQUIRES_PRIVATE)
+list(JOIN libpkgmanifest_PC_REQUIRES_PRIVATE ", " libpkgmanifest_PC_REQUIRES_PRIVATE_STRING)
 
-configure_file("liblockfile.pc.in" ${CMAKE_CURRENT_BINARY_DIR}/liblockfile.pc @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/liblockfile.pc DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig)
+configure_file("libpkgmanifest.pc.in" ${CMAKE_CURRENT_BINARY_DIR}/libpkgmanifest.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpkgmanifest.pc DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig)

@@ -1,1 +1,1 @@
-add_subdirectory("liblockfile")
+add_subdirectory("libpkgmanifest")

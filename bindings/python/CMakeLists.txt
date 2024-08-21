@@ -23,4 +23,4 @@ function(add_python_module LIBRARY_NAME WRAPPER_NAME)
     install(DIRECTORY ${DISTINFO_PATH} DESTINATION ${Python3_SITEARCH})
 endfunction()
 
-add_python_module(liblockfile liblockfile)
+add_python_module(libpkgmanifest libpkgmanifest)

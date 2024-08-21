@@ -1,4 +1,4 @@
-document: rpm-lockfile
+document: rpm-manifest
 version: 1.2.3
 data:
     packages:

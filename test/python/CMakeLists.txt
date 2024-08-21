@@ -4,4 +4,4 @@ endif()
 
 find_package(Python3 REQUIRED)
 
-add_subdirectory(liblockfile)
+add_subdirectory(libpkgmanifest)

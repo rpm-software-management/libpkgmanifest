@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/include
+
+Name: libpkgmanifest
+Description: Library for managing RPM manifests
+Version: @PROJECT_VERSION@
+Requires: @libpkgmanifest_PC_REQUIRES_STRING@
+Requires.private: @libpkgmanifest_PC_REQUIRES_PRIVATE_STRING@
+Libs: -L${libdir} -llibpkgmanifest
+Cflags: -I${includedir}
