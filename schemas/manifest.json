@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "RPM Package Manifest Schema",
+    "schemaVersion": "0.0.1",
+    "description": "Schema for RPM manifest files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
+    "type": "object",
+    "required": [
+        "document",
+        "version",
+        "data"
+    ],
+    "properties": {
+        "document": {
+            "type": "string",
+            "enum": [
+                "rpm-package-manifest"
+            ],
+            "description": "Indicates the type of document."
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^[0-9]+(?:\\.[0-9]+)?(?:\\.[0-9]+)?$",
+            "description": "The version of the manifest file. This should follow the semantic versioning format (x.y.z), where x, y, and z are integers."
+        },
+        "data": {
+            "type": "object",
+            "required": [
+                "packages"
+            ],
+            "properties": {
+                "packages": {
+                    "type": "object",
+                    "description": "A mapping of architecture labels to arrays of packages. Each key represents an architecture (e.g., i686, x86_64, aarch64). The value is an array of package objects associated with that architecture.",
+                    "patternProperties": {
+                        "^[a-z0-9_]+$": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "repoid",
+                                    "url",
+                                    "checksum",
+                                    "size",
+                                    "nevra",
+                                    "srpm"
+                                ],
+                                "properties": {
+                                    "repoid": {
+                                        "type": "string",
+                                        "description": "Represents the ID of the RPM repository as defined in the repo file available to the package manager at the time of package installation."
+                                    },
+                                    "url": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "description": "It may be an empty string for packages from official repositories, but must be provided for packages hosted by 3rd party sources."
+                                    },
+                                    "checksum": {
+                                        "type": "string",
+                                        "pattern": "^(sha256|sha512|md5|crc32|crc64):[a-f0-9]+$",
+                                        "description": "The checksum of the package in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits). Only lowercase letters are supported."
+                                    },
+                                    "size": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "description": "The size of the package in bytes. Must be a non-negative integer."
+                                    },
+                                    "nevra": {
+                                        "type": "string",
+                                        "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
+                                        "description": "The Name, Epoch, Version, Release, and Architecture (NEVRA) of the package."
+                                    },
+                                    "srpm": {
+                                        "type": "string",
+                                        "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
+                                        "description": "NEVRA of the source package."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}
