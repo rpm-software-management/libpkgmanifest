@@ -1,5 +1,7 @@
 file(GLOB_RECURSE libpkgmanifest_SOURCES *.cpp)
 
+configure_file("config.h.in" ${CMAKE_CURRENT_SOURCE_DIR}/impl/libpkgmanifest/config.h)
+
 list(APPEND libpkgmanifest_PC_REQUIRES)
 list(APPEND libpkgmanifest_PC_REQUIRES_PRIVATE)
 

@@ -1,0 +1,3 @@
+#pragma once
+
+#define LIBPKGMANIFEST_LIB_DIR "@CMAKE_INSTALL_FULL_LIBDIR@/libpkgmanifest/"

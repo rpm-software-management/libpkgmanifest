@@ -6,3 +6,5 @@ _build/*
 _install/*
 
 *.pyc
+
+config.h
