@@ -1,8 +1,11 @@
 #include "manifest_impl.hpp"
 
+#include "libpkgmanifest/exception.hpp"
 #include "libpkgmanifest/parser.hpp"
 
 #include "libpkgmanifest/operations/parserfactory.hpp"
+
+#include <format>
 
 namespace libpkgmanifest {
 
@@ -22,7 +25,13 @@ Parser::~Parser() = default;
 
 Manifest Parser::parse(const std::string & path) const {
     Manifest manifest;
-    manifest.p_impl->set(p_impl->parser->parse(path));
+
+    try {
+        manifest.p_impl->set(p_impl->parser->parse(path));
+    } catch (const std::runtime_error & error) {
+        throw ParserError(std::format("An error occurred during parsing of the manifest file at \"{}\": {}", path, error.what()));
+    }
+
     return manifest;
 }
 
