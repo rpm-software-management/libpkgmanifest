@@ -9,6 +9,7 @@ enum class ChecksumMethod {
     SHA256, SHA512, MD5, CRC32, CRC64
 };
 
+/// @brief Stores information about the package checksum.
 class Checksum {
 public:
     Checksum();
@@ -20,10 +21,20 @@ public:
     Checksum(Checksum && other) noexcept;
     Checksum & operator=(Checksum && other) noexcept;
 
+    /// @brief Retrieves the method used for calculating the checksum.
+    /// @return The checksum calculation method.
     ChecksumMethod get_method() const;
+
+    /// @brief Retrieves the output of the checksum hash function. 
+    /// @return The checksum digest.
     std::string get_digest() const;
 
+    /// @brief Sets the method used for calculating the checksum.
+    /// @param method The checksum calculation method to be used.
     void set_method(ChecksumMethod method);
+
+    /// @brief Sets the output of the checksum hash function.
+    /// @param digest The checksum digest to be set.
     void set_digest(const std::string & digest);
 
 private:
