@@ -56,7 +56,7 @@
                                     },
                                     "checksum": {
                                         "type": "string",
-                                        "pattern": "^(sha256|sha512|md5|crc32|crc64):[a-f0-9]+$",
+                                        "pattern": "^(sha256|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
                                         "description": "The checksum of the package in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits). Only lowercase letters are supported."
                                     },
                                     "size": {
