@@ -19,10 +19,19 @@ def create_attributes_from_getters_and_setters(cls):
         ))
 %}
 
+%include <exception.i>
 %include <stdint.i>
 %include <std_map.i>
 %include <std_string.i>
 %include <std_vector.i>
+
+%exception {
+    try {
+        $action
+    } catch (const std::runtime_error & e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
 
 %ignore std::vector::vector(size_type);
 %ignore std::vector::vector(unsigned int);
