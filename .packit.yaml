@@ -1,0 +1,18 @@
+specfile_path: libpkgmanifest.spec
+
+files_to_sync:
+    - libpkgmanifest.spec
+    - .packit.yaml
+
+upstream_package_name: libpkgmanifest
+downstream_package_name: libpkgmanifest
+
+jobs:
+- job: copr_build
+  trigger: commit
+  owner: rpmsoftwaremanagement
+  project: libpkgmanifest-nightly
+  targets:
+  - fedora-40
+  - fedora-41
+  - fedora-rawhide
