@@ -8,6 +8,7 @@ function(add_python_module LIBRARY_NAME WRAPPER_NAME)
     set_source_files_properties(../${WRAPPER_NAME}.i PROPERTIES CPLUSPLUS ON)
     swig_add_library(${TARGET_NAME} LANGUAGE python SOURCES ../${WRAPPER_NAME}.i)
     set_property(TARGET ${TARGET_NAME} PROPERTY OUTPUT_NAME ${WRAPPER_NAME})
+    target_compile_options(${TARGET_NAME} PUBLIC ${SWIG_COMPILE_OPTIONS})
     target_link_libraries(${TARGET_NAME} PRIVATE ${LIBRARY_NAME})
     target_link_libraries(${TARGET_NAME} PRIVATE ${Python3_LIBRARIES})
 
