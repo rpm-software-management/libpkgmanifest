@@ -50,6 +50,28 @@ data:
 These files can be used for purposes such as reproducible builds, capturing system snapshots,
 or documenting packages used for an image composition.
 
+Installation
+------------
+
+Currently, the only way to obtain an RPM package is through the COPR repository, which offers nightly builds of our packages.
+
+You can enable the [libpkgmanifest-nightly](https://copr.fedorainfracloud.org/coprs/rpmsoftwaremanagement/libpkgmanifest-nightly)
+repository with:
+
+```
+sudo dnf copr enable rpmsoftwaremanagement/libpkgmanifest-nightly
+```
+
+Then, install the packages using:
+```
+sudo dnf install <package>
+```
+
+The library provides several sub-packages:
+- **libpkgmanifest**: The `.so` library
+- **libpkgmanifest-devel**: The library with header and pkgconfig files
+- **python3-libpkgmanifest**: Python bindings
+
 Build
 -----
 
