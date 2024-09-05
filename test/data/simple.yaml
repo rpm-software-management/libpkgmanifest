@@ -1,4 +1,4 @@
-document: rpm-manifest
+document: rpm-package-manifest
 version: 1.2.3
 data:
     packages:

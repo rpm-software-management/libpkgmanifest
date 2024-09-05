@@ -7,7 +7,7 @@ class TestParser(base_test_case.BaseTestCase):
     def test_parse_simple_file(self):
         manifest = libpkgmanifest.Parser().parse(self.test_file)
 
-        self.assertEqual('rpm-manifest', manifest.document)
+        self.assertEqual('rpm-package-manifest', manifest.document)
         self.assertEqual(1, manifest.version.major)
         self.assertEqual(2, manifest.version.minor)
         self.assertEqual(3, manifest.version.patch)

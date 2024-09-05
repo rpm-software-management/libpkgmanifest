@@ -26,7 +26,7 @@ protected:
 };
 
 TEST_F(ApiSerializerTest, SerializeSimpleManifest) {
-    const std::string simple_manifest_yaml = R"(document: rpm-manifest
+    const std::string simple_manifest_yaml = R"(document: rpm-package-manifest
 version: 1.2.3
 data:
   packages:
@@ -82,7 +82,7 @@ data:
     package3.set_srpm("srpm3");
 
     Manifest manifest;
-    manifest.set_document("rpm-manifest");
+    manifest.set_document("rpm-package-manifest");
     manifest.get_version().set_major(1);
     manifest.get_version().set_minor(2);
     manifest.get_version().set_patch(3);

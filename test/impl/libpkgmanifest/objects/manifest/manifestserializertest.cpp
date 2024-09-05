@@ -60,11 +60,11 @@ protected:
 };
 
 TEST_F(ManifestSerializerTest, SerializerSetsDocumentAsStringToYamlNode) {
-    EXPECT_CALL(manifest, get_document()).WillOnce(Return("rpm-manifest"));
+    EXPECT_CALL(manifest, get_document()).WillOnce(Return("rpm-package-manifest"));
 
     EXPECT_CALL(*node_ptr, insert("document", _)).WillOnce(
         [](const std::string &, std::unique_ptr<IYamlNode> node) {
-            EXPECT_EQ("rpm-manifest", node->as_string());
+            EXPECT_EQ("rpm-package-manifest", node->as_string());
         });
 
     serializer->serialize(manifest);

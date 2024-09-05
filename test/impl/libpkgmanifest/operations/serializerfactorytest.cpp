@@ -36,7 +36,7 @@ protected:
 };
 
 TEST_F(SerializerFactoryTest, SerializeSimpleManifest) {
-    const std::string simple_manifest_yaml = R"(document: rpm-manifest
+    const std::string simple_manifest_yaml = R"(document: rpm-package-manifest
 version: 1.2.3
 data:
   packages:
@@ -120,7 +120,7 @@ data:
     EXPECT_CALL(Const(packages), get()).WillOnce(ReturnPointee(&package_map));
 
     NiceMock<ManifestMock> manifest;
-    EXPECT_CALL(manifest, get_document()).WillOnce(Return("rpm-manifest"));
+    EXPECT_CALL(manifest, get_document()).WillOnce(Return("rpm-package-manifest"));
     EXPECT_CALL(Const(manifest), get_version()).WillOnce(ReturnPointee(&version));
     EXPECT_CALL(Const(manifest), get_packages()).WillOnce(ReturnPointee(&packages));
 

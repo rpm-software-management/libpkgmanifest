@@ -12,7 +12,7 @@ TEST(ApiParserTest, ParseSimpleManifest) {
     Parser parser;
     auto manifest = parser.parse(file_path);
 
-    EXPECT_EQ("rpm-manifest", manifest.get_document());
+    EXPECT_EQ("rpm-package-manifest", manifest.get_document());
     EXPECT_EQ(1, manifest.get_version().get_major());
     EXPECT_EQ(2, manifest.get_version().get_minor());
     EXPECT_EQ(3, manifest.get_version().get_patch());
