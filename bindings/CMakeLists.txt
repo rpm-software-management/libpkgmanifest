@@ -13,4 +13,8 @@ include(UseSWIG)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
+set(SWIG_COMPILE_OPTIONS
+    -Wno-missing-field-initializers
+)
+
 add_subdirectory(python)
