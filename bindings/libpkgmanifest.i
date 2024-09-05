@@ -1,4 +1,5 @@
 %module libpkgmanifest
+#pragma SWIG nowarn=362,509
 
 // The following adds Python attribute shortcuts for getters and setters
 // from C++ structures that act as plain data objects.
