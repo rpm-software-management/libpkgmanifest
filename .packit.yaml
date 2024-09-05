@@ -13,6 +13,15 @@ jobs:
   owner: rpmsoftwaremanagement
   project: libpkgmanifest-nightly
   targets:
-  - fedora-40
-  - fedora-41
-  - fedora-rawhide
+  - fedora-40-aarch64
+  - fedora-40-ppc64le
+  - fedora-40-s390x
+  - fedora-40-x86_64
+  - fedora-41-aarch64
+  - fedora-41-ppc64le
+  - fedora-41-s390x
+  - fedora-41-x86_64
+  - fedora-rawhide-aarch64
+  - fedora-rawhide-ppc64le
+  - fedora-rawhide-s390x
+  - fedora-rawhide-x86_64
