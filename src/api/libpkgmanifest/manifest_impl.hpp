@@ -5,6 +5,8 @@
 #include "libpkgmanifest/version.hpp"
 
 #include "libpkgmanifest/objects/manifest/manifestfactory.hpp"
+#include "libpkgmanifest/objects/packages/packagesfactory.hpp"
+#include "libpkgmanifest/objects/version/versionfactory.hpp"
 
 #include "packages_impl.hpp"
 #include "version_impl.hpp"
@@ -69,7 +71,10 @@ private:
 
     void ensure_object_exists() {
         if (!manifest) {
-            factory_manifest = internal::ManifestFactory().create();
+            auto manifest_factory = internal::ManifestFactory(
+                std::shared_ptr<internal::IPackagesFactory>(new internal::PackagesFactory()), 
+                std::shared_ptr<internal::IVersionFactory>(new internal::VersionFactory()));
+            factory_manifest = manifest_factory.create();
             manifest = factory_manifest.get();
             manifest->set_version(version.p_impl->get_factory_object());
             manifest->set_packages(packages.p_impl->get_factory_object());

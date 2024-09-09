@@ -6,9 +6,9 @@
 namespace libpkgmanifest::internal {
 
 ChecksumParser::ChecksumParser(
-    std::unique_ptr<IChecksumFactory> checksum_factory,
+    std::shared_ptr<IChecksumFactory> checksum_factory,
     std::shared_ptr<IStringSplitter> string_splitter)
-    : checksum_factory(std::move(checksum_factory))
+    : checksum_factory(checksum_factory)
     , string_splitter(string_splitter) {}
 
 std::unique_ptr<IChecksum> ChecksumParser::parse(const IYamlNode & node) const {

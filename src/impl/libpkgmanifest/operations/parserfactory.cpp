@@ -19,25 +19,25 @@ namespace libpkgmanifest::internal {
 std::unique_ptr<IParser> ParserFactory::create() const {
     auto string_splitter = std::make_shared<StringSplitter>();
 
-    auto checksum_factory = std::make_unique<ChecksumFactory>();
-    auto checksum_parser = std::make_unique<ChecksumParser>(std::move(checksum_factory), string_splitter);
+    auto checksum_factory = std::make_shared<ChecksumFactory>();
+    auto checksum_parser = std::make_unique<ChecksumParser>(checksum_factory, string_splitter);
 
-    auto package_factory = std::make_unique<PackageFactory>();
+    auto package_factory = std::make_shared<PackageFactory>(checksum_factory);
     auto package_parser = std::make_unique<PackageParser>(
         std::move(checksum_parser), 
         std::move(package_factory)
     );
 
-    auto packages_factory = std::make_unique<PackagesFactory>();
+    auto packages_factory = std::make_shared<PackagesFactory>();
     auto packages_parser = std::make_unique<PackagesParser>(
         std::move(package_parser), 
-        std::move(packages_factory)
+        packages_factory
     );
 
-    auto version_factory = std::make_unique<VersionFactory>();
-    auto version_parser = std::make_unique<VersionParser>(std::move(version_factory), string_splitter);
+    auto version_factory = std::make_shared<VersionFactory>();
+    auto version_parser = std::make_unique<VersionParser>(version_factory, string_splitter);
 
-    auto manifest_factory = std::make_unique<ManifestFactory>();
+    auto manifest_factory = std::make_unique<ManifestFactory>(packages_factory, version_factory);
     auto manifest_parser = std::make_unique<ManifestParser>(
         std::move(manifest_factory), 
         std::move(packages_parser), 

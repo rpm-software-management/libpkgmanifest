@@ -2,9 +2,9 @@
 
 namespace libpkgmanifest::internal {
 
-PackageParser::PackageParser(std::unique_ptr<IChecksumParser> checksum_parser, std::unique_ptr<IPackageFactory> package_factory)
+PackageParser::PackageParser(std::unique_ptr<IChecksumParser> checksum_parser, std::shared_ptr<IPackageFactory> package_factory)
     : checksum_parser(std::move(checksum_parser))
-    , package_factory(std::move(package_factory)) {}
+    , package_factory(package_factory) {}
 
 std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const IYamlNode & node) const {
     auto package = package_factory->create();

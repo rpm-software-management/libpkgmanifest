@@ -23,11 +23,11 @@ protected:
         auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
         checksum_ptr = checksum.get();
 
-        auto checksum_factory = std::make_unique<NiceMock<ChecksumFactoryMock>>();
+        auto checksum_factory = std::make_shared<NiceMock<ChecksumFactoryMock>>();
         EXPECT_CALL(*checksum_factory, create()).WillOnce(Return(std::move(checksum)));
     
         string_splitter = std::make_shared<NiceMock<StringSplitterMock>>();
-        parser = std::make_unique<ChecksumParser>(std::move(checksum_factory), string_splitter);
+        parser = std::make_unique<ChecksumParser>(checksum_factory, string_splitter);
     }
 
     std::shared_ptr<NiceMock<StringSplitterMock>> string_splitter;

@@ -2,9 +2,9 @@
 
 namespace libpkgmanifest::internal {
 
-PackagesParser::PackagesParser(std::unique_ptr<IPackageParser> package_parser, std::unique_ptr<IPackagesFactory> packages_factory)
+PackagesParser::PackagesParser(std::unique_ptr<IPackageParser> package_parser, std::shared_ptr<IPackagesFactory> packages_factory)
     : package_parser(std::move(package_parser))
-    , packages_factory(std::move(packages_factory)) {}
+    , packages_factory(packages_factory) {}
 
 std::unique_ptr<IPackages> PackagesParser::parse(const IYamlNode & node) const {
     auto packages = packages_factory->create();

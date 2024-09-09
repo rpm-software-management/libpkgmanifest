@@ -3,9 +3,9 @@
 namespace libpkgmanifest::internal {
 
 VersionParser::VersionParser(
-    std::unique_ptr<IVersionFactory> version_factory,
+    std::shared_ptr<IVersionFactory> version_factory,
     std::shared_ptr<IStringSplitter> string_splitter)
-    : version_factory(std::move(version_factory)) 
+    : version_factory(version_factory) 
     , string_splitter(string_splitter) {}
 
 std::unique_ptr<IVersion> VersionParser::parse(const IYamlNode & node) const {

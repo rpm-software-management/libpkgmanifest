@@ -24,7 +24,7 @@ protected:
         auto version = std::make_unique<NiceMock<VersionMock>>();
         version_ptr = version.get();
 
-        auto version_factory_wrapper = std::make_unique<NiceMock<VersionFactoryMock>>();
+        auto version_factory_wrapper = std::make_shared<NiceMock<VersionFactoryMock>>();
         EXPECT_CALL(*version_factory_wrapper, create()).WillOnce(Return(std::move(version)));
 
         EXPECT_CALL(yaml_node, get(_))
@@ -32,7 +32,7 @@ protected:
             .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
         
         string_splitter = std::make_shared<NiceMock<StringSplitterMock>>();
-        parser = std::make_unique<VersionParser>(std::move(version_factory_wrapper), string_splitter);
+        parser = std::make_unique<VersionParser>(version_factory_wrapper, string_splitter);
     }
 
     std::shared_ptr<NiceMock<StringSplitterMock>> string_splitter;

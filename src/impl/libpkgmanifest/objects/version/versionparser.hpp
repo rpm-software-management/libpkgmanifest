@@ -9,12 +9,12 @@ namespace libpkgmanifest::internal {
 
 class VersionParser : public IVersionParser {
 public:
-    VersionParser(std::unique_ptr<IVersionFactory> version_factory, std::shared_ptr<IStringSplitter> string_splitter);
+    VersionParser(std::shared_ptr<IVersionFactory> version_factory, std::shared_ptr<IStringSplitter> string_splitter);
 
     virtual std::unique_ptr<IVersion> parse(const IYamlNode & node) const override;
 
 private:
-    std::unique_ptr<IVersionFactory> version_factory;
+    std::shared_ptr<IVersionFactory> version_factory;
     std::shared_ptr<IStringSplitter> string_splitter;
 };
 

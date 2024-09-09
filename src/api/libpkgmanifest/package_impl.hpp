@@ -3,6 +3,7 @@
 #include "libpkgmanifest/package.hpp"
 #include "libpkgmanifest/checksum.hpp"
 
+#include "libpkgmanifest/objects/checksum/checksumfactory.hpp"
 #include "libpkgmanifest/objects/package/packagefactory.hpp"
 
 #include "checksum_impl.hpp"
@@ -57,7 +58,9 @@ private:
 
     void ensure_object_exists() {
         if (!package) {
-            factory_package = internal::PackageFactory().create();
+            auto package_factory = internal::PackageFactory(
+                std::shared_ptr<internal::IChecksumFactory>(new internal::ChecksumFactory())); 
+            factory_package = package_factory.create();
             package = factory_package.get();
             package->set_checksum(checksum.p_impl->get_factory_object());
         }

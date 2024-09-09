@@ -28,7 +28,7 @@ protected:
         auto packages = std::make_unique<NiceMock<PackagesMock>>();
         packages_ptr = packages.get();
 
-        auto packages_factory_wrapper = std::make_unique<NiceMock<PackagesFactoryMock>>();
+        auto packages_factory_wrapper = std::make_shared<NiceMock<PackagesFactoryMock>>();
         EXPECT_CALL(*packages_factory_wrapper, create()).WillOnce(Return(std::move(packages)));
 
         auto package_parser_wrapper = std::make_unique<NiceMock<PackageParserMock>>();
@@ -36,7 +36,7 @@ protected:
 
         parser = std::make_unique<PackagesParser>(
             std::move(package_parser_wrapper),
-            std::move(packages_factory_wrapper)
+            packages_factory_wrapper
         );
     }
 
