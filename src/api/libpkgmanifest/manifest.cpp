@@ -30,11 +30,11 @@ std::string Manifest::get_document() const {
 }
 
 Version & Manifest::get_version() {
-    return p_impl->version;
+    return p_impl->get_version();
 }
 
 Packages & Manifest::get_packages() {
-    return p_impl->packages;
+    return p_impl->get_packages();
 }
 
 void Manifest::set_document(const std::string & document) {
@@ -43,12 +43,12 @@ void Manifest::set_document(const std::string & document) {
 
 void Manifest::set_version(Version & version) {
     p_impl->get()->set_version(version.p_impl->get_factory_object());
-    p_impl->version.p_impl->init(&p_impl->get()->get_version());
+    p_impl->get_version().p_impl->init(&p_impl->get()->get_version());
 }
 
 void Manifest::set_packages(Packages & packages) {
     p_impl->get()->set_packages(packages.p_impl->get_factory_object());
-    p_impl->packages.p_impl->init(&p_impl->get()->get_packages());
+    p_impl->get_packages().p_impl->init(&p_impl->get()->get_packages());
 }
 
 }

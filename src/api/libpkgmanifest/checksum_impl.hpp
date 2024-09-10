@@ -55,7 +55,6 @@ private:
         }
     }
 
-    friend Checksum;
     internal::IChecksum * checksum;
     std::unique_ptr<internal::IChecksum> factory_checksum;
 };

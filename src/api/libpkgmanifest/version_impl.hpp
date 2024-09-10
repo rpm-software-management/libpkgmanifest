@@ -55,7 +55,6 @@ private:
         }
     }
 
-    friend Version;
     internal::IVersion * version;
     std::unique_ptr<internal::IVersion> factory_version;
 };

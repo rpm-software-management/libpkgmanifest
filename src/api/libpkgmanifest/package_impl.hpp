@@ -39,6 +39,11 @@ public:
         return std::move(factory_package);
     }
 
+    Checksum & get_checksum() {
+        ensure_object_exists();
+        return checksum;
+    }
+
     void init(internal::IPackage * package) {
         this->package = package;
         checksum.p_impl->init(&package->get_checksum());
@@ -65,7 +70,6 @@ private:
         }
     }
 
-    friend Package;
     internal::IPackage * package;
     std::unique_ptr<internal::IPackage> factory_package;
     Checksum checksum;

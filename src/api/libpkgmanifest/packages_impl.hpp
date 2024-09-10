@@ -58,7 +58,6 @@ private:
         }
     }
 
-    friend Packages;
     internal::IPackages * packages;
     std::unique_ptr<internal::IPackages> factory_packages;
 };

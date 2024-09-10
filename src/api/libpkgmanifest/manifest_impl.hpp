@@ -44,6 +44,16 @@ public:
         return std::move(factory_manifest);
     }
 
+    Packages & get_packages() {
+        ensure_object_exists();
+        return packages;
+    }
+
+    Version & get_version() {
+        ensure_object_exists();
+        return version;
+    }
+
     void init(internal::IManifest * manifest) {
         this->manifest = manifest;
         packages.p_impl->init(&manifest->get_packages());
@@ -79,7 +89,6 @@ private:
         }
     }
 
-    friend Manifest;
     internal::IManifest * manifest;
     std::unique_ptr<internal::IManifest> factory_manifest;
     std::unique_ptr<internal::IManifest> parsed_manifest;
