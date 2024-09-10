@@ -34,24 +34,24 @@ public:
         return std::move(factory_version);
     }
 
-    void from_internal(internal::IVersion * version) {
+    void init(internal::IVersion * version) {
         this->version = version;
     }
 
 private:
     void copy_object(const Impl & other) {
-        if (other.factory_version) {
+        if (other.version) {
+            init(other.version);
+        } else if (other.factory_version) {
             factory_version = other.factory_version->clone();
-            version = factory_version.get();
-        } else {
-            version = other.version;
+            init(factory_version.get());
         }
     }
 
     void ensure_object_exists() {
         if (!version) {
             factory_version = internal::VersionFactory().create();
-            version = factory_version.get();
+            init(factory_version.get());
         }
     }
 

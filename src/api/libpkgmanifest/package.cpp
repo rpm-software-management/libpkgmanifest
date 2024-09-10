@@ -66,8 +66,8 @@ void Package::set_url(const std::string & url) {
 }
 
 void Package::set_checksum(Checksum & checksum) {
-    p_impl->checksum.p_impl->from_internal(checksum.p_impl->get());
     p_impl->get()->set_checksum(checksum.p_impl->get_factory_object());
+    p_impl->checksum.p_impl->init(&p_impl->get()->get_checksum());
 }
 
 void Package::set_size(uint64_t size) {

@@ -34,24 +34,24 @@ public:
         return std::move(factory_checksum);
     }
 
-    void from_internal(internal::IChecksum * checksum) {
+    void init(internal::IChecksum * checksum) {
         this->checksum = checksum;
     }
 
 private:
     void copy_object(const Impl & other) {
-        if (other.factory_checksum) {
+        if (other.checksum) {
+            init(other.checksum);
+        } else if (other.factory_checksum) {
             factory_checksum = other.factory_checksum->clone();
-            checksum = factory_checksum.get();
-        } else {
-            checksum = other.checksum;
+            init(factory_checksum.get());
         }
     }
 
     void ensure_object_exists() {
         if (!checksum) {
             factory_checksum = internal::ChecksumFactory().create();
-            checksum = factory_checksum.get();
+            init(factory_checksum.get());
         }
     }
 

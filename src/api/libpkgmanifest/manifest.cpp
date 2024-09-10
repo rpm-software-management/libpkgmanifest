@@ -42,13 +42,13 @@ void Manifest::set_document(const std::string & document) {
 }
 
 void Manifest::set_version(Version & version) {
-    p_impl->version.p_impl->from_internal(version.p_impl->get());
     p_impl->get()->set_version(version.p_impl->get_factory_object());
+    p_impl->version.p_impl->init(&p_impl->get()->get_version());
 }
 
 void Manifest::set_packages(Packages & packages) {
-    p_impl->packages.p_impl->from_internal(packages.p_impl->get());
     p_impl->get()->set_packages(packages.p_impl->get_factory_object());
+    p_impl->packages.p_impl->init(&p_impl->get()->get_packages());
 }
 
 }

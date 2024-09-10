@@ -100,4 +100,21 @@ data:
     EXPECT_EQ(read_file_buffer.str(), simple_manifest_yaml);
 }
 
+TEST_F(ApiSerializerTest, SerializeEmptyManifest) {
+    const std::string empty_manifest_yaml = R"(document: rpm-package-manifest
+version: 0.0.1
+data:
+  packages: ~)";
+
+    Manifest manifest;
+    Serializer serializer;
+    serializer.serialize(manifest, file_path);
+
+    std::ifstream output_file(file_path);
+    std::stringstream read_file_buffer;
+    read_file_buffer << output_file.rdbuf();
+
+    EXPECT_EQ(read_file_buffer.str(), empty_manifest_yaml);
+}
+
 }

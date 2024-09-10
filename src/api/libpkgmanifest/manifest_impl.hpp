@@ -19,8 +19,8 @@ public:
         : manifest(nullptr)
         , factory_manifest(nullptr)
         , parsed_manifest(nullptr)
-        , version()
-        , packages() {}
+        , packages()
+        , version() {}
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -44,14 +44,14 @@ public:
         return std::move(factory_manifest);
     }
 
-    void from_internal(internal::IManifest * manifest) {
+    void init(internal::IManifest * manifest) {
         this->manifest = manifest;
-        version.p_impl->from_internal(&manifest->get_version());
-        packages.p_impl->from_internal(&manifest->get_packages());
+        packages.p_impl->init(&manifest->get_packages());
+        version.p_impl->init(&manifest->get_version());
     }
     
     void set(std::unique_ptr<internal::IManifest> parsed_manifest) {
-        from_internal(parsed_manifest.get());
+        init(parsed_manifest.get());
         this->parsed_manifest = std::move(parsed_manifest);
     }
 
@@ -62,10 +62,10 @@ private:
 
         if (other.parsed_manifest) {
             parsed_manifest = other.parsed_manifest->clone();
-            from_internal(parsed_manifest.get());
+            init(parsed_manifest.get());
         } else if (other.factory_manifest) {
             factory_manifest = other.factory_manifest->clone();
-            from_internal(factory_manifest.get());
+            init(factory_manifest.get());
         }
     }
 
@@ -75,9 +75,7 @@ private:
                 std::shared_ptr<internal::IPackagesFactory>(new internal::PackagesFactory()), 
                 std::shared_ptr<internal::IVersionFactory>(new internal::VersionFactory()));
             factory_manifest = manifest_factory.create();
-            manifest = factory_manifest.get();
-            manifest->set_version(version.p_impl->get_factory_object());
-            manifest->set_packages(packages.p_impl->get_factory_object());
+            init(factory_manifest.get());
         }
     }
 
@@ -85,8 +83,8 @@ private:
     internal::IManifest * manifest;
     std::unique_ptr<internal::IManifest> factory_manifest;
     std::unique_ptr<internal::IManifest> parsed_manifest;
-    Version version;
     Packages packages;
+    Version version;
 };
 
 }

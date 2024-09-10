@@ -39,20 +39,20 @@ public:
         return std::move(factory_package);
     }
 
-    void from_internal(internal::IPackage * package) {
+    void init(internal::IPackage * package) {
         this->package = package;
-        checksum.p_impl->from_internal(&package->get_checksum());
+        checksum.p_impl->init(&package->get_checksum());
     }
 
 private:
     void copy_object(const Impl & other) {
         checksum = std::move(other.checksum);
 
-        if (other.factory_package) {
+        if (other.package) {
+            init(other.package);
+        } else if (other.factory_package) {
             factory_package = other.factory_package->clone();
-            from_internal(factory_package.get());
-        } else {
-            from_internal(other.package);
+            init(factory_package.get());
         }
     }
 
@@ -61,8 +61,7 @@ private:
             auto package_factory = internal::PackageFactory(
                 std::shared_ptr<internal::IChecksumFactory>(new internal::ChecksumFactory())); 
             factory_package = package_factory.create();
-            package = factory_package.get();
-            package->set_checksum(checksum.p_impl->get_factory_object());
+            init(factory_package.get());
         }
     }
 

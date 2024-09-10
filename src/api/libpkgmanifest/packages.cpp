@@ -32,7 +32,7 @@ std::map<std::string, std::vector<Package>> Packages::get() const {
         arch_packages.reserve(internal_arch_packages.size());
         for (auto & internal_package : internal_arch_packages) {
             Package package;
-            package.p_impl->from_internal(internal_package.get());
+            package.p_impl->init(internal_package.get());
             arch_packages.push_back(std::move(package));
         }
         packages_map.insert({arch, std::move(arch_packages)});
@@ -46,7 +46,7 @@ std::vector<Package> Packages::get(const std::string & arch) const {
     packages.reserve(internal_packages.size());
     for (auto & internal_package : internal_packages) {
         Package package;
-        package.p_impl->from_internal(internal_package.get());
+        package.p_impl->init(internal_package.get());
         packages.push_back(std::move(package));
     }
     return packages;

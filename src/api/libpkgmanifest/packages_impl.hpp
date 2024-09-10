@@ -37,24 +37,24 @@ public:
         return std::move(factory_packages);
     }
 
-    void from_internal(internal::IPackages * packages) {
+    void init(internal::IPackages * packages) {
         this->packages = packages;
     }
 
 private:
     void copy_object(const Impl & other) {
-        if (other.factory_packages) {
+        if (other.packages) {
+            init(other.packages);
+        } else if (other.factory_packages) {
             factory_packages = other.factory_packages->clone();
-            packages = factory_packages.get();
-        } else {
-            packages = other.packages;
+            init(factory_packages.get());
         }
     }
 
     void ensure_object_exists() {
         if (!packages) {
             factory_packages = internal::PackagesFactory().create();
-            packages = factory_packages.get();
+            init(factory_packages.get());
         }
     }
 
