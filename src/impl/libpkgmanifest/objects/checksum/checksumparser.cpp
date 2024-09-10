@@ -25,8 +25,14 @@ std::unique_ptr<IChecksum> ChecksumParser::parse(const IYamlNode & node) const {
         [](unsigned char c){ return std::tolower(c); });
 
     // TODO: Handle unknown method case?
-    if (method_string == "sha256") {
+    if (method_string == "sha1") {
+        checksum->set_method(ChecksumMethod::SHA1);
+    } else if (method_string == "sha224") {
+        checksum->set_method(ChecksumMethod::SHA224);
+    } else if (method_string == "sha256") {
         checksum->set_method(ChecksumMethod::SHA256);
+    } else if (method_string == "sha384") {
+        checksum->set_method(ChecksumMethod::SHA384);
     } else if (method_string == "sha512") {
         checksum->set_method(ChecksumMethod::SHA512);
     } else if (method_string == "md5") {

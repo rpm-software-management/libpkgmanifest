@@ -38,12 +38,39 @@ protected:
     std::unique_ptr<ChecksumParser> parser;
 };
 
+TEST_F(ChecksumParserTest, ParserSetsSHA1MethodFromYamlNode) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("SHA1:aaabbb"));
+    EXPECT_CALL(*string_splitter, split("SHA1:aaabbb", ':')).WillOnce(
+        Return(std::vector<std::string>{"SHA1", "aaabbb"})
+    );
+    EXPECT_CALL(*checksum_ptr, set_method(libpkgmanifest::ChecksumMethod::SHA1));
+    parser->parse(yaml_node);
+}
+
+TEST_F(ChecksumParserTest, ParserSetsSHA224MethodFromYamlNode) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("SHA224:bbbaaa"));
+    EXPECT_CALL(*string_splitter, split("SHA224:bbbaaa", ':')).WillOnce(
+        Return(std::vector<std::string>{"SHA224", "bbbaaa"})
+    );
+    EXPECT_CALL(*checksum_ptr, set_method(libpkgmanifest::ChecksumMethod::SHA224));
+    parser->parse(yaml_node);
+}
+
 TEST_F(ChecksumParserTest, ParserSetsSHA256MethodFromYamlNode) {
     EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("SHA256:aaabbb"));
     EXPECT_CALL(*string_splitter, split("SHA256:aaabbb", ':')).WillOnce(
         Return(std::vector<std::string>{"SHA256", "aaabbb"})
     );
     EXPECT_CALL(*checksum_ptr, set_method(libpkgmanifest::ChecksumMethod::SHA256));
+    parser->parse(yaml_node);
+}
+
+TEST_F(ChecksumParserTest, ParserSetsSHA384MethodFromYamlNode) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("SHA384:dedede"));
+    EXPECT_CALL(*string_splitter, split("SHA384:dedede", ':')).WillOnce(
+        Return(std::vector<std::string>{"SHA384", "dedede"})
+    );
+    EXPECT_CALL(*checksum_ptr, set_method(libpkgmanifest::ChecksumMethod::SHA384));
     parser->parse(yaml_node);
 }
 

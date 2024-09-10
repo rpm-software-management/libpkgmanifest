@@ -18,8 +18,17 @@ std::unique_ptr<IYamlNode> ChecksumSerializer::serialize(const IChecksum & check
         case ChecksumMethod::MD5:
             method_string = "md5";
             break;
+        case ChecksumMethod::SHA1:
+            method_string = "sha1";
+            break;
+        case ChecksumMethod::SHA224:
+            method_string = "sha224";
+            break;
         case ChecksumMethod::SHA256:
             method_string = "sha256";
+            break;
+        case ChecksumMethod::SHA384:
+            method_string = "sha384";
             break;
         case ChecksumMethod::SHA512:
             method_string = "sha512";

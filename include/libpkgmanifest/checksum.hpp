@@ -6,7 +6,7 @@
 namespace libpkgmanifest {
 
 enum class ChecksumMethod {
-    SHA256, SHA512, MD5, CRC32, CRC64
+    SHA1, SHA224, SHA256, SHA384, SHA512, MD5, CRC32, CRC64
 };
 
 /// @brief Stores information about the package checksum.

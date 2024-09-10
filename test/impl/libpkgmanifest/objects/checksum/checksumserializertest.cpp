@@ -56,11 +56,35 @@ TEST_F(ChecksumSerializerTest, SerializerSetsMD5MethodAndDigestAsStringToYamlNod
     serializer->serialize(checksum);
 }
 
+TEST_F(ChecksumSerializerTest, SerializerSetsSHA1MethodAndDigestAsStringToYamlNode) {
+    NiceMock<ChecksumMock> checksum;
+    EXPECT_CALL(checksum, get_method()).WillOnce(Return(libpkgmanifest::ChecksumMethod::SHA1));
+    EXPECT_CALL(checksum, get_digest()).WillOnce(Return("sha1digest"));
+    EXPECT_CALL(*node_ptr, set("sha1:sha1digest"));
+    serializer->serialize(checksum);
+}
+
+TEST_F(ChecksumSerializerTest, SerializerSetsSHA224MethodAndDigestAsStringToYamlNode) {
+    NiceMock<ChecksumMock> checksum;
+    EXPECT_CALL(checksum, get_method()).WillOnce(Return(libpkgmanifest::ChecksumMethod::SHA224));
+    EXPECT_CALL(checksum, get_digest()).WillOnce(Return("sha224digest"));
+    EXPECT_CALL(*node_ptr, set("sha224:sha224digest"));
+    serializer->serialize(checksum);
+}
+
 TEST_F(ChecksumSerializerTest, SerializerSetsSHA256MethodAndDigestAsStringToYamlNode) {
     NiceMock<ChecksumMock> checksum;
     EXPECT_CALL(checksum, get_method()).WillOnce(Return(libpkgmanifest::ChecksumMethod::SHA256));
     EXPECT_CALL(checksum, get_digest()).WillOnce(Return("sha256digest"));
     EXPECT_CALL(*node_ptr, set("sha256:sha256digest"));
+    serializer->serialize(checksum);
+}
+
+TEST_F(ChecksumSerializerTest, SerializerSetsSHA384MethodAndDigestAsStringToYamlNode) {
+    NiceMock<ChecksumMock> checksum;
+    EXPECT_CALL(checksum, get_method()).WillOnce(Return(libpkgmanifest::ChecksumMethod::SHA384));
+    EXPECT_CALL(checksum, get_digest()).WillOnce(Return("sha384digest"));
+    EXPECT_CALL(*node_ptr, set("sha384:sha384digest"));
     serializer->serialize(checksum);
 }
 
