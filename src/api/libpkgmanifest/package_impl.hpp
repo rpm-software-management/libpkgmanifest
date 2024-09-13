@@ -51,8 +51,6 @@ public:
 
 private:
     void copy_object(const Impl & other) {
-        checksum = std::move(other.checksum);
-
         if (other.package) {
             init(other.package);
         } else if (other.factory_package) {

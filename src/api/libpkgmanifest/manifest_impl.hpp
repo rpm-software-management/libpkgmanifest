@@ -67,9 +67,6 @@ public:
 
 private:
     void copy_object(const Impl & other) {
-        version = other.version;
-        packages = other.packages;
-
         if (other.parsed_manifest) {
             parsed_manifest = other.parsed_manifest->clone();
             init(parsed_manifest.get());
