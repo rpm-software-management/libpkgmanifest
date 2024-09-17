@@ -1,6 +1,7 @@
 #pragma once
 
 #include "checksum.hpp"
+#include "module.hpp"
 
 #include <memory>
 #include <stdint.h>
@@ -55,6 +56,10 @@ public:
     /// @return The NEVRA identifier of the source package.
     std::string get_srpm() const;
 
+    /// @brief Retrieves the module information associated with this package.
+    /// @return The package module.
+    Module & get_module();
+
     /// @brief Sets the architecture of the package.
     /// @param arch The architecture to be set for the package.
     void set_arch(const std::string & arch);
@@ -87,6 +92,10 @@ public:
     /// @note This format includes Name, (optional) Epoch, Version, Release, and Architecture fields.
     /// @note For more details, refer to the official RPM documentation: https://rpm-software-management.github.io/rpm/manual/tags.html.
     void set_srpm(const std::string & srpm);
+
+    /// @brief Sets the module information associated with this package.
+    /// @param module The module to be set for the package.
+    void set_module(Module & module);
 
 private:
     friend class Packages;

@@ -9,12 +9,14 @@ data:
               size: 152384
               nevra: nevra1
               srpm: srpm1
+              module: name1:stream1
             - repoid: repo2
               url: url2
               checksum: md5:fedcba
               size: 378124894
               nevra: nevra2
               srpm: srpm2
+              module: name2:stream2
         src:
             - repoid: repo3
               url: http://some.server.org/folder/nevra3.rpm
@@ -22,3 +24,4 @@ data:
               size: 97643154
               nevra: nevra3
               srpm: srpm3
+              module: name3:stream3

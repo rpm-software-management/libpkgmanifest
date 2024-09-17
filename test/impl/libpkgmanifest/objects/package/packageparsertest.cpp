@@ -1,5 +1,7 @@
 #include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
 #include "libpkgmanifest/mocks/objects/checksum/checksumparsermock.hpp"
+#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "libpkgmanifest/mocks/objects/module/moduleparsermock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagefactorymock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
 #include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
@@ -33,17 +35,22 @@ protected:
         auto checksum_parser_wrapper = std::make_unique<NiceMock<ChecksumParserMock>>();
         checksum_parser = checksum_parser_wrapper.get();
 
+        auto module_parser_wrapper = std::make_unique<NiceMock<ModuleParserMock>>();
+        module_parser = module_parser_wrapper.get();
+
         EXPECT_CALL(yaml_node, get(_))
             .Times(AnyNumber())
             .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
         
         parser = std::make_unique<PackageParser>(
             std::move(checksum_parser_wrapper),
+            std::move(module_parser_wrapper),
             package_factory_wrapper
         );
     }
 
     NiceMock<ChecksumParserMock> * checksum_parser;
+    NiceMock<ModuleParserMock> * module_parser;
     NiceMock<PackageMock> * package_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
@@ -114,6 +121,18 @@ TEST_F(PackageParserTest, ParserSetsSrpmFromYamlNode) {
     EXPECT_CALL(yaml_node, get("srpm")).WillOnce(Return(std::move(srpm_node)));
     EXPECT_CALL(*srpm_node_ptr, as_string()).WillOnce(Return("pkg-1.0.0"));
     EXPECT_CALL(*package_ptr, set_srpm("pkg-1.0.0"));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserSetsModuleFromModuleParser) {
+    auto module_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto module_node_ptr = module_node.get();
+    auto module = std::make_unique<NiceMock<ModuleMock>>();
+    auto module_ptr = module.get();
+
+    EXPECT_CALL(yaml_node, get("module")).WillOnce(Return(std::move(module_node)));
+    EXPECT_CALL(*module_parser, parse(Ref(*module_node_ptr))).WillOnce(Return(std::move(module)));
+    EXPECT_CALL(*package_ptr, set_module(Pointer(module_ptr)));
     parser->parse("arch", yaml_node);
 }
 

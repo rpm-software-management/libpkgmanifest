@@ -1,6 +1,7 @@
 #pragma once
 
 #include "libpkgmanifest/objects/checksum/ichecksum.hpp"
+#include "libpkgmanifest/objects/module/imodule.hpp"
 
 #include <memory>
 #include <stdint.h>
@@ -22,6 +23,8 @@ public:
     virtual uint64_t get_size() const = 0;
     virtual std::string get_nevra() const = 0; // TODO: return NEVRA object?
     virtual std::string get_srpm() const = 0; // TODO: return NEVRA object?
+    virtual const IModule & get_module() const = 0;
+    virtual IModule & get_module() = 0;
 
     virtual void set_arch(const std::string & arch) = 0;
     virtual void set_repo_id(const std::string & repo_id) = 0;
@@ -30,6 +33,7 @@ public:
     virtual void set_size(uint64_t size) = 0;
     virtual void set_nevra(const std::string & nevra) = 0;
     virtual void set_srpm(const std::string & srpm) = 0;
+    virtual void set_module(std::unique_ptr<IModule> module) = 0;
 };
 
 }

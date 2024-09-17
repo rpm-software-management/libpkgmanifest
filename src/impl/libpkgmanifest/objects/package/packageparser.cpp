@@ -2,8 +2,12 @@
 
 namespace libpkgmanifest::internal {
 
-PackageParser::PackageParser(std::unique_ptr<IChecksumParser> checksum_parser, std::shared_ptr<IPackageFactory> package_factory)
+PackageParser::PackageParser(
+    std::unique_ptr<IChecksumParser> checksum_parser,
+    std::unique_ptr<IModuleParser> module_parser,
+    std::shared_ptr<IPackageFactory> package_factory)
     : checksum_parser(std::move(checksum_parser))
+    , module_parser(std::move(module_parser))
     , package_factory(package_factory) {}
 
 std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const IYamlNode & node) const {
@@ -16,6 +20,7 @@ std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const I
     package->set_size(node.get("size")->as_uint64());
     package->set_nevra(node.get("nevra")->as_string());
     package->set_srpm(node.get("srpm")->as_string());
+    package->set_module(module_parser->parse(*node.get("module")));
 
     return package;
 }

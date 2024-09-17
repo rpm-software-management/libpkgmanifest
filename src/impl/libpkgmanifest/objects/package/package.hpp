@@ -19,6 +19,8 @@ public:
     virtual uint64_t get_size() const override;
     virtual std::string get_nevra() const override;
     virtual std::string get_srpm() const override;
+    virtual const IModule & get_module() const override;
+    virtual IModule & get_module() override;
 
     virtual void set_arch(const std::string & arch) override;
     virtual void set_repo_id(const std::string & repo_id) override;
@@ -27,6 +29,7 @@ public:
     virtual void set_size(uint64_t size) override;
     virtual void set_nevra(const std::string & nevra) override;
     virtual void set_srpm(const std::string & srpm) override;
+    virtual void set_module(std::unique_ptr<IModule> module) override;
 
 private:
     std::string arch;
@@ -36,6 +39,7 @@ private:
     uint64_t size;
     std::string nevra;
     std::string srpm;
+    std::unique_ptr<IModule> module;
 };
 
 }

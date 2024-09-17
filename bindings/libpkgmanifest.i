@@ -41,6 +41,7 @@ def create_attributes_from_getters_and_setters(cls):
 %{
     #include "libpkgmanifest/checksum.hpp"
     #include "libpkgmanifest/manifest.hpp"
+    #include "libpkgmanifest/module.hpp"
     #include "libpkgmanifest/package.hpp"
     #include "libpkgmanifest/packages.hpp"
     #include "libpkgmanifest/parser.hpp"
@@ -49,6 +50,7 @@ def create_attributes_from_getters_and_setters(cls):
 %}
 
 %include "libpkgmanifest/checksum.hpp"
+%include "libpkgmanifest/module.hpp"
 %include "libpkgmanifest/version.hpp"
 
 %include "libpkgmanifest/package.hpp"
@@ -64,6 +66,7 @@ def create_attributes_from_getters_and_setters(cls):
 %pythoncode %{
 create_attributes_from_getters_and_setters(Checksum)
 create_attributes_from_getters_and_setters(Manifest)
+create_attributes_from_getters_and_setters(Module)
 create_attributes_from_getters_and_setters(Package)
 create_attributes_from_getters_and_setters(Version)
 %}

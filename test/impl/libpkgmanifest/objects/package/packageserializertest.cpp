@@ -1,5 +1,7 @@
 #include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
 #include "libpkgmanifest/mocks/objects/checksum/checksumserializermock.hpp"
+#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "libpkgmanifest/mocks/objects/module/moduleserializermock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
 #include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
 #include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
@@ -30,6 +32,9 @@ protected:
         auto checksum_serializer = std::make_unique<NiceMock<ChecksumSerializerMock>>();
         checksum_serializer_ptr = checksum_serializer.get();
 
+        auto module_serializer = std::make_unique<NiceMock<ModuleSerializerMock>>();
+        module_serializer_ptr = module_serializer.get();
+
         auto node = std::make_unique<NiceMock<YamlNodeInternalMock>>();
         node_ptr = node.get();
         EXPECT_CALL(*node_ptr, insert(_, _)).Times(AnyNumber());
@@ -42,14 +47,20 @@ protected:
             });
         
         EXPECT_CALL(Const(package), get_checksum()).WillOnce(ReturnPointee(&checksum));
+        EXPECT_CALL(Const(package), get_module()).WillOnce(ReturnPointee(&module));
 
-        serializer = std::make_unique<PackageSerializer>(node_factory, std::move(checksum_serializer));
+        serializer = std::make_unique<PackageSerializer>(
+            node_factory, 
+            std::move(checksum_serializer),
+            std::move(module_serializer));
     }
 
     NiceMock<PackageMock> package;
     NiceMock<ChecksumMock> checksum;
+    NiceMock<ModuleMock> module;
     NiceMock<YamlNodeInternalMock> * node_ptr;
     NiceMock<ChecksumSerializerMock> * checksum_serializer_ptr;
+    NiceMock<ModuleSerializerMock> * module_serializer_ptr;
     std::unique_ptr<PackageSerializer> serializer;
 };
 
@@ -114,6 +125,16 @@ TEST_F(PackageSerializerTest, SerializerSetsSrpmAsStringToYamlNode) {
     [](const std::string &, std::unique_ptr<IYamlNode> node) {
         EXPECT_EQ("a-1.0-1.fc40.src", node->as_string());
     });
+
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerSetsModuleFromModuleSerializer) {
+    auto module_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto module_node_ptr = module_node.get();
+    EXPECT_CALL(*module_serializer_ptr, serialize(Ref(module))).WillOnce(Return(std::move(module_node)));
+
+    EXPECT_CALL(*node_ptr, insert("module", Pointer(module_node_ptr)));
 
     serializer->serialize(package);
 }

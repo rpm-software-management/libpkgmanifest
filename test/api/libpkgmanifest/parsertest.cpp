@@ -37,6 +37,8 @@ TEST(ApiParserTest, ParseSimpleManifest) {
     EXPECT_EQ(152384, package1.get_size());
     EXPECT_EQ("nevra1", package1.get_nevra());
     EXPECT_EQ("srpm1", package1.get_srpm());
+    EXPECT_EQ("name1", package1.get_module().get_name());
+    EXPECT_EQ("stream1", package1.get_module().get_stream());
 
     auto & package2 = packages.at("i686")[1];
     EXPECT_EQ("i686", package2.get_arch());
@@ -47,6 +49,8 @@ TEST(ApiParserTest, ParseSimpleManifest) {
     EXPECT_EQ(378124894, package2.get_size());
     EXPECT_EQ("nevra2", package2.get_nevra());
     EXPECT_EQ("srpm2", package2.get_srpm());
+    EXPECT_EQ("name2", package2.get_module().get_name());
+    EXPECT_EQ("stream2", package2.get_module().get_stream());
 
     auto & package3 = packages.at("src")[0];
     EXPECT_EQ("src", package3.get_arch());
@@ -57,6 +61,8 @@ TEST(ApiParserTest, ParseSimpleManifest) {
     EXPECT_EQ(97643154, package3.get_size());
     EXPECT_EQ("nevra3", package3.get_nevra());
     EXPECT_EQ("srpm3", package3.get_srpm());
+    EXPECT_EQ("name3", package3.get_module().get_name());
+    EXPECT_EQ("stream3", package3.get_module().get_stream());
 }
 
 }

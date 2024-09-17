@@ -2,11 +2,14 @@
 
 #include "libpkgmanifest/package.hpp"
 #include "libpkgmanifest/checksum.hpp"
+#include "libpkgmanifest/module.hpp"
 
 #include "libpkgmanifest/objects/checksum/checksumfactory.hpp"
+#include "libpkgmanifest/objects/module/modulefactory.hpp"
 #include "libpkgmanifest/objects/package/packagefactory.hpp"
 
 #include "checksum_impl.hpp"
+#include "module_impl.hpp"
 
 namespace libpkgmanifest {
 
@@ -15,7 +18,8 @@ public:
     Impl()
         : package(nullptr)
         , factory_package(nullptr)
-        , checksum() {}
+        , checksum()
+        , module() {}
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -44,9 +48,15 @@ public:
         return checksum;
     }
 
+    Module & get_module() {
+        ensure_object_exists();
+        return module;
+    }
+
     void init(internal::IPackage * package) {
         this->package = package;
         checksum.p_impl->init(&package->get_checksum());
+        module.p_impl->init(&package->get_module());
     }
 
 private:
@@ -62,7 +72,8 @@ private:
     void ensure_object_exists() {
         if (!package) {
             auto package_factory = internal::PackageFactory(
-                std::shared_ptr<internal::IChecksumFactory>(new internal::ChecksumFactory())); 
+                std::shared_ptr<internal::IChecksumFactory>(new internal::ChecksumFactory()),
+                std::shared_ptr<internal::IModuleFactory>(new internal::ModuleFactory())); 
             factory_package = package_factory.create();
             init(factory_package.get());
         }
@@ -71,6 +82,7 @@ private:
     internal::IPackage * package;
     std::unique_ptr<internal::IPackage> factory_package;
     Checksum checksum;
+    Module module;
 };
 
 }

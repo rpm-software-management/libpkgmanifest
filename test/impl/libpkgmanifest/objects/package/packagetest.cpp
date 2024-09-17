@@ -1,4 +1,5 @@
 #include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
 
 #include "libpkgmanifest/objects/package/package.hpp"
 
@@ -37,6 +38,10 @@ TEST(PackageTest, DefaultNevraIsEmpty) {
 
 TEST(PackageTest, DefaultSrpmIsEmpty) {
     EXPECT_EQ(std::string(), Package().get_srpm());
+}
+
+TEST(PackageTest, DefaultModuleIsNull) {
+    EXPECT_EQ(nullptr, &Package().get_module());
 }
 
 TEST(PackageTest, SetArchIsReturned) {
@@ -88,12 +93,31 @@ TEST(PackageTest, SetSrpmIsReturned) {
     EXPECT_EQ("srpm", package.get_srpm());
 }
 
+TEST(PackageTest, SetModuleObjectIsReturned) {
+    auto module = std::make_unique<NiceMock<ModuleMock>>();
+    auto module_ptr = module.get();
+
+    Package package;
+    package.set_module(std::move(module));
+
+    EXPECT_EQ(module_ptr, &package.get_module());
+
+    const auto & const_package = package;
+    EXPECT_EQ(module_ptr, &const_package.get_module());
+}
+
 TEST(PackageTest, ClonedObjectHasSameValuesAsOriginal) {
     auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
     auto cloned_checksum = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum, get_digest()).WillOnce(Return("same_digest"));
     EXPECT_CALL(*cloned_checksum, get_digest()).WillOnce(Return("same_digest"));
     EXPECT_CALL(*checksum, clone()).WillOnce(Return(std::move(cloned_checksum)));
+
+    auto module = std::make_unique<NiceMock<ModuleMock>>();
+    auto cloned_module = std::make_unique<NiceMock<ModuleMock>>();
+    EXPECT_CALL(*module, get_name()).WillOnce(Return("same_name"));
+    EXPECT_CALL(*cloned_module, get_name()).WillOnce(Return("same_name"));
+    EXPECT_CALL(*module, clone()).WillOnce(Return(std::move(cloned_module)));
 
     Package package;
     package.set_arch("x86_64");
@@ -103,6 +127,7 @@ TEST(PackageTest, ClonedObjectHasSameValuesAsOriginal) {
     package.set_nevra("NEVRA");
     package.set_srpm("source-rpm-name");
     package.set_checksum(std::move(checksum));
+    package.set_module(std::move(module));
 
     auto clone(package.clone());
     EXPECT_EQ(package.get_arch(), clone->get_arch());
@@ -112,6 +137,7 @@ TEST(PackageTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(package.get_nevra(), clone->get_nevra());
     EXPECT_EQ(package.get_srpm(), clone->get_srpm());
     EXPECT_EQ(package.get_checksum().get_digest(), clone->get_checksum().get_digest());
+    EXPECT_EQ(package.get_module().get_name(), clone->get_module().get_name());
 }
 
 }

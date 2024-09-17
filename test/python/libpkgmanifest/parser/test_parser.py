@@ -25,6 +25,8 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual(152384, package1.size)
         self.assertEqual('nevra1', package1.nevra)
         self.assertEqual('srpm1', package1.srpm)
+        self.assertEqual('name1', package1.module.name)
+        self.assertEqual('stream1', package1.module.stream)
 
         package2 = packages['i686'][1]
         self.assertEqual('i686', package2.arch)
@@ -35,6 +37,8 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual(378124894, package2.size)
         self.assertEqual('nevra2', package2.nevra)
         self.assertEqual('srpm2', package2.srpm)
+        self.assertEqual('name2', package2.module.name)
+        self.assertEqual('stream2', package2.module.stream)
 
         package3 = packages['src'][0]
         self.assertEqual('src', package3.arch)
@@ -45,6 +49,8 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual(97643154, package3.size)
         self.assertEqual('nevra3', package3.nevra)
         self.assertEqual('srpm3', package3.srpm)
+        self.assertEqual('name3', package3.module.name)
+        self.assertEqual('stream3', package3.module.stream)
 
     def test_modify_parsed_object(self):
         manifest = libpkgmanifest.Parser().parse(self.test_file)

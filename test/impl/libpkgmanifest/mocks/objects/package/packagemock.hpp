@@ -17,6 +17,8 @@ public:
     MOCK_METHOD(uint64_t, get_size, (), (const, override));
     MOCK_METHOD(std::string, get_nevra, (), (const, override));
     MOCK_METHOD(std::string, get_srpm, (), (const, override));
+    MOCK_METHOD(const IModule &, get_module, (), (const, override));
+    MOCK_METHOD(IModule &, get_module, (), (override));
     MOCK_METHOD(void, set_arch, (const std::string &), (override));
     MOCK_METHOD(void, set_repo_id, (const std::string &), (override));
     MOCK_METHOD(void, set_url, (const std::string &), (override));
@@ -24,6 +26,7 @@ public:
     MOCK_METHOD(void, set_size, (uint64_t), (override));
     MOCK_METHOD(void, set_nevra, (const std::string &), (override));
     MOCK_METHOD(void, set_srpm, (const std::string &), (override));
+    MOCK_METHOD(void, set_module, (std::unique_ptr<IModule>), (override));
 };
 
 }

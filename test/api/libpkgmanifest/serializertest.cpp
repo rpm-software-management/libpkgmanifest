@@ -37,19 +37,22 @@ data:
         size: 152384
         nevra: nevra1
         srpm: srpm1
+        module: name1:stream1
       - repoid: repo2
         url: url2
         checksum: md5:fedcba
         size: 378124894
         nevra: nevra2
         srpm: srpm2
+        module: name2:stream2
     src:
       - repoid: repo3
         url: http://some.server.org/folder/nevra3.rpm
         checksum: sha256:qpwoeiru
         size: 97643154
         nevra: nevra3
-        srpm: srpm3)";
+        srpm: srpm3
+        module: name3:stream3)";
 
     Package package1;
     package1.set_arch("i686");
@@ -60,6 +63,8 @@ data:
     package1.set_size(152384);
     package1.set_nevra("nevra1");
     package1.set_srpm("srpm1");
+    package1.get_module().set_name("name1");
+    package1.get_module().set_stream("stream1");
 
     Package package2;
     package2.set_arch("i686");
@@ -70,6 +75,8 @@ data:
     package2.set_size(378124894);
     package2.set_nevra("nevra2");
     package2.set_srpm("srpm2");
+    package2.get_module().set_name("name2");
+    package2.get_module().set_stream("stream2");
 
     Package package3;
     package3.set_arch("src");
@@ -80,6 +87,8 @@ data:
     package3.set_size(97643154);
     package3.set_nevra("nevra3");
     package3.set_srpm("srpm3");
+    package3.get_module().set_name("name3");
+    package3.get_module().set_stream("stream3");
 
     Manifest manifest;
     manifest.set_document("my-manifest");

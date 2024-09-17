@@ -42,7 +42,8 @@
                                     "checksum",
                                     "size",
                                     "nevra",
-                                    "srpm"
+                                    "srpm",
+                                    "module"
                                 ],
                                 "properties": {
                                     "repoid": {
@@ -73,6 +74,11 @@
                                         "type": "string",
                                         "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
                                         "description": "NEVRA of the source package."
+                                    },
+                                    "module": {
+                                        "type": "string",
+                                        "pattern": "^(.+):(.+)$",
+                                        "description": "The modular information about the package in the format <name>:<stream>."
                                     }
                                 }
                             }

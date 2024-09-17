@@ -9,7 +9,8 @@ Package::Package()
     , checksum(nullptr)
     , size(0)
     , nevra()
-    , srpm() {}
+    , srpm()
+    , module(nullptr) {}
 
 Package::Package(const Package & other) 
     : arch(other.arch)
@@ -18,7 +19,8 @@ Package::Package(const Package & other)
     , checksum(other.checksum->clone())
     , size(other.size)
     , nevra(other.nevra)
-    , srpm(other.srpm) {}
+    , srpm(other.srpm)
+    , module(other.module->clone()) {}
 
 std::unique_ptr<IPackage> Package::clone() const {
     return std::unique_ptr<IPackage>(new Package(*this));
@@ -42,6 +44,14 @@ const IChecksum & Package::get_checksum() const {
 
 IChecksum & Package::get_checksum() {
     return *checksum;
+}
+
+const IModule & Package::get_module() const {
+    return *module;
+}
+
+IModule & Package::get_module() {
+    return *module;
 }
 
 uint64_t Package::get_size() const {
@@ -82,6 +92,10 @@ void Package::set_nevra(const std::string & nevra) {
 
 void Package::set_srpm(const std::string & srpm) {
     this->srpm = srpm;
+}
+
+void Package::set_module(std::unique_ptr<IModule> module) {
+    this->module = std::move(module);
 }
 
 }

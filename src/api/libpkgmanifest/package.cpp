@@ -53,6 +53,10 @@ std::string Package::get_srpm() const {
     return p_impl->get()->get_srpm();
 }
 
+Module & Package::get_module() {
+    return p_impl->get_module();
+}
+
 void Package::set_arch(const std::string & arch) {
     p_impl->get()->set_arch(arch);
 }
@@ -80,6 +84,11 @@ void Package::set_nevra(const std::string & nevra) {
 
 void Package::set_srpm(const std::string & srpm) {
     p_impl->get()->set_srpm(srpm);
+}
+
+void Package::set_module(Module & module) {
+    p_impl->get()->set_module(module.p_impl->get_factory_object());
+    p_impl->get_module().p_impl->init(&p_impl->get()->get_module());
 }
 
 }

@@ -2,6 +2,7 @@
 #include "serializer.hpp"
 
 #include "libpkgmanifest/objects/checksum/checksumserializer.hpp"
+#include "libpkgmanifest/objects/module/moduleserializer.hpp"
 #include "libpkgmanifest/objects/package/packageserializer.hpp"
 #include "libpkgmanifest/objects/packages/packagesserializer.hpp"
 #include "libpkgmanifest/objects/manifest/manifestserializer.hpp"
@@ -15,7 +16,14 @@ std::unique_ptr<ISerializer> SerializerFactory::create() const {
     auto node_factory = std::make_shared<YamlNodeFactory>();
 
     auto checksum_serializer = std::make_unique<ChecksumSerializer>(node_factory);
-    auto package_serializer = std::make_unique<PackageSerializer>(node_factory, std::move(checksum_serializer));
+    auto module_serializer = std::make_unique<ModuleSerializer>(node_factory);
+
+    auto package_serializer = std::make_unique<PackageSerializer>(
+        node_factory, 
+        std::move(checksum_serializer), 
+        std::move(module_serializer)
+    );
+
     auto packages_serializer = std::make_unique<PackagesSerializer>(node_factory, std::move(package_serializer));
     auto version_serializer = std::make_unique<VersionSerializer>(node_factory);
 

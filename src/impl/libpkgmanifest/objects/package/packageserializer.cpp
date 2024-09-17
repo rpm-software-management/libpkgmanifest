@@ -4,9 +4,11 @@ namespace libpkgmanifest::internal {
 
 PackageSerializer::PackageSerializer(
     std::shared_ptr<IYamlNodeFactory> node_factory,
-    std::unique_ptr<IChecksumSerializer> checksum_serializer)
+    std::unique_ptr<IChecksumSerializer> checksum_serializer,
+    std::unique_ptr<IModuleSerializer> module_serializer)
     : node_factory(node_factory)
-    , checksum_serializer(std::move(checksum_serializer)) {}
+    , checksum_serializer(std::move(checksum_serializer))
+    , module_serializer(std::move(module_serializer)) {}
 
 std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package) const {
     auto node = node_factory->create();
@@ -28,12 +30,15 @@ std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package
     auto srpm_node = node_factory->create();
     srpm_node->set(package.get_srpm());
 
+    auto module_node = module_serializer->serialize(package.get_module());
+
     node->insert("repoid", std::move(repoid_node));
     node->insert("url", std::move(url_node));
     node->insert("checksum", std::move(checksum_node));
     node->insert("size", std::move(size_node));
     node->insert("nevra", std::move(nevra_node));
     node->insert("srpm", std::move(srpm_node));
+    node->insert("module", std::move(module_node));
 
     return node;
 }
