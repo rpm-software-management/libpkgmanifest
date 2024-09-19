@@ -28,7 +28,7 @@ std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & Packages::get() 
 }
 
 void Packages::add(std::unique_ptr<IPackage> package) {
-    packages[package->get_arch()].push_back(std::move(package));
+    packages[package->get_nevra().get_arch()].push_back(std::move(package));
 }
 
 }

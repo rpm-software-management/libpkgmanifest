@@ -3,13 +3,16 @@
 #include "libpkgmanifest/package.hpp"
 #include "libpkgmanifest/checksum.hpp"
 #include "libpkgmanifest/module.hpp"
+#include "libpkgmanifest/nevra.hpp"
 
 #include "libpkgmanifest/objects/checksum/checksumfactory.hpp"
 #include "libpkgmanifest/objects/module/modulefactory.hpp"
+#include "libpkgmanifest/objects/nevra/nevrafactory.hpp"
 #include "libpkgmanifest/objects/package/packagefactory.hpp"
 
 #include "checksum_impl.hpp"
 #include "module_impl.hpp"
+#include "nevra_impl.hpp"
 
 namespace libpkgmanifest {
 
@@ -19,6 +22,8 @@ public:
         : package(nullptr)
         , factory_package(nullptr)
         , checksum()
+        , nevra()
+        , srpm()
         , module() {}
 
     Impl(const Impl & other) {
@@ -48,6 +53,16 @@ public:
         return checksum;
     }
 
+    Nevra & get_nevra() {
+        ensure_object_exists();
+        return nevra;
+    }
+
+    Nevra & get_srpm() {
+        ensure_object_exists();
+        return srpm;
+    }
+
     Module & get_module() {
         ensure_object_exists();
         return module;
@@ -56,6 +71,8 @@ public:
     void init(internal::IPackage * package) {
         this->package = package;
         checksum.p_impl->init(&package->get_checksum());
+        nevra.p_impl->init(&package->get_nevra());
+        srpm.p_impl->init(&package->get_srpm());
         module.p_impl->init(&package->get_module());
     }
 
@@ -73,6 +90,7 @@ private:
         if (!package) {
             auto package_factory = internal::PackageFactory(
                 std::shared_ptr<internal::IChecksumFactory>(new internal::ChecksumFactory()),
+                std::shared_ptr<internal::INevraFactory>(new internal::NevraFactory()),
                 std::shared_ptr<internal::IModuleFactory>(new internal::ModuleFactory())); 
             factory_package = package_factory.create();
             init(factory_package.get());
@@ -82,6 +100,8 @@ private:
     internal::IPackage * package;
     std::unique_ptr<internal::IPackage> factory_package;
     Checksum checksum;
+    Nevra nevra;
+    Nevra srpm;
     Module module;
 };
 

@@ -5,6 +5,8 @@
 #include "libpkgmanifest/objects/checksum/checksumparser.hpp"
 #include "libpkgmanifest/objects/module/modulefactory.hpp"
 #include "libpkgmanifest/objects/module/moduleparser.hpp"
+#include "libpkgmanifest/objects/nevra/nevrafactory.hpp"
+#include "libpkgmanifest/objects/nevra/nevraparser.hpp"
 #include "libpkgmanifest/objects/package/packagefactory.hpp"
 #include "libpkgmanifest/objects/package/packageparser.hpp"
 #include "libpkgmanifest/objects/packages/packagesfactory.hpp"
@@ -24,12 +26,16 @@ std::unique_ptr<IParser> ParserFactory::create() const {
     auto checksum_factory = std::make_shared<ChecksumFactory>();
     auto checksum_parser = std::make_unique<ChecksumParser>(checksum_factory, string_splitter);
 
+    auto nevra_factory = std::make_shared<NevraFactory>();
+    auto nevra_parser = std::make_unique<NevraParser>(nevra_factory);
+
     auto module_factory = std::make_shared<ModuleFactory>();
     auto module_parser = std::make_unique<ModuleParser>(module_factory, string_splitter);
 
-    auto package_factory = std::make_shared<PackageFactory>(checksum_factory, module_factory);
+    auto package_factory = std::make_shared<PackageFactory>(checksum_factory, nevra_factory, module_factory);
     auto package_parser = std::make_unique<PackageParser>(
         std::move(checksum_parser),
+        std::move(nevra_parser),
         std::move(module_parser),
         std::move(package_factory)
     );

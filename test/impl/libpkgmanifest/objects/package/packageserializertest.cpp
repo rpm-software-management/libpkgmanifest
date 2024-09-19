@@ -2,6 +2,7 @@
 #include "libpkgmanifest/mocks/objects/checksum/checksumserializermock.hpp"
 #include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
 #include "libpkgmanifest/mocks/objects/module/moduleserializermock.hpp"
+#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
 #include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
 #include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
@@ -48,6 +49,8 @@ protected:
         
         EXPECT_CALL(Const(package), get_checksum()).WillOnce(ReturnPointee(&checksum));
         EXPECT_CALL(Const(package), get_module()).WillOnce(ReturnPointee(&module));
+        EXPECT_CALL(Const(package), get_nevra()).WillRepeatedly(ReturnPointee(&nevra));
+        EXPECT_CALL(Const(package), get_srpm()).WillOnce(ReturnPointee(&srpm));
 
         serializer = std::make_unique<PackageSerializer>(
             node_factory, 
@@ -58,6 +61,8 @@ protected:
     NiceMock<PackageMock> package;
     NiceMock<ChecksumMock> checksum;
     NiceMock<ModuleMock> module;
+    NiceMock<NevraMock> nevra;
+    NiceMock<NevraMock> srpm;
     NiceMock<YamlNodeInternalMock> * node_ptr;
     NiceMock<ChecksumSerializerMock> * checksum_serializer_ptr;
     NiceMock<ModuleSerializerMock> * module_serializer_ptr;
@@ -121,30 +126,42 @@ TEST_F(PackageSerializerTest, SerializerSetsSizeAsUInt64ToYamlNode) {
     serializer->serialize(package);
 }
 
-TEST_F(PackageSerializerTest, SerializerSetsNevraAsStringToYamlNode) {
-    EXPECT_CALL(package, get_nevra()).WillOnce(Return("a-1.0-1.fc40.x86_64"));
+TEST_F(PackageSerializerTest, SerializerSetsNameFromNevraObjectAsStringToYamlNode) {
+    EXPECT_CALL(nevra, get_name()).WillOnce(Return("package"));
 
-    EXPECT_CALL(*node_ptr, insert("nevra", _)).WillOnce(
+    EXPECT_CALL(*node_ptr, insert("name", _)).WillOnce(
     [](const std::string &, std::unique_ptr<IYamlNode> node) {
-        EXPECT_EQ("a-1.0-1.fc40.x86_64", node->as_string());
+        EXPECT_EQ("package", node->as_string());
     });
 
     serializer->serialize(package);
 }
 
-TEST_F(PackageSerializerTest, SerializerSetsSrpmAsStringToYamlNode) {
-    EXPECT_CALL(package, get_srpm()).WillOnce(Return("a-1.0-1.fc40.src"));
+TEST_F(PackageSerializerTest, SerializerSetsEpochVersionReleaseFromNevraToEvrString) {
+    EXPECT_CALL(nevra, to_evr_string()).WillOnce(Return("evr-string"));
+
+    EXPECT_CALL(*node_ptr, insert("evr", _)).WillOnce(
+    [](const std::string &, std::unique_ptr<IYamlNode> node) {
+        EXPECT_EQ("evr-string", node->as_string());
+    });
+
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerSetsSrpmNEVRAFromToString) {
+    EXPECT_CALL(srpm, get_name()).WillOnce(Return("package"));
+    EXPECT_CALL(srpm, to_string()).WillOnce(Return("src-nevra"));
 
     EXPECT_CALL(*node_ptr, insert("srpm", _)).WillOnce(
     [](const std::string &, std::unique_ptr<IYamlNode> node) {
-        EXPECT_EQ("a-1.0-1.fc40.src", node->as_string());
+        EXPECT_EQ("src-nevra", node->as_string());
     });
 
     serializer->serialize(package);
 }
 
 TEST_F(PackageSerializerTest, SerializerDoesNotSetSrpmIfEmpty) {
-    EXPECT_CALL(package, get_srpm()).WillOnce(Return(""));
+    EXPECT_CALL(srpm, get_name()).WillOnce(Return(""));
     EXPECT_CALL(*node_ptr, insert("srpm", _)).Times(0);
 
     serializer->serialize(package);

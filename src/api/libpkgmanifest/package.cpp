@@ -25,10 +25,6 @@ Package & Package::operator=(const Package & other) {
 Package::Package(Package && other) noexcept = default;
 Package & Package::operator=(Package && other) noexcept = default;
 
-std::string Package::get_arch() const {
-    return p_impl->get()->get_arch();
-}
-
 std::string Package::get_repo_id() const {
     return p_impl->get()->get_repo_id();
 }
@@ -37,28 +33,24 @@ std::string Package::get_url() const {
     return p_impl->get()->get_url();
 }
 
-Checksum & Package::get_checksum() {
-    return p_impl->get_checksum();
-}
-
 uint64_t Package::get_size() const {
     return p_impl->get()->get_size();
 }
 
-std::string Package::get_nevra() const {
-    return p_impl->get()->get_nevra();
+Checksum & Package::get_checksum() {
+    return p_impl->get_checksum();
 }
 
-std::string Package::get_srpm() const {
-    return p_impl->get()->get_srpm();
+Nevra & Package::get_nevra() {
+    return p_impl->get_nevra();
+}
+
+Nevra & Package::get_srpm() {
+    return p_impl->get_srpm();
 }
 
 Module & Package::get_module() {
     return p_impl->get_module();
-}
-
-void Package::set_arch(const std::string & arch) {
-    p_impl->get()->set_arch(arch);
 }
 
 void Package::set_repo_id(const std::string & repo_id) {
@@ -69,21 +61,23 @@ void Package::set_url(const std::string & url) {
     p_impl->get()->set_url(url);
 }
 
+void Package::set_size(uint64_t size) {
+    p_impl->get()->set_size(size);
+}
+
 void Package::set_checksum(Checksum & checksum) {
     p_impl->get()->set_checksum(checksum.p_impl->get_factory_object());
     p_impl->get_checksum().p_impl->init(&p_impl->get()->get_checksum());
 }
 
-void Package::set_size(uint64_t size) {
-    p_impl->get()->set_size(size);
+void Package::set_nevra(Nevra & nevra) {
+    p_impl->get()->set_nevra(nevra.p_impl->get_factory_object());
+    p_impl->get_nevra().p_impl->init(&p_impl->get()->get_nevra());
 }
 
-void Package::set_nevra(const std::string & nevra) {
-    p_impl->get()->set_nevra(nevra);
-}
-
-void Package::set_srpm(const std::string & srpm) {
-    p_impl->get()->set_srpm(srpm);
+void Package::set_srpm(Nevra & srpm) {
+    p_impl->get()->set_srpm(srpm.p_impl->get_factory_object());
+    p_impl->get_srpm().p_impl->init(&p_impl->get()->get_srpm());
 }
 
 void Package::set_module(Module & module) {

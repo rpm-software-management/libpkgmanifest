@@ -2,6 +2,8 @@
 #include "libpkgmanifest/mocks/objects/checksum/checksumparsermock.hpp"
 #include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
 #include "libpkgmanifest/mocks/objects/module/moduleparsermock.hpp"
+#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "libpkgmanifest/mocks/objects/nevra/nevraparsermock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagefactorymock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
 #include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
@@ -35,6 +37,9 @@ protected:
         auto checksum_parser_wrapper = std::make_unique<NiceMock<ChecksumParserMock>>();
         checksum_parser = checksum_parser_wrapper.get();
 
+        auto nevra_parser_wrapper = std::make_unique<NiceMock<NevraParserMock>>();
+        nevra_parser = nevra_parser_wrapper.get();
+
         auto module_parser_wrapper = std::make_unique<NiceMock<ModuleParserMock>>();
         module_parser = module_parser_wrapper.get();
 
@@ -46,23 +51,20 @@ protected:
 
         parser = std::make_unique<PackageParser>(
             std::move(checksum_parser_wrapper),
+            std::move(nevra_parser_wrapper),
             std::move(module_parser_wrapper),
             package_factory_wrapper
         );
     }
 
     NiceMock<ChecksumParserMock> * checksum_parser;
+    NiceMock<NevraParserMock> * nevra_parser;
     NiceMock<ModuleParserMock> * module_parser;
     NiceMock<PackageMock> * package_ptr;
     NiceMock<YamlNodeMock> yaml_node;
 
     std::unique_ptr<PackageParser> parser;
 };
-
-TEST_F(PackageParserTest, ParserSetsArchFromArgument) {
-    EXPECT_CALL(*package_ptr, set_arch("x86_64"));
-    parser->parse("x86_64", yaml_node);
-}
 
 TEST_F(PackageParserTest, ParserSetsRepoIdFromYamlNode) {
     auto repoid_node = std::make_unique<NiceMock<YamlNodeMock>>();
@@ -100,18 +102,6 @@ TEST_F(PackageParserTest, ParserDoesNotSetUrlIfNotProvided) {
     parser->parse("arch", yaml_node);
 }
 
-TEST_F(PackageParserTest, ParserSetsChecksumFromChecksumParser) {
-    auto checksum_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto checksum_node_ptr = checksum_node.get();
-    auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
-    auto checksum_ptr = checksum.get();
-
-    EXPECT_CALL(yaml_node, get("checksum")).WillOnce(Return(std::move(checksum_node)));
-    EXPECT_CALL(*checksum_parser, parse(Ref(*checksum_node_ptr))).WillOnce(Return(std::move(checksum)));
-    EXPECT_CALL(*package_ptr, set_checksum(Pointer(checksum_ptr)));
-    parser->parse("arch", yaml_node);
-}
-
 TEST_F(PackageParserTest, ParserSetsSizeFromYamlNode) {
     auto size_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto size_node_ptr = size_node.get();
@@ -122,31 +112,15 @@ TEST_F(PackageParserTest, ParserSetsSizeFromYamlNode) {
     parser->parse("arch", yaml_node);
 }
 
-TEST_F(PackageParserTest, ParserSetsNevraFromYamlNode) {
-    auto nevra_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto nevra_node_ptr = nevra_node.get();
-    
-    EXPECT_CALL(yaml_node, get("nevra")).WillOnce(Return(std::move(nevra_node)));
-    EXPECT_CALL(*nevra_node_ptr, as_string()).WillOnce(Return("nevra"));
-    EXPECT_CALL(*package_ptr, set_nevra("nevra"));
-    parser->parse("arch", yaml_node);
-}
+TEST_F(PackageParserTest, ParserSetsChecksumFromChecksumParser) {
+    auto checksum_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto checksum_node_ptr = checksum_node.get();
+    auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    auto checksum_ptr = checksum.get();
 
-TEST_F(PackageParserTest, ParserSetsSrpmFromYamlNode) {
-    auto srpm_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto srpm_node_ptr = srpm_node.get();
-    
-    EXPECT_CALL(yaml_node, has("srpm")).WillOnce(Return(true));
-    EXPECT_CALL(yaml_node, get("srpm")).WillOnce(Return(std::move(srpm_node)));
-    EXPECT_CALL(*srpm_node_ptr, as_string()).WillOnce(Return("pkg-1.0.0"));
-    EXPECT_CALL(*package_ptr, set_srpm("pkg-1.0.0"));
-    parser->parse("arch", yaml_node);
-}
-
-TEST_F(PackageParserTest, ParserDoesNotSetSrpmIfNotProvided) {
-    EXPECT_CALL(yaml_node, has("srpm")).WillOnce(Return(false));
-    EXPECT_CALL(yaml_node, get("srpm")).Times(0);
-    EXPECT_CALL(*package_ptr, set_srpm(_)).Times(0);
+    EXPECT_CALL(yaml_node, get("checksum")).WillOnce(Return(std::move(checksum_node)));
+    EXPECT_CALL(*checksum_parser, parse(Ref(*checksum_node_ptr))).WillOnce(Return(std::move(checksum)));
+    EXPECT_CALL(*package_ptr, set_checksum(Pointer(checksum_ptr)));
     parser->parse("arch", yaml_node);
 }
 
@@ -167,6 +141,42 @@ TEST_F(PackageParserTest, ParserDoesNotSetModuleIfNotProvided) {
     EXPECT_CALL(yaml_node, has("module")).WillOnce(Return(false));
     EXPECT_CALL(yaml_node, get("module")).Times(0);
     EXPECT_CALL(*package_ptr, set_module(_)).Times(0);
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserSetsNevraFromNevraParserAndNameArchFields) {
+    auto evr_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto evr_node_ptr = evr_node.get();
+    auto name_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto name_node_ptr = name_node.get();
+    auto nevra = std::make_unique<NiceMock<NevraMock>>();
+    auto nevra_ptr = nevra.get();
+
+    EXPECT_CALL(yaml_node, get("evr")).WillOnce(Return(std::move(evr_node)));
+    EXPECT_CALL(yaml_node, get("name")).WillOnce(Return(std::move(name_node)));
+    EXPECT_CALL(*name_node_ptr, as_string()).WillOnce(Return("pkg"));
+    EXPECT_CALL(*nevra_parser, parse("pkg", "x86_64", Ref(*evr_node_ptr))).WillOnce(Return(std::move(nevra)));
+    EXPECT_CALL(*package_ptr, set_nevra(Pointer(nevra_ptr)));
+    parser->parse("x86_64", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserSetsSrpmFromNevraParser) {
+    auto srpm_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto srpm_node_ptr = srpm_node.get();
+    auto srpm = std::make_unique<NiceMock<NevraMock>>();
+    auto srpm_ptr = srpm.get();
+
+    EXPECT_CALL(yaml_node, has("srpm")).WillOnce(Return(true));
+    EXPECT_CALL(yaml_node, get("srpm")).WillOnce(Return(std::move(srpm_node)));
+    EXPECT_CALL(*nevra_parser, parse(Ref(*srpm_node_ptr))).WillOnce(Return(std::move(srpm)));
+    EXPECT_CALL(*package_ptr, set_srpm(Pointer(srpm_ptr)));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetSrpmIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("srpm")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("srpm")).Times(0);
+    EXPECT_CALL(*package_ptr, set_srpm(_)).Times(0);
     parser->parse("arch", yaml_node);
 }
 

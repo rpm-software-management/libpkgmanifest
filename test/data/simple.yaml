@@ -3,18 +3,21 @@ version: 1.2.3
 data:
     packages:
         i686:
-            - repoid: repo1
+            - name: package1
+              repoid: repo1
               checksum: sha512:abcdef
               size: 152384
-              nevra: nevra1
-              srpm: srpm1
-            - url: http://some.server.org/folder/nevra2.rpm
+              evr: 1.2.3-1.r1
+              srpm: package1-1.2.3-1.r1.src
+            - name: package2
+              url: http://some.server.org/folder/nevra2.rpm
               checksum: md5:fedcba
               size: 378124894
-              nevra: nevra2
+              evr: 3:4.5.6-2.r2
               module: name2:stream2
         src:
-            - repoid: repo3
+            - name: package3
+              repoid: repo3
               checksum: SHA256:qpwoeiru
               size: 97643154
-              nevra: nevra3
+              evr: 9.9-1.r3
