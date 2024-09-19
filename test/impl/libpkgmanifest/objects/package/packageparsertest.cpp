@@ -41,7 +41,9 @@ protected:
         EXPECT_CALL(yaml_node, get(_))
             .Times(AnyNumber())
             .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
-        
+
+        EXPECT_CALL(yaml_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
+
         parser = std::make_unique<PackageParser>(
             std::move(checksum_parser_wrapper),
             std::move(module_parser_wrapper),
@@ -66,9 +68,17 @@ TEST_F(PackageParserTest, ParserSetsRepoIdFromYamlNode) {
     auto repoid_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto repoid_node_ptr = repoid_node.get();
     
+    EXPECT_CALL(yaml_node, has("repoid")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("repoid")).WillOnce(Return(std::move(repoid_node)));
     EXPECT_CALL(*repoid_node_ptr, as_string()).WillOnce(Return("id"));
     EXPECT_CALL(*package_ptr, set_repo_id("id"));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetRepoIdIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("repoid")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("repoid")).Times(0);
+    EXPECT_CALL(*package_ptr, set_repo_id(_)).Times(0);
     parser->parse("arch", yaml_node);
 }
 
@@ -76,9 +86,17 @@ TEST_F(PackageParserTest, ParserSetsUrlFromYamlNode) {
     auto url_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto url_node_ptr = url_node.get();
     
+    EXPECT_CALL(yaml_node, has("url")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("url")).WillOnce(Return(std::move(url_node)));
     EXPECT_CALL(*url_node_ptr, as_string()).WillOnce(Return("url"));
     EXPECT_CALL(*package_ptr, set_url("url"));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetUrlIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("url")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("url")).Times(0);
+    EXPECT_CALL(*package_ptr, set_url(_)).Times(0);
     parser->parse("arch", yaml_node);
 }
 
@@ -118,9 +136,17 @@ TEST_F(PackageParserTest, ParserSetsSrpmFromYamlNode) {
     auto srpm_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto srpm_node_ptr = srpm_node.get();
     
+    EXPECT_CALL(yaml_node, has("srpm")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("srpm")).WillOnce(Return(std::move(srpm_node)));
     EXPECT_CALL(*srpm_node_ptr, as_string()).WillOnce(Return("pkg-1.0.0"));
     EXPECT_CALL(*package_ptr, set_srpm("pkg-1.0.0"));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetSrpmIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("srpm")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("srpm")).Times(0);
+    EXPECT_CALL(*package_ptr, set_srpm(_)).Times(0);
     parser->parse("arch", yaml_node);
 }
 
@@ -130,9 +156,17 @@ TEST_F(PackageParserTest, ParserSetsModuleFromModuleParser) {
     auto module = std::make_unique<NiceMock<ModuleMock>>();
     auto module_ptr = module.get();
 
+    EXPECT_CALL(yaml_node, has("module")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("module")).WillOnce(Return(std::move(module_node)));
     EXPECT_CALL(*module_parser, parse(Ref(*module_node_ptr))).WillOnce(Return(std::move(module)));
     EXPECT_CALL(*package_ptr, set_module(Pointer(module_ptr)));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetModuleIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("module")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("module")).Times(0);
+    EXPECT_CALL(*package_ptr, set_module(_)).Times(0);
     parser->parse("arch", yaml_node);
 }
 

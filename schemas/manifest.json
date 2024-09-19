@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "RPM Package Manifest Schema",
-    "schemaVersion": "0.0.2",
+    "schemaVersion": "0.0.3",
     "description": "Schema for RPM manifest files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
     "type": "object",
     "required": [
@@ -37,13 +37,13 @@
                             "items": {
                                 "type": "object",
                                 "required": [
-                                    "repoid",
-                                    "url",
                                     "checksum",
                                     "size",
-                                    "nevra",
-                                    "srpm",
-                                    "module"
+                                    "nevra"
+                                ],
+                                "anyOf": [
+                                    { "required": ["repoid"] },
+                                    { "required": ["url"] }
                                 ],
                                 "properties": {
                                     "repoid": {
@@ -53,11 +53,11 @@
                                     "url": {
                                         "type": "string",
                                         "format": "uri",
-                                        "description": "It may be an empty string for packages from official repositories, but must be provided for packages hosted by 3rd party sources."
+                                        "description": "The URL where the package can be downloaded. This is optional for packages from official repositories but must be provided for packages from third-party sources for full identification."
                                     },
                                     "checksum": {
                                         "type": "string",
-                                        "pattern": "^(sha256|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
+                                        "pattern": "^(sha1|sha224|sha256|sha384|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
                                         "description": "The checksum of the package in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits). Only lowercase letters are supported."
                                     },
                                     "size": {
@@ -73,7 +73,7 @@
                                     "srpm": {
                                         "type": "string",
                                         "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
-                                        "description": "NEVRA of the source package."
+                                        "description": "The Name, Epoch, Version, Release, and Architecture (NEVRA) of the source package used to build this package."
                                     },
                                     "module": {
                                         "type": "string",
