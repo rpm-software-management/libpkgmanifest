@@ -75,6 +75,13 @@ TEST_F(PackageSerializerTest, SerializerSetsRepoIdAsStringToYamlNode) {
     serializer->serialize(package);
 }
 
+TEST_F(PackageSerializerTest, SerializerDoesNotSetRepoIdIfEmpty) {
+    EXPECT_CALL(package, get_repo_id()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("repoid", _)).Times(0);
+
+    serializer->serialize(package);
+}
+
 TEST_F(PackageSerializerTest, SerializerSetsUrlAsStringToYamlNode) {
     EXPECT_CALL(package, get_url()).WillOnce(Return("address"));
 
@@ -82,6 +89,13 @@ TEST_F(PackageSerializerTest, SerializerSetsUrlAsStringToYamlNode) {
     [](const std::string &, std::unique_ptr<IYamlNode> node) {
         EXPECT_EQ("address", node->as_string());
     });
+
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerDoesNotSetUrlIfEmpty) {
+    EXPECT_CALL(package, get_url()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("url", _)).Times(0);
 
     serializer->serialize(package);
 }
@@ -129,12 +143,28 @@ TEST_F(PackageSerializerTest, SerializerSetsSrpmAsStringToYamlNode) {
     serializer->serialize(package);
 }
 
+TEST_F(PackageSerializerTest, SerializerDoesNotSetSrpmIfEmpty) {
+    EXPECT_CALL(package, get_srpm()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("srpm", _)).Times(0);
+
+    serializer->serialize(package);
+}
+
 TEST_F(PackageSerializerTest, SerializerSetsModuleFromModuleSerializer) {
+    EXPECT_CALL(module, get_name()).WillOnce(Return("name"));
+
     auto module_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto module_node_ptr = module_node.get();
     EXPECT_CALL(*module_serializer_ptr, serialize(Ref(module))).WillOnce(Return(std::move(module_node)));
 
     EXPECT_CALL(*node_ptr, insert("module", Pointer(module_node_ptr)));
+
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerDoesNotSetModuleIfEmpty) {
+    EXPECT_CALL(module, get_name()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("module", _)).Times(0);
 
     serializer->serialize(package);
 }

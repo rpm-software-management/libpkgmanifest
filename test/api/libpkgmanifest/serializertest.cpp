@@ -32,63 +32,47 @@ data:
   packages:
     i686:
       - repoid: repo1
-        url: url1
         checksum: sha512:abcdef
         size: 152384
         nevra: nevra1
         srpm: srpm1
-        module: name1:stream1
-      - repoid: repo2
-        url: url2
+      - url: http://some.server.org/folder/nevra2.rpm
         checksum: md5:fedcba
         size: 378124894
         nevra: nevra2
-        srpm: srpm2
         module: name2:stream2
     src:
       - repoid: repo3
-        url: http://some.server.org/folder/nevra3.rpm
         checksum: sha256:qpwoeiru
         size: 97643154
-        nevra: nevra3
-        srpm: srpm3
-        module: name3:stream3)";
+        nevra: nevra3)";
 
     Package package1;
     package1.set_arch("i686");
     package1.set_repo_id("repo1");
-    package1.set_url("url1");
     package1.get_checksum().set_method(libpkgmanifest::ChecksumMethod::SHA512);
     package1.get_checksum().set_digest("abcdef");
     package1.set_size(152384);
     package1.set_nevra("nevra1");
     package1.set_srpm("srpm1");
-    package1.get_module().set_name("name1");
-    package1.get_module().set_stream("stream1");
 
     Package package2;
     package2.set_arch("i686");
-    package2.set_repo_id("repo2");
-    package2.set_url("url2");
+    package2.set_url("http://some.server.org/folder/nevra2.rpm");
     package2.get_checksum().set_method(libpkgmanifest::ChecksumMethod::MD5);
     package2.get_checksum().set_digest("fedcba");
     package2.set_size(378124894);
     package2.set_nevra("nevra2");
-    package2.set_srpm("srpm2");
     package2.get_module().set_name("name2");
     package2.get_module().set_stream("stream2");
 
     Package package3;
     package3.set_arch("src");
     package3.set_repo_id("repo3");
-    package3.set_url("http://some.server.org/folder/nevra3.rpm");
     package3.get_checksum().set_method(libpkgmanifest::ChecksumMethod::SHA256);
     package3.get_checksum().set_digest("qpwoeiru");
     package3.set_size(97643154);
     package3.set_nevra("nevra3");
-    package3.set_srpm("srpm3");
-    package3.get_module().set_name("name3");
-    package3.get_module().set_stream("stream3");
 
     Manifest manifest;
     manifest.set_document("my-manifest");
@@ -111,7 +95,7 @@ data:
 
 TEST_F(ApiSerializerTest, SerializeEmptyManifest) {
     const std::string empty_manifest_yaml = R"(document: rpm-package-manifest
-version: 0.0.2
+version: 0.0.3
 data:
   packages: ~)";
 

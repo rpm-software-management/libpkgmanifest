@@ -43,27 +43,20 @@ data:
   packages:
     i686:
       - repoid: repo1
-        url: url1
         checksum: sha512:abcdef
         size: 152384
         nevra: nevra1
         srpm: srpm1
-        module: name1:stream1
-      - repoid: repo2
-        url: url2
+      - url: http://some.server.org/folder/nevra2.rpm
         checksum: md5:fedcba
         size: 378124894
         nevra: nevra2
-        srpm: srpm2
         module: name2:stream2
     src:
       - repoid: repo3
-        url: http://some.server.org/folder/nevra3.rpm
         checksum: sha256:qpwoeiru
         size: 97643154
-        nevra: nevra3
-        srpm: srpm3
-        module: name3:stream3)";
+        nevra: nevra3)";
 
     NiceMock<VersionMock> version;
     EXPECT_CALL(version, get_major()).WillOnce(Return(1));
@@ -77,12 +70,11 @@ data:
 
     auto module1 = std::make_unique<NiceMock<ModuleMock>>();
     auto module1_ptr = module1.get();
-    EXPECT_CALL(*module1, get_name()).WillOnce(Return("name1"));
-    EXPECT_CALL(*module1, get_stream()).WillOnce(Return("stream1"));
+    EXPECT_CALL(*module1, get_name()).WillRepeatedly(Return("")); // TODO
 
     auto package1 = std::make_unique<NiceMock<PackageMock>>();
     EXPECT_CALL(*package1, get_repo_id()).WillOnce(Return("repo1"));
-    EXPECT_CALL(*package1, get_url()).WillOnce(Return("url1"));
+    EXPECT_CALL(*package1, get_url()).WillOnce(Return(""));
     EXPECT_CALL(Const(*package1), get_checksum()).WillOnce(ReturnPointee(checksum1_ptr));
     EXPECT_CALL(*package1, get_size()).WillOnce(Return(152384));
     EXPECT_CALL(*package1, get_nevra()).WillOnce(Return("nevra1"));
@@ -96,16 +88,16 @@ data:
 
     auto module2 = std::make_unique<NiceMock<ModuleMock>>();
     auto module2_ptr = module2.get();
-    EXPECT_CALL(*module2, get_name()).WillOnce(Return("name2"));
+    EXPECT_CALL(*module2, get_name()).WillRepeatedly(Return("name2"));
     EXPECT_CALL(*module2, get_stream()).WillOnce(Return("stream2"));
 
     auto package2 = std::make_unique<NiceMock<PackageMock>>();
-    EXPECT_CALL(*package2, get_repo_id()).WillOnce(Return("repo2"));
-    EXPECT_CALL(*package2, get_url()).WillOnce(Return("url2"));
+    EXPECT_CALL(*package2, get_repo_id()).WillOnce(Return(""));
+    EXPECT_CALL(*package2, get_url()).WillOnce(Return("http://some.server.org/folder/nevra2.rpm"));
     EXPECT_CALL(Const(*package2), get_checksum()).WillOnce(ReturnPointee(checksum2_ptr));
     EXPECT_CALL(*package2, get_size()).WillOnce(Return(378124894));
     EXPECT_CALL(*package2, get_nevra()).WillOnce(Return("nevra2"));
-    EXPECT_CALL(*package2, get_srpm()).WillOnce(Return("srpm2"));
+    EXPECT_CALL(*package2, get_srpm()).WillOnce(Return(""));
     EXPECT_CALL(Const(*package2), get_module()).WillOnce(ReturnPointee(module2_ptr));
 
     auto checksum3 = std::make_unique<NiceMock<ChecksumMock>>();
@@ -115,16 +107,15 @@ data:
 
     auto module3 = std::make_unique<NiceMock<ModuleMock>>();
     auto module3_ptr = module3.get();
-    EXPECT_CALL(*module3, get_name()).WillOnce(Return("name3"));
-    EXPECT_CALL(*module3, get_stream()).WillOnce(Return("stream3"));
+    EXPECT_CALL(*module3, get_name()).WillRepeatedly(Return(""));
 
     auto package3 = std::make_unique<NiceMock<PackageMock>>();
     EXPECT_CALL(*package3, get_repo_id()).WillOnce(Return("repo3"));
-    EXPECT_CALL(*package3, get_url()).WillOnce(Return("http://some.server.org/folder/nevra3.rpm"));
+    EXPECT_CALL(*package3, get_url()).WillOnce(Return(""));
     EXPECT_CALL(Const(*package3), get_checksum()).WillOnce(ReturnPointee(checksum3_ptr));
     EXPECT_CALL(*package3, get_size()).WillOnce(Return(97643154));
     EXPECT_CALL(*package3, get_nevra()).WillOnce(Return("nevra3"));
-    EXPECT_CALL(*package3, get_srpm()).WillOnce(Return("srpm3"));
+    EXPECT_CALL(*package3, get_srpm()).WillOnce(Return(""));
     EXPECT_CALL(Const(*package3), get_module()).WillOnce(ReturnPointee(module3_ptr));
 
     std::vector<std::unique_ptr<IPackage>> i686_packages;

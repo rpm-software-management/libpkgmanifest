@@ -4,24 +4,17 @@ data:
     packages:
         i686:
             - repoid: repo1
-              url: url1
               checksum: sha512:abcdef
               size: 152384
               nevra: nevra1
               srpm: srpm1
-              module: name1:stream1
-            - repoid: repo2
-              url: url2
+            - url: http://some.server.org/folder/nevra2.rpm
               checksum: md5:fedcba
               size: 378124894
               nevra: nevra2
-              srpm: srpm2
               module: name2:stream2
         src:
             - repoid: repo3
-              url: http://some.server.org/folder/nevra3.rpm
               checksum: SHA256:qpwoeiru
               size: 97643154
               nevra: nevra3
-              srpm: srpm3
-              module: name3:stream3

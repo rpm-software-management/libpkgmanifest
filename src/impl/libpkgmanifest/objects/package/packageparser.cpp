@@ -14,13 +14,26 @@ std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const I
     auto package = package_factory->create();
 
     package->set_arch(arch);
-    package->set_repo_id(node.get("repoid")->as_string());
-    package->set_url(node.get("url")->as_string());
-    package->set_checksum(checksum_parser->parse(*node.get("checksum")));
     package->set_size(node.get("size")->as_uint64());
     package->set_nevra(node.get("nevra")->as_string());
-    package->set_srpm(node.get("srpm")->as_string());
-    package->set_module(module_parser->parse(*node.get("module")));
+    package->set_checksum(checksum_parser->parse(*node.get("checksum")));
+
+    // TODO: Handle cases when expected values are not provided
+    if (node.has("repoid")) {
+        package->set_repo_id(node.get("repoid")->as_string());
+    }
+
+    if (node.has("url")) {
+        package->set_url(node.get("url")->as_string());
+    }
+
+    if (node.has("srpm")) {
+        package->set_srpm(node.get("srpm")->as_string());
+    }
+
+    if (node.has("module")) {
+        package->set_module(module_parser->parse(*node.get("module")));
+    }
 
     return package;
 }
