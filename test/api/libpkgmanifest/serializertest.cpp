@@ -111,7 +111,7 @@ data:
 
 TEST_F(ApiSerializerTest, SerializeEmptyManifest) {
     const std::string empty_manifest_yaml = R"(document: rpm-package-manifest
-version: 0.0.1
+version: 0.0.2
 data:
   packages: ~)";
 
