@@ -31,48 +31,61 @@ version: 1.2.3
 data:
   packages:
     i686:
-      - repoid: repo1
+      - name: package1
+        repoid: repo1
         checksum: sha512:abcdef
         size: 152384
-        nevra: nevra1
-        srpm: srpm1
-      - url: http://some.server.org/folder/nevra2.rpm
+        evr: 1.2.3-1.r1
+        srpm: package1-1.2.3-1.r1.src
+      - name: package2
+        url: http://some.server.org/folder/nevra2.rpm
         checksum: md5:fedcba
         size: 378124894
-        nevra: nevra2
+        evr: 3:4.5.6-2.r2
         module: name2:stream2
     src:
-      - repoid: repo3
+      - name: package3
+        repoid: repo3
         checksum: sha256:qpwoeiru
         size: 97643154
-        nevra: nevra3)";
+        evr: 9.9-1.r3)";
 
     Package package1;
-    package1.set_arch("i686");
     package1.set_repo_id("repo1");
+    package1.set_size(152384);
     package1.get_checksum().set_method(libpkgmanifest::ChecksumMethod::SHA512);
     package1.get_checksum().set_digest("abcdef");
-    package1.set_size(152384);
-    package1.set_nevra("nevra1");
-    package1.set_srpm("srpm1");
+    package1.get_nevra().set_name("package1");
+    package1.get_nevra().set_version("1.2.3");
+    package1.get_nevra().set_release("1.r1");
+    package1.get_nevra().set_arch("i686");
+    package1.get_srpm().set_name("package1");
+    package1.get_srpm().set_version("1.2.3");
+    package1.get_srpm().set_release("1.r1");
+    package1.get_srpm().set_arch("src");
 
     Package package2;
-    package2.set_arch("i686");
     package2.set_url("http://some.server.org/folder/nevra2.rpm");
+    package2.set_size(378124894);
     package2.get_checksum().set_method(libpkgmanifest::ChecksumMethod::MD5);
     package2.get_checksum().set_digest("fedcba");
-    package2.set_size(378124894);
-    package2.set_nevra("nevra2");
+    package2.get_nevra().set_name("package2");
+    package2.get_nevra().set_epoch("3");
+    package2.get_nevra().set_version("4.5.6");
+    package2.get_nevra().set_release("2.r2");
+    package2.get_nevra().set_arch("i686");
     package2.get_module().set_name("name2");
     package2.get_module().set_stream("stream2");
 
     Package package3;
-    package3.set_arch("src");
     package3.set_repo_id("repo3");
+    package3.set_size(97643154);
     package3.get_checksum().set_method(libpkgmanifest::ChecksumMethod::SHA256);
     package3.get_checksum().set_digest("qpwoeiru");
-    package3.set_size(97643154);
-    package3.set_nevra("nevra3");
+    package3.get_nevra().set_name("package3");
+    package3.get_nevra().set_version("9.9");
+    package3.get_nevra().set_release("1.r3");
+    package3.get_nevra().set_arch("src");
 
     Manifest manifest;
     manifest.set_document("my-manifest");

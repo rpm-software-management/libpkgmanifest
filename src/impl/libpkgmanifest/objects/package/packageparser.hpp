@@ -4,6 +4,7 @@
 #include "ipackageparser.hpp"
 
 #include "libpkgmanifest/objects/checksum/ichecksumparser.hpp"
+#include "libpkgmanifest/objects/nevra/inevraparser.hpp"
 #include "libpkgmanifest/objects/module/imoduleparser.hpp"
 
 namespace libpkgmanifest::internal {
@@ -12,6 +13,7 @@ class PackageParser : public IPackageParser {
 public:
     PackageParser(
         std::unique_ptr<IChecksumParser> checksum_parser,
+        std::unique_ptr<INevraParser> nevra_parser,
         std::unique_ptr<IModuleParser> module_parser,
         std::shared_ptr<IPackageFactory> package_factory);
 
@@ -19,6 +21,7 @@ public:
 
 private:
     std::unique_ptr<IChecksumParser> checksum_parser;
+    std::unique_ptr<INevraParser> nevra_parser;
     std::unique_ptr<IModuleParser> module_parser;
     std::shared_ptr<IPackageFactory> package_factory;
 };

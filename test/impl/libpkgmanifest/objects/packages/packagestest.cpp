@@ -1,3 +1,4 @@
+#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
 
 #include "libpkgmanifest/objects/packages/packages.hpp"
@@ -16,8 +17,12 @@ TEST(PackagesTest, DefaultPackagesAreEmpty) {
 }
 
 TEST(PackagesTest, AddedPackageIsReturned) {
+    auto nevra = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra, get_arch()).WillOnce(Return("arch"));
+
     auto package = std::make_unique<NiceMock<PackageMock>>();
     auto package_ptr = package.get();
+    EXPECT_CALL(*package, get_nevra()).WillOnce(ReturnPointee(nevra.get()));
 
     Packages packages;
     packages.add(std::move(package));
@@ -32,12 +37,15 @@ TEST(PackagesTest, AddedPackageIsReturned) {
 }
 
 TEST(PackagesTest, AddedPackageIsReturnedByItsArch) {
+    auto nevra = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra, get_arch()).WillOnce(Return("arch"));
+
     auto package = std::make_unique<NiceMock<PackageMock>>();
     auto package_ptr = package.get();
+    EXPECT_CALL(*package, get_nevra()).WillOnce(ReturnPointee(nevra.get()));
 
     Packages packages;
 
-    EXPECT_CALL(*package_ptr, get_arch()).WillOnce(Return("arch"));
     packages.add(std::move(package));
 
     auto & packages_map = packages.get();
@@ -47,16 +55,22 @@ TEST(PackagesTest, AddedPackageIsReturnedByItsArch) {
 }
 
 TEST(PackagesTest, ClonedObjectHasSameValuesAsOriginal) {
+    auto nevra1 = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra1, get_arch()).WillOnce(Return("arch1"));
     auto package1 = std::make_unique<NiceMock<PackageMock>>();
+    EXPECT_CALL(*package1, get_nevra()).WillOnce(ReturnPointee(nevra1.get()));
+
+    auto nevra2 = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra2, get_arch()).WillOnce(Return("arch2"));
     auto package2 = std::make_unique<NiceMock<PackageMock>>();
+    EXPECT_CALL(*package2, get_nevra()).WillOnce(ReturnPointee(nevra2.get()));
+
     auto cloned_package1 = std::make_unique<NiceMock<PackageMock>>();
     auto cloned_package2 = std::make_unique<NiceMock<PackageMock>>();
-    EXPECT_CALL(*package1, get_arch()).WillOnce(Return("arch1"));
-    EXPECT_CALL(*package1, get_nevra()).WillOnce(Return("pkg1"));
-    EXPECT_CALL(*cloned_package1, get_nevra()).WillOnce(Return("pkg1"));
-    EXPECT_CALL(*package2, get_arch()).WillOnce(Return("arch2"));
-    EXPECT_CALL(*package2, get_nevra()).WillOnce(Return("pkg2"));
-    EXPECT_CALL(*cloned_package2, get_nevra()).WillOnce(Return("pkg2"));
+    EXPECT_CALL(*package1, get_repo_id()).WillOnce(Return("repoid1"));
+    EXPECT_CALL(*cloned_package1, get_repo_id()).WillOnce(Return("repoid1"));
+    EXPECT_CALL(*package2, get_repo_id()).WillOnce(Return("repoid2"));
+    EXPECT_CALL(*cloned_package2, get_repo_id()).WillOnce(Return("repoid2"));
     EXPECT_CALL(*package1, clone()).WillOnce(Return(std::move(cloned_package1)));
     EXPECT_CALL(*package2, clone()).WillOnce(Return(std::move(cloned_package2)));
 
@@ -67,9 +81,9 @@ TEST(PackagesTest, ClonedObjectHasSameValuesAsOriginal) {
     auto clone(packages.clone());
     EXPECT_EQ(packages.get().size(), clone->get().size());
     EXPECT_EQ(packages.get()["arch1"].size(), clone->get()["arch1"].size());
-    EXPECT_EQ(packages.get()["arch1"][0]->get_nevra(), clone->get()["arch1"][0]->get_nevra());
+    EXPECT_EQ(packages.get()["arch1"][0]->get_repo_id(), clone->get()["arch1"][0]->get_repo_id());
     EXPECT_EQ(packages.get()["arch2"].size(), clone->get()["arch2"].size());
-    EXPECT_EQ(packages.get()["arch2"][0]->get_nevra(), clone->get()["arch2"][0]->get_nevra());
+    EXPECT_EQ(packages.get()["arch2"][0]->get_repo_id(), clone->get()["arch2"][0]->get_repo_id());
 }
 
 }

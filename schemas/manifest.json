@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "RPM Package Manifest Schema",
-    "schemaVersion": "0.0.3",
+    "schemaVersion": "0.0.4",
     "description": "Schema for RPM manifest files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
     "type": "object",
     "required": [
@@ -37,15 +37,20 @@
                             "items": {
                                 "type": "object",
                                 "required": [
+                                    "name",
                                     "checksum",
                                     "size",
-                                    "nevra"
+                                    "evr"
                                 ],
                                 "anyOf": [
                                     { "required": ["repoid"] },
                                     { "required": ["url"] }
                                 ],
                                 "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the package."
+                                    },
                                     "repoid": {
                                         "type": "string",
                                         "description": "Represents the ID of the RPM repository as defined in the repo file available to the package manager at the time of package installation."
@@ -65,10 +70,10 @@
                                         "minimum": 1,
                                         "description": "The size of the package in bytes. Must be a non-negative integer."
                                     },
-                                    "nevra": {
+                                    "evr": {
                                         "type": "string",
-                                        "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
-                                        "description": "The Name, Epoch, Version, Release, and Architecture (NEVRA) of the package."
+                                        "pattern": "^(?:\\d+:)?(.+)-(.+)$",
+                                        "description": "The Epoch, Version and Release (EVR) of the package."
                                     },
                                     "srpm": {
                                         "type": "string",

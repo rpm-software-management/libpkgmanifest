@@ -13,6 +13,12 @@ PackageSerializer::PackageSerializer(
 std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package) const {
     auto node = node_factory->create();
 
+    auto & nevra = package.get_nevra();
+
+    auto name_node = node_factory->create();
+    name_node->set(nevra.get_name());
+    node->insert("name", std::move(name_node));
+
     auto repo_id = package.get_repo_id();
     if (!repo_id.empty()) {
         auto repoid_node = node_factory->create();
@@ -33,14 +39,14 @@ std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package
     size_node->set(package.get_size());
     node->insert("size", std::move(size_node));
 
-    auto nevra_node = node_factory->create();
-    nevra_node->set(package.get_nevra());
-    node->insert("nevra", std::move(nevra_node));
+    auto evr_node = node_factory->create();
+    evr_node->set(nevra.to_evr_string());
+    node->insert("evr", std::move(evr_node));
 
-    auto srpm = package.get_srpm();
-    if (!srpm.empty()) {
+    auto & srpm = package.get_srpm();
+    if (!srpm.get_name().empty()) {
         auto srpm_node = node_factory->create();
-        srpm_node->set(srpm);
+        srpm_node->set(srpm.to_string());
         node->insert("srpm", std::move(srpm_node));
     }
 
