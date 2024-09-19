@@ -5,4 +5,8 @@ build/*
 _build/*
 _install/*
 
+# Visual Studio Code related files
+.vscode/
+
+# Python bytecode
 *.pyc
