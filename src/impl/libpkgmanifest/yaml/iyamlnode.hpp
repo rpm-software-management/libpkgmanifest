@@ -12,6 +12,7 @@ class IYamlNode {
 public:
     virtual ~IYamlNode() = default;
 
+    virtual bool has(const std::string & key) const = 0;
     virtual std::unique_ptr<IYamlNode> get(const std::string & key) const = 0;
 
     virtual std::string as_string() const = 0;

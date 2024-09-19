@@ -22,6 +22,10 @@ public:
         }
     }
 
+    bool has(const std::string & key) const override {
+        return nodes_map.find(key) != nodes_map.end();
+    }
+
     std::unique_ptr<IYamlNode> get(const std::string & key) const override {
         return std::unique_ptr<IYamlNode>(new YamlNodeInternalStub(*dynamic_cast<YamlNodeInternalStub*>(nodes_map.at(key).get())));
     }

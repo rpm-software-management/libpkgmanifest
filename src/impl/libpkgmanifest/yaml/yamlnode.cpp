@@ -13,6 +13,10 @@ YamlNode::YamlNode() {}
 YamlNode::YamlNode(const YAML::Node & node)
     : node(node) {}
 
+bool YamlNode::has(const std::string & key) const {
+    return bool(node[key]);
+}
+
 std::unique_ptr<IYamlNode> YamlNode::get(const std::string & key) const {
     auto inner_node = node[key];
     if (!inner_node) {

@@ -161,4 +161,14 @@ TEST(YamlNodeTest, InsertNodeToMap) {
     EXPECT_EQ(1234, map["key"]->as_int());
 }
 
+TEST(YamlNodeTest, CheckKeyDoesNotExist) {
+    YamlNode node(YAML::Load(""));
+    EXPECT_FALSE(node.has("key"));
+}
+
+TEST(YamlNodeTest, CheckKeyExists) {
+    YamlNode node(YAML::Load("item: \"value\""));
+    EXPECT_TRUE(node.has("item"));
+}
+
 }
