@@ -8,6 +8,7 @@ namespace {
 
 class YamlNodeMock : public IYamlNode {
 public:
+    MOCK_METHOD(bool, has, (const std::string &), (const, override));
     MOCK_METHOD(std::unique_ptr<IYamlNode>, get, (const std::string &), (const, override));
     MOCK_METHOD(std::string, as_string, (), (const, override));
     MOCK_METHOD(int, as_int, (), (const, override));

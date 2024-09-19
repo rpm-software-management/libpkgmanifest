@@ -21,6 +21,7 @@ public:
     YamlNode();
     YamlNode(const YAML::Node & node);
 
+    virtual bool has(const std::string & key) const override;
     virtual std::unique_ptr<IYamlNode> get(const std::string & key) const override;
 
     virtual std::string as_string() const override;
