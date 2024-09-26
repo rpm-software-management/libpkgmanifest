@@ -1,22 +1,58 @@
 %module libpkgmanifest
 #pragma SWIG nowarn=362,509
 
-// The following adds Python attribute shortcuts for getters and setters
-// from C++ structures that act as plain data objects.
-//
-// E.g. object.get_value() -> object.value
-//
 %pythoncode %{
-def create_attributes_from_getters_and_setters(cls):
+def add_property_accessors(target_cls, src_cls=None, src_getter=None):
+    """
+    Dynamically creates attributes in the target class based on the getter and setter
+    methods of a source class.
+
+    This method inspects the source class for methods with 'get_' and 'set_' prefixes,
+    and creates corresponding properties in the target class. If a `src_getter` is provided,
+    it is used to obtain an instance of the source class, allowing for delegation of property
+    access.
+
+    Args:
+        target_cls (type): The class where the properties will be added.
+        src_cls (type, optional): The class to inspect for getter and setter methods.
+                                  If not provided, the target class is used.
+        src_getter (callable, optional): A callable that takes an instance of the target class
+                                          and returns an instance of the source class.
+                                          This is used for delegating property access.
+
+    Example:
+        1. Simplifying Access in the Package Class
+        - Before: package.get_size()
+        - After calling add_property_accessors(Package): package.size
+
+        2. Delegating Access of Internal Objects
+        - Before: package.get_nevra().get_name()
+        - After calling add_property_accessors(Package, Nevra, Package.get_nevra): package.name
+    """
+    def create_getter(getter_name):
+        def getter(self):
+            getter_target = src_getter(self) if src_getter else self
+            return getattr(getter_target, getter_name)() if getter_name in dir(getter_target) else None
+        return getter
+
+    def create_setter(setter_name):
+        def setter(self, value):
+            setter_target = src_getter(self) if src_getter else self
+            return getattr(setter_target, setter_name)(value) if setter_name in dir(setter_target) else None
+        return setter
+
+    if not src_cls:
+        src_cls = target_cls
+
     getter_prefix = 'get_'
     setter_prefix = 'set_'
-    attrs = {method[len(getter_prefix):] for method in dir(cls) if method.startswith(getter_prefix) or method.startswith(setter_prefix)}
+    attrs = {method[len(getter_prefix):] for method in dir(src_cls) if method.startswith(getter_prefix) or method.startswith(setter_prefix)}
     for attr in attrs:
         getter_name = getter_prefix + attr
         setter_name = setter_prefix + attr
-        setattr(cls, attr, property(
-            lambda self, getter_name=getter_name: getattr(self, getter_name)() if getter_name in dir(cls) else None,
-            lambda self, value, setter_name=setter_name: getattr(self, setter_name)(value) if setter_name in dir(cls) else None
+        setattr(target_cls, attr, property(
+            create_getter(getter_name),
+            create_setter(setter_name)
         ))
 %}
 
@@ -66,12 +102,13 @@ def create_attributes_from_getters_and_setters(cls):
 %include "libpkgmanifest/serializer.hpp"
 
 %pythoncode %{
-create_attributes_from_getters_and_setters(Checksum)
-create_attributes_from_getters_and_setters(Manifest)
-create_attributes_from_getters_and_setters(Module)
-create_attributes_from_getters_and_setters(Nevra)
-create_attributes_from_getters_and_setters(Package)
-create_attributes_from_getters_and_setters(Version)
+add_property_accessors(Checksum)
+add_property_accessors(Manifest)
+add_property_accessors(Module)
+add_property_accessors(Nevra)
+add_property_accessors(Package)
+add_property_accessors(Version)
+add_property_accessors(Package, Nevra, Package.get_nevra)
 %}
 
 // Allow nevra to be convertible to string
