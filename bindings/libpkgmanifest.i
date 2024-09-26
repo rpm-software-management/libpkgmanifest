@@ -74,6 +74,14 @@ create_attributes_from_getters_and_setters(Package)
 create_attributes_from_getters_and_setters(Version)
 %}
 
+// Allow nevra to be convertible to string
+%extend libpkgmanifest::Nevra {
+    std::string __str__() {
+        return self->to_string();
+    }
+}
+
+// Make Packages to act like a dictionary
 %extend libpkgmanifest::Packages {
     std::vector<libpkgmanifest::Package> __getitem__(const std::string & key) const {
         return self->get(key);
