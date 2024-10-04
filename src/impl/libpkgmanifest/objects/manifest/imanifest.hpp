@@ -1,6 +1,7 @@
 #pragma once
 
 #include "libpkgmanifest/objects/packages/ipackages.hpp"
+#include "libpkgmanifest/objects/repositories/irepositories.hpp"
 #include "libpkgmanifest/objects/version/iversion.hpp"
 
 #include <memory>
@@ -19,10 +20,13 @@ public:
     virtual IVersion & get_version() = 0;
     virtual const IPackages & get_packages() const = 0;
     virtual IPackages & get_packages() = 0;
+    virtual const IRepositories & get_repositories() const = 0;
+    virtual IRepositories & get_repositories() = 0;
 
     virtual void set_document(const std::string & document) = 0;
     virtual void set_version(std::unique_ptr<IVersion> version) = 0;
     virtual void set_packages(std::unique_ptr<IPackages> packages) = 0;
+    virtual void set_repositories(std::unique_ptr<IRepositories> repositories) = 0;
 };
 
 }

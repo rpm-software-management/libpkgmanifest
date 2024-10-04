@@ -1,6 +1,7 @@
 #pragma once
 
 #include "packages.hpp"
+#include "repositories.hpp"
 #include "version.hpp"
 
 #include <memory>
@@ -34,6 +35,10 @@ public:
     /// @return A structure with the packages listed in the manifest.
     Packages & get_packages();
 
+    /// @brief Retrieves a structure containing all the repositories defined in the manifest file.
+    /// @return A structure with the repositories listed in the manifest.
+    Repositories & get_repositories();
+
     /// @brief Sets the YAML document identifier.
     /// @param document The YAML identifier to set.
     void set_document(const std::string & document);
@@ -45,6 +50,10 @@ public:
     /// @brief Assigns a structure with all the packages to be included in the manifest file.
     /// @param packages A structure containing the packages to be set.
     void set_packages(Packages & packages);
+
+    /// @brief Assigns a structure with all the repositories to be included in the manifest file.
+    /// @param packages A structure containing the repositories to be set.
+    void set_repositories(Repositories & repositories);
 
 private:
     friend class Parser;

@@ -1,5 +1,7 @@
 #include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
 #include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
+#include "libpkgmanifest/mocks/operations/packagerepositorybindermock.hpp"
 
 #include "libpkgmanifest/objects/manifest/manifest.hpp"
 
@@ -9,7 +11,9 @@ namespace {
 
 using namespace libpkgmanifest::internal;
 
+using ::testing::Matcher;
 using ::testing::NiceMock;
+using ::testing::Ref;
 using ::testing::Return;
 
 TEST(ManifestTest, DefaultDocumentIsEmpty) {
@@ -22,6 +26,10 @@ TEST(ManifestTest, DefaultVersionIsNull) {
 
 TEST(ManifestTest, DefaultPackagesIsNull) {
     EXPECT_EQ(nullptr, &Manifest().get_packages());
+}
+
+TEST(ManifestTest, DefaultRepositoriesIsNull) {
+    EXPECT_EQ(nullptr, &Manifest().get_repositories());
 } 
 
 TEST(ManifestTest, SetDocumentIsReturned) {
@@ -56,11 +64,27 @@ TEST(ManifestTest, SetPackagesObjectIsReturned) {
     EXPECT_EQ(packages_ptr, &const_manifest.get_packages());
 }
 
+TEST(ManifestTest, SetRepositoriesObjectIsReturned) {
+    auto repositories = std::make_unique<NiceMock<RepositoriesMock>>();
+    auto repositories_ptr = repositories.get();
+
+    Manifest manifest;
+    manifest.set_repositories(std::move(repositories));
+
+    EXPECT_EQ(repositories_ptr, &manifest.get_repositories());
+
+    const auto & const_manifest = manifest;
+    EXPECT_EQ(repositories_ptr, &const_manifest.get_repositories());
+}
+
 TEST(ManifestTest, ClonedObjectHasSameValuesAsOriginal) {
     // TODO: Tests cloned packages objects are the same
+    // TODO: Tests cloned repositories objects are the same
 
     auto packages = std::make_unique<NiceMock<PackagesMock>>();
     auto cloned_packages = std::make_unique<NiceMock<PackagesMock>>();
+    auto repositories = std::make_unique<NiceMock<RepositoriesMock>>();
+    auto cloned_repositories = std::make_unique<NiceMock<RepositoriesMock>>();
     auto version = std::make_unique<NiceMock<VersionMock>>();
     auto cloned_version = std::make_unique<NiceMock<VersionMock>>();
     EXPECT_CALL(*version, get_major()).WillOnce(Return(7));
@@ -71,10 +95,34 @@ TEST(ManifestTest, ClonedObjectHasSameValuesAsOriginal) {
     manifest.set_document("doc1");
     manifest.set_version(std::move(version));
     manifest.set_packages(std::move(packages));
+    manifest.set_repositories(std::move(repositories));
 
     auto clone(manifest.clone());
     EXPECT_EQ(manifest.get_document(), clone->get_document());
     EXPECT_EQ(manifest.get_version().get_major(), clone->get_version().get_major());
+}
+
+TEST(ManifestTest, CloneAttachesClonedPackagesToTheClonedRepositoriesUsingBinder) {
+    auto packages = std::make_unique<NiceMock<PackagesMock>>();
+    auto cloned_packages = std::make_unique<NiceMock<PackagesMock>>();
+    auto cloned_packages_ptr = cloned_packages.get();
+    auto repositories = std::make_unique<NiceMock<RepositoriesMock>>();
+    auto cloned_repositories = std::make_unique<NiceMock<RepositoriesMock>>();
+    auto cloned_repositories_ptr = cloned_repositories.get();
+
+    EXPECT_CALL(*packages, clone()).WillOnce(Return(std::move(cloned_packages)));
+    EXPECT_CALL(*repositories, clone()).WillOnce(Return(std::move(cloned_repositories)));
+
+    auto binder = std::make_shared<NiceMock<PackageRepositoryBinderMock>>();
+
+    Manifest manifest;
+    manifest.set_version(std::make_unique<NiceMock<VersionMock>>());
+    manifest.set_packages(std::move(packages));
+    manifest.set_repositories(std::move(repositories));
+    manifest.set_package_repository_binder(binder);
+
+    EXPECT_CALL(*binder, bind(Ref(*cloned_repositories_ptr), Matcher<IPackages &>(Ref(*cloned_packages_ptr))));
+    manifest.clone();
 }
 
 }

@@ -1,23 +1,33 @@
 document: rpm-package-manifest
 version: 1.2.3
 data:
+    repositories:
+        - id: repo1
+          url: http://some.server.gov/folder
+        - id: repo2
+          url: http://other.computer.lol/dir/for/pkgs/$arch/
+        - id: repo3
+          url: file:///home/user/my/repository
     packages:
         i686:
             - name: package1
-              repoid: repo1
+              repo_id: repo1
+              location: pkgs/package1.rpm
               checksum: sha512:abcdef
               size: 152384
               evr: 1.2.3-1.r1
               srpm: package1-1.2.3-1.r1.src
             - name: package2
-              url: http://some.server.org/folder/nevra2.rpm
+              repo_id: repo2
+              location: p/package2-3:4.5.6-2.r2.rpm
               checksum: md5:fedcba
               size: 378124894
               evr: 3:4.5.6-2.r2
               module: name2:stream2
         src:
             - name: package3
-              repoid: repo3
+              repo_id: repo3
+              location: another/dir/file.here
               checksum: SHA256:qpwoeiru
               size: 97643154
               evr: 9.9-1.r3

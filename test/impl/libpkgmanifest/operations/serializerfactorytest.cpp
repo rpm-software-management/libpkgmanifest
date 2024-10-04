@@ -4,6 +4,8 @@
 #include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
 #include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
 #include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
 #include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
 
 #include "libpkgmanifest/operations/serializerfactory.hpp"
@@ -41,26 +43,59 @@ TEST_F(SerializerFactoryTest, SerializeSimpleManifest) {
     const std::string simple_manifest_yaml = R"(document: my-manifest
 version: 1.2.3
 data:
+  repositories:
+    - id: repo1
+      url: http://some.server.gov/folder
+    - id: repo2
+      url: http://other.computer.lol/dir/for/pkgs/$arch/
+    - id: repo3
+      url: file:///home/user/my/repository
   packages:
     i686:
       - name: package1
-        repoid: repo1
+        repo_id: repo1
+        location: pkgs/package1.rpm
         checksum: sha512:abcdef
         size: 152384
         evr: 1.2.3-1.r1
         srpm: package1-1.2.3-1.r1.src
       - name: package2
-        url: http://some.server.org/folder/nevra2.rpm
+        repo_id: repo2
+        location: p/package2-3:4.5.6-2.r2.rpm
         checksum: md5:fedcba
         size: 378124894
         evr: 3:4.5.6-2.r2
         module: name2:stream2
     src:
       - name: package3
-        repoid: repo3
+        repo_id: repo3
+        location: another/dir/file.here
         checksum: sha256:qpwoeiru
         size: 97643154
         evr: 9.9-1.r3)";
+
+    auto repository1 = std::make_unique<NiceMock<RepositoryMock>>();
+    //auto repository1_ptr = repository1.get();
+    EXPECT_CALL(*repository1, get_id()).WillRepeatedly(Return("repo1"));
+    EXPECT_CALL(*repository1, get_url()).WillOnce(Return("http://some.server.gov/folder"));
+
+    auto repository2 = std::make_unique<NiceMock<RepositoryMock>>();
+    //auto repository2_ptr = repository2.get();
+    EXPECT_CALL(*repository2, get_id()).WillRepeatedly(Return("repo2"));
+    EXPECT_CALL(*repository2, get_url()).WillOnce(Return("http://other.computer.lol/dir/for/pkgs/$arch/"));
+
+    auto repository3 = std::make_unique<NiceMock<RepositoryMock>>();
+    //auto repository3_ptr = repository3.get();
+    EXPECT_CALL(*repository3, get_id()).WillRepeatedly(Return("repo3"));
+    EXPECT_CALL(*repository3, get_url()).WillOnce(Return("file:///home/user/my/repository"));
+
+    std::map<std::string, std::unique_ptr<IRepository>> repository_map;
+    repository_map["repo1"] = std::move(repository1);
+    repository_map["repo2"] = std::move(repository2);
+    repository_map["repo3"] = std::move(repository3);
+
+    NiceMock<RepositoriesMock> repositories;
+    EXPECT_CALL(Const(repositories), get()).WillRepeatedly(ReturnPointee(&repository_map));
 
     NiceMock<VersionMock> version;
     EXPECT_CALL(version, get_major()).WillOnce(Return(1));
@@ -83,8 +118,8 @@ data:
     EXPECT_CALL(*module1, get_name()).WillRepeatedly(Return(""));
 
     auto package1 = std::make_unique<NiceMock<PackageMock>>();
-    EXPECT_CALL(*package1, get_repo_id()).WillOnce(Return("repo1"));
-    EXPECT_CALL(*package1, get_url()).WillOnce(Return(""));
+    EXPECT_CALL(*package1, get_repo_id()).WillRepeatedly(Return("repo1"));
+    EXPECT_CALL(*package1, get_location()).WillOnce(Return("pkgs/package1.rpm"));
     EXPECT_CALL(*package1, get_size()).WillOnce(Return(152384));
     EXPECT_CALL(Const(*package1), get_checksum()).WillOnce(ReturnPointee(checksum1.get()));
     EXPECT_CALL(Const(*package1), get_nevra()).WillOnce(ReturnPointee(nevra1.get()));
@@ -107,8 +142,8 @@ data:
     EXPECT_CALL(*module2, get_stream()).WillOnce(Return("stream2"));
 
     auto package2 = std::make_unique<NiceMock<PackageMock>>();
-    EXPECT_CALL(*package2, get_repo_id()).WillOnce(Return(""));
-    EXPECT_CALL(*package2, get_url()).WillOnce(Return("http://some.server.org/folder/nevra2.rpm"));
+    EXPECT_CALL(*package2, get_repo_id()).WillRepeatedly(Return("repo2"));
+    EXPECT_CALL(*package2, get_location()).WillOnce(Return("p/package2-3:4.5.6-2.r2.rpm"));
     EXPECT_CALL(*package2, get_size()).WillOnce(Return(378124894));
     EXPECT_CALL(Const(*package2), get_checksum()).WillOnce(ReturnPointee(checksum2.get()));
     EXPECT_CALL(Const(*package2), get_nevra()).WillOnce(ReturnPointee(nevra2.get()));
@@ -130,8 +165,8 @@ data:
     EXPECT_CALL(*module3, get_name()).WillRepeatedly(Return(""));
 
     auto package3 = std::make_unique<NiceMock<PackageMock>>();
-    EXPECT_CALL(*package3, get_repo_id()).WillOnce(Return("repo3"));
-    EXPECT_CALL(*package3, get_url()).WillOnce(Return(""));
+    EXPECT_CALL(*package3, get_repo_id()).WillRepeatedly(Return("repo3"));
+    EXPECT_CALL(*package3, get_location()).WillOnce(Return("another/dir/file.here"));
     EXPECT_CALL(*package3, get_size()).WillOnce(Return(97643154));
     EXPECT_CALL(Const(*package3), get_checksum()).WillOnce(ReturnPointee(checksum3.get()));
     EXPECT_CALL(Const(*package3), get_nevra()).WillOnce(ReturnPointee(nevra3.get()));
@@ -150,12 +185,13 @@ data:
     package_map["src"] = std::move(src_packages);
 
     NiceMock<PackagesMock> packages;
-    EXPECT_CALL(Const(packages), get()).WillOnce(ReturnPointee(&package_map));
+    EXPECT_CALL(Const(packages), get()).WillRepeatedly(ReturnPointee(&package_map));
 
     NiceMock<ManifestMock> manifest;
     EXPECT_CALL(manifest, get_document()).WillOnce(Return("my-manifest"));
     EXPECT_CALL(Const(manifest), get_version()).WillOnce(ReturnPointee(&version));
     EXPECT_CALL(Const(manifest), get_packages()).WillOnce(ReturnPointee(&packages));
+    EXPECT_CALL(Const(manifest), get_repositories()).WillOnce(ReturnPointee(&repositories));
 
     SerializerFactory serializer_factory;
     auto serializer = serializer_factory.create();

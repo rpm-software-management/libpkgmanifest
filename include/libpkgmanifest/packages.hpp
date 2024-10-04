@@ -36,6 +36,11 @@ public:
     /// @param package The package to be added.
     void add(Package & package);
 
+    /// @brief Binds the repositories to the packages object.
+    /// @note Used to reference and validate repository-related information within the packages.
+    /// @param repositories The repositories object to bind.
+    void attach(Repositories & repositories);
+
 private:
     friend class Manifest;
 

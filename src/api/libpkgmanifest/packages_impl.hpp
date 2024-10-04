@@ -1,9 +1,9 @@
 #pragma once
 
 #include "libpkgmanifest/packages.hpp"
-#include "libpkgmanifest/package.hpp"
 
 #include "libpkgmanifest/objects/packages/packagesfactory.hpp"
+#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
 
 #include "package_impl.hpp"
 
@@ -13,7 +13,8 @@ class Packages::Impl {
 public:
     Impl() 
         : packages(nullptr)
-        , factory_packages(nullptr) {}
+        , factory_packages(nullptr)
+        , binder() {}
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -35,6 +36,10 @@ public:
     std::unique_ptr<internal::IPackages> get_factory_object() {
         ensure_object_exists();
         return std::move(factory_packages);
+    }
+
+    internal::IPackageRepositoryBinder & get_binder() {
+        return binder;
     }
 
     void init(internal::IPackages * packages) {
@@ -60,6 +65,7 @@ private:
 
     internal::IPackages * packages;
     std::unique_ptr<internal::IPackages> factory_packages;
+    internal::PackageRepositoryBinder binder;
 };
 
 }
