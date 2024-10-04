@@ -18,13 +18,28 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ(2, manifest->get_version().get_minor());
     EXPECT_EQ(3, manifest->get_version().get_patch());
 
+    auto & repositories = manifest->get_repositories().get();
+    EXPECT_EQ(3, repositories.size());
+
+    auto & repository1 = repositories.at("repo1");
+    EXPECT_EQ("repo1", repository1->get_id());
+    EXPECT_EQ("http://some.server.gov/folder", repository1->get_url());
+
+    auto & repository2 = repositories.at("repo2");
+    EXPECT_EQ("repo2", repository2->get_id());
+    EXPECT_EQ("http://other.computer.lol/dir/for/pkgs/$arch/", repository2->get_url());
+
+    auto & repository3 = repositories.at("repo3");
+    EXPECT_EQ("repo3", repository3->get_id());
+    EXPECT_EQ("file:///home/user/my/repository", repository3->get_url());
+
     EXPECT_EQ(2, manifest->get_packages().get().size());
     EXPECT_EQ(2, manifest->get_packages().get()["i686"].size());
     EXPECT_EQ(1, manifest->get_packages().get()["src"].size());
 
     auto & package1 = manifest->get_packages().get().at("i686")[0];
     EXPECT_EQ("repo1", package1->get_repo_id());
-    EXPECT_EQ("", package1->get_url());
+    EXPECT_EQ("pkgs/package1.rpm", package1->get_location());
     EXPECT_EQ(152384, package1->get_size());
     EXPECT_EQ(libpkgmanifest::ChecksumMethod::SHA512, package1->get_checksum().get_method());
     EXPECT_EQ("abcdef", package1->get_checksum().get_digest());
@@ -32,8 +47,8 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ("", package1->get_module().get_stream());
 
     auto & package2 = manifest->get_packages().get().at("i686")[1];
-    EXPECT_EQ("", package2->get_repo_id());
-    EXPECT_EQ("http://some.server.org/folder/nevra2.rpm", package2->get_url());
+    EXPECT_EQ("repo2", package2->get_repo_id());
+    EXPECT_EQ("p/package2-3:4.5.6-2.r2.rpm", package2->get_location());
     EXPECT_EQ(378124894, package2->get_size());
     EXPECT_EQ(libpkgmanifest::ChecksumMethod::MD5, package2->get_checksum().get_method());
     EXPECT_EQ("fedcba", package2->get_checksum().get_digest());
@@ -42,7 +57,7 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
 
     auto & package3 = manifest->get_packages().get().at("src")[0];
     EXPECT_EQ("repo3", package3->get_repo_id());
-    EXPECT_EQ("", package3->get_url());
+    EXPECT_EQ("another/dir/file.here", package3->get_location());
     EXPECT_EQ(97643154, package3->get_size());
     EXPECT_EQ(libpkgmanifest::ChecksumMethod::SHA256, package3->get_checksum().get_method());
     EXPECT_EQ("qpwoeiru", package3->get_checksum().get_digest());

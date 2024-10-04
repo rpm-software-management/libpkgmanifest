@@ -11,10 +11,15 @@
 #include "libpkgmanifest/objects/package/packageparser.hpp"
 #include "libpkgmanifest/objects/packages/packagesfactory.hpp"
 #include "libpkgmanifest/objects/packages/packagesparser.hpp"
+#include "libpkgmanifest/objects/repository/repositoryfactory.hpp"
+#include "libpkgmanifest/objects/repository/repositoryparser.hpp"
+#include "libpkgmanifest/objects/repositories/repositoriesfactory.hpp"
+#include "libpkgmanifest/objects/repositories/repositoriesparser.hpp"
 #include "libpkgmanifest/objects/manifest/manifestfactory.hpp"
 #include "libpkgmanifest/objects/manifest/manifestparser.hpp"
 #include "libpkgmanifest/objects/version/versionfactory.hpp"
 #include "libpkgmanifest/objects/version/versionparser.hpp"
+#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
 #include "libpkgmanifest/tools/stringsplitter.hpp"
 #include "libpkgmanifest/yaml/yamlparser.hpp"
 
@@ -42,18 +47,33 @@ std::unique_ptr<IParser> ParserFactory::create() const {
 
     auto packages_factory = std::make_shared<PackagesFactory>();
     auto packages_parser = std::make_unique<PackagesParser>(
-        std::move(package_parser), 
+        std::move(package_parser),
         packages_factory
     );
+
+    auto repository_factory = std::make_shared<RepositoryFactory>();
+    auto repository_parser = std::make_unique<RepositoryParser>(repository_factory);
+
+    auto repositories_factory = std::make_shared<RepositoriesFactory>();
+    auto repositories_parser = std::make_unique<RepositoriesParser>(std::move(repository_parser), repositories_factory);
 
     auto version_factory = std::make_shared<VersionFactory>();
     auto version_parser = std::make_unique<VersionParser>(version_factory, string_splitter);
 
-    auto manifest_factory = std::make_unique<ManifestFactory>(packages_factory, version_factory);
+    auto binder = std::make_shared<PackageRepositoryBinder>();
+
+    auto manifest_factory = std::make_unique<ManifestFactory>(
+        packages_factory, 
+        repositories_factory, 
+        version_factory, 
+        binder);
+
     auto manifest_parser = std::make_unique<ManifestParser>(
-        std::move(manifest_factory), 
-        std::move(packages_parser), 
-        std::move(version_parser)
+        std::move(manifest_factory),
+        std::move(packages_parser),
+        std::move(repositories_parser),
+        std::move(version_parser),
+        binder
     );
 
     auto yaml_parser = std::make_unique<YamlParser>();

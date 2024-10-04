@@ -23,6 +23,7 @@ using ::testing::NiceMock;
 using ::testing::Pointer;
 using ::testing::Ref;
 using ::testing::Return;
+using ::testing::ReturnPointee;
 using ::testing::Test;
 
 class PackageParserTest : public Test {
@@ -70,35 +71,19 @@ TEST_F(PackageParserTest, ParserSetsRepoIdFromYamlNode) {
     auto repoid_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto repoid_node_ptr = repoid_node.get();
     
-    EXPECT_CALL(yaml_node, has("repoid")).WillOnce(Return(true));
-    EXPECT_CALL(yaml_node, get("repoid")).WillOnce(Return(std::move(repoid_node)));
+    EXPECT_CALL(yaml_node, get("repo_id")).WillOnce(Return(std::move(repoid_node)));
     EXPECT_CALL(*repoid_node_ptr, as_string()).WillOnce(Return("id"));
     EXPECT_CALL(*package_ptr, set_repo_id("id"));
     parser->parse("arch", yaml_node);
 }
 
-TEST_F(PackageParserTest, ParserDoesNotSetRepoIdIfNotProvided) {
-    EXPECT_CALL(yaml_node, has("repoid")).WillOnce(Return(false));
-    EXPECT_CALL(yaml_node, get("repoid")).Times(0);
-    EXPECT_CALL(*package_ptr, set_repo_id(_)).Times(0);
-    parser->parse("arch", yaml_node);
-}
-
-TEST_F(PackageParserTest, ParserSetsUrlFromYamlNode) {
-    auto url_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto url_node_ptr = url_node.get();
+TEST_F(PackageParserTest, ParserSetsLocationFromYamlNode) {
+    auto location_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto location_node_ptr = location_node.get();
     
-    EXPECT_CALL(yaml_node, has("url")).WillOnce(Return(true));
-    EXPECT_CALL(yaml_node, get("url")).WillOnce(Return(std::move(url_node)));
-    EXPECT_CALL(*url_node_ptr, as_string()).WillOnce(Return("url"));
-    EXPECT_CALL(*package_ptr, set_url("url"));
-    parser->parse("arch", yaml_node);
-}
-
-TEST_F(PackageParserTest, ParserDoesNotSetUrlIfNotProvided) {
-    EXPECT_CALL(yaml_node, has("url")).WillOnce(Return(false));
-    EXPECT_CALL(yaml_node, get("url")).Times(0);
-    EXPECT_CALL(*package_ptr, set_url(_)).Times(0);
+    EXPECT_CALL(yaml_node, get("location")).WillOnce(Return(std::move(location_node)));
+    EXPECT_CALL(*location_node_ptr, as_string()).WillOnce(Return("path"));
+    EXPECT_CALL(*package_ptr, set_location("path"));
     parser->parse("arch", yaml_node);
 }
 

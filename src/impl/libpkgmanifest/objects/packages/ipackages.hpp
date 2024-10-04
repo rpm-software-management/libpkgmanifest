@@ -17,6 +17,7 @@ public:
 
     virtual const std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() const = 0;
     virtual std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() = 0;
+
     virtual void add(std::unique_ptr<IPackage> package) = 0;
 };
 

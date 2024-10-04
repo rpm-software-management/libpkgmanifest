@@ -15,6 +15,7 @@ using namespace libpkgmanifest::internal;
 
 using ::testing::_;
 using ::testing::AnyNumber;
+using ::testing::Exactly;
 using ::testing::NiceMock;
 using ::testing::Pointer;
 using ::testing::Ref;
@@ -29,7 +30,7 @@ protected:
         packages_ptr = packages.get();
 
         auto packages_factory_wrapper = std::make_shared<NiceMock<PackagesFactoryMock>>();
-        EXPECT_CALL(*packages_factory_wrapper, create()).WillOnce(Return(std::move(packages)));
+        EXPECT_CALL(*packages_factory_wrapper, create()).Times(AnyNumber()).WillOnce(Return(std::move(packages)));
 
         auto package_parser_wrapper = std::make_unique<NiceMock<PackageParserMock>>();
         package_parser = package_parser_wrapper.get();

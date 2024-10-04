@@ -29,29 +29,52 @@ TEST_F(ApiSerializerTest, SerializeSimpleManifest) {
     const std::string simple_manifest_yaml = R"(document: my-manifest
 version: 1.2.3
 data:
+  repositories:
+    - id: repo1
+      url: http://some.server.gov/folder
+    - id: repo2
+      url: http://other.computer.lol/dir/for/pkgs/$arch/
+    - id: repo3
+      url: file:///home/user/my/repository
   packages:
     i686:
       - name: package1
-        repoid: repo1
+        repo_id: repo1
+        location: pkgs/package1.rpm
         checksum: sha512:abcdef
         size: 152384
         evr: 1.2.3-1.r1
         srpm: package1-1.2.3-1.r1.src
       - name: package2
-        url: http://some.server.org/folder/nevra2.rpm
+        repo_id: repo2
+        location: p/package2-3:4.5.6-2.r2.rpm
         checksum: md5:fedcba
         size: 378124894
         evr: 3:4.5.6-2.r2
         module: name2:stream2
     src:
       - name: package3
-        repoid: repo3
+        repo_id: repo3
+        location: another/dir/file.here
         checksum: sha256:qpwoeiru
         size: 97643154
         evr: 9.9-1.r3)";
 
+    Repository repository1;
+    repository1.set_id("repo1");
+    repository1.set_url("http://some.server.gov/folder");
+
+    Repository repository2;
+    repository2.set_id("repo2");
+    repository2.set_url("http://other.computer.lol/dir/for/pkgs/$arch/");
+
+    Repository repository3;
+    repository3.set_id("repo3");
+    repository3.set_url("file:///home/user/my/repository");
+
     Package package1;
     package1.set_repo_id("repo1");
+    package1.set_location("pkgs/package1.rpm");
     package1.set_size(152384);
     package1.get_checksum().set_method(libpkgmanifest::ChecksumMethod::SHA512);
     package1.get_checksum().set_digest("abcdef");
@@ -65,7 +88,8 @@ data:
     package1.get_srpm().set_arch("src");
 
     Package package2;
-    package2.set_url("http://some.server.org/folder/nevra2.rpm");
+    package2.set_repo_id("repo2");
+    package2.set_location("p/package2-3:4.5.6-2.r2.rpm");
     package2.set_size(378124894);
     package2.get_checksum().set_method(libpkgmanifest::ChecksumMethod::MD5);
     package2.get_checksum().set_digest("fedcba");
@@ -79,6 +103,7 @@ data:
 
     Package package3;
     package3.set_repo_id("repo3");
+    package3.set_location("another/dir/file.here");
     package3.set_size(97643154);
     package3.get_checksum().set_method(libpkgmanifest::ChecksumMethod::SHA256);
     package3.get_checksum().set_digest("qpwoeiru");
@@ -92,6 +117,9 @@ data:
     manifest.get_version().set_major(1);
     manifest.get_version().set_minor(2);
     manifest.get_version().set_patch(3);
+    manifest.get_repositories().add(repository1);
+    manifest.get_repositories().add(repository2);
+    manifest.get_repositories().add(repository3);
     manifest.get_packages().add(package1);
     manifest.get_packages().add(package2);
     manifest.get_packages().add(package3);
@@ -108,8 +136,9 @@ data:
 
 TEST_F(ApiSerializerTest, SerializeEmptyManifest) {
     const std::string empty_manifest_yaml = R"(document: rpm-package-manifest
-version: 0.0.3
+version: 0.1.0
 data:
+  repositories: ~
   packages: ~)";
 
     Manifest manifest;

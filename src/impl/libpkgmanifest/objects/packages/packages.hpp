@@ -13,6 +13,7 @@ public:
 
     virtual std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() override;
     virtual const std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() const override;
+
     virtual void add(std::unique_ptr<IPackage> package) override;
 
 private:

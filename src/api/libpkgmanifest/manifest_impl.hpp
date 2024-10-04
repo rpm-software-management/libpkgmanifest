@@ -1,14 +1,15 @@
 #pragma once
 
 #include "libpkgmanifest/manifest.hpp"
-#include "libpkgmanifest/packages.hpp"
-#include "libpkgmanifest/version.hpp"
 
 #include "libpkgmanifest/objects/manifest/manifestfactory.hpp"
 #include "libpkgmanifest/objects/packages/packagesfactory.hpp"
+#include "libpkgmanifest/objects/repositories/repositoriesfactory.hpp"
 #include "libpkgmanifest/objects/version/versionfactory.hpp"
+#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
 
 #include "packages_impl.hpp"
+#include "repositories_impl.hpp"
 #include "version_impl.hpp"
 
 namespace libpkgmanifest {
@@ -20,6 +21,7 @@ public:
         , factory_manifest(nullptr)
         , parsed_manifest(nullptr)
         , packages()
+        , repositories()
         , version() {}
 
     Impl(const Impl & other) {
@@ -49,6 +51,11 @@ public:
         return packages;
     }
 
+    Repositories & get_repositories() {
+        ensure_object_exists();
+        return repositories;
+    }
+
     Version & get_version() {
         ensure_object_exists();
         return version;
@@ -57,6 +64,7 @@ public:
     void init(internal::IManifest * manifest) {
         this->manifest = manifest;
         packages.p_impl->init(&manifest->get_packages());
+        repositories.p_impl->init(&manifest->get_repositories());
         version.p_impl->init(&manifest->get_version());
     }
     
@@ -79,8 +87,10 @@ private:
     void ensure_object_exists() {
         if (!manifest) {
             auto manifest_factory = internal::ManifestFactory(
-                std::shared_ptr<internal::IPackagesFactory>(new internal::PackagesFactory()), 
-                std::shared_ptr<internal::IVersionFactory>(new internal::VersionFactory()));
+                std::shared_ptr<internal::IPackagesFactory>(new internal::PackagesFactory()),
+                std::shared_ptr<internal::IRepositoriesFactory>(new internal::RepositoriesFactory()),
+                std::shared_ptr<internal::IVersionFactory>(new internal::VersionFactory()),
+                std::shared_ptr<internal::IPackageRepositoryBinder>(new internal::PackageRepositoryBinder()));
             factory_manifest = manifest_factory.create();
             init(factory_manifest.get());
         }
@@ -90,6 +100,7 @@ private:
     std::unique_ptr<internal::IManifest> factory_manifest;
     std::unique_ptr<internal::IManifest> parsed_manifest;
     Packages packages;
+    Repositories repositories;
     Version version;
 };
 

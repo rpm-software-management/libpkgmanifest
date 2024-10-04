@@ -70,37 +70,23 @@ protected:
 };
 
 TEST_F(PackageSerializerTest, SerializerSetsRepoIdAsStringToYamlNode) {
-    EXPECT_CALL(package, get_repo_id()).WillOnce(Return("id"));
+    EXPECT_CALL(package, get_repo_id()).WillOnce(Return("repo1"));
 
-    EXPECT_CALL(*node_ptr, insert("repoid", _)).WillOnce(
+    EXPECT_CALL(*node_ptr, insert("repo_id", _)).WillOnce(
         [](const std::string &, std::unique_ptr<IYamlNode> node) {
-            EXPECT_EQ("id", node->as_string());
+            EXPECT_EQ("repo1", node->as_string());
         });
 
     serializer->serialize(package);
 }
 
-TEST_F(PackageSerializerTest, SerializerDoesNotSetRepoIdIfEmpty) {
-    EXPECT_CALL(package, get_repo_id()).WillOnce(Return(""));
-    EXPECT_CALL(*node_ptr, insert("repoid", _)).Times(0);
+TEST_F(PackageSerializerTest, SerializerSetsLocationAsStringToYamlNode) {
+    EXPECT_CALL(package, get_location()).WillOnce(Return("address"));
 
-    serializer->serialize(package);
-}
-
-TEST_F(PackageSerializerTest, SerializerSetsUrlAsStringToYamlNode) {
-    EXPECT_CALL(package, get_url()).WillOnce(Return("address"));
-
-    EXPECT_CALL(*node_ptr, insert("url", _)).WillOnce(
+    EXPECT_CALL(*node_ptr, insert("location", _)).WillOnce(
     [](const std::string &, std::unique_ptr<IYamlNode> node) {
         EXPECT_EQ("address", node->as_string());
     });
-
-    serializer->serialize(package);
-}
-
-TEST_F(PackageSerializerTest, SerializerDoesNotSetUrlIfEmpty) {
-    EXPECT_CALL(package, get_url()).WillOnce(Return(""));
-    EXPECT_CALL(*node_ptr, insert("url", _)).Times(0);
 
     serializer->serialize(package);
 }

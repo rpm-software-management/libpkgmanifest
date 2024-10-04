@@ -1,4 +1,5 @@
 #include "packages_impl.hpp"
+#include "repositories_impl.hpp"
 
 #include "libpkgmanifest/packages.hpp"
 
@@ -54,6 +55,10 @@ std::vector<Package> Packages::get(const std::string & arch) const {
 
 void Packages::add(Package & package) {
     p_impl->get()->add(package.p_impl->get_factory_object());
+}
+
+void Packages::attach(Repositories & repositories) {
+    p_impl->get_binder().bind(*repositories.p_impl->get(), *p_impl->get());
 }
 
 }

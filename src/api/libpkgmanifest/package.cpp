@@ -1,4 +1,5 @@
 #include "package_impl.hpp"
+#include "repositories_impl.hpp"
 
 #include "libpkgmanifest/package.hpp"
 
@@ -29,12 +30,20 @@ std::string Package::get_repo_id() const {
     return p_impl->get()->get_repo_id();
 }
 
+std::string Package::get_location() const {
+    return p_impl->get()->get_location();
+}
+
 std::string Package::get_url() const {
     return p_impl->get()->get_url();
 }
 
 uint64_t Package::get_size() const {
     return p_impl->get()->get_size();
+}
+
+Repository & Package::get_repository() const {
+    return p_impl->get_repository();
 }
 
 Checksum & Package::get_checksum() {
@@ -57,8 +66,8 @@ void Package::set_repo_id(const std::string & repo_id) {
     p_impl->get()->set_repo_id(repo_id);
 }
 
-void Package::set_url(const std::string & url) {
-    p_impl->get()->set_url(url);
+void Package::set_location(const std::string & location) {
+    p_impl->get()->set_location(location);
 }
 
 void Package::set_size(uint64_t size) {
@@ -83,6 +92,11 @@ void Package::set_srpm(Nevra & srpm) {
 void Package::set_module(Module & module) {
     p_impl->get()->set_module(module.p_impl->get_factory_object());
     p_impl->get_module().p_impl->init(&p_impl->get()->get_module());
+}
+
+void Package::attach(Repositories & repositories) {
+    p_impl->get_binder().bind(*repositories.p_impl->get(), *p_impl->get());
+    p_impl->init(p_impl->get());
 }
 
 }

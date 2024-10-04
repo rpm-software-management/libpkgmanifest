@@ -3,6 +3,8 @@
 #include "checksum.hpp"
 #include "module.hpp"
 #include "nevra.hpp"
+#include "repository.hpp"
+#include "repositories.hpp"
 
 #include <memory>
 #include <stdint.h>
@@ -26,15 +28,22 @@ public:
     /// @return The repository ID.
     std::string get_repo_id() const;
 
-    /// @brief Retrieves the URL where the package can be downloaded.
-    /// @note This is mainly used for 3rd party packages. 
-    /// @note For packages from official repositories, the repository ID is preferred, as mirror links may be transient.
-    /// @return The URL of the package.
+    /// @brief Retrieves the package's relative path within the repository.
+    /// @return The package's relative path.
+    std::string get_location() const;
+
+    /// @brief Retrieves the complete URL for downloading the package.
+    /// @note Constructed by combining the repository URL and the package's relative location path.
+    /// @return The full URL of the package.
     std::string get_url() const;
 
     /// @brief Retrieves the download size of the package in bytes.
     /// @return The size of the package in bytes.
     uint64_t get_size() const;
+
+    /// @brief Retrieves the repository where the package originates.
+    /// @return The repository object.
+    Repository & get_repository() const;
 
     /// @brief Retrieves the checksum associated with this package.
     /// @return The package checksum.
@@ -57,9 +66,9 @@ public:
     /// @param repo_id The repository ID to be set.
     void set_repo_id(const std::string & repo_id);
 
-    /// @brief Sets the URL where the package can be downloaded.
-    /// @param url The URL to be set for the package.
-    void set_url(const std::string & url);
+    /// @brief Sets the package's relative path within the repository.
+    /// @param url The path to be set for the package.
+    void set_location(const std::string & location);
 
     /// @brief Sets the download size of the package in bytes.
     /// @param size The size of the package in bytes to be set.
@@ -73,13 +82,18 @@ public:
     /// @param nevra The NEVRA identifier to be set for the package.
     void set_nevra(Nevra & nevra);
 
-    /// @brief Sets the source package NEVAR identifier.
+    /// @brief Sets the source package NEVRA identifier.
     /// @note This identifies the source package used to build this binary package.
     void set_srpm(Nevra & srpm);
 
     /// @brief Sets the module information associated with this package.
     /// @param module The module to be set for the package.
     void set_module(Module & module);
+
+    /// @brief Binds the repositories to the package object.
+    /// @note Used to reference and validate repository-related information within the package.
+    /// @param repositories The repositories object to bind.
+    void attach(Repositories & repositories);
 
 private:
     friend class Packages;

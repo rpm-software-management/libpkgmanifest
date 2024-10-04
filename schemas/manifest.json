@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "RPM Package Manifest Schema",
-    "schemaVersion": "0.0.4",
+    "schemaVersion": "0.1.0",
     "description": "Schema for RPM manifest files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
     "type": "object",
     "required": [
@@ -25,9 +25,32 @@
         "data": {
             "type": "object",
             "required": [
+                "repositories",
                 "packages"
             ],
             "properties": {
+                "repositories": {
+                    "type": "array",
+                    "description": "A list of RPM repositories that serve as sources for all packages defined in the manifest.",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "url"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "Represents the ID of the repository as defined in the repo file available to the package manager at the time of package installation."
+                            },
+                            "url": {
+                                "type": "string",
+                                "format": "uri",
+                                "description": "The root URL of a repository where all content is hosted."
+                            }
+                        }
+                    }
+                },
                 "packages": {
                     "type": "object",
                     "description": "A mapping of architecture labels to arrays of packages. Each key represents an architecture (e.g., i686, x86_64, aarch64). The value is an array of package objects associated with that architecture.",
@@ -38,27 +61,24 @@
                                 "type": "object",
                                 "required": [
                                     "name",
+                                    "repo_id",
+                                    "location",
                                     "checksum",
                                     "size",
                                     "evr"
-                                ],
-                                "anyOf": [
-                                    { "required": ["repoid"] },
-                                    { "required": ["url"] }
                                 ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
                                         "description": "The name of the package."
                                     },
-                                    "repoid": {
+                                    "repo_id": {
                                         "type": "string",
-                                        "description": "Represents the ID of the RPM repository as defined in the repo file available to the package manager at the time of package installation."
+                                        "description": "The ID of the repository from which this package originates. It references one of the repository IDs listed in the 'repositories' section."
                                     },
-                                    "url": {
+                                    "location": {
                                         "type": "string",
-                                        "format": "uri",
-                                        "description": "The URL where the package can be downloaded. This is optional for packages from official repositories but must be provided for packages from third-party sources for full identification."
+                                        "description": "The relative URL within the specified repository used to construct the full URL from which the package can be downloaded."
                                     },
                                     "checksum": {
                                         "type": "string",

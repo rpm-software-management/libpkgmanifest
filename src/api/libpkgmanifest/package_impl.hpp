@@ -1,18 +1,17 @@
 #pragma once
 
 #include "libpkgmanifest/package.hpp"
-#include "libpkgmanifest/checksum.hpp"
-#include "libpkgmanifest/module.hpp"
-#include "libpkgmanifest/nevra.hpp"
 
 #include "libpkgmanifest/objects/checksum/checksumfactory.hpp"
 #include "libpkgmanifest/objects/module/modulefactory.hpp"
 #include "libpkgmanifest/objects/nevra/nevrafactory.hpp"
 #include "libpkgmanifest/objects/package/packagefactory.hpp"
+#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
 
 #include "checksum_impl.hpp"
 #include "module_impl.hpp"
 #include "nevra_impl.hpp"
+#include "repository_impl.hpp"
 
 namespace libpkgmanifest {
 
@@ -21,10 +20,12 @@ public:
     Impl()
         : package(nullptr)
         , factory_package(nullptr)
+        , repository()
         , checksum()
         , nevra()
         , srpm()
-        , module() {}
+        , module()
+        , binder() {}
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -48,6 +49,11 @@ public:
         return std::move(factory_package);
     }
 
+    Repository & get_repository() {
+        ensure_object_exists();
+        return repository;
+    }
+
     Checksum & get_checksum() {
         ensure_object_exists();
         return checksum;
@@ -68,12 +74,21 @@ public:
         return module;
     }
 
+    internal::IPackageRepositoryBinder & get_binder() {
+        return binder;
+    }
+
     void init(internal::IPackage * package) {
         this->package = package;
         checksum.p_impl->init(&package->get_checksum());
         nevra.p_impl->init(&package->get_nevra());
         srpm.p_impl->init(&package->get_srpm());
         module.p_impl->init(&package->get_module());
+
+        // Repository information is not available at the time of object construction.
+        if (!factory_package) {
+            repository.p_impl->init(&package->get_repository());
+        }
     }
 
 private:
@@ -99,10 +114,12 @@ private:
 
     internal::IPackage * package;
     std::unique_ptr<internal::IPackage> factory_package;
+    Repository repository;
     Checksum checksum;
     Nevra nevra;
     Nevra srpm;
     Module module;
+    internal::PackageRepositoryBinder binder;
 };
 
 }

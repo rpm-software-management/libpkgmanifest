@@ -5,14 +5,20 @@ namespace libpkgmanifest::internal {
 
 ManifestFactory::ManifestFactory(
     std::shared_ptr<IPackagesFactory> packages_factory,
-    std::shared_ptr<IVersionFactory> version_factory)
+    std::shared_ptr<IRepositoriesFactory> repositories_factory,
+    std::shared_ptr<IVersionFactory> version_factory,
+    std::shared_ptr<IPackageRepositoryBinder> binder)
     : packages_factory(packages_factory)
-    , version_factory(version_factory) {}
+    , repositories_factory(repositories_factory)
+    , version_factory(version_factory)
+    , binder(binder) {}
 
 std::unique_ptr<IManifest> ManifestFactory::create() const {
     auto manifest = std::make_unique<Manifest>();
     manifest->set_document(DOCUMENT_ID);
+    manifest->set_repositories(repositories_factory->create());
     manifest->set_packages(packages_factory->create());
+    manifest->set_package_repository_binder(binder);
 
     auto version = version_factory->create();
     version->set_major(DOCUMENT_VERSION_MAJOR);

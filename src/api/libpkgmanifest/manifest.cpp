@@ -37,6 +37,10 @@ Packages & Manifest::get_packages() {
     return p_impl->get_packages();
 }
 
+Repositories & Manifest::get_repositories() {
+    return p_impl->get_repositories();
+}
+
 void Manifest::set_document(const std::string & document) {
     p_impl->get()->set_document(document);
 }
@@ -49,6 +53,11 @@ void Manifest::set_version(Version & version) {
 void Manifest::set_packages(Packages & packages) {
     p_impl->get()->set_packages(packages.p_impl->get_factory_object());
     p_impl->get_packages().p_impl->init(&p_impl->get()->get_packages());
+}
+
+void Manifest::set_repositories(Repositories & repositories) {
+    p_impl->get()->set_repositories(repositories.p_impl->get_factory_object());
+    p_impl->get_repositories().p_impl->init(&p_impl->get()->get_repositories());
 }
 
 }

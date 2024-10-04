@@ -82,6 +82,8 @@ def add_property_accessors(target_cls, src_cls=None, src_getter=None):
     #include "libpkgmanifest/package.hpp"
     #include "libpkgmanifest/packages.hpp"
     #include "libpkgmanifest/parser.hpp"
+    #include "libpkgmanifest/repository.hpp"
+    #include "libpkgmanifest/repositories.hpp"
     #include "libpkgmanifest/serializer.hpp"
     #include "libpkgmanifest/version.hpp"
 %}
@@ -90,6 +92,10 @@ def add_property_accessors(target_cls, src_cls=None, src_getter=None):
 %include "libpkgmanifest/module.hpp"
 %include "libpkgmanifest/nevra.hpp"
 %include "libpkgmanifest/version.hpp"
+
+%include "libpkgmanifest/repository.hpp"
+%include "libpkgmanifest/repositories.hpp"
+%template(MapRepositories) std::map<std::string, libpkgmanifest::Repository>;
 
 %include "libpkgmanifest/package.hpp"
 %template(VectorPackage) std::vector<libpkgmanifest::Package>;
@@ -107,6 +113,7 @@ add_property_accessors(Manifest)
 add_property_accessors(Module)
 add_property_accessors(Nevra)
 add_property_accessors(Package)
+add_property_accessors(Repository)
 add_property_accessors(Version)
 add_property_accessors(Package, Nevra, Package.get_nevra)
 %}
@@ -122,5 +129,12 @@ add_property_accessors(Package, Nevra, Package.get_nevra)
 %extend libpkgmanifest::Packages {
     std::vector<libpkgmanifest::Package> __getitem__(const std::string & key) const {
         return self->get(key);
+    }
+}
+
+// Make Repositories to act like a dictionary
+%extend libpkgmanifest::Repositories {
+    libpkgmanifest::Repository __getitem__(const std::string & id) const {
+        return self->get(id);
     }
 }

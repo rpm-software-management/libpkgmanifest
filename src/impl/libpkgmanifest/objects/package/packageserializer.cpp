@@ -19,19 +19,13 @@ std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package
     name_node->set(nevra.get_name());
     node->insert("name", std::move(name_node));
 
-    auto repo_id = package.get_repo_id();
-    if (!repo_id.empty()) {
-        auto repoid_node = node_factory->create();
-        repoid_node->set(repo_id);
-        node->insert("repoid", std::move(repoid_node));
-    }
+    auto repo_id_node = node_factory->create();
+    repo_id_node->set(package.get_repo_id());
+    node->insert("repo_id", std::move(repo_id_node));
 
-    auto url = package.get_url();
-    if (!url.empty()) {
-        auto url_node = node_factory->create();
-        url_node->set(url);
-        node->insert("url", std::move(url_node));
-    }
+    auto location_node = node_factory->create();
+    location_node->set(package.get_location());
+    node->insert("location", std::move(location_node));
 
     node->insert("checksum", checksum_serializer->serialize(package.get_checksum()));
 
