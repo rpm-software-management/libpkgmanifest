@@ -46,6 +46,21 @@ public:
         this->packages = packages;
     }
 
+    Package wrap_internal_item(internal::IPackage * package) const {
+        Package wrapped_package;
+        wrapped_package.p_impl->init(package);
+        return wrapped_package;
+    }
+
+    std::vector<Package> wrap_internal_items(const std::vector<std::unique_ptr<internal::IPackage>> & packages) const {
+        std::vector<Package> wrapped_packages;
+        wrapped_packages.reserve(packages.size());
+        for (const auto & package : packages) {
+            wrapped_packages.push_back(wrap_internal_item(package.get()));
+        }
+        return wrapped_packages;
+    }
+
 private:
     void copy_object(const Impl & other) {
         if (other.packages) {

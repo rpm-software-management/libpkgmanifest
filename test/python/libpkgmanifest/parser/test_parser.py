@@ -13,7 +13,7 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual(3, manifest.version.patch)
 
         repositories = manifest.repositories
-        self.assertEqual(3, len(repositories.get()))
+        self.assertEqual(3, repositories.size())
 
         repository1 = repositories['repo1']
         self.assertEqual('repo1', repository1.id)
@@ -28,6 +28,7 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual('file:///home/user/my/repository', repository3.url)
 
         packages = manifest.packages
+        self.assertEqual(3, len(packages.values()))
         self.assertEqual(2, len(packages['i686']))
         self.assertEqual(1, len(packages['src']))
 

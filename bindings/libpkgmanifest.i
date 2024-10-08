@@ -56,6 +56,35 @@ def add_property_accessors(target_cls, src_cls=None, src_getter=None):
         ))
 %}
 
+// Helper functions for implementing the Python iterator API based on the existing C++ iterator.
+%pythoncode %{
+class Iterator:
+    def __init__(self, container, begin, end):
+        self.container = container
+        self.cur = begin
+        self.end = end
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.cur == self.end:
+            raise StopIteration
+        else:
+            value = self.cur.value()
+            self.cur.next()
+            return value
+%}
+
+%define add_iterator(ClassName)
+%pythoncode %{
+def ClassName##__iter__(self):
+    return Iterator(self, self.begin(), self.end())
+ClassName.__iter__ = ClassName##__iter__
+del ClassName##__iter__
+%}
+%enddef
+
 %include <exception.i>
 %include <stdint.i>
 %include <std_map.i>
@@ -94,8 +123,12 @@ def add_property_accessors(target_cls, src_cls=None, src_getter=None):
 %include "libpkgmanifest/version.hpp"
 
 %include "libpkgmanifest/repository.hpp"
+
+%rename(next) libpkgmanifest::RepositoriesIterator::operator++();
+%rename(value) libpkgmanifest::RepositoriesIterator::operator*();
 %include "libpkgmanifest/repositories.hpp"
 %template(MapRepositories) std::map<std::string, libpkgmanifest::Repository>;
+add_iterator(Repositories)
 
 %include "libpkgmanifest/package.hpp"
 %template(VectorPackage) std::vector<libpkgmanifest::Package>;
@@ -118,23 +151,39 @@ add_property_accessors(Version)
 add_property_accessors(Package, Nevra, Package.get_nevra)
 %}
 
-// Allow nevra to be convertible to string
+// Allow Nevra to be convertible to string
 %extend libpkgmanifest::Nevra {
     std::string __str__() {
         return self->to_string();
     }
 }
 
-// Make Packages to act like a dictionary
+// Adjust Packages for a more convenient Python API
 %extend libpkgmanifest::Packages {
     std::vector<libpkgmanifest::Package> __getitem__(const std::string & key) const {
         return self->get(key);
     }
+
+    std::vector<libpkgmanifest::Package> values() {
+        return self->get();
+    }
 }
 
-// Make Repositories to act like a dictionary
+// Adjust Repositories for a more convenient Python API
 %extend libpkgmanifest::Repositories {
     libpkgmanifest::Repository __getitem__(const std::string & id) const {
         return self->get(id);
     }
-}
+
+    void __setitem__(const std::string & id, libpkgmanifest::Repository & repository) {
+        self->add(repository);
+    }
+
+    bool __contains__(const std::string & id) {
+        return self->contains(id);
+    }
+
+    std::size_t __len__() {
+        return self->size();
+    }
+};

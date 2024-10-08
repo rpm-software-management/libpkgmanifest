@@ -8,8 +8,6 @@
 
 namespace libpkgmanifest {
 
-class PackagesIterator;
-
 /// @brief A container for all packages listed in the manifest.
 class Packages {
 public:
