@@ -1,8 +1,8 @@
-#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
-#include "libpkgmanifest/mocks/objects/repository/repositoryfactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositoryfactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/repository/repositoryparser.hpp"
+#include "impl/libpkgmanifest/objects/repository/repositoryparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

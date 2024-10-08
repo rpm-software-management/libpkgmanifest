@@ -1,9 +1,9 @@
 #include "manifest_impl.hpp"
 
-#include "libpkgmanifest/exception.hpp"
-#include "libpkgmanifest/parser.hpp"
+#include "libpkgmanifest/common/exception.hpp"
+#include "libpkgmanifest/operations/parser.hpp"
 
-#include "libpkgmanifest/operations/parserfactory.hpp"
+#include "impl/libpkgmanifest/operations/parserfactory.hpp"
 
 #include <format>
 

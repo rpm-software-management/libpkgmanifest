@@ -1,8 +1,8 @@
 #pragma once
 
-#include "libpkgmanifest/checksum.hpp"
+#include "libpkgmanifest/objects/checksum.hpp"
 
-#include "libpkgmanifest/objects/checksum/checksumfactory.hpp"
+#include "impl/libpkgmanifest/objects/checksum/checksumfactory.hpp"
 
 namespace libpkgmanifest {
 

@@ -1,8 +1,8 @@
-#include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionmock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
 
-#include "libpkgmanifest/objects/version/versionserializer.hpp"
+#include "impl/libpkgmanifest/objects/version/versionserializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

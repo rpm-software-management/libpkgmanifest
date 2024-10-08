@@ -1,6 +1,6 @@
 #include "repository_impl.hpp"
 
-#include "libpkgmanifest/repository.hpp"
+#include "libpkgmanifest/objects/repository.hpp"
 
 namespace libpkgmanifest {
 

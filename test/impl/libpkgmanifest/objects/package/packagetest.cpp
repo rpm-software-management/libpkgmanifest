@@ -1,9 +1,9 @@
-#include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
-#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
 
-#include "libpkgmanifest/objects/package/package.hpp"
+#include "impl/libpkgmanifest/objects/package/package.hpp"
 
 #include <gtest/gtest.h>
 

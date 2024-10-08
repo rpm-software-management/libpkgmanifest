@@ -1,10 +1,10 @@
 #include "manifest_impl.hpp"
 
-#include "libpkgmanifest/exception.hpp"
-#include "libpkgmanifest/serializer.hpp"
+#include "libpkgmanifest/common/exception.hpp"
+#include "libpkgmanifest/operations/serializer.hpp"
 
-#include "libpkgmanifest/objects/manifest/manifestfactory.hpp"
-#include "libpkgmanifest/operations/serializerfactory.hpp"
+#include "impl/libpkgmanifest/objects/manifest/manifestfactory.hpp"
+#include "impl/libpkgmanifest/operations/serializerfactory.hpp"
 
 #include <format>
 

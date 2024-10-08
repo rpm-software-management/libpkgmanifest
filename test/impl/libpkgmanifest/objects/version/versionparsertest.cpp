@@ -1,9 +1,9 @@
-#include "libpkgmanifest/mocks/objects/version/versionfactorymock.hpp"
-#include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
-#include "libpkgmanifest/mocks/tools/stringsplittermock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionfactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionmock.hpp"
+#include "impl/libpkgmanifest/mocks/tools/stringsplittermock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/version/versionparser.hpp"
+#include "impl/libpkgmanifest/objects/version/versionparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

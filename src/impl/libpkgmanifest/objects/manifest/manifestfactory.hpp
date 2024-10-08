@@ -2,10 +2,10 @@
 
 #include "imanifestfactory.hpp"
 
-#include "libpkgmanifest/objects/packages/ipackagesfactory.hpp"
-#include "libpkgmanifest/objects/repositories/irepositoriesfactory.hpp"
-#include "libpkgmanifest/objects/version/iversionfactory.hpp"
-#include "libpkgmanifest/operations/ipackagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/objects/packages/ipackagesfactory.hpp"
+#include "impl/libpkgmanifest/objects/repositories/irepositoriesfactory.hpp"
+#include "impl/libpkgmanifest/objects/version/iversionfactory.hpp"
+#include "impl/libpkgmanifest/operations/ipackagerepositorybinder.hpp"
 
 namespace libpkgmanifest::internal {
 

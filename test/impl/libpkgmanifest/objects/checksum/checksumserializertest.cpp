@@ -1,8 +1,8 @@
-#include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
 
-#include "libpkgmanifest/objects/checksum/checksumserializer.hpp"
+#include "impl/libpkgmanifest/objects/checksum/checksumserializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

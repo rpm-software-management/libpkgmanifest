@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/nevra/nevra.hpp"
+#include "impl/libpkgmanifest/objects/nevra/nevra.hpp"
 
 #include <gtest/gtest.h>
 

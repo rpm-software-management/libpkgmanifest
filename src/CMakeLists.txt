@@ -3,8 +3,7 @@ file(GLOB_RECURSE libpkgmanifest_SOURCES *.cpp)
 list(APPEND libpkgmanifest_PC_REQUIRES)
 list(APPEND libpkgmanifest_PC_REQUIRES_PRIVATE)
 
-include_directories(./api)
-include_directories(./impl)
+include_directories(.)
 
 add_library(libpkgmanifest SHARED ${libpkgmanifest_SOURCES})
 set_target_properties(libpkgmanifest PROPERTIES OUTPUT_NAME "pkgmanifest")

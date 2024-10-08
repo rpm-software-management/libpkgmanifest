@@ -3,7 +3,7 @@
 #include "ichecksumfactory.hpp"
 #include "ichecksumparser.hpp"
 
-#include "libpkgmanifest/tools/istringsplitter.hpp"
+#include "impl/libpkgmanifest/tools/istringsplitter.hpp"
 
 namespace libpkgmanifest::internal {
 

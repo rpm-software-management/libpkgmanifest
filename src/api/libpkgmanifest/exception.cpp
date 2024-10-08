@@ -1,4 +1,4 @@
-#include "libpkgmanifest/exception.hpp"
+#include "libpkgmanifest/common/exception.hpp"
 
 namespace libpkgmanifest {
 

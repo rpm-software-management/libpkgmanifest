@@ -1,15 +1,15 @@
-#include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
-#include "libpkgmanifest/mocks/objects/checksum/checksumserializermock.hpp"
-#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
-#include "libpkgmanifest/mocks/objects/module/moduleserializermock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksumserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/moduleserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packagemock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
 
-#include "libpkgmanifest/objects/package/packageserializer.hpp"
+#include "impl/libpkgmanifest/objects/package/packageserializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

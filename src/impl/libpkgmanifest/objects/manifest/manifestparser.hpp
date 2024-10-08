@@ -3,10 +3,10 @@
 #include "imanifestfactory.hpp"
 #include "imanifestparser.hpp"
 
-#include "libpkgmanifest/objects/packages/ipackagesparser.hpp"
-#include "libpkgmanifest/objects/repositories/irepositoriesparser.hpp"
-#include "libpkgmanifest/objects/version/iversionparser.hpp"
-#include "libpkgmanifest/operations/ipackagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/objects/packages/ipackagesparser.hpp"
+#include "impl/libpkgmanifest/objects/repositories/irepositoriesparser.hpp"
+#include "impl/libpkgmanifest/objects/version/iversionparser.hpp"
+#include "impl/libpkgmanifest/operations/ipackagerepositorybinder.hpp"
 
 namespace libpkgmanifest::internal {
 

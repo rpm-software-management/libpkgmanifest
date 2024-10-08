@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/version/iversionserializer.hpp"
+#include "impl/libpkgmanifest/objects/version/iversionserializer.hpp"
 
 #include <gmock/gmock.h>
 

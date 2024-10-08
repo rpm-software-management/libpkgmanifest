@@ -2,7 +2,7 @@
 
 #include "ipackagerepositorybinder.hpp"
 
-#include "libpkgmanifest/objects/repository/irepository.hpp"
+#include "impl/libpkgmanifest/objects/repository/irepository.hpp"
 
 namespace libpkgmanifest::internal {
 

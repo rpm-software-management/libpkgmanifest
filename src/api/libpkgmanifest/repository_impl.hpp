@@ -1,8 +1,8 @@
 #pragma once
 
-#include "libpkgmanifest/repository.hpp"
+#include "libpkgmanifest/objects/repository.hpp"
 
-#include "libpkgmanifest/objects/repository/repositoryfactory.hpp"
+#include "impl/libpkgmanifest/objects/repository/repositoryfactory.hpp"
 
 namespace libpkgmanifest {
 

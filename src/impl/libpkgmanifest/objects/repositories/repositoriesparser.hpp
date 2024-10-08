@@ -3,7 +3,7 @@
 #include "irepositoriesfactory.hpp"
 #include "irepositoriesparser.hpp"
 
-#include "libpkgmanifest/objects/repository/irepositoryparser.hpp"
+#include "impl/libpkgmanifest/objects/repository/irepositoryparser.hpp"
 
 namespace libpkgmanifest::internal {
 

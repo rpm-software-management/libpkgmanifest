@@ -1,14 +1,14 @@
-#include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
-#include "libpkgmanifest/mocks/objects/checksum/checksumparsermock.hpp"
-#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
-#include "libpkgmanifest/mocks/objects/module/moduleparsermock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevraparsermock.hpp"
-#include "libpkgmanifest/mocks/objects/package/packagefactorymock.hpp"
-#include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksumparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/moduleparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevraparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packagefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packagemock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/package/packageparser.hpp"
+#include "impl/libpkgmanifest/objects/package/packageparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

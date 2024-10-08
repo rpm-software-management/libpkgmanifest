@@ -1,4 +1,4 @@
-#include "libpkgmanifest/yaml/iyamlnodeinternal.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnodeinternal.hpp"
 
 using namespace libpkgmanifest::internal;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libpkgmanifest/checksum.hpp"
+#include "libpkgmanifest/objects/checksum.hpp"
 
 #include <memory>
 #include <string>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libpkgmanifest/objects/package/ipackage.hpp"
+#include "impl/libpkgmanifest/objects/package/ipackage.hpp"
 
 #include <map>
 #include <memory>

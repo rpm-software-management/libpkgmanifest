@@ -2,8 +2,8 @@
 
 #include "iserializer.hpp"
 
-#include "libpkgmanifest/objects/manifest/imanifestserializer.hpp"
-#include "libpkgmanifest/yaml/iyamlserializer.hpp"
+#include "impl/libpkgmanifest/objects/manifest/imanifestserializer.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlserializer.hpp"
 
 namespace libpkgmanifest::internal {
 

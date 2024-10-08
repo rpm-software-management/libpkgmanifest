@@ -1,4 +1,4 @@
-#include "libpkgmanifest/tools/stringsplitter.hpp"
+#include "impl/libpkgmanifest/tools/stringsplitter.hpp"
 
 #include <gtest/gtest.h>
 

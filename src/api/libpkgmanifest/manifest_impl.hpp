@@ -1,12 +1,12 @@
 #pragma once
 
-#include "libpkgmanifest/manifest.hpp"
+#include "libpkgmanifest/objects/manifest.hpp"
 
-#include "libpkgmanifest/objects/manifest/manifestfactory.hpp"
-#include "libpkgmanifest/objects/packages/packagesfactory.hpp"
-#include "libpkgmanifest/objects/repositories/repositoriesfactory.hpp"
-#include "libpkgmanifest/objects/version/versionfactory.hpp"
-#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/objects/manifest/manifestfactory.hpp"
+#include "impl/libpkgmanifest/objects/packages/packagesfactory.hpp"
+#include "impl/libpkgmanifest/objects/repositories/repositoriesfactory.hpp"
+#include "impl/libpkgmanifest/objects/version/versionfactory.hpp"
+#include "impl/libpkgmanifest/operations/packagerepositorybinder.hpp"
 
 #include "packages_impl.hpp"
 #include "repositories_impl.hpp"

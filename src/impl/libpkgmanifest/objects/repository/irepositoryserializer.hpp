@@ -2,7 +2,7 @@
 
 #include "irepository.hpp"
 
-#include "libpkgmanifest/yaml/iyamlnode.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnode.hpp"
 
 #include <memory>
 

@@ -1,4 +1,4 @@
-#include "libpkgmanifest/serializer.hpp"
+#include "libpkgmanifest/operations/serializer.hpp"
 
 #include <gtest/gtest.h>
 

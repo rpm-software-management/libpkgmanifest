@@ -2,7 +2,7 @@
 
 #include "inevra.hpp"
 
-#include "libpkgmanifest/yaml/iyamlnode.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnode.hpp"
 
 #include <memory>
 #include <string>

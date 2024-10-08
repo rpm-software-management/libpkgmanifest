@@ -1,10 +1,10 @@
-#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
 
-#include "libpkgmanifest/objects/repository/repositoryserializer.hpp"
+#include "impl/libpkgmanifest/objects/repository/repositoryserializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

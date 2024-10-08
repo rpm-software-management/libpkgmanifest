@@ -1,8 +1,8 @@
 #pragma once
 
-#include "libpkgmanifest/objects/package/ipackage.hpp"
-#include "libpkgmanifest/objects/packages/ipackages.hpp"
-#include "libpkgmanifest/objects/repositories/irepositories.hpp"
+#include "impl/libpkgmanifest/objects/package/ipackage.hpp"
+#include "impl/libpkgmanifest/objects/packages/ipackages.hpp"
+#include "impl/libpkgmanifest/objects/repositories/irepositories.hpp"
 
 namespace libpkgmanifest::internal {
 

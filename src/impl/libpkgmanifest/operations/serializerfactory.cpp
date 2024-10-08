@@ -1,17 +1,17 @@
 #include "serializerfactory.hpp"
 #include "serializer.hpp"
 
-#include "libpkgmanifest/objects/checksum/checksumserializer.hpp"
-#include "libpkgmanifest/objects/module/moduleserializer.hpp"
-#include "libpkgmanifest/objects/package/packageserializer.hpp"
-#include "libpkgmanifest/objects/packages/packagesserializer.hpp"
-#include "libpkgmanifest/objects/repository/repositoryserializer.hpp"
-#include "libpkgmanifest/objects/repositories/repositoriesserializer.hpp"
-#include "libpkgmanifest/objects/manifest/manifestserializer.hpp"
-#include "libpkgmanifest/objects/version/versionserializer.hpp"
-#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
-#include "libpkgmanifest/yaml/yamlnodefactory.hpp"
-#include "libpkgmanifest/yaml/yamlserializer.hpp"
+#include "impl/libpkgmanifest/objects/checksum/checksumserializer.hpp"
+#include "impl/libpkgmanifest/objects/module/moduleserializer.hpp"
+#include "impl/libpkgmanifest/objects/package/packageserializer.hpp"
+#include "impl/libpkgmanifest/objects/packages/packagesserializer.hpp"
+#include "impl/libpkgmanifest/objects/repository/repositoryserializer.hpp"
+#include "impl/libpkgmanifest/objects/repositories/repositoriesserializer.hpp"
+#include "impl/libpkgmanifest/objects/manifest/manifestserializer.hpp"
+#include "impl/libpkgmanifest/objects/version/versionserializer.hpp"
+#include "impl/libpkgmanifest/operations/packagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/yaml/yamlnodefactory.hpp"
+#include "impl/libpkgmanifest/yaml/yamlserializer.hpp"
 
 namespace libpkgmanifest::internal {
 

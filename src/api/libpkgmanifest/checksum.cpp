@@ -1,6 +1,6 @@
 #include "checksum_impl.hpp"
 
-#include "libpkgmanifest/checksum.hpp"
+#include "libpkgmanifest/objects/checksum.hpp"
 
 namespace libpkgmanifest {
 

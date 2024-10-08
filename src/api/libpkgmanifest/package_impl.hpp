@@ -1,12 +1,12 @@
 #pragma once
 
-#include "libpkgmanifest/package.hpp"
+#include "libpkgmanifest/objects/package.hpp"
 
-#include "libpkgmanifest/objects/checksum/checksumfactory.hpp"
-#include "libpkgmanifest/objects/module/modulefactory.hpp"
-#include "libpkgmanifest/objects/nevra/nevrafactory.hpp"
-#include "libpkgmanifest/objects/package/packagefactory.hpp"
-#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/objects/checksum/checksumfactory.hpp"
+#include "impl/libpkgmanifest/objects/module/modulefactory.hpp"
+#include "impl/libpkgmanifest/objects/nevra/nevrafactory.hpp"
+#include "impl/libpkgmanifest/objects/package/packagefactory.hpp"
+#include "impl/libpkgmanifest/operations/packagerepositorybinder.hpp"
 
 #include "checksum_impl.hpp"
 #include "module_impl.hpp"

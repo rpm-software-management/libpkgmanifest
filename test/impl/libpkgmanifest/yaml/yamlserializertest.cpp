@@ -1,4 +1,4 @@
-#include "libpkgmanifest/yaml/yamlserializer.hpp"
+#include "impl/libpkgmanifest/yaml/yamlserializer.hpp"
 
 #include <gtest/gtest.h>
 

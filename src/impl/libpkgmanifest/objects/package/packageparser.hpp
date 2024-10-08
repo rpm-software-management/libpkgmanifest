@@ -3,9 +3,9 @@
 #include "ipackagefactory.hpp"
 #include "ipackageparser.hpp"
 
-#include "libpkgmanifest/objects/checksum/ichecksumparser.hpp"
-#include "libpkgmanifest/objects/nevra/inevraparser.hpp"
-#include "libpkgmanifest/objects/module/imoduleparser.hpp"
+#include "impl/libpkgmanifest/objects/checksum/ichecksumparser.hpp"
+#include "impl/libpkgmanifest/objects/nevra/inevraparser.hpp"
+#include "impl/libpkgmanifest/objects/module/imoduleparser.hpp"
 
 namespace libpkgmanifest::internal {
 

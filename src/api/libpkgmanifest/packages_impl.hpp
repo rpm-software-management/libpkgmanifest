@@ -1,9 +1,9 @@
 #pragma once
 
-#include "libpkgmanifest/packages.hpp"
+#include "libpkgmanifest/objects/packages.hpp"
 
-#include "libpkgmanifest/objects/packages/packagesfactory.hpp"
-#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/objects/packages/packagesfactory.hpp"
+#include "impl/libpkgmanifest/operations/packagerepositorybinder.hpp"
 
 #include "package_impl.hpp"
 

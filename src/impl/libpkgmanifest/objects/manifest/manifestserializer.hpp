@@ -2,11 +2,11 @@
 
 #include "imanifestserializer.hpp"
 
-#include "libpkgmanifest/objects/packages/ipackagesserializer.hpp"
-#include "libpkgmanifest/objects/repositories/irepositoriesserializer.hpp"
-#include "libpkgmanifest/objects/version/iversionserializer.hpp"
-#include "libpkgmanifest/operations/ipackagerepositorybinder.hpp"
-#include "libpkgmanifest/yaml/iyamlnodefactory.hpp"
+#include "impl/libpkgmanifest/objects/packages/ipackagesserializer.hpp"
+#include "impl/libpkgmanifest/objects/repositories/irepositoriesserializer.hpp"
+#include "impl/libpkgmanifest/objects/version/iversionserializer.hpp"
+#include "impl/libpkgmanifest/operations/ipackagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnodefactory.hpp"
 
 namespace libpkgmanifest::internal {
 

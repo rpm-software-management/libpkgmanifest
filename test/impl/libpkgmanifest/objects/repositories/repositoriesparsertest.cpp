@@ -1,10 +1,10 @@
-#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
-#include "libpkgmanifest/mocks/objects/repository/repositoryparsermock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesfactorymock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositoryparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesfactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/repositories/repositoriesparser.hpp"
+#include "impl/libpkgmanifest/objects/repositories/repositoriesparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

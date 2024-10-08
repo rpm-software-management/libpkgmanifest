@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/nevra/inevrafactory.hpp"
+#include "impl/libpkgmanifest/objects/nevra/inevrafactory.hpp"
 
 #include <gmock/gmock.h>
 

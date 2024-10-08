@@ -9,10 +9,9 @@ enable_testing()
 
 file(GLOB_RECURSE TEST_libpkgmanifest_SOURCES *.cpp)
 
-include_directories(./api)
-include_directories(./impl)
+include_directories(.)
 include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_SOURCE_DIR}/src/impl)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 
 add_executable(libpkgmanifest_tests_runner ${TEST_libpkgmanifest_SOURCES})
 

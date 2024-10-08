@@ -1,6 +1,6 @@
 #include "manifest_impl.hpp"
 
-#include "libpkgmanifest/manifest.hpp"
+#include "libpkgmanifest/objects/manifest.hpp"
 
 namespace libpkgmanifest {
 

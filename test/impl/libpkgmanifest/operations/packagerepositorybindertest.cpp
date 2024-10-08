@@ -1,10 +1,10 @@
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
-#include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
-#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packagemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
 
-#include "libpkgmanifest/operations/packagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/operations/packagerepositorybinder.hpp"
 
 #include <gtest/gtest.h>
 

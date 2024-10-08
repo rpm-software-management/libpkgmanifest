@@ -1,9 +1,9 @@
-#include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
-#include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
-#include "libpkgmanifest/mocks/operations/packagerepositorybindermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionmock.hpp"
+#include "impl/libpkgmanifest/mocks/operations/packagerepositorybindermock.hpp"
 
-#include "libpkgmanifest/objects/manifest/manifest.hpp"
+#include "impl/libpkgmanifest/objects/manifest/manifest.hpp"
 
 #include <gtest/gtest.h>
 

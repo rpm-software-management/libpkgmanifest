@@ -3,7 +3,7 @@
 #include "iversionfactory.hpp"
 #include "iversionparser.hpp"
 
-#include "libpkgmanifest/tools/istringsplitter.hpp"
+#include "impl/libpkgmanifest/tools/istringsplitter.hpp"
 
 namespace libpkgmanifest::internal {
 

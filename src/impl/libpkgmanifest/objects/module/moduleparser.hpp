@@ -3,7 +3,7 @@
 #include "imodulefactory.hpp"
 #include "imoduleparser.hpp"
 
-#include "libpkgmanifest/tools/istringsplitter.hpp"
+#include "impl/libpkgmanifest/tools/istringsplitter.hpp"
 
 namespace libpkgmanifest::internal {
 

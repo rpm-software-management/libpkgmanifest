@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/checksum/ichecksumserializer.hpp"
+#include "impl/libpkgmanifest/objects/checksum/ichecksumserializer.hpp"
 
 #include <gmock/gmock.h>
 

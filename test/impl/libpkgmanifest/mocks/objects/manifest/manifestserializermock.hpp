@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/manifest/imanifestserializer.hpp"
+#include "impl/libpkgmanifest/objects/manifest/imanifestserializer.hpp"
 
 #include <gmock/gmock.h>
 

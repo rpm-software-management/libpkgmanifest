@@ -1,6 +1,6 @@
-#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
 
-#include "libpkgmanifest/objects/repositories/repositories.hpp"
+#include "impl/libpkgmanifest/objects/repositories/repositories.hpp"
 
 #include <gtest/gtest.h>
 

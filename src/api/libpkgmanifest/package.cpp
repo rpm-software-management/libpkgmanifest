@@ -1,7 +1,7 @@
 #include "package_impl.hpp"
 #include "repositories_impl.hpp"
 
-#include "libpkgmanifest/package.hpp"
+#include "libpkgmanifest/objects/package.hpp"
 
 namespace libpkgmanifest {
 

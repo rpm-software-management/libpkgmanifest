@@ -104,41 +104,42 @@ del ClassName##__iter__
 %ignore std::vector::resize;
 
 %{
-    #include "libpkgmanifest/checksum.hpp"
-    #include "libpkgmanifest/manifest.hpp"
-    #include "libpkgmanifest/module.hpp"
-    #include "libpkgmanifest/nevra.hpp"
-    #include "libpkgmanifest/package.hpp"
-    #include "libpkgmanifest/packages.hpp"
-    #include "libpkgmanifest/parser.hpp"
-    #include "libpkgmanifest/repository.hpp"
-    #include "libpkgmanifest/repositories.hpp"
-    #include "libpkgmanifest/serializer.hpp"
-    #include "libpkgmanifest/version.hpp"
+    #include "libpkgmanifest/objects/checksum.hpp"
+    #include "libpkgmanifest/objects/manifest.hpp"
+    #include "libpkgmanifest/objects/module.hpp"
+    #include "libpkgmanifest/objects/nevra.hpp"
+    #include "libpkgmanifest/objects/package.hpp"
+    #include "libpkgmanifest/objects/packages.hpp"
+    #include "libpkgmanifest/objects/repository.hpp"
+    #include "libpkgmanifest/objects/repositories.hpp"
+    #include "libpkgmanifest/objects/version.hpp"
+    #include "libpkgmanifest/operations/parser.hpp"
+    #include "libpkgmanifest/operations/serializer.hpp"
 %}
 
-%include "libpkgmanifest/checksum.hpp"
-%include "libpkgmanifest/module.hpp"
-%include "libpkgmanifest/nevra.hpp"
-%include "libpkgmanifest/version.hpp"
+%include "libpkgmanifest/objects/checksum.hpp"
+%include "libpkgmanifest/objects/module.hpp"
+%include "libpkgmanifest/objects/nevra.hpp"
+%include "libpkgmanifest/objects/version.hpp"
 
-%include "libpkgmanifest/repository.hpp"
+%include "libpkgmanifest/objects/repository.hpp"
 
 %rename(next) libpkgmanifest::RepositoriesIterator::operator++();
 %rename(value) libpkgmanifest::RepositoriesIterator::operator*();
-%include "libpkgmanifest/repositories.hpp"
+%include "libpkgmanifest/objects/repositories.hpp"
 %template(MapRepositories) std::map<std::string, libpkgmanifest::Repository>;
 add_iterator(Repositories)
 
-%include "libpkgmanifest/package.hpp"
+%include "libpkgmanifest/objects/package.hpp"
 %template(VectorPackage) std::vector<libpkgmanifest::Package>;
 
-%include "libpkgmanifest/packages.hpp"
+%include "libpkgmanifest/objects/packages.hpp"
 %template(MapPackages) std::map<std::string, std::vector<libpkgmanifest::Package>>;
 
-%include "libpkgmanifest/manifest.hpp"
-%include "libpkgmanifest/parser.hpp"
-%include "libpkgmanifest/serializer.hpp"
+%include "libpkgmanifest/objects/manifest.hpp"
+
+%include "libpkgmanifest/operations/parser.hpp"
+%include "libpkgmanifest/operations/serializer.hpp"
 
 %pythoncode %{
 add_property_accessors(Checksum)
