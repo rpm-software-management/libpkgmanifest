@@ -1,4 +1,4 @@
-#include "libpkgmanifest/yaml/yamlnode.hpp"
+#include "impl/libpkgmanifest/yaml/yamlnode.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

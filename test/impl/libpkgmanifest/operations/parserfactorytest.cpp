@@ -1,4 +1,4 @@
-#include "libpkgmanifest/operations/parserfactory.hpp"
+#include "impl/libpkgmanifest/operations/parserfactory.hpp"
 
 #include <gtest/gtest.h>
 

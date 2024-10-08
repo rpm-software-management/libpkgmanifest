@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/module/imoduleparser.hpp"
+#include "impl/libpkgmanifest/objects/module/imoduleparser.hpp"
 
 #include <gmock/gmock.h>
 

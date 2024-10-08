@@ -1,9 +1,9 @@
-#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
-#include "libpkgmanifest/mocks/objects/module/modulefactorymock.hpp"
-#include "libpkgmanifest/mocks/tools/stringsplittermock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/tools/stringsplittermock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/module/moduleparser.hpp"
+#include "impl/libpkgmanifest/objects/module/moduleparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

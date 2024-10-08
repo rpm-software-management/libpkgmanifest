@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/repository/irepositoryserializer.hpp"
+#include "impl/libpkgmanifest/objects/repository/irepositoryserializer.hpp"
 
 #include <gmock/gmock.h>
 

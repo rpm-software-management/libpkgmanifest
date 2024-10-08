@@ -1,15 +1,15 @@
-#include "libpkgmanifest/mocks/objects/manifest/manifestfactorymock.hpp"
-#include "libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
-#include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
-#include "libpkgmanifest/mocks/objects/packages/packagesparsermock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesparsermock.hpp"
-#include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
-#include "libpkgmanifest/mocks/objects/version/versionparsermock.hpp"
-#include "libpkgmanifest/mocks/operations/packagerepositorybindermock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestfactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/operations/packagerepositorybindermock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/manifest/manifestparser.hpp"
+#include "impl/libpkgmanifest/objects/manifest/manifestparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

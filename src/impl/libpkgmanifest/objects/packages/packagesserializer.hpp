@@ -2,8 +2,8 @@
 
 #include "ipackagesserializer.hpp"
 
-#include "libpkgmanifest/objects/package/ipackageserializer.hpp"
-#include "libpkgmanifest/yaml/iyamlnodefactory.hpp"
+#include "impl/libpkgmanifest/objects/package/ipackageserializer.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnodefactory.hpp"
 
 namespace libpkgmanifest::internal {
 

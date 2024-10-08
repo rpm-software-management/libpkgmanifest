@@ -1,16 +1,16 @@
-#include "libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
-#include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
-#include "libpkgmanifest/mocks/objects/packages/packagesserializermock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesserializermock.hpp"
-#include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
-#include "libpkgmanifest/mocks/objects/version/versionserializermock.hpp"
-#include "libpkgmanifest/mocks/operations/packagerepositorybindermock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/operations/packagerepositorybindermock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
 
-#include "libpkgmanifest/objects/manifest/manifestserializer.hpp"
+#include "impl/libpkgmanifest/objects/manifest/manifestserializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

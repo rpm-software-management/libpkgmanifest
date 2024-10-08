@@ -1,14 +1,14 @@
-#include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
-#include "libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
-#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
-#include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
-#include "libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
-#include "libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
-#include "libpkgmanifest/mocks/objects/version/versionmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packagemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repository/repositorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/version/versionmock.hpp"
 
-#include "libpkgmanifest/operations/serializerfactory.hpp"
+#include "impl/libpkgmanifest/operations/serializerfactory.hpp"
 
 #include <gtest/gtest.h>
 

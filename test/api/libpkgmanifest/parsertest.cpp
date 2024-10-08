@@ -1,4 +1,4 @@
-#include "libpkgmanifest/parser.hpp"
+#include "libpkgmanifest/operations/parser.hpp"
 
 #include <gtest/gtest.h>
 

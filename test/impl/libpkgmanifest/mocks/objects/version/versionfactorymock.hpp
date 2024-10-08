@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/version/iversionfactory.hpp"
+#include "impl/libpkgmanifest/objects/version/iversionfactory.hpp"
 
 #include <gmock/gmock.h>
 

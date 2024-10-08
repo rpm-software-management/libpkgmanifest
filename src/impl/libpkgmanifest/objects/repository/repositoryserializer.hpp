@@ -2,7 +2,7 @@
 
 #include "irepositoryserializer.hpp"
 
-#include "libpkgmanifest/yaml/iyamlnodefactory.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnodefactory.hpp"
 
 namespace libpkgmanifest::internal {
 

@@ -1,6 +1,6 @@
 #include "nevra_impl.hpp"
 
-#include "libpkgmanifest/nevra.hpp"
+#include "libpkgmanifest/objects/nevra.hpp"
 
 namespace libpkgmanifest {
 

@@ -1,6 +1,6 @@
 #include "version_impl.hpp"
 
-#include "libpkgmanifest/version.hpp"
+#include "libpkgmanifest/objects/version.hpp"
 
 namespace libpkgmanifest {
 

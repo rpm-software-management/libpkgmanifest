@@ -1,7 +1,7 @@
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packagemock.hpp"
 
-#include "libpkgmanifest/objects/packages/packages.hpp"
+#include "impl/libpkgmanifest/objects/packages/packages.hpp"
 
 #include <gtest/gtest.h>
 

@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/module/module.hpp"
+#include "impl/libpkgmanifest/objects/module/module.hpp"
 
 #include <gtest/gtest.h>
 

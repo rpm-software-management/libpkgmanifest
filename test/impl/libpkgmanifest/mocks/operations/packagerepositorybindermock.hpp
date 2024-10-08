@@ -1,4 +1,4 @@
-#include "libpkgmanifest/operations/ipackagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/operations/ipackagerepositorybinder.hpp"
 
 #include <gmock/gmock.h>
 

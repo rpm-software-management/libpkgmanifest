@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libpkgmanifest/objects/repository/irepository.hpp"
+#include "impl/libpkgmanifest/objects/repository/irepository.hpp"
 
 #include <map>
 #include <memory>

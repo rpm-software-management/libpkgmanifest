@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/module/imoduleserializer.hpp"
+#include "impl/libpkgmanifest/objects/module/imoduleserializer.hpp"
 
 #include <gmock/gmock.h>
 

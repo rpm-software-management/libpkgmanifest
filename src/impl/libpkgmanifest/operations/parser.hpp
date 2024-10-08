@@ -2,8 +2,8 @@
 
 #include "iparser.hpp"
 
-#include "libpkgmanifest/objects/manifest/imanifestparser.hpp"
-#include "libpkgmanifest/yaml/iyamlparser.hpp"
+#include "impl/libpkgmanifest/objects/manifest/imanifestparser.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlparser.hpp"
 
 namespace libpkgmanifest::internal {
 

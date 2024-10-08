@@ -1,4 +1,4 @@
-#include "libpkgmanifest/yaml/iyamlserializer.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlserializer.hpp"
 
 #include <gmock/gmock.h>
 

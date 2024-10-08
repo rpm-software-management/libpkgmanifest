@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/checksum/checksum.hpp"
+#include "impl/libpkgmanifest/objects/checksum/checksum.hpp"
 
 #include <gtest/gtest.h>
 

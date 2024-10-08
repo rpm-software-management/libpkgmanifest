@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/repository/irepositoryfactory.hpp"
+#include "impl/libpkgmanifest/objects/repository/irepositoryfactory.hpp"
 
 #include <gmock/gmock.h>
 

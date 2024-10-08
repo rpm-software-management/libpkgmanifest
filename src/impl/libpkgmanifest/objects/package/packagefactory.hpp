@@ -2,9 +2,9 @@
 
 #include "ipackagefactory.hpp"
 
-#include "libpkgmanifest/objects/checksum/ichecksumfactory.hpp"
-#include "libpkgmanifest/objects/module/imodulefactory.hpp"
-#include "libpkgmanifest/objects/nevra/inevrafactory.hpp"
+#include "impl/libpkgmanifest/objects/checksum/ichecksumfactory.hpp"
+#include "impl/libpkgmanifest/objects/module/imodulefactory.hpp"
+#include "impl/libpkgmanifest/objects/nevra/inevrafactory.hpp"
 
 namespace libpkgmanifest::internal {
 

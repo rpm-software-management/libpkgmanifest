@@ -1,9 +1,9 @@
-#include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
-#include "libpkgmanifest/mocks/objects/checksum/checksumfactorymock.hpp"
-#include "libpkgmanifest/mocks/tools/stringsplittermock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksumfactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/tools/stringsplittermock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/checksum/checksumparser.hpp"
+#include "impl/libpkgmanifest/objects/checksum/checksumparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/manifest/imanifestsetter.hpp"
+#include "impl/libpkgmanifest/objects/manifest/imanifestsetter.hpp"
 
 #include <gmock/gmock.h>
 

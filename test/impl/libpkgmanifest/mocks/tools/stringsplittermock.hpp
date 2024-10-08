@@ -1,4 +1,4 @@
-#include "libpkgmanifest/tools/istringsplitter.hpp"
+#include "impl/libpkgmanifest/tools/istringsplitter.hpp"
 
 #include <gmock/gmock.h>
 

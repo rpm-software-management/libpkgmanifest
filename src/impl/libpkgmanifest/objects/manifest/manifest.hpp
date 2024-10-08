@@ -2,7 +2,7 @@
 
 #include "imanifest.hpp"
 
-#include "libpkgmanifest/operations/ipackagerepositorybinder.hpp"
+#include "impl/libpkgmanifest/operations/ipackagerepositorybinder.hpp"
 
 namespace libpkgmanifest::internal {
 

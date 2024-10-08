@@ -1,8 +1,8 @@
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevrafactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevrafactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
 
-#include "libpkgmanifest/objects/nevra/nevraparser.hpp"
+#include "impl/libpkgmanifest/objects/nevra/nevraparser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

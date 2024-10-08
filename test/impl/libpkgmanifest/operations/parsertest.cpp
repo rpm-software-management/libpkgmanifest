@@ -1,9 +1,9 @@
-#include "libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
-#include "libpkgmanifest/mocks/objects/manifest/manifestparsermock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestparsermock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlparsermock.hpp"
 
-#include "libpkgmanifest/operations/parser.hpp"
+#include "impl/libpkgmanifest/operations/parser.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

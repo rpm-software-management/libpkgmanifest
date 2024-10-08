@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/checksum/ichecksum.hpp"
+#include "impl/libpkgmanifest/objects/checksum/ichecksum.hpp"
 
 #include <gmock/gmock.h>
 

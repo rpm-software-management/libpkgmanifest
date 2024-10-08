@@ -1,9 +1,9 @@
-#include "libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
-#include "libpkgmanifest/mocks/objects/manifest/manifestserializermock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/manifest/manifestserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodemock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlserializermock.hpp"
 
-#include "libpkgmanifest/operations/serializer.hpp"
+#include "impl/libpkgmanifest/operations/serializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

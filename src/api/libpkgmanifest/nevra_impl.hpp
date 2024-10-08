@@ -1,8 +1,8 @@
 #pragma once
 
-#include "libpkgmanifest/nevra.hpp"
+#include "libpkgmanifest/objects/nevra.hpp"
 
-#include "libpkgmanifest/objects/nevra/nevrafactory.hpp"
+#include "impl/libpkgmanifest/objects/nevra/nevrafactory.hpp"
 
 namespace libpkgmanifest {
 

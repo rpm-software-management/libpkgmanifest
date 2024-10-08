@@ -1,6 +1,6 @@
 #pragma once
 
-#include "manifest.hpp"
+#include "libpkgmanifest/objects/manifest.hpp"
 
 #include <memory>
 #include <string>

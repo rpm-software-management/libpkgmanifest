@@ -1,11 +1,11 @@
-#include "libpkgmanifest/mocks/objects/package/packagemock.hpp"
-#include "libpkgmanifest/mocks/objects/package/packageserializermock.hpp"
-#include "libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
-#include "libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packagemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/package/packageserializermock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalmock.hpp"
+#include "impl/libpkgmanifest/mocks/yaml/yamlnodeinternalstub.hpp"
 
-#include "libpkgmanifest/objects/packages/packagesserializer.hpp"
+#include "impl/libpkgmanifest/objects/packages/packagesserializer.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

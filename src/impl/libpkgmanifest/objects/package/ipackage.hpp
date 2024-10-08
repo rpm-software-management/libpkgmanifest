@@ -1,9 +1,9 @@
 #pragma once
 
-#include "libpkgmanifest/objects/checksum/ichecksum.hpp"
-#include "libpkgmanifest/objects/module/imodule.hpp"
-#include "libpkgmanifest/objects/nevra/inevra.hpp"
-#include "libpkgmanifest/objects/repository/irepository.hpp"
+#include "impl/libpkgmanifest/objects/checksum/ichecksum.hpp"
+#include "impl/libpkgmanifest/objects/module/imodule.hpp"
+#include "impl/libpkgmanifest/objects/nevra/inevra.hpp"
+#include "impl/libpkgmanifest/objects/repository/irepository.hpp"
 
 #include <memory>
 #include <stdint.h>

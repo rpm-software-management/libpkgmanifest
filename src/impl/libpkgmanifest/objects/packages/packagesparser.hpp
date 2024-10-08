@@ -3,7 +3,7 @@
 #include "ipackagesfactory.hpp"
 #include "ipackagesparser.hpp"
 
-#include "libpkgmanifest/objects/package/ipackageparser.hpp"
+#include "impl/libpkgmanifest/objects/package/ipackageparser.hpp"
 
 namespace libpkgmanifest::internal {
 

@@ -2,9 +2,9 @@
 
 #include "ipackageserializer.hpp"
 
-#include "libpkgmanifest/objects/checksum/ichecksumserializer.hpp"
-#include "libpkgmanifest/objects/module/imoduleserializer.hpp"
-#include "libpkgmanifest/yaml/iyamlnodefactory.hpp"
+#include "impl/libpkgmanifest/objects/checksum/ichecksumserializer.hpp"
+#include "impl/libpkgmanifest/objects/module/imoduleserializer.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnodefactory.hpp"
 
 namespace libpkgmanifest::internal {
 

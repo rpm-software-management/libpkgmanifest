@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/package/ipackageserializer.hpp"
+#include "impl/libpkgmanifest/objects/package/ipackageserializer.hpp"
 
 #include <gmock/gmock.h>
 

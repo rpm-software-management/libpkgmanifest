@@ -1,4 +1,4 @@
-#include "libpkgmanifest/yaml/iyamlnodefactory.hpp"
+#include "impl/libpkgmanifest/yaml/iyamlnodefactory.hpp"
 
 #include <gmock/gmock.h>
 

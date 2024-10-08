@@ -1,4 +1,4 @@
-#include "libpkgmanifest/objects/repository/irepositoryparser.hpp"
+#include "impl/libpkgmanifest/objects/repository/irepositoryparser.hpp"
 
 #include <gmock/gmock.h>
 

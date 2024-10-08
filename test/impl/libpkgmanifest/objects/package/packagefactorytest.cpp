@@ -1,11 +1,11 @@
-#include "libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
-#include "libpkgmanifest/mocks/objects/checksum/checksumfactorymock.hpp"
-#include "libpkgmanifest/mocks/objects/module/modulemock.hpp"
-#include "libpkgmanifest/mocks/objects/module/modulefactorymock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
-#include "libpkgmanifest/mocks/objects/nevra/nevrafactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksummock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/checksum/checksumfactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulemock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/module/modulefactorymock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/libpkgmanifest/mocks/objects/nevra/nevrafactorymock.hpp"
 
-#include "libpkgmanifest/objects/package/packagefactory.hpp"
+#include "impl/libpkgmanifest/objects/package/packagefactory.hpp"
 
 #include <gtest/gtest.h>
 
