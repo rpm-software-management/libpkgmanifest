@@ -9,42 +9,50 @@ Python bindings are also available, automatically generated from the C++ API.
 Manifest Files
 --------------
 
-Manifest files contain a list of RPM package metadata, categorized by architecture. The provided
-information uniquely identifies each package and where to download its payload.
+Manifest files contain a list of RPM package metadata, categorized by architecture, along
+with repository metadata for all listed package sources. The provided information uniquely
+identifies each package and where to download its payload.
 
 Example manifest file:
 
 ```
 document: rpm-package-manifest
-version: 0.0.1
+version: 0.1.0
 data:
+    repositories:
+        - id: fedora
+          url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/$arch/os/
+        - id: fedora-source
+          url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/source/tree/
     packages:
         x86_64:
-            - repoid: fedora
-              url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/x86_64/os/Packages/b/bash-5.2.26-3.fc40.x86_64.rpm
-              checksum: md5:1254011a2ce1245f0b528b1190fa3cb6
+            - name: bash
+              repo_id: fedora
+              location: Packages/b/bash-5.2.26-3.fc40.x86_64.rpm
+              checksum: sha256:7a87c64087b2ad362f4ad8721f3c95ae61e86d204ee3d93917608a55cf24a2be
               size: 1893870
-              nevra: bash-5.2.26-3.fc40.x86_64
+              evr: 5.2.26-3.fc40
               srpm: bash-5.2.26-3.fc40.src
-            - repoid: fedora
-              url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/x86_64/os/Packages/z/zsh-5.9-13.fc40.x86_64.rpm
-              checksum: md5:fec50044e73fcdae342722818ff88525
+            - name: zsh
+              repo_id: fedora
+              location: Packages/z/zsh-5.9-13.fc40.x86_64.rpm
+              checksum: sha256:26aafbf8b0f5e3080752912179b1d3348643123918d5ee5c6074f424689b57b4
               size: 3412259
-              nevra: zsh-0:5.9-13.fc40.x86_64
-              srpm: zsh-0:5.9-13.fc40.src
-        src:
-            - repoid: fedora-source
-              url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/source/tree/Packages/b/bash-5.2.26-3.fc40.src.rpm
-              checksum: md5:9cfb6d31ccd42da1cf4f3a728aec4453
-              size: 11213719
-              nevra: bash-5.2.26-3.fc40.src
-              srpm: bash-5.2.26-3.fc40.src
-            - repoid: fedora-source
-              url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/source/tree/Packages/z/zsh-5.9-13.fc40.src.rpm
-              checksum: md5:bf4915d9e17e058d01affcb4505b6f63
-              size: 3396538
-              nevra: zsh-5.9-13.fc40.src
+              evr: 5.9-13.fc40
               srpm: zsh-5.9-13.fc40.src
+        src:
+            - name: bash
+              repo_id: fedora-source
+              location: Packages/b/bash-5.2.26-3.fc40.src.rpm
+              checksum: sha256:87fe52b454280d08f1621398175c1f778bbe998c80c8c2ba4baeeaf56d9e8c39
+              size: 11213719
+              evr: 5.2.26-3.fc40
+            - name: zsh
+              repo_id: fedora-source
+              url: Packages/z/zsh-5.9-13.fc40.src.rpm
+              checksum: sha256:92d9cebf37ad5c589d3e7e25429f601519d59fad0c477ba792c8e9ae75f5cd86
+              size: 3396538
+              evr: 5.9-13.fc40
 ```
 
 These files can be used for purposes such as reproducible builds, capturing system snapshots,
