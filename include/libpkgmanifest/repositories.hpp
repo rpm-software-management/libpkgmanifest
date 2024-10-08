@@ -2,11 +2,12 @@
 
 #include "repository.hpp"
 
-#include <map>
 #include <memory>
 #include <string>
 
 namespace libpkgmanifest {
+
+class RepositoriesIterator;
 
 /// @brief A container for all repositories listed in the manifest.
 class Repositories {
@@ -20,9 +21,14 @@ public:
     Repositories(Repositories && other) noexcept;
     Repositories & operator=(Repositories && other) noexcept;
 
-    /// @brief Retrieves all repositories by their IDs.
-    /// @return A dictionary of repositories.
-    std::map<std::string, Repository> get() const;
+    /// @brief Checks if a given repository exists.
+    /// @param id The repository ID.
+    /// @return True if the given repository exists; otherwise, false.
+    bool contains(const std::string & id) const;
+
+    /// @brief Gets the number of repositories in the container.
+    /// @return The size of the repositories container.
+    std::size_t size() const;
 
     /// @brief Retrieves a repository by its ID.
     /// @param id The repository ID.
@@ -33,10 +39,43 @@ public:
     /// @param package The repository to add.
     void add(Repository & repository);
 
+    /// @brief Implements the iteration API.
+    RepositoriesIterator begin();
+    RepositoriesIterator end();
+
 private:
     friend class Manifest;
     friend class Package;
     friend class Packages;
+    friend class RepositoriesIterator;
+
+    class Impl;
+    std::unique_ptr<Impl> p_impl;
+};
+
+class RepositoriesIterator {
+public:
+    using iterator_category = std::forward_iterator_tag;
+    using difference_type = std::ptrdiff_t;
+    using value_type = Repository;
+    using pointer = void;
+    using reference = Repository;
+
+    RepositoriesIterator(Repositories * repositories);
+    ~RepositoriesIterator();
+
+    RepositoriesIterator(const RepositoriesIterator & other);
+    RepositoriesIterator & operator=(const RepositoriesIterator & other);
+
+    RepositoriesIterator(RepositoriesIterator && other) noexcept;
+    RepositoriesIterator & operator=(RepositoriesIterator && other) noexcept;
+
+    Repository operator*();
+    RepositoriesIterator & operator++();
+    bool operator!=(const RepositoriesIterator & other) const;
+
+private:
+    friend Repositories;
 
     class Impl;
     std::unique_ptr<Impl> p_impl;

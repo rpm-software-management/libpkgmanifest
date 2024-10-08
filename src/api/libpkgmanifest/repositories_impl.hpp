@@ -40,6 +40,12 @@ public:
         this->repositories = repositories;
     }
 
+    Repository wrap_internal_item(internal::IRepository * repository) const {
+        Repository wrapper;
+        wrapper.p_impl->init(repository);
+        return wrapper;
+    }
+
 private:
     void copy_object(const Impl & other) {
         if (other.repositories) {
@@ -59,6 +65,31 @@ private:
 
     internal::IRepositories * repositories;
     std::unique_ptr<internal::IRepositories> factory_repositories;
+};
+
+class RepositoriesIterator::Impl {
+public:
+    Impl(Repositories * repositories) : repositories(repositories) {}
+
+    void set(typename std::map<std::string, std::unique_ptr<internal::IRepository>>::iterator it) {
+        this->it = it;
+    }
+
+    typename std::map<std::string, std::unique_ptr<internal::IRepository>>::iterator get() {
+        return it;
+    }
+
+    void inc() {
+        ++it;
+    }
+
+    Repository get_object() {
+        return repositories->p_impl->wrap_internal_item(it->second.get());
+    }
+
+private:
+    Repositories * repositories;
+    typename std::map<std::string, std::unique_ptr<internal::IRepository>>::iterator it;
 };
 
 }

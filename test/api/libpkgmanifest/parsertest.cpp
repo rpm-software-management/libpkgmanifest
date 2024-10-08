@@ -17,33 +17,27 @@ TEST(ApiParserTest, ParseSimpleManifest) {
     EXPECT_EQ(2, manifest.get_version().get_minor());
     EXPECT_EQ(3, manifest.get_version().get_patch());
 
-    auto repositories = manifest.get_repositories().get();
+    auto & repositories = manifest.get_repositories();
     EXPECT_EQ(3, repositories.size());
 
-    auto & repository1 = repositories.at("repo1");
+    auto repository1 = repositories.get("repo1");
     EXPECT_EQ("repo1", repository1.get_id());
     EXPECT_EQ("http://some.server.gov/folder", repository1.get_url());
 
-    auto & repository2 = repositories.at("repo2");
+    auto repository2 = repositories.get("repo2");
     EXPECT_EQ("repo2", repository2.get_id());
     EXPECT_EQ("http://other.computer.lol/dir/for/pkgs/$arch/", repository2.get_url());
 
-    auto & repository3 = repositories.at("repo3");
+    auto repository3 = repositories.get("repo3");
     EXPECT_EQ("repo3", repository3.get_id());
     EXPECT_EQ("file:///home/user/my/repository", repository3.get_url());
 
-    auto packages = manifest.get_packages().get();
-    EXPECT_EQ(2, packages.size());
-    EXPECT_EQ(2, packages["i686"].size());
-    EXPECT_EQ(1, packages["src"].size());
+    auto & packages = manifest.get_packages();
+    EXPECT_EQ(2, packages.get("i686").size());
+    EXPECT_EQ(1, packages.get("src").size());
 
-    auto i686_packages = manifest.get_packages().get("i686");
-    EXPECT_EQ(2, i686_packages.size());
-
-    auto src_packages = manifest.get_packages().get("src");
-    EXPECT_EQ(1, src_packages.size());
-
-    auto & package1 = packages.at("i686")[0];
+    auto i686_packages = packages.get("i686");
+    auto & package1 = i686_packages[0];
     EXPECT_EQ("repo1", package1.get_repo_id());
     EXPECT_EQ("pkgs/package1.rpm", package1.get_location());
     EXPECT_EQ("http://some.server.gov/folder/pkgs/package1.rpm", package1.get_url());
@@ -65,7 +59,7 @@ TEST(ApiParserTest, ParseSimpleManifest) {
     EXPECT_EQ("", package1.get_module().get_name());
     EXPECT_EQ("", package1.get_module().get_stream());
 
-    auto & package2 = packages.at("i686")[1];
+    auto & package2 = i686_packages[1];
     EXPECT_EQ("repo2", package2.get_repo_id());
     EXPECT_EQ("p/package2-3:4.5.6-2.r2.rpm", package2.get_location());
     EXPECT_EQ("http://other.computer.lol/dir/for/pkgs/i686/p/package2-3:4.5.6-2.r2.rpm", package2.get_url());
@@ -83,7 +77,8 @@ TEST(ApiParserTest, ParseSimpleManifest) {
     EXPECT_EQ("name2", package2.get_module().get_name());
     EXPECT_EQ("stream2", package2.get_module().get_stream());
 
-    auto & package3 = packages.at("src")[0];
+    auto src_packages = packages.get("src");
+    auto & package3 = src_packages[0];
     EXPECT_EQ("repo3", package3.get_repo_id());
     EXPECT_EQ("another/dir/file.here", package3.get_location());
     EXPECT_EQ("file:///home/user/my/repository/another/dir/file.here", package3.get_url());
