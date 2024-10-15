@@ -3,16 +3,17 @@ version: 1.2.3
 data:
     repositories:
         - id: repo1
-          url: http://some.server.gov/folder
+          metalink: http://some.server.gov/folder/metalink
         - id: repo2
-          url: http://other.computer.lol/dir/for/pkgs/$arch/
+          baseurl: http://other.computer.lol/dir/for/pkgs/$arch/
         - id: repo3
-          url: file:///home/user/my/repository
+          baseurl: file:///home/user/my/repository
+          metalink: https://my.user.repository.org/metalink
+          mirrorlist: http://mirrors.user.repository.org/mirrors.txt
     packages:
         i686:
             - name: package1
               repo_id: repo1
-              location: pkgs/package1.rpm
               checksum: sha512:abcdef
               size: 152384
               evr: 1.2.3-1.r1

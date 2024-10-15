@@ -67,7 +67,7 @@ public:
     void set_repo_id(const std::string & repo_id);
 
     /// @brief Sets the package's relative path within the repository.
-    /// @param url The path to be set for the package.
+    /// @param location The path to be set for the package.
     void set_location(const std::string & location);
 
     /// @brief Sets the download size of the package in bytes.
@@ -84,6 +84,7 @@ public:
 
     /// @brief Sets the source package NEVRA identifier.
     /// @note This identifies the source package used to build this binary package.
+    /// @param srpm The source RPM NEVRA to be set for the package.
     void set_srpm(Nevra & srpm);
 
     /// @brief Sets the module information associated with this package.

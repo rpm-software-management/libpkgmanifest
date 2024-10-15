@@ -17,25 +17,23 @@ Example manifest file:
 
 ```
 document: rpm-package-manifest
-version: 0.1.0
+version: 0.2.0
 data:
     repositories:
         - id: fedora
-          url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/$arch/os/
+          metalink: https://mirrors.fedoraproject.org/metalink?repo=fedora-40&arch=$arch
         - id: fedora-source
-          url: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/source/tree/
+          baseurl: https://mirror.karneval.cz/pub/linux/fedora/linux/releases/40/Everything/source/tree/
     packages:
         x86_64:
             - name: bash
               repo_id: fedora
-              location: Packages/b/bash-5.2.26-3.fc40.x86_64.rpm
               checksum: sha256:7a87c64087b2ad362f4ad8721f3c95ae61e86d204ee3d93917608a55cf24a2be
               size: 1893870
               evr: 5.2.26-3.fc40
               srpm: bash-5.2.26-3.fc40.src
             - name: zsh
               repo_id: fedora
-              location: Packages/z/zsh-5.9-13.fc40.x86_64.rpm
               checksum: sha256:26aafbf8b0f5e3080752912179b1d3348643123918d5ee5c6074f424689b57b4
               size: 3412259
               evr: 5.9-13.fc40

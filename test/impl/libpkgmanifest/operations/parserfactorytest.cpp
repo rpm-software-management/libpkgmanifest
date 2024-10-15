@@ -23,15 +23,17 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
 
     auto & repository1 = repositories.at("repo1");
     EXPECT_EQ("repo1", repository1->get_id());
-    EXPECT_EQ("http://some.server.gov/folder", repository1->get_url());
+    EXPECT_EQ("http://some.server.gov/folder/metalink", repository1->get_metalink());
 
     auto & repository2 = repositories.at("repo2");
     EXPECT_EQ("repo2", repository2->get_id());
-    EXPECT_EQ("http://other.computer.lol/dir/for/pkgs/$arch/", repository2->get_url());
+    EXPECT_EQ("http://other.computer.lol/dir/for/pkgs/$arch/", repository2->get_baseurl());
 
     auto & repository3 = repositories.at("repo3");
     EXPECT_EQ("repo3", repository3->get_id());
-    EXPECT_EQ("file:///home/user/my/repository", repository3->get_url());
+    EXPECT_EQ("file:///home/user/my/repository", repository3->get_baseurl());
+    EXPECT_EQ("https://my.user.repository.org/metalink", repository3->get_metalink());
+    EXPECT_EQ("http://mirrors.user.repository.org/mirrors.txt", repository3->get_mirrorlist());
 
     EXPECT_EQ(2, manifest->get_packages().get().size());
     EXPECT_EQ(2, manifest->get_packages().get()["i686"].size());
@@ -39,7 +41,6 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
 
     auto & package1 = manifest->get_packages().get().at("i686")[0];
     EXPECT_EQ("repo1", package1->get_repo_id());
-    EXPECT_EQ("pkgs/package1.rpm", package1->get_location());
     EXPECT_EQ(152384, package1->get_size());
     EXPECT_EQ(libpkgmanifest::ChecksumMethod::SHA512, package1->get_checksum().get_method());
     EXPECT_EQ("abcdef", package1->get_checksum().get_digest());

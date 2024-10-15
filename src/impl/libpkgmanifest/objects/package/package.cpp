@@ -42,13 +42,14 @@ std::string Package::get_location() const {
 }
 
 std::string Package::get_url() const {
-    auto & repository = get_repository();
-    auto & nevra = get_nevra();
+    if (!repository || repository->get_baseurl().empty()) {
+        return std::string();
+    }
 
-    auto url = repository.get_url();
+    auto url = repository->get_baseurl();
     auto pos = url.find(ARCH_PLACEHOLDER);
     if (pos != std::string::npos) {
-        url.replace(pos, strlen(ARCH_PLACEHOLDER), nevra.get_arch());
+        url.replace(pos, strlen(ARCH_PLACEHOLDER), nevra->get_arch());
     }
 
     return std::filesystem::path(url) / location;

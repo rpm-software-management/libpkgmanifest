@@ -31,16 +31,17 @@ version: 1.2.3
 data:
   repositories:
     - id: repo1
-      url: http://some.server.gov/folder
+      metalink: http://some.server.gov/folder/metalink
     - id: repo2
-      url: http://other.computer.lol/dir/for/pkgs/$arch/
+      baseurl: http://other.computer.lol/dir/for/pkgs/$arch/
     - id: repo3
-      url: file:///home/user/my/repository
+      baseurl: file:///home/user/my/repository
+      metalink: https://my.user.repository.org/metalink
+      mirrorlist: http://mirrors.user.repository.org/mirrors.txt
   packages:
     i686:
       - name: package1
         repo_id: repo1
-        location: pkgs/package1.rpm
         checksum: sha512:abcdef
         size: 152384
         evr: 1.2.3-1.r1
@@ -62,19 +63,20 @@ data:
 
     Repository repository1;
     repository1.set_id("repo1");
-    repository1.set_url("http://some.server.gov/folder");
+    repository1.set_metalink("http://some.server.gov/folder/metalink");
 
     Repository repository2;
     repository2.set_id("repo2");
-    repository2.set_url("http://other.computer.lol/dir/for/pkgs/$arch/");
+    repository2.set_baseurl("http://other.computer.lol/dir/for/pkgs/$arch/");
 
     Repository repository3;
     repository3.set_id("repo3");
-    repository3.set_url("file:///home/user/my/repository");
+    repository3.set_baseurl("file:///home/user/my/repository");
+    repository3.set_metalink("https://my.user.repository.org/metalink");
+    repository3.set_mirrorlist("http://mirrors.user.repository.org/mirrors.txt");
 
     Package package1;
     package1.set_repo_id("repo1");
-    package1.set_location("pkgs/package1.rpm");
     package1.set_size(152384);
     package1.get_checksum().set_method(libpkgmanifest::ChecksumMethod::SHA512);
     package1.get_checksum().set_digest("abcdef");
@@ -136,7 +138,7 @@ data:
 
 TEST_F(ApiSerializerTest, SerializeEmptyManifest) {
     const std::string empty_manifest_yaml = R"(document: rpm-package-manifest
-version: 0.1.0
+version: 0.2.0
 data:
   repositories: ~
   packages: ~)";

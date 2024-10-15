@@ -17,15 +17,17 @@ class TestParser(base_test_case.BaseTestCase):
 
         repository1 = repositories['repo1']
         self.assertEqual('repo1', repository1.id)
-        self.assertEqual('http://some.server.gov/folder', repository1.url)
+        self.assertEqual('http://some.server.gov/folder/metalink', repository1.metalink)
 
         repository2 = repositories['repo2']
         self.assertEqual('repo2', repository2.id)
-        self.assertEqual('http://other.computer.lol/dir/for/pkgs/$arch/', repository2.url)
+        self.assertEqual('http://other.computer.lol/dir/for/pkgs/$arch/', repository2.baseurl)
 
         repository3 = repositories['repo3']
         self.assertEqual('repo3', repository3.id)
-        self.assertEqual('file:///home/user/my/repository', repository3.url)
+        self.assertEqual('file:///home/user/my/repository', repository3.baseurl)
+        self.assertEqual('https://my.user.repository.org/metalink', repository3.metalink)
+        self.assertEqual('http://mirrors.user.repository.org/mirrors.txt', repository3.mirrorlist)
 
         packages = manifest.packages
         self.assertEqual(3, len(packages.values()))
@@ -34,11 +36,10 @@ class TestParser(base_test_case.BaseTestCase):
 
         package1 = packages['i686'][0]
         self.assertEqual('repo1', package1.repo_id)
-        self.assertEqual('pkgs/package1.rpm', package1.location)
-        self.assertEqual('http://some.server.gov/folder/pkgs/package1.rpm', package1.url)
+        self.assertEqual('', package1.url)
         self.assertEqual(152384, package1.size)
         self.assertEqual('repo1', package1.repository.id)
-        self.assertEqual('http://some.server.gov/folder', package1.repository.url)
+        self.assertEqual('http://some.server.gov/folder/metalink', package1.repository.metalink)
         self.assertEqual(libpkgmanifest.ChecksumMethod_SHA512, package1.checksum.method)
         self.assertEqual('abcdef', package1.checksum.digest)
         self.assertEqual('package1', package1.nevra.name)
@@ -60,7 +61,7 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual('http://other.computer.lol/dir/for/pkgs/i686/p/package2-3:4.5.6-2.r2.rpm', package2.url)
         self.assertEqual(378124894, package2.size)
         self.assertEqual('repo2', package2.repository.id)
-        self.assertEqual('http://other.computer.lol/dir/for/pkgs/$arch/', package2.repository.url)
+        self.assertEqual('http://other.computer.lol/dir/for/pkgs/$arch/', package2.repository.baseurl)
         self.assertEqual(libpkgmanifest.ChecksumMethod_MD5, package2.checksum.method)
         self.assertEqual('fedcba', package2.checksum.digest)
         self.assertEqual('package2', package2.nevra.name)
@@ -77,7 +78,9 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual('file:///home/user/my/repository/another/dir/file.here', package3.url)
         self.assertEqual(97643154, package3.size)
         self.assertEqual('repo3', package3.repository.id)
-        self.assertEqual('file:///home/user/my/repository', package3.repository.url)
+        self.assertEqual('file:///home/user/my/repository', package3.repository.baseurl)
+        self.assertEqual('https://my.user.repository.org/metalink', package3.repository.metalink)
+        self.assertEqual('http://mirrors.user.repository.org/mirrors.txt', package3.repository.mirrorlist)
         self.assertEqual(libpkgmanifest.ChecksumMethod_SHA256, package3.checksum.method)
         self.assertEqual('qpwoeiru', package3.checksum.digest)
         self.assertEqual('package3', package3.nevra.name)

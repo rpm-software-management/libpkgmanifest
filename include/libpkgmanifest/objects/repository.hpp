@@ -21,17 +21,33 @@ public:
     /// @return The repository ID.
     std::string get_id() const;
 
-    /// @brief Retrieves the root URL of the repository.
+    /// @brief Retrieves the base URL of the repository.
     /// @return The base URL.
-    std::string get_url() const;
+    std::string get_baseurl() const;
+
+    /// @brief Retrieves the metalink URL of the repository.
+    /// @return The metalink URL.
+    std::string get_metalink() const;
+
+    /// @brief Retrieves the mirrorlist URL of the repository.
+    /// @return The mirrorlist URL.
+    std::string get_mirrorlist() const;
 
     /// @brief Sets the repository ID.
-    /// @param url The repository ID to set.
+    /// @param id The repository ID to set.
     void set_id(const std::string & id);
 
-    /// @brief Sets the root URL of the repository.
-    /// @param url The URL to set.
-    void set_url(const std::string & url);
+    /// @brief Sets the base URL of the repository.
+    /// @param baseurl The base URL to set.
+    void set_baseurl(const std::string & baseurl);
+
+    /// @brief Sets the metalink URL of the repository.
+    /// @param metalink The metalink URL to set.
+    void set_metalink(const std::string & metalink);
+
+    /// @brief Sets the mirrorlist URL of the repository.
+    /// @param mirrorlist The mirrorlist URL to set.
+    void set_mirrorlist(const std::string & mirrorlist);
 
 private:
     friend class Package;

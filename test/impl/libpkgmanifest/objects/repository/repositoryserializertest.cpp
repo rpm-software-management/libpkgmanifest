@@ -55,13 +55,56 @@ TEST_F(RepositorySerializerTest, SerializerSetsIdAsStringToYamlNode) {
     serializer->serialize(repository);
 }
 
-TEST_F(RepositorySerializerTest, SerializerSetsUrlAsStringToYamlNode) {
-    EXPECT_CALL(repository, get_url()).WillOnce(Return("address"));
+TEST_F(RepositorySerializerTest, SerializerSetsBaseurlAsStringToYamlNode) {
+    EXPECT_CALL(repository, get_baseurl()).WillOnce(Return("address"));
 
-    EXPECT_CALL(*node_ptr, insert("url", _)).WillOnce(
+    EXPECT_CALL(*node_ptr, insert("baseurl", _)).WillOnce(
     [](const std::string &, std::unique_ptr<IYamlNode> node) {
         EXPECT_EQ("address", node->as_string());
     });
+
+    serializer->serialize(repository);
+}
+
+TEST_F(RepositorySerializerTest, SerializerDoesNotSetBaseurlIfEmpty) {
+    EXPECT_CALL(repository, get_baseurl()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("baseurl", _)).Times(0);
+
+    serializer->serialize(repository);
+}
+
+TEST_F(RepositorySerializerTest, SerializerSetsMetalinkAsStringToYamlNode) {
+    EXPECT_CALL(repository, get_metalink()).WillOnce(Return("meta_address"));
+
+    EXPECT_CALL(*node_ptr, insert("metalink", _)).WillOnce(
+    [](const std::string &, std::unique_ptr<IYamlNode> node) {
+        EXPECT_EQ("meta_address", node->as_string());
+    });
+
+    serializer->serialize(repository);
+}
+
+TEST_F(RepositorySerializerTest, SerializerDoesNotSetMetalinkIfEmpty) {
+    EXPECT_CALL(repository, get_metalink()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("metalink", _)).Times(0);
+
+    serializer->serialize(repository);
+}
+
+TEST_F(RepositorySerializerTest, SerializerSetsMirrorlistAsStringToYamlNode) {
+    EXPECT_CALL(repository, get_mirrorlist()).WillOnce(Return("mirrors"));
+
+    EXPECT_CALL(*node_ptr, insert("mirrorlist", _)).WillOnce(
+    [](const std::string &, std::unique_ptr<IYamlNode> node) {
+        EXPECT_EQ("mirrors", node->as_string());
+    });
+
+    serializer->serialize(repository);
+}
+
+TEST_F(RepositorySerializerTest, SerializerDoesNotSetMirrorlistIfEmpty) {
+    EXPECT_CALL(repository, get_mirrorlist()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("mirrorlist", _)).Times(0);
 
     serializer->serialize(repository);
 }

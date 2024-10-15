@@ -91,6 +91,13 @@ TEST_F(PackageSerializerTest, SerializerSetsLocationAsStringToYamlNode) {
     serializer->serialize(package);
 }
 
+TEST_F(PackageSerializerTest, SerializerDoesNotSetLocationIfEmpty) {
+    EXPECT_CALL(package, get_location()).WillOnce(Return(""));
+    EXPECT_CALL(*node_ptr, insert("location", _)).Times(0);
+
+    serializer->serialize(package);
+}
+
 TEST_F(PackageSerializerTest, SerializerSetsChecksumFromChecksumSerializer) {
     auto checksum_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto checksum_node_ptr = checksum_node.get();

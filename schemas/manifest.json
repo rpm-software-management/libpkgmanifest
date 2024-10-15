@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "RPM Package Manifest Schema",
-    "schemaVersion": "0.1.0",
+    "schemaVersion": "0.2.0",
     "description": "Schema for RPM manifest files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
     "type": "object",
     "required": [
@@ -35,18 +35,32 @@
                     "items": {
                         "type": "object",
                         "required": [
-                            "id",
-                            "url"
+                            "id"
+                        ],
+                        "anyOf": [
+                            { "required": ["baseurl"] },
+                            { "required": ["metalink"] },
+                            { "required": ["mirrorlist"] }
                         ],
                         "properties": {
                             "id": {
                                 "type": "string",
                                 "description": "Represents the ID of the repository as defined in the repo file available to the package manager at the time of package installation."
                             },
-                            "url": {
+                            "baseurl": {
                                 "type": "string",
                                 "format": "uri",
-                                "description": "The root URL of a repository where all content is hosted."
+                                "description": "The base URL of a repository where all content is hosted."
+                            },
+                            "metalink": {
+                                "type": "string",
+                                "format": "uri",
+                                "description": "Specifies a URL to a metalink file that points to a repomd.xml file, generating a list of repository mirrors as base URLs."
+                            },
+                            "mirrorlist": {
+                                "type": "string",
+                                "format": "uri",
+                                "description": "Specifies a URL to a file containing a list of base URLs."
                             }
                         }
                     }
@@ -62,7 +76,6 @@
                                 "required": [
                                     "name",
                                     "repo_id",
-                                    "location",
                                     "checksum",
                                     "size",
                                     "evr"

@@ -36,7 +36,7 @@ public:
     Repository get(const std::string & id) const;
 
     /// @brief Adds a repository to the container.
-    /// @param package The repository to add.
+    /// @param repository The repository to add.
     void add(Repository & repository);
 
     /// @brief Implements the iteration API.

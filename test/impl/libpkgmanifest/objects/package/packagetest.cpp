@@ -20,6 +20,10 @@ TEST(PackageTest, DefaultRepoIdIsEmpty) {
     EXPECT_EQ(std::string(), Package().get_repo_id());
 }
 
+TEST(PackageTest, DefaultUrlIsEmpty) {
+    EXPECT_EQ(std::string(), Package().get_url());
+}
+
 TEST(PackageTest, DefaultLocationIsEmpty) {
     EXPECT_EQ(std::string(), Package().get_location());
 }
@@ -120,12 +124,6 @@ TEST(PackageTest, GetRepositoryThrowsAnExceptionWhenRepositoryNotSet) {
     EXPECT_THROW(package.get_repository(), PackageRepositoryNotAttachedError);
 }
 
-TEST(PackageTest, GetUrlThrowsAnExceptionWhenRepositoryNotSet) {
-    Package package;
-    package.set_nevra(std::make_unique<NiceMock<NevraMock>>());
-    EXPECT_THROW(package.get_url(), PackageRepositoryNotAttachedError);
-}
-
 TEST(PackageTest, AfterSetRepositoryGetRepositoryReturnsTheCorrespondingRepository) {
     NiceMock<RepositoryMock> repository;
 
@@ -138,9 +136,9 @@ TEST(PackageTest, AfterSetRepositoryGetRepositoryReturnsTheCorrespondingReposito
     EXPECT_EQ(&repository, &const_package.get_repository());
 }
 
-TEST(PackageTest, AfterSetRepositoryUrlReturnsAFullPathToThePackage) {
+TEST(PackageTest, UrlReturnsAFullPathToThePackageAfterSetRepositoryWithBaseUrl) {
     NiceMock<RepositoryMock> repository;
-    EXPECT_CALL(repository, get_url()).WillOnce(Return("http://server.org/folder/"));
+    EXPECT_CALL(repository, get_baseurl()).WillRepeatedly(Return("http://server.org/folder/"));
 
     Package package;
     package.set_repo_id("id1");
@@ -150,9 +148,21 @@ TEST(PackageTest, AfterSetRepositoryUrlReturnsAFullPathToThePackage) {
     EXPECT_EQ("http://server.org/folder/pkg/package.rpm", package.get_url());
 }
 
-TEST(PackageTest, AfterSetRepositoryUrlAddsAMissingSlashBetweenTheRepositoryUrlAndLocationParts) {
+TEST(PackageTest, UrlIsEmptyWhenRepositoryHasNotBaseurlSetUp) {
     NiceMock<RepositoryMock> repository;
-    EXPECT_CALL(repository, get_url()).WillOnce(Return("http://server.org/folder"));
+    EXPECT_CALL(repository, get_baseurl()).WillRepeatedly(Return(""));
+
+    Package package;
+    package.set_repo_id("id1");
+    package.set_location("pkg/package.rpm");
+    package.set_repository(repository);
+
+    EXPECT_EQ("", package.get_url());
+}
+
+TEST(PackageTest, AfterSetRepositoryUrlAddsAMissingSlashBetweenTheRepositoryBaseurlAndLocationParts) {
+    NiceMock<RepositoryMock> repository;
+    EXPECT_CALL(repository, get_baseurl()).WillRepeatedly(Return("http://server.org/folder"));
 
     Package package;
     package.set_repo_id("id1");
@@ -164,7 +174,7 @@ TEST(PackageTest, AfterSetRepositoryUrlAddsAMissingSlashBetweenTheRepositoryUrlA
 
 TEST(PackageTest, AfterSetRepositoryUrlSubstitutesTheArchInThePath) {
     NiceMock<RepositoryMock> repository;
-    EXPECT_CALL(repository, get_url()).WillOnce(Return("http://server.org/$arch/packages"));
+    EXPECT_CALL(repository, get_baseurl()).WillRepeatedly(Return("http://server.org/$arch/packages"));
 
     auto nevra = std::make_unique<NiceMock<NevraMock>>();
     EXPECT_CALL(*nevra, get_arch()).WillOnce(Return("i686"));
@@ -225,7 +235,7 @@ TEST(PackageTest, ClonedUnattachedObjectHasSameValuesAsOriginal) {
 TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     NiceMock<RepositoryMock> repository;
     EXPECT_CALL(repository, get_id()).WillRepeatedly(Return("id1234"));
-    EXPECT_CALL(repository, get_url()).WillRepeatedly(Return("http://server.org/folder"));
+    EXPECT_CALL(repository, get_baseurl()).WillRepeatedly(Return("http://server.org/folder"));
 
     auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
     auto cloned_checksum = std::make_unique<NiceMock<ChecksumMock>>();
@@ -267,7 +277,7 @@ TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(package.get_url(), clone->get_url());
     EXPECT_EQ(package.get_size(), clone->get_size());
     EXPECT_EQ(package.get_repository().get_id(), clone->get_repository().get_id());
-    EXPECT_EQ(package.get_repository().get_url(), clone->get_repository().get_url());
+    EXPECT_EQ(package.get_repository().get_baseurl(), clone->get_repository().get_baseurl());
     EXPECT_EQ(package.get_checksum().get_digest(), clone->get_checksum().get_digest());
     EXPECT_EQ(package.get_nevra().get_name(), clone->get_nevra().get_name());
     EXPECT_EQ(package.get_srpm().get_name(), clone->get_srpm().get_name());

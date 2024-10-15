@@ -17,10 +17,13 @@ std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const I
 
     // TODO: Handle cases when expected values are not provided
     package->set_repo_id(node.get("repo_id")->as_string());
-    package->set_location(node.get("location")->as_string());
     package->set_size(node.get("size")->as_uint64());
     package->set_nevra(nevra_parser->parse(node.get("name")->as_string(), arch, *node.get("evr")));
     package->set_checksum(checksum_parser->parse(*node.get("checksum")));
+
+    if (node.has("location")) {
+        package->set_location(node.get("location")->as_string());
+    }
 
     if (node.has("srpm")) {
         package->set_srpm(nevra_parser->parse(*node.get("srpm")));

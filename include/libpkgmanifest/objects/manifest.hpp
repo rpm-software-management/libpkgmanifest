@@ -52,7 +52,7 @@ public:
     void set_packages(Packages & packages);
 
     /// @brief Assigns a structure with all the repositories to be included in the manifest file.
-    /// @param packages A structure containing the repositories to be set.
+    /// @param repositories A structure containing the repositories to be set.
     void set_repositories(Repositories & repositories);
 
 private:
