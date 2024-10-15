@@ -12,10 +12,14 @@ public:
     virtual std::unique_ptr<IRepository> clone() const = 0;
 
     virtual std::string get_id() const = 0;
-    virtual std::string get_url() const = 0;
+    virtual std::string get_baseurl() const = 0;
+    virtual std::string get_metalink() const = 0;
+    virtual std::string get_mirrorlist() const = 0;
 
     virtual void set_id(const std::string & id) = 0;
-    virtual void set_url(const std::string & url) = 0;
+    virtual void set_baseurl(const std::string & baseurl) = 0;
+    virtual void set_metalink(const std::string & metalink) = 0;
+    virtual void set_mirrorlist(const std::string & mirrorlist) = 0;
 };
 
 }

@@ -81,9 +81,17 @@ TEST_F(PackageParserTest, ParserSetsLocationFromYamlNode) {
     auto location_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto location_node_ptr = location_node.get();
     
+    EXPECT_CALL(yaml_node, has("location")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("location")).WillOnce(Return(std::move(location_node)));
     EXPECT_CALL(*location_node_ptr, as_string()).WillOnce(Return("path"));
     EXPECT_CALL(*package_ptr, set_location("path"));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetLocationIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("location")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("location")).Times(0);
+    EXPECT_CALL(*package_ptr, set_location(_)).Times(0);
     parser->parse("arch", yaml_node);
 }
 

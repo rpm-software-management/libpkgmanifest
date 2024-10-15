@@ -45,16 +45,17 @@ version: 1.2.3
 data:
   repositories:
     - id: repo1
-      url: http://some.server.gov/folder
+      metalink: http://some.server.gov/folder/metalink
     - id: repo2
-      url: http://other.computer.lol/dir/for/pkgs/$arch/
+      baseurl: http://other.computer.lol/dir/for/pkgs/$arch/
     - id: repo3
-      url: file:///home/user/my/repository
+      baseurl: file:///home/user/my/repository
+      metalink: https://my.user.repository.org/metalink
+      mirrorlist: http://mirrors.user.repository.org/mirrors.txt
   packages:
     i686:
       - name: package1
         repo_id: repo1
-        location: pkgs/package1.rpm
         checksum: sha512:abcdef
         size: 152384
         evr: 1.2.3-1.r1
@@ -75,19 +76,18 @@ data:
         evr: 9.9-1.r3)";
 
     auto repository1 = std::make_unique<NiceMock<RepositoryMock>>();
-    //auto repository1_ptr = repository1.get();
     EXPECT_CALL(*repository1, get_id()).WillRepeatedly(Return("repo1"));
-    EXPECT_CALL(*repository1, get_url()).WillOnce(Return("http://some.server.gov/folder"));
+    EXPECT_CALL(*repository1, get_metalink()).WillOnce(Return("http://some.server.gov/folder/metalink"));
 
     auto repository2 = std::make_unique<NiceMock<RepositoryMock>>();
-    //auto repository2_ptr = repository2.get();
     EXPECT_CALL(*repository2, get_id()).WillRepeatedly(Return("repo2"));
-    EXPECT_CALL(*repository2, get_url()).WillOnce(Return("http://other.computer.lol/dir/for/pkgs/$arch/"));
+    EXPECT_CALL(*repository2, get_baseurl()).WillOnce(Return("http://other.computer.lol/dir/for/pkgs/$arch/"));
 
     auto repository3 = std::make_unique<NiceMock<RepositoryMock>>();
-    //auto repository3_ptr = repository3.get();
     EXPECT_CALL(*repository3, get_id()).WillRepeatedly(Return("repo3"));
-    EXPECT_CALL(*repository3, get_url()).WillOnce(Return("file:///home/user/my/repository"));
+    EXPECT_CALL(*repository3, get_baseurl()).WillOnce(Return("file:///home/user/my/repository"));
+    EXPECT_CALL(*repository3, get_metalink()).WillOnce(Return("https://my.user.repository.org/metalink"));
+    EXPECT_CALL(*repository3, get_mirrorlist()).WillOnce(Return("http://mirrors.user.repository.org/mirrors.txt"));
 
     std::map<std::string, std::unique_ptr<IRepository>> repository_map;
     repository_map["repo1"] = std::move(repository1);
@@ -119,7 +119,6 @@ data:
 
     auto package1 = std::make_unique<NiceMock<PackageMock>>();
     EXPECT_CALL(*package1, get_repo_id()).WillRepeatedly(Return("repo1"));
-    EXPECT_CALL(*package1, get_location()).WillOnce(Return("pkgs/package1.rpm"));
     EXPECT_CALL(*package1, get_size()).WillOnce(Return(152384));
     EXPECT_CALL(Const(*package1), get_checksum()).WillOnce(ReturnPointee(checksum1.get()));
     EXPECT_CALL(Const(*package1), get_nevra()).WillOnce(ReturnPointee(nevra1.get()));

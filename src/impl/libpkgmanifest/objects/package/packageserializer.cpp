@@ -23,9 +23,12 @@ std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package
     repo_id_node->set(package.get_repo_id());
     node->insert("repo_id", std::move(repo_id_node));
 
-    auto location_node = node_factory->create();
-    location_node->set(package.get_location());
-    node->insert("location", std::move(location_node));
+    auto location = package.get_location();
+    if (!location.empty()) {
+        auto location_node = node_factory->create();
+        location_node->set(location);
+        node->insert("location", std::move(location_node));
+    }
 
     node->insert("checksum", checksum_serializer->serialize(package.get_checksum()));
 
