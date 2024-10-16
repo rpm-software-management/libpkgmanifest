@@ -86,8 +86,10 @@ public:
         module.p_impl->init(&package->get_module());
 
         // Repository information is not available at the time of object construction.
-        if (!factory_package) {
+        try {
             repository.p_impl->init(&package->get_repository());
+        } catch (...) {
+            // TODO: Modify IMPL to handle this in a better way.
         }
     }
 
