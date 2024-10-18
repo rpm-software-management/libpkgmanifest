@@ -9,11 +9,11 @@
 
 namespace libpkgmanifest::internal {
 
-constexpr const char * DOCUMENT_ID = "rpm-package-manifest";
+constexpr const char * MANIFEST_DOCUMENT_ID = "rpm-package-manifest";
 
-constexpr int DOCUMENT_VERSION_MAJOR = 0;
-constexpr int DOCUMENT_VERSION_MINOR = 2;
-constexpr int DOCUMENT_VERSION_PATCH = 0;
+constexpr int MANIFEST_DOCUMENT_VERSION_MAJOR = 0;
+constexpr int MANIFEST_DOCUMENT_VERSION_MINOR = 2;
+constexpr int MANIFEST_DOCUMENT_VERSION_PATCH = 0;
 
 class ManifestFactory : public IManifestFactory {
 public:
