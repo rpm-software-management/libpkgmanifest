@@ -1,0 +1,15 @@
+document: rpm-package-input
+version: 6.6.5
+repositories:
+    - id: main
+      metalink: https://community.server.org/metalink
+    - id: sources
+      baseurl: https://src.location.lol/content/public/dist/lol2/source/SRPMS
+packages:
+    - bootc
+    - dnf
+    - podman
+archs:
+    - i686
+    - x86_64
+    - aarch64

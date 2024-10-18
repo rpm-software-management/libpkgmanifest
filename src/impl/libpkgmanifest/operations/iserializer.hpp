@@ -10,7 +10,7 @@ class ISerializer {
 public:
     virtual ~ISerializer() = default;
 
-    virtual void serialize(const IManifest & manifest, const std::string & path) const = 0;
+    virtual void serialize_manifest(const IManifest & manifest, const std::string & path) const = 0;
 };
 
 }

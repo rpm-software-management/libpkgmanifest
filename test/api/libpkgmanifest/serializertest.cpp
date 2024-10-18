@@ -127,7 +127,7 @@ data:
     manifest.get_packages().add(package3);
 
     Serializer serializer;
-    serializer.serialize(manifest, file_path);
+    serializer.serialize_manifest(manifest, file_path);
 
     std::ifstream output_file(file_path);
     std::stringstream read_file_buffer;
@@ -145,7 +145,7 @@ data:
 
     Manifest manifest;
     Serializer serializer;
-    serializer.serialize(manifest, file_path);
+    serializer.serialize_manifest(manifest, file_path);
 
     std::ifstream output_file(file_path);
     std::stringstream read_file_buffer;

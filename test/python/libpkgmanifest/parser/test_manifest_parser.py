@@ -3,9 +3,9 @@ import libpkgmanifest
 import base_test_case
 
 
-class TestParser(base_test_case.BaseTestCase):
-    def test_parse_simple_file(self):
-        manifest = libpkgmanifest.Parser().parse(self.test_file)
+class TestManifestParser(base_test_case.BaseTestCase):
+    def test_parse_simple_manifest(self):
+        manifest = libpkgmanifest.Parser().parse_manifest(self.test_manifest_file)
 
         self.assertEqual('rpm-package-manifest', manifest.document)
         self.assertEqual(1, manifest.version.major)
@@ -91,13 +91,13 @@ class TestParser(base_test_case.BaseTestCase):
         self.assertEqual('', package3.module.name)
         self.assertEqual('', package3.module.stream)
 
-    def test_modify_parsed_object(self):
-        manifest = libpkgmanifest.Parser().parse(self.test_file)
+    def test_modify_parsed_manifest(self):
+        manifest = libpkgmanifest.Parser().parse_manifest(self.test_manifest_file)
         manifest.version.major = 6
         self.assertEqual(6, manifest.version.major)
 
-    def test_replace_parsed_object(self):
-        manifest = libpkgmanifest.Parser().parse(self.test_file)
+    def test_replace_parsed_manifest(self):
+        manifest = libpkgmanifest.Parser().parse_manifest(self.test_manifest_file)
 
         version = libpkgmanifest.Version()
         version.major = 6

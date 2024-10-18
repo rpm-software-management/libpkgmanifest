@@ -166,6 +166,11 @@ TEST(YamlNodeTest, CheckKeyDoesNotExist) {
     EXPECT_FALSE(node.has("key"));
 }
 
+TEST(YamlNodeTest, CheckKeyDoesNotExistForPlainNode) {
+    YamlNode node(YAML::Load("string"));
+    EXPECT_FALSE(node.has("key"));
+}
+
 TEST(YamlNodeTest, CheckKeyExists) {
     YamlNode node(YAML::Load("item: \"value\""));
     EXPECT_TRUE(node.has("item"));

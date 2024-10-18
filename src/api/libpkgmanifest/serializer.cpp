@@ -24,9 +24,9 @@ Serializer::Serializer() : p_impl(std::make_unique<Impl>()) {}
 
 Serializer::~Serializer() = default;
 
-void Serializer::serialize(const Manifest & manifest, const std::string & path) const {
+void Serializer::serialize_manifest(const Manifest & manifest, const std::string & path) const {
     try {
-        p_impl->serializer->serialize(*manifest.p_impl->get(), path);
+        p_impl->serializer->serialize_manifest(*manifest.p_impl->get(), path);
     } catch (const std::runtime_error & error) {
         throw SerializerError(std::format("An error occurred during serialization of the manifest file at \"{}\": {}", path, error.what()));
     }

@@ -61,18 +61,18 @@ def add_property_accessors(target_cls, src_cls=None, src_getter=None):
 class Iterator:
     def __init__(self, container, begin, end):
         self.container = container
-        self.cur = begin
+        self.current = begin
         self.end = end
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self.cur == self.end:
+        if self.current == self.end:
             raise StopIteration
         else:
-            value = self.cur.value()
-            self.cur.next()
+            value = self.current.value()
+            self.current.next()
             return value
 %}
 
@@ -105,6 +105,7 @@ del ClassName##__iter__
 
 %{
     #include "libpkgmanifest/objects/checksum.hpp"
+    #include "libpkgmanifest/objects/input.hpp"
     #include "libpkgmanifest/objects/manifest.hpp"
     #include "libpkgmanifest/objects/module.hpp"
     #include "libpkgmanifest/objects/nevra.hpp"
@@ -116,6 +117,8 @@ del ClassName##__iter__
     #include "libpkgmanifest/operations/parser.hpp"
     #include "libpkgmanifest/operations/serializer.hpp"
 %}
+
+%template(VectorString) std::vector<std::string>;
 
 %include "libpkgmanifest/objects/checksum.hpp"
 %include "libpkgmanifest/objects/module.hpp"
@@ -136,6 +139,7 @@ add_iterator(Repositories)
 %include "libpkgmanifest/objects/packages.hpp"
 %template(MapPackages) std::map<std::string, std::vector<libpkgmanifest::Package>>;
 
+%include "libpkgmanifest/objects/input.hpp"
 %include "libpkgmanifest/objects/manifest.hpp"
 
 %include "libpkgmanifest/operations/parser.hpp"
@@ -143,6 +147,7 @@ add_iterator(Repositories)
 
 %pythoncode %{
 add_property_accessors(Checksum)
+add_property_accessors(Input)
 add_property_accessors(Manifest)
 add_property_accessors(Module)
 add_property_accessors(Nevra)

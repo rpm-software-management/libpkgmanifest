@@ -194,7 +194,7 @@ data:
 
     SerializerFactory serializer_factory;
     auto serializer = serializer_factory.create();
-    serializer->serialize(manifest, file_path);
+    serializer->serialize_manifest(manifest, file_path);
 
     std::ifstream output_file(file_path);
     std::stringstream read_file_buffer;
