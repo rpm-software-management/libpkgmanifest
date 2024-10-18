@@ -15,15 +15,15 @@ ManifestFactory::ManifestFactory(
 
 std::unique_ptr<IManifest> ManifestFactory::create() const {
     auto manifest = std::make_unique<Manifest>();
-    manifest->set_document(DOCUMENT_ID);
+    manifest->set_document(MANIFEST_DOCUMENT_ID);
     manifest->set_repositories(repositories_factory->create());
     manifest->set_packages(packages_factory->create());
     manifest->set_package_repository_binder(binder);
 
     auto version = version_factory->create();
-    version->set_major(DOCUMENT_VERSION_MAJOR);
-    version->set_minor(DOCUMENT_VERSION_MINOR);
-    version->set_patch(DOCUMENT_VERSION_PATCH);
+    version->set_major(MANIFEST_DOCUMENT_VERSION_MAJOR);
+    version->set_minor(MANIFEST_DOCUMENT_VERSION_MINOR);
+    version->set_patch(MANIFEST_DOCUMENT_VERSION_PATCH);
     manifest->set_version(std::move(version));
 
     return manifest;

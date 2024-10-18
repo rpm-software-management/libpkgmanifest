@@ -14,7 +14,7 @@ YamlNode::YamlNode(const YAML::Node & node)
     : node(node) {}
 
 bool YamlNode::has(const std::string & key) const {
-    return bool(node[key]);
+    return node.IsMap() && bool(node[key]);
 }
 
 std::unique_ptr<IYamlNode> YamlNode::get(const std::string & key) const {

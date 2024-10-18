@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "RPM Package Input Schema",
+    "schemaVersion": "0.0.1",
+    "description": "Schema for RPM input files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
+    "type": "object",
+    "required": [
+        "document",
+        "version",
+        "repositories",
+        "packages",
+        "archs"
+    ],
+    "properties": {
+        "document": {
+            "type": "string",
+            "enum": [
+                "rpm-package-input"
+            ],
+            "description": "Indicates the type of document."
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^[0-9]+(?:\\.[0-9]+)?(?:\\.[0-9]+)?$",
+            "description": "The version of the input file. This should follow the semantic versioning format (x.y.z), where x, y, and z are integers."
+        },
+        "repositories": {
+            "type": "array",
+            "description": "A list of RPM repositories that serve as sources for all packages and their dependencies defined in the input file.",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "anyOf": [
+                    { "required": ["baseurl"] },
+                    { "required": ["metalink"] },
+                    { "required": ["mirrorlist"] }
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Represents the ID of the repository as defined in the repo file available to the package manager at the time of package installation."
+                    },
+                    "baseurl": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "The base URL of a repository where all content is hosted."
+                    },
+                    "metalink": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "Specifies a URL to a metalink file that points to a repomd.xml file, generating a list of repository mirrors as base URLs."
+                    },
+                    "mirrorlist": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "Specifies a URL to a file containing a list of base URLs."
+                    }
+                }
+            }
+        },
+        "packages": {
+            "type": "array",
+            "description": "A list packages to be used as input for resolving the manifest file with all packages and their dependencies.",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1
+        },
+        "archs": {
+            "type": "array",
+            "description": "A list of architectures to be included for the resolution.",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+            },
+            "minItems": 1
+        }
+    },
+    "additionalProperties": false
+}

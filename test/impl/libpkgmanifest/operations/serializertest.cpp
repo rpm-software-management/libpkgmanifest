@@ -32,7 +32,7 @@ TEST(SerializerTest, ManifestIsPassedOverToYamlSerializer) {
     EXPECT_CALL(*manifest_serializer_ptr, serialize(Ref(manifest))).WillOnce(Return(std::move(node)));
     EXPECT_CALL(*yaml_serializer_ptr, to_file(Ref(*node_ptr), "path"));
 
-    serializer.serialize(manifest, "path");
+    serializer.serialize_manifest(manifest, "path");
 }
 
 }

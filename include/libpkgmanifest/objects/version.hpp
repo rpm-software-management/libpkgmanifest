@@ -41,6 +41,7 @@ public:
     void set_patch(unsigned patch);
 
 private:
+    friend class Input;
     friend class Manifest;
 
     class Impl;

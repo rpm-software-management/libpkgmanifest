@@ -5,13 +5,13 @@ namespace libpkgmanifest::internal {
 ManifestParser::ManifestParser(
     std::unique_ptr<IManifestFactory> manifest_factory,
     std::unique_ptr<IPackagesParser> packages_parser,
-    std::unique_ptr<IRepositoriesParser> repositories_parser,
-    std::unique_ptr<IVersionParser> version_parser,
+    std::shared_ptr<IRepositoriesParser> repositories_parser,
+    std::shared_ptr<IVersionParser> version_parser,
     std::shared_ptr<IPackageRepositoryBinder> binder)
     : manifest_factory(std::move(manifest_factory))
     , packages_parser(std::move(packages_parser))
-    , repositories_parser(std::move(repositories_parser))
-    , version_parser(std::move(version_parser))
+    , repositories_parser(repositories_parser)
+    , version_parser(version_parser)
     , binder(binder) {}
 
 std::unique_ptr<IManifest> ManifestParser::parse(const IYamlNode & node) const {

@@ -60,13 +60,13 @@ TEST_F(ManifestFactoryTest, CreateReturnsAnObjectWithAnInstanceOfPackagesReposit
 
 TEST_F(ManifestFactoryTest, CreatedObjectReturnsDocumentIdConstant) {
     auto manifest = factory->create();
-    EXPECT_EQ(DOCUMENT_ID, manifest->get_document());
+    EXPECT_EQ(MANIFEST_DOCUMENT_ID, manifest->get_document());
 }
 
 TEST_F(ManifestFactoryTest, CreatedObjectReturnsDocumentVersionConstant) {
-    EXPECT_CALL(*version, set_major(DOCUMENT_VERSION_MAJOR));
-    EXPECT_CALL(*version, set_minor(DOCUMENT_VERSION_MINOR));
-    EXPECT_CALL(*version, set_patch(DOCUMENT_VERSION_PATCH));
+    EXPECT_CALL(*version, set_major(MANIFEST_DOCUMENT_VERSION_MAJOR));
+    EXPECT_CALL(*version, set_minor(MANIFEST_DOCUMENT_VERSION_MINOR));
+    EXPECT_CALL(*version, set_patch(MANIFEST_DOCUMENT_VERSION_PATCH));
 
     auto manifest = factory->create();
 }

@@ -44,6 +44,7 @@ public:
     RepositoriesIterator end();
 
 private:
+    friend class Input;
     friend class Manifest;
     friend class Package;
     friend class Packages;
