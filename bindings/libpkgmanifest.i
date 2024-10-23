@@ -68,12 +68,12 @@ class Iterator:
         return self
 
     def __next__(self):
-        if self.current == self.end:
-            raise StopIteration
-        else:
+        if self.current != self.end:
             value = self.current.value()
             self.current.next()
             return value
+        else:
+            raise StopIteration
 %}
 
 %define add_iterator(ClassName)
