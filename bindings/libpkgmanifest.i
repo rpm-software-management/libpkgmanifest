@@ -91,6 +91,10 @@ del ClassName##__iter__
 %include <std_string.i>
 %include <std_vector.i>
 
+// TODO: Temporary workaround for SWIG-related issues.
+// See https://github.com/swig/swig/issues/3054.
+%include <std_vector_ext.i>
+
 %exception {
     try {
         $action
@@ -117,8 +121,6 @@ del ClassName##__iter__
     #include "libpkgmanifest/operations/parser.hpp"
     #include "libpkgmanifest/operations/serializer.hpp"
 %}
-
-%template(VectorString) std::vector<std::string>;
 
 %include "libpkgmanifest/objects/checksum.hpp"
 %include "libpkgmanifest/objects/module.hpp"
