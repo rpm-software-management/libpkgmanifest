@@ -12,6 +12,7 @@ public:
     MOCK_METHOD((const std::map<std::string, std::vector<std::unique_ptr<IPackage>>>) &, get, (), (const, override));
     MOCK_METHOD((std::map<std::string, std::vector<std::unique_ptr<IPackage>>>) &, get, (), (override));
     MOCK_METHOD(void, add, (std::unique_ptr<IPackage>), (override));
+    MOCK_METHOD(bool, contains, (const IPackage &), (const, override));
 };
 
 }

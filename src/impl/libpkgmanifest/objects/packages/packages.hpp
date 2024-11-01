@@ -15,6 +15,7 @@ public:
     virtual const std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() const override;
 
     virtual void add(std::unique_ptr<IPackage> package) override;
+    virtual bool contains(const IPackage & package) const override;
 
 private:
     std::map<std::string, std::vector<std::unique_ptr<IPackage>>> packages;

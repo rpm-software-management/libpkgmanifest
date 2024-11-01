@@ -19,6 +19,7 @@ public:
     virtual std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & get() = 0;
 
     virtual void add(std::unique_ptr<IPackage> package) = 0;
+    virtual bool contains(const IPackage & package) const = 0;
 };
 
 }
