@@ -34,6 +34,11 @@ public:
     /// @param package The package to be added.
     void add(Package & package);
 
+    /// @brief Verifies if the given package exists in the container.
+    /// @note Packages are considered identical if they share the same NEVRA and repository ID.
+    /// @return True if the package is present in the container.
+    bool contains(const Package & package);
+
     /// @brief Binds the repositories to the packages object.
     /// @note Used to reference and validate repository-related information within the packages.
     /// @param repositories The repositories object to bind.

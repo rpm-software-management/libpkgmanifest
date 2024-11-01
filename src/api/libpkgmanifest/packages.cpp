@@ -44,6 +44,10 @@ void Packages::add(Package & package) {
     p_impl->get()->add(package.p_impl->get_factory_object());
 }
 
+bool Packages::contains(const Package & package) {
+    return p_impl->get()->contains(*package.p_impl->get());
+}
+
 void Packages::attach(Repositories & repositories) {
     p_impl->get_binder().bind(*repositories.p_impl->get(), *p_impl->get());
 }
