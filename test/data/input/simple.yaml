@@ -6,9 +6,10 @@ repositories:
     - id: sources
       baseurl: https://src.location.lol/content/public/dist/lol2/source/SRPMS
 packages:
-    - bootc
-    - dnf
-    - podman
+    install:
+        - bootc
+        - dnf
+        - podman
 archs:
     - i686
     - x86_64

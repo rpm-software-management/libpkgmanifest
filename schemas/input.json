@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "RPM Package Input Schema",
-    "schemaVersion": "0.0.1",
+    "schemaVersion": "0.0.2",
     "description": "Schema for RPM input files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
     "type": "object",
     "required": [
@@ -61,12 +61,43 @@
             }
         },
         "packages": {
-            "type": "array",
-            "description": "A list packages to be used as input for resolving the manifest file with all packages and their dependencies.",
-            "items": {
-                "type": "string"
+            "type": "object",
+            "description": "A map of packages to be used as input for resolving the manifest file, organized by the action to be applied to the packages listed under each action.",
+            "properties": {
+                "install": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "reinstall": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
             },
-            "minItems": 1
+            "required": [
+                "install"
+            ]
+        },
+        "modules": {
+            "type": "object",
+            "description": "A map of modules to be used as input for resolving the manifest file, organized by the action to be applied to the modules listed under each action.",
+            "properties": {
+                "enable": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "disable": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "archs": {
             "type": "array",
@@ -76,7 +107,16 @@
                 "pattern": "^[a-z0-9_]+$"
             },
             "minItems": 1
+        },
+        "options": {
+            "type": "object",
+            "description": "A map of options to be used as input for the package manager when resolving the manifest file.",
+            "properties": {
+                "allow_erasing": {
+                    "type": "boolean",
+                    "description": "Allow the package manager to remove installed packages to resolve dependency issues."
+                }
+            }
         }
-    },
-    "additionalProperties": false
+    }
 }
