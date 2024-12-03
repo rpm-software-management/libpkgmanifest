@@ -38,7 +38,7 @@ Repositories & Input::get_repositories() {
 }
 
 std::vector<std::string> & Input::get_packages() {
-    return p_impl->get()->get_packages();
+    throw; // TODO: To refactor API
 }
 
 std::vector<std::string> & Input::get_archs() {

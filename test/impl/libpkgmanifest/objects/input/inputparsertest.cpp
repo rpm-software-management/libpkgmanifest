@@ -100,12 +100,13 @@ TEST_F(InputParserTest, ParserSetsRepositoriesFromRepositoriesParser) {
     parser->parse(yaml_node);
 }
 
-TEST_F(InputParserTest, ParserAddsPackagesFromYamlNode) {
-    std::vector<std::string> packages;
+TEST_F(InputParserTest, ParserAddsInstallPackagesFromYamlNode) {
+    std::map<std::string, std::vector<std::string>> packages;
     EXPECT_CALL(*input, get_packages()).WillRepeatedly(ReturnPointee(&packages));
 
     auto node = std::make_unique<NiceMock<YamlNodeMock>>();
 
+    std::map<std::string, std::unique_ptr<IYamlNode>> package_map_node;
     std::vector<std::unique_ptr<IYamlNode>> package_nodes; 
     auto package1_node = std::make_unique<NiceMock<YamlNodeMock>>();
     EXPECT_CALL(*package1_node, as_string()).WillOnce(Return("pkg1"));
@@ -114,11 +115,41 @@ TEST_F(InputParserTest, ParserAddsPackagesFromYamlNode) {
     package_nodes.push_back(std::move(package1_node));
     package_nodes.push_back(std::move(package2_node));
 
-    EXPECT_CALL(*node, as_list()).WillOnce(Return(std::move(package_nodes)));
+    auto inner_map_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*inner_map_node, as_list()).WillOnce(Return(std::move(package_nodes)));
+    package_map_node["install"] = std::move(inner_map_node);
+
+    EXPECT_CALL(*node, as_map()).WillOnce(Return(std::move(package_map_node)));
 
     EXPECT_CALL(yaml_node, get("packages")).WillOnce(Return(std::move(node)));
     parser->parse(yaml_node);
-    EXPECT_THAT(packages, ElementsAre("pkg1", "pkg2"));
+    EXPECT_THAT(packages["install"], ElementsAre("pkg1", "pkg2"));
+}
+
+TEST_F(InputParserTest, ParserAddsReinstallPackagesFromYamlNode) {
+    std::map<std::string, std::vector<std::string>> packages;
+    EXPECT_CALL(*input, get_packages()).WillRepeatedly(ReturnPointee(&packages));
+
+    auto node = std::make_unique<NiceMock<YamlNodeMock>>();
+
+    std::map<std::string, std::unique_ptr<IYamlNode>> package_map_node;
+    std::vector<std::unique_ptr<IYamlNode>> package_nodes; 
+    auto package1_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*package1_node, as_string()).WillOnce(Return("package1"));
+    auto package2_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*package2_node, as_string()).WillOnce(Return("package2"));
+    package_nodes.push_back(std::move(package1_node));
+    package_nodes.push_back(std::move(package2_node));
+
+    auto inner_map_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*inner_map_node, as_list()).WillOnce(Return(std::move(package_nodes)));
+    package_map_node["reinstall"] = std::move(inner_map_node);
+
+    EXPECT_CALL(*node, as_map()).WillOnce(Return(std::move(package_map_node)));
+
+    EXPECT_CALL(yaml_node, get("packages")).WillOnce(Return(std::move(node)));
+    parser->parse(yaml_node);
+    EXPECT_THAT(packages["reinstall"], ElementsAre("package1", "package2"));
 }
 
 TEST_F(InputParserTest, ParserAddsArchsFromYamlNode) {

@@ -33,15 +33,35 @@ std::unique_ptr<IYamlNode> PrototypeInFileConverter::convert(const IYamlNode & n
     result->insert("repositories", std::move(result_repositories_node));
     
     auto result_packages_node = node_factory->create();
-    auto packages_node = node.get("packages");
-    for (auto & package_node : packages_node->as_list()) {
-        // we just want to include package name string nodes
-        if (package_node->has("arches")) {
-            continue;
-        }
 
-        result_packages_node->add(std::move(package_node));
+    if (node.has("packages")) {
+        auto result_install_packages_node = node_factory->create();
+        auto packages_node = node.get("packages");
+        for (auto & package_node : packages_node->as_list()) {
+            // we just want to include package name string nodes
+            if (package_node->has("arches")) {
+                continue;
+            }
+
+            result_install_packages_node->add(std::move(package_node));
+        }
+        result_packages_node->insert("install", std::move(result_install_packages_node));
     }
+
+    if (node.has("reinstallPackages")) {
+        auto result_reinstall_packages_node = node_factory->create();
+        auto packages_node = node.get("reinstallPackages");
+        for (auto & package_node : packages_node->as_list()) {
+            // we just want to include package name string nodes
+            if (package_node->has("arches")) {
+                continue;
+            }
+
+            result_reinstall_packages_node->add(std::move(package_node));
+        }
+        result_packages_node->insert("reinstall", std::move(result_reinstall_packages_node));
+    }
+
     result->insert("packages", std::move(result_packages_node));
     result->insert("archs", node.get("arches"));
 
