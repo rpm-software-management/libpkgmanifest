@@ -16,6 +16,7 @@ public:
     virtual std::unique_ptr<IYamlNode> get(const std::string & key) const = 0;
 
     virtual std::string as_string() const = 0;
+    virtual bool as_bool() const = 0;
     virtual int as_int() const = 0;
     virtual unsigned as_uint() const = 0;
     virtual uint64_t as_uint64() const = 0;

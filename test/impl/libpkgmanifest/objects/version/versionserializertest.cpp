@@ -37,7 +37,7 @@ TEST_F(VersionSerializerTest, SerializerSetsVersionAsStringToYamlNode) {
     EXPECT_CALL(version, get_major()).WillOnce(Return(3));
     EXPECT_CALL(version, get_minor()).WillOnce(Return(2));
     EXPECT_CALL(version, get_patch()).WillOnce(Return(1));
-    EXPECT_CALL(*node_ptr, set("3.2.1"));
+    EXPECT_CALL(*node_ptr, set(std::string("3.2.1")));
     serializer->serialize(version);
 }
 

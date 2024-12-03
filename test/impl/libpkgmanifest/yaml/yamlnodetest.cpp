@@ -24,6 +24,11 @@ TEST(YamlNodeTest, ParseStringFromYaml) {
     EXPECT_EQ("value", node.as_string());
 }
 
+TEST(YamlNodeTest, ParseBooleanFromYaml) {
+    EXPECT_TRUE(YamlNode(YAML::Load("True")).as_bool());
+    EXPECT_FALSE(YamlNode(YAML::Load("false")).as_bool());
+}
+
 TEST(YamlNodeTest, ParseIntegerFromYaml) {
     YamlNode node(YAML::Load("-5"));
     EXPECT_EQ(-5, node.as_int());
@@ -113,6 +118,19 @@ TEST(YamlNodeTest, SetStringValue) {
     YamlNode node;
     node.set("value");
     EXPECT_EQ("value", node.as_string());
+}
+
+TEST(YamlNodeTest, SetCharPointerValue) {
+    std::string value = "value";
+    YamlNode node;
+    node.set(value.c_str());
+    EXPECT_EQ("value", node.as_string());
+}
+
+TEST(YamlNodeTest, SetBooleanValue) {
+    YamlNode node;
+    node.set(true);
+    EXPECT_TRUE(node.as_bool());
 }
 
 TEST(YamlNodeTest, SetIntegerValue) {

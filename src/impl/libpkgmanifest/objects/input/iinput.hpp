@@ -27,10 +27,12 @@ public:
     virtual std::map<std::string, std::vector<std::string>> & get_modules() = 0;
     virtual const std::vector<std::string> & get_archs() const = 0;
     virtual std::vector<std::string> & get_archs() = 0;
+    virtual bool get_allow_erasing() const = 0;
 
     virtual void set_document(const std::string & document) = 0;
     virtual void set_version(std::unique_ptr<IVersion> version) = 0;
     virtual void set_repositories(std::unique_ptr<IRepositories> repositories) = 0;
+    virtual void set_allow_erasing(bool value) = 0;
 };
 
 }

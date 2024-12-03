@@ -26,12 +26,15 @@ public:
 
     virtual std::string as_string() const override;
     virtual int as_int() const override;
+    virtual bool as_bool() const override;
     virtual unsigned as_uint() const override;
     virtual uint64_t as_uint64() const override;
     virtual std::vector<std::unique_ptr<IYamlNode>> as_list() const override;
     virtual std::map<std::string, std::unique_ptr<IYamlNode>> as_map() const override;
 
     virtual void set(const std::string & value) override;
+    virtual void set(const char * value) override;
+    virtual void set(bool value) override;
     virtual void set(int value) override;
     virtual void set(unsigned value) override;
     virtual void set(uint64_t value) override;

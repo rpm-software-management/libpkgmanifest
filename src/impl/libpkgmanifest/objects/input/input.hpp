@@ -22,10 +22,12 @@ public:
     virtual std::map<std::string, std::vector<std::string>> & get_modules() override;
     virtual const std::vector<std::string> & get_archs() const override;
     virtual std::vector<std::string> & get_archs() override;
+    virtual bool get_allow_erasing() const override;
 
     virtual void set_document(const std::string & document) override;
     virtual void set_version(std::unique_ptr<IVersion> version) override;
     virtual void set_repositories(std::unique_ptr<IRepositories> repositories) override;
+    virtual void set_allow_erasing(bool allow_erasing) override;
 
 private:
     std::string document;
@@ -34,6 +36,7 @@ private:
     std::map<std::string, std::vector<std::string>> packages;
     std::map<std::string, std::vector<std::string>> modules;
     std::vector<std::string> archs;
+    bool allow_erasing;
 };
 
 }
