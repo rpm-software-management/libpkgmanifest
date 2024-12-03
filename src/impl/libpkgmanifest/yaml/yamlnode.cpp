@@ -29,6 +29,10 @@ std::string YamlNode::as_string() const {
     return as<std::string>();
 }
 
+bool YamlNode::as_bool() const {
+    return as<bool>();
+}
+
 int YamlNode::as_int() const {
     return as<int>();
 }
@@ -58,6 +62,14 @@ std::map<std::string, std::unique_ptr<IYamlNode>> YamlNode::as_map() const {
 }
 
 void YamlNode::set(const std::string & value) {
+    node = value;
+}
+
+void YamlNode::set(const char * value) {
+    node = value;
+}
+
+void YamlNode::set(bool value) {
     node = value;
 }
 

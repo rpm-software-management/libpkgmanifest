@@ -84,6 +84,12 @@ std::unique_ptr<IYamlNode> PrototypeInFileConverter::convert(const IYamlNode & n
 
     result->insert("archs", node.get("arches"));
 
+    if (node.has("allowerasing")) {
+        auto options_node = node_factory->create();
+        options_node->insert("allow_erasing", node.get("allowerasing"));
+        result->insert("options", std::move(options_node));
+    }
+
     return result;
 }
 

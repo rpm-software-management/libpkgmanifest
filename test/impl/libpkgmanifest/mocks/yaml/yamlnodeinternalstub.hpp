@@ -9,9 +9,10 @@ class YamlNodeInternalStub : public IYamlNodeInternal {
 public:
     YamlNodeInternalStub() = default;
     YamlNodeInternalStub(const YamlNodeInternalStub & other) 
-        : string_value(other.string_value), 
-          int_value(other.int_value), 
-          uint_value(other.uint_value), 
+        : string_value(other.string_value),
+          bool_value(other.bool_value),
+          int_value(other.int_value),
+          uint_value(other.uint_value),
           uint64_value(other.uint64_value) {
         for (const auto & [key, node] : other.nodes_map) {
             nodes_map[key] = std::make_unique<YamlNodeInternalStub>(*dynamic_cast<YamlNodeInternalStub*>(node.get()));
@@ -32,6 +33,10 @@ public:
 
     std::string as_string() const override {
         return string_value;
+    }
+
+    bool as_bool() const override {
+        return bool_value;
     }
 
     int as_int() const override {
@@ -70,6 +75,14 @@ public:
         string_value = value;
     }
 
+    void set(const char * value) override {
+        string_value = value;
+    }
+
+    void set(bool value) override {
+        bool_value = value;
+    }
+
     void set(int value) override {
         int_value = value;
     }
@@ -92,6 +105,7 @@ public:
 
 private:
     std::string string_value;
+    bool bool_value;
     int int_value;
     unsigned uint_value;
     uint64_t uint64_value;

@@ -102,12 +102,16 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     arches_node->add(std::move(arch1_node));
     arches_node->add(std::move(arch2_node));
 
+    auto allowerasing_node = std::make_unique<YamlNodeInternalStub>();
+    allowerasing_node->set(true);
+
     content_origin_node->insert("repos", std::move(repos_node));
     prototype_node.insert("contentOrigin", std::move(content_origin_node));
     prototype_node.insert("packages", std::move(packages_node));
     prototype_node.insert("reinstallPackages", std::move(reinstall_packages_node));
     prototype_node.insert("moduleEnable", std::move(enable_modules_node));
     prototype_node.insert("arches", std::move(arches_node));
+    prototype_node.insert("allowerasing", std::move(allowerasing_node));
 
     auto node = converter->convert(prototype_node);
     EXPECT_EQ(INPUT_PROTOTYPE_DOCUMENT_ID, node->get("document")->as_string());
@@ -132,6 +136,8 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     EXPECT_EQ("module2", node->get("modules")->as_map()["enable"]->as_list()[1]->as_string());
     EXPECT_EQ("arch1", node->get("archs")->as_list()[0]->as_string());
     EXPECT_EQ("arch2", node->get("archs")->as_list()[1]->as_string());
+    EXPECT_EQ(1, node->get("options")->as_map().size());
+    EXPECT_EQ(true, node->get("options")->as_map()["allow_erasing"]->as_bool());
 }
 
 }

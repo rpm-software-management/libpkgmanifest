@@ -14,6 +14,9 @@ public:
     virtual ~IYamlNodeSetter() = default;
 
     virtual void set(const std::string & value) = 0;
+    // to prevent implicit conversions of char * -> bool
+    virtual void set(const char * value) = 0;
+    virtual void set(bool value) = 0;
     virtual void set(int value) = 0;
     virtual void set(unsigned value) = 0;
     virtual void set(uint64_t value) = 0;

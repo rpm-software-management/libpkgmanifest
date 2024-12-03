@@ -36,7 +36,7 @@ TEST_F(ModuleSerializerTest, SerializerSetsNameAndStreamToYamlNode) {
     NiceMock<ModuleMock> module;
     EXPECT_CALL(module, get_name()).WillOnce(Return("harold"));
     EXPECT_CALL(module, get_stream()).WillOnce(Return("live"));
-    EXPECT_CALL(*node_ptr, set("harold:live"));
+    EXPECT_CALL(*node_ptr, set(std::string("harold:live")));
     serializer->serialize(module);
 }
 

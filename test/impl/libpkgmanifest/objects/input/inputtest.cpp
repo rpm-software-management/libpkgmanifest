@@ -36,6 +36,10 @@ TEST(InputTest, DefaultArchsIsEmpty) {
     EXPECT_TRUE(Input().get_archs().empty());
 }
 
+TEST(InputTest, DefaultAllowErasingIsFalse) {
+    EXPECT_FALSE(Input().get_allow_erasing());
+}
+
 TEST(InputTest, SetDocumentIsReturned) {
     Input input;
     input.set_document("document");
@@ -68,6 +72,12 @@ TEST(InputTest, SetRepositoriesObjectIsReturned) {
     EXPECT_EQ(repositories_ptr, &const_input.get_repositories());
 }
 
+TEST(InputTest, SetAllowErasingIsReturned) {
+    Input input;
+    input.set_allow_erasing(true);
+    EXPECT_TRUE(input.get_allow_erasing());
+}
+
 TEST(InputTest, ClonedObjectHasSameValuesAsOriginal) {
     // TODO: Tests cloned complex objects are the same
 
@@ -83,10 +93,12 @@ TEST(InputTest, ClonedObjectHasSameValuesAsOriginal) {
     input.set_document("input1");
     input.set_version(std::move(version));
     input.set_repositories(std::move(repositories));
+    input.set_allow_erasing(true);
 
     auto clone(input.clone());
     EXPECT_EQ(input.get_document(), clone->get_document());
     EXPECT_EQ(input.get_version().get_major(), clone->get_version().get_major());
+    EXPECT_EQ(input.get_allow_erasing(), clone->get_allow_erasing());
 }
 
 }

@@ -14,7 +14,8 @@ Input::Input(const Input & other)
     , version(other.version->clone())
     , repositories(other.repositories->clone())
     , packages(other.packages)
-    , archs(other.archs) {}
+    , archs(other.archs)
+    , allow_erasing(other.allow_erasing) {}
 
 std::unique_ptr<IInput> Input::clone() const {
     return std::unique_ptr<IInput>(new Input(*this));
@@ -64,6 +65,10 @@ std::vector<std::string> & Input::get_archs() {
     return archs;
 }
 
+bool Input::get_allow_erasing() const {
+    return allow_erasing;
+}
+
 void Input::set_document(const std::string & document) {
     this->document = document;
 }
@@ -74,6 +79,10 @@ void Input::set_version(std::unique_ptr<IVersion> version) {
 
 void Input::set_repositories(std::unique_ptr<IRepositories> repositories) {
     this->repositories = std::move(repositories);
+}
+
+void Input::set_allow_erasing(bool allow_erasing) {
+    this->allow_erasing = allow_erasing;
 }
 
 }

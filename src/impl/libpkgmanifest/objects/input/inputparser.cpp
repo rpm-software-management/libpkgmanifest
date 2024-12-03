@@ -17,33 +17,42 @@ std::unique_ptr<IInput> InputParser::parse(const IYamlNode & node) const {
     input->set_version(version_parser->parse(*node.get("version")));
     input->set_repositories(repositories_parser->parse(*node.get("repositories")));
 
-    auto packages_map = node.get("packages")->as_map();
-    if (packages_map.contains("install")) {
+    auto packages = node.get("packages");
+    if (packages->has("install")) {
         std::vector<std::string> install_packages;
-        for (auto & package_node : packages_map["install"]->as_list()) {
+        for (auto & package_node : packages->get("install")->as_list()) {
             install_packages.push_back(package_node->as_string());
         }
         input->get_packages()["install"] = std::move(install_packages);
     }
-    if (packages_map.contains("reinstall")) {
+    if (packages->has("reinstall")) {
         std::vector<std::string> reinstall_packages;
-        for (auto & package_node : packages_map["reinstall"]->as_list()) {
+        for (auto & package_node : packages->get("reinstall")->as_list()) {
             reinstall_packages.push_back(package_node->as_string());
         }
         input->get_packages()["reinstall"] = std::move(reinstall_packages);
     }
 
-    auto modules_map = node.get("modules")->as_map();
-    if (modules_map.contains("enable")) {
-        std::vector<std::string> enable_modules;
-        for (auto & module_node : modules_map["enable"]->as_list()) {
-            enable_modules.push_back(module_node->as_string());
+    if (node.has("modules")) {
+        auto modules = node.get("modules");
+        if (modules->has("enable")) {
+            std::vector<std::string> enable_modules;
+            for (auto & module_node : modules->get("enable")->as_list()) {
+                enable_modules.push_back(module_node->as_string());
+            }
+            input->get_modules()["enable"] = std::move(enable_modules);
         }
-        input->get_modules()["enable"] = std::move(enable_modules);
     }
 
     for (auto & arch_node : node.get("archs")->as_list()) {
         input->get_archs().push_back(arch_node->as_string());
+    }
+
+    if (node.has("options")) {
+        auto options = node.get("options");
+        if (options->has("allow_erasing")) {
+            input->set_allow_erasing(options->get("allow_erasing")->as_bool());
+        }
     }
 
     return input;
