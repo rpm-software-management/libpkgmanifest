@@ -14,8 +14,8 @@ public:
     MOCK_METHOD(IVersion &, get_version, (), (override));
     MOCK_METHOD(const IRepositories &, get_repositories, (), (const, override));
     MOCK_METHOD(IRepositories &, get_repositories, (), (override));
-    MOCK_METHOD(const std::vector<std::string> &, get_packages, (), (const, override));
-    MOCK_METHOD(std::vector<std::string> &, get_packages, (), (override));
+    MOCK_METHOD((const std::map<std::string, std::vector<std::string>>) &, get_packages, (), (const, override));
+    MOCK_METHOD((std::map<std::string, std::vector<std::string>>) &, get_packages, (), (override));
     MOCK_METHOD(const std::vector<std::string> &, get_archs, (), (const, override));
     MOCK_METHOD(std::vector<std::string> &, get_archs, (), (override));
     MOCK_METHOD(void, set_document, (const std::string &), (override));

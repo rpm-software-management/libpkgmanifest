@@ -3,6 +3,7 @@
 #include "impl/libpkgmanifest/objects/repositories/irepositories.hpp"
 #include "impl/libpkgmanifest/objects/version/iversion.hpp"
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -20,8 +21,8 @@ public:
     virtual IVersion & get_version() = 0;
     virtual const IRepositories & get_repositories() const = 0;
     virtual IRepositories & get_repositories() = 0;
-    virtual const std::vector<std::string> & get_packages() const = 0;
-    virtual std::vector<std::string> & get_packages() = 0;
+    virtual const std::map<std::string, std::vector<std::string>> & get_packages() const = 0;
+    virtual std::map<std::string, std::vector<std::string>> & get_packages() = 0;
     virtual const std::vector<std::string> & get_archs() const = 0;
     virtual std::vector<std::string> & get_archs() = 0;
 

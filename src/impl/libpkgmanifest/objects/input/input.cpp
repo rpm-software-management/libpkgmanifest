@@ -40,11 +40,11 @@ IRepositories & Input::get_repositories() {
     return *repositories;
 }
 
-const std::vector<std::string> & Input::get_packages() const {
+const std::map<std::string, std::vector<std::string>> & Input::get_packages() const {
     return packages;
 }
 
-std::vector<std::string> & Input::get_packages() {
+std::map<std::string, std::vector<std::string>> & Input::get_packages() {
     return packages;
 }
 

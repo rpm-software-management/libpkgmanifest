@@ -17,8 +17,20 @@ std::unique_ptr<IInput> InputParser::parse(const IYamlNode & node) const {
     input->set_version(version_parser->parse(*node.get("version")));
     input->set_repositories(repositories_parser->parse(*node.get("repositories")));
 
-    for (auto & package_node : node.get("packages")->as_list()) {
-        input->get_packages().push_back(package_node->as_string());
+    auto packages_map = node.get("packages")->as_map();
+    if (packages_map.contains("install")) {
+        std::vector<std::string> install_packages;
+        for (auto & package_node : packages_map["install"]->as_list()) {
+            install_packages.push_back(package_node->as_string());
+        }
+        input->get_packages()["install"] = std::move(install_packages);
+    }
+    if (packages_map.contains("reinstall")) {
+        std::vector<std::string> reinstall_packages;
+        for (auto & package_node : packages_map["reinstall"]->as_list()) {
+            reinstall_packages.push_back(package_node->as_string());
+        }
+        input->get_packages()["reinstall"] = std::move(reinstall_packages);
     }
 
     for (auto & arch_node : node.get("archs")->as_list()) {

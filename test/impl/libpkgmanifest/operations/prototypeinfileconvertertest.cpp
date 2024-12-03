@@ -75,6 +75,15 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     packages_node->add(std::move(package2_node));
     packages_node->add(std::move(complex_pkg_node));
 
+    auto reinstall_packages_node = std::make_unique<YamlNodeInternalStub>();
+    auto reinstall_package1_node = std::make_unique<YamlNodeInternalStub>();
+    reinstall_package1_node->set("pkgA");
+    auto reinstall_package2_node = std::make_unique<YamlNodeInternalStub>();
+    reinstall_package2_node->set("pkgB");
+
+    reinstall_packages_node->add(std::move(reinstall_package1_node));
+    reinstall_packages_node->add(std::move(reinstall_package2_node));
+
     auto arches_node = std::make_unique<YamlNodeInternalStub>();
     auto arch1_node = std::make_unique<YamlNodeInternalStub>();
     arch1_node->set("arch1");
@@ -87,6 +96,7 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     content_origin_node->insert("repos", std::move(repos_node));
     prototype_node.insert("contentOrigin", std::move(content_origin_node));
     prototype_node.insert("packages", std::move(packages_node));
+    prototype_node.insert("reinstallPackages", std::move(reinstall_packages_node));
     prototype_node.insert("arches", std::move(arches_node));
 
     auto node = converter->convert(prototype_node);
@@ -99,9 +109,13 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     EXPECT_EQ("baseurl1", node->get("repositories")->as_list()[0]->get("baseurl")->as_string());
     EXPECT_EQ("repo2", node->get("repositories")->as_list()[1]->get("id")->as_string());
     EXPECT_EQ("baseurl2", node->get("repositories")->as_list()[1]->get("baseurl")->as_string());
-    EXPECT_EQ(2, node->get("packages")->as_list().size());
-    EXPECT_EQ("pkg1", node->get("packages")->as_list()[0]->as_string());
-    EXPECT_EQ("pkg2", node->get("packages")->as_list()[1]->as_string());
+    EXPECT_EQ(2, node->get("packages")->as_map().size());
+    EXPECT_EQ(2, node->get("packages")->as_map()["install"]->as_list().size());
+    EXPECT_EQ("pkg1", node->get("packages")->as_map()["install"]->as_list()[0]->as_string());
+    EXPECT_EQ("pkg2", node->get("packages")->as_map()["install"]->as_list()[1]->as_string());
+    EXPECT_EQ(2, node->get("packages")->as_map()["reinstall"]->as_list().size());
+    EXPECT_EQ("pkgA", node->get("packages")->as_map()["reinstall"]->as_list()[0]->as_string());
+    EXPECT_EQ("pkgB", node->get("packages")->as_map()["reinstall"]->as_list()[1]->as_string());
     EXPECT_EQ("arch1", node->get("archs")->as_list()[0]->as_string());
     EXPECT_EQ("arch2", node->get("archs")->as_list()[1]->as_string());
 }

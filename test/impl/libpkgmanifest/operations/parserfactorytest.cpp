@@ -93,8 +93,7 @@ TEST(ParserFactoryTest, ParseSimpleInput) {
     EXPECT_EQ("sources", repository2->get_id());
     EXPECT_EQ("https://src.location.lol/content/public/dist/lol2/source/SRPMS", repository2->get_baseurl());
 
-    EXPECT_EQ(3, input->get_packages().size());
-    EXPECT_THAT(input->get_packages(), ElementsAre("bootc", "dnf", "podman"));
+    EXPECT_THAT(input->get_packages()["install"], ElementsAre("bootc", "dnf", "podman"));
 
     EXPECT_EQ(3, input->get_archs().size());
     EXPECT_THAT(input->get_archs(), ElementsAre("i686", "x86_64", "aarch64"));
@@ -139,8 +138,7 @@ TEST(ParserFactoryTest, ParseSimplePrototypeInput) {
     EXPECT_EQ("ubi-9-codeready-builder-source", repository6->get_id());
     EXPECT_EQ("https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/source/SRPMS", repository6->get_baseurl());
 
-    EXPECT_EQ(6, input->get_packages().size());
-    EXPECT_THAT(input->get_packages(), ElementsAre("gettext", "hostname", "nss_wrapper", "bind-utils", "varnish", "gcc"));
+    EXPECT_THAT(input->get_packages()["install"], ElementsAre("gettext", "hostname", "nss_wrapper", "bind-utils", "varnish", "gcc"));
 
     EXPECT_EQ(4, input->get_archs().size());
     EXPECT_THAT(input->get_archs(), ElementsAre("x86_64", "aarch64", "ppc64le", "s390x"));
