@@ -63,6 +63,25 @@ std::unique_ptr<IYamlNode> PrototypeInFileConverter::convert(const IYamlNode & n
     }
 
     result->insert("packages", std::move(result_packages_node));
+
+    auto result_modules_node = node_factory->create();
+
+    if (node.has("moduleEnable")) {
+        auto result_enable_modules_node = node_factory->create();
+        auto modules_node = node.get("moduleEnable");
+        for (auto & module_node : modules_node->as_list()) {
+            // we just want to include module name string nodes
+            if (module_node->has("arches")) {
+                continue;
+            }
+
+            result_enable_modules_node->add(std::move(module_node));
+        }
+        result_modules_node->insert("enable", std::move(result_enable_modules_node));
+    }
+
+    result->insert("modules", std::move(result_modules_node));
+
     result->insert("archs", node.get("arches"));
 
     return result;

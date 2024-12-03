@@ -18,6 +18,8 @@ public:
     virtual IRepositories & get_repositories() override;
     virtual const std::map<std::string, std::vector<std::string>> & get_packages() const override;
     virtual std::map<std::string, std::vector<std::string>> & get_packages() override;
+    virtual const std::map<std::string, std::vector<std::string>> & get_modules() const override;
+    virtual std::map<std::string, std::vector<std::string>> & get_modules() override;
     virtual const std::vector<std::string> & get_archs() const override;
     virtual std::vector<std::string> & get_archs() override;
 
@@ -30,6 +32,7 @@ private:
     std::unique_ptr<IVersion> version;
     std::unique_ptr<IRepositories> repositories;
     std::map<std::string, std::vector<std::string>> packages;
+    std::map<std::string, std::vector<std::string>> modules;
     std::vector<std::string> archs;
 };
 

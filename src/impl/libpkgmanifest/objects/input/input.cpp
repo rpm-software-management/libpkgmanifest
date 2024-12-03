@@ -48,6 +48,14 @@ std::map<std::string, std::vector<std::string>> & Input::get_packages() {
     return packages;
 }
 
+const std::map<std::string, std::vector<std::string>> & Input::get_modules() const {
+    return modules;
+}
+
+std::map<std::string, std::vector<std::string>> & Input::get_modules() {
+    return modules;
+}
+
 const std::vector<std::string> & Input::get_archs() const {
     return archs;
 }
