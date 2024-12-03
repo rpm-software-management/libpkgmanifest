@@ -84,6 +84,15 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     reinstall_packages_node->add(std::move(reinstall_package1_node));
     reinstall_packages_node->add(std::move(reinstall_package2_node));
 
+    auto enable_modules_node = std::make_unique<YamlNodeInternalStub>();
+    auto enable_module1_node = std::make_unique<YamlNodeInternalStub>();
+    enable_module1_node->set("module1");
+    auto enable_module2_node = std::make_unique<YamlNodeInternalStub>();
+    enable_module2_node->set("module2");
+
+    enable_modules_node->add(std::move(enable_module1_node));
+    enable_modules_node->add(std::move(enable_module2_node));
+
     auto arches_node = std::make_unique<YamlNodeInternalStub>();
     auto arch1_node = std::make_unique<YamlNodeInternalStub>();
     arch1_node->set("arch1");
@@ -97,6 +106,7 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     prototype_node.insert("contentOrigin", std::move(content_origin_node));
     prototype_node.insert("packages", std::move(packages_node));
     prototype_node.insert("reinstallPackages", std::move(reinstall_packages_node));
+    prototype_node.insert("moduleEnable", std::move(enable_modules_node));
     prototype_node.insert("arches", std::move(arches_node));
 
     auto node = converter->convert(prototype_node);
@@ -116,6 +126,10 @@ TEST_F(PrototypeInFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputF
     EXPECT_EQ(2, node->get("packages")->as_map()["reinstall"]->as_list().size());
     EXPECT_EQ("pkgA", node->get("packages")->as_map()["reinstall"]->as_list()[0]->as_string());
     EXPECT_EQ("pkgB", node->get("packages")->as_map()["reinstall"]->as_list()[1]->as_string());
+    EXPECT_EQ(1, node->get("modules")->as_map().size());
+    EXPECT_EQ(2, node->get("modules")->as_map()["enable"]->as_list().size());
+    EXPECT_EQ("module1", node->get("modules")->as_map()["enable"]->as_list()[0]->as_string());
+    EXPECT_EQ("module2", node->get("modules")->as_map()["enable"]->as_list()[1]->as_string());
     EXPECT_EQ("arch1", node->get("archs")->as_list()[0]->as_string());
     EXPECT_EQ("arch2", node->get("archs")->as_list()[1]->as_string());
 }

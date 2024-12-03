@@ -28,6 +28,10 @@ TEST(InputTest, DefaultPackagesIsEmpty) {
     EXPECT_TRUE(Input().get_packages().empty());
 }
 
+TEST(InputTest, DefaultModulesIsEmpty) {
+    EXPECT_TRUE(Input().get_modules().empty());
+}
+
 TEST(InputTest, DefaultArchsIsEmpty) {
     EXPECT_TRUE(Input().get_archs().empty());
 }

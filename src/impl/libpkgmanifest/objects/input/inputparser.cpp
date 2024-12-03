@@ -33,6 +33,15 @@ std::unique_ptr<IInput> InputParser::parse(const IYamlNode & node) const {
         input->get_packages()["reinstall"] = std::move(reinstall_packages);
     }
 
+    auto modules_map = node.get("modules")->as_map();
+    if (modules_map.contains("enable")) {
+        std::vector<std::string> enable_modules;
+        for (auto & module_node : modules_map["enable"]->as_list()) {
+            enable_modules.push_back(module_node->as_string());
+        }
+        input->get_modules()["enable"] = std::move(enable_modules);
+    }
+
     for (auto & arch_node : node.get("archs")->as_list()) {
         input->get_archs().push_back(arch_node->as_string());
     }

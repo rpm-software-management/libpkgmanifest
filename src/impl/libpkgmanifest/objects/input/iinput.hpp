@@ -23,6 +23,8 @@ public:
     virtual IRepositories & get_repositories() = 0;
     virtual const std::map<std::string, std::vector<std::string>> & get_packages() const = 0;
     virtual std::map<std::string, std::vector<std::string>> & get_packages() = 0;
+    virtual const std::map<std::string, std::vector<std::string>> & get_modules() const = 0;
+    virtual std::map<std::string, std::vector<std::string>> & get_modules() = 0;
     virtual const std::vector<std::string> & get_archs() const = 0;
     virtual std::vector<std::string> & get_archs() = 0;
 

@@ -152,6 +152,32 @@ TEST_F(InputParserTest, ParserAddsReinstallPackagesFromYamlNode) {
     EXPECT_THAT(packages["reinstall"], ElementsAre("package1", "package2"));
 }
 
+TEST_F(InputParserTest, ParserAddsEnableModulesFromYamlNode) {
+    std::map<std::string, std::vector<std::string>> modules;
+    EXPECT_CALL(*input, get_modules()).WillRepeatedly(ReturnPointee(&modules));
+
+    auto node = std::make_unique<NiceMock<YamlNodeMock>>();
+
+    std::map<std::string, std::unique_ptr<IYamlNode>> module_map_node;
+    std::vector<std::unique_ptr<IYamlNode>> module_nodes; 
+    auto module1_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*module1_node, as_string()).WillOnce(Return("mod1"));
+    auto module2_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*module2_node, as_string()).WillOnce(Return("mod2"));
+    module_nodes.push_back(std::move(module1_node));
+    module_nodes.push_back(std::move(module2_node));
+
+    auto inner_map_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*inner_map_node, as_list()).WillOnce(Return(std::move(module_nodes)));
+    module_map_node["enable"] = std::move(inner_map_node);
+
+    EXPECT_CALL(*node, as_map()).WillOnce(Return(std::move(module_map_node)));
+
+    EXPECT_CALL(yaml_node, get("modules")).WillOnce(Return(std::move(node)));
+    parser->parse(yaml_node);
+    EXPECT_THAT(modules["enable"], ElementsAre("mod1", "mod2"));
+}
+
 TEST_F(InputParserTest, ParserAddsArchsFromYamlNode) {
     std::vector<std::string> archs;
     EXPECT_CALL(*input, get_archs()).WillRepeatedly(ReturnPointee(&archs));
