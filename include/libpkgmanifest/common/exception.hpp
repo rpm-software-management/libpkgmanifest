@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace libpkgmanifest {
+namespace libpkgmanifest::common {
 
 /// @brief Exception thrown when there is an issue parsing the manifest file.
 class ParserError : public std::runtime_error {

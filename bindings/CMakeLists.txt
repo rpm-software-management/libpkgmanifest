@@ -18,4 +18,6 @@ set(SWIG_COMPILE_OPTIONS
     -Wno-unused-parameter
 )
 
+list(APPEND SWIG_LIBPKGMANIFEST_MODULES common input manifest)
+
 add_subdirectory(python)
