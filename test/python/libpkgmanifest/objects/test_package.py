@@ -1,11 +1,11 @@
-import libpkgmanifest
+import libpkgmanifest.manifest
 
 import base_test_case
 
 
 class TestPackage(base_test_case.BaseTestCase):
     def test_nevra_fields_delegation(self):
-        package = libpkgmanifest.Package()
+        package = libpkgmanifest.manifest.Package()
 
         package.nevra.name = 'package'
         package.nevra.epoch = '3'

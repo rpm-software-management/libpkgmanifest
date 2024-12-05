@@ -1,11 +1,11 @@
-import libpkgmanifest
+import libpkgmanifest.manifest
 
 import base_test_case
 
 
 class TestNevra(base_test_case.BaseTestCase):
     def test_nevra_as_string(self):
-        nevra = libpkgmanifest.Nevra()
+        nevra = libpkgmanifest.manifest.Nevra()
         nevra.name = 'package'
         nevra.version = '1.2.3'
         nevra.release = '1.rel5'

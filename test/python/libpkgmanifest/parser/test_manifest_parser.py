@@ -1,11 +1,12 @@
-import libpkgmanifest
+import libpkgmanifest.common
+import libpkgmanifest.manifest
 
 import base_test_case
 
 
 class TestManifestParser(base_test_case.BaseTestCase):
     def test_parse_simple_manifest(self):
-        manifest = libpkgmanifest.Parser().parse_manifest(self.test_manifest_file)
+        manifest = libpkgmanifest.manifest.Parser().parse(self.test_manifest_file)
 
         self.assertEqual('rpm-package-manifest', manifest.document)
         self.assertEqual(1, manifest.version.major)
@@ -40,7 +41,7 @@ class TestManifestParser(base_test_case.BaseTestCase):
         self.assertEqual(152384, package1.size)
         self.assertEqual('repo1', package1.repository.id)
         self.assertEqual('http://some.server.gov/folder/metalink', package1.repository.metalink)
-        self.assertEqual(libpkgmanifest.ChecksumMethod_SHA512, package1.checksum.method)
+        self.assertEqual(libpkgmanifest.manifest.ChecksumMethod_SHA512, package1.checksum.method)
         self.assertEqual('abcdef', package1.checksum.digest)
         self.assertEqual('package1', package1.nevra.name)
         self.assertEqual('', package1.nevra.epoch)
@@ -62,7 +63,7 @@ class TestManifestParser(base_test_case.BaseTestCase):
         self.assertEqual(378124894, package2.size)
         self.assertEqual('repo2', package2.repository.id)
         self.assertEqual('http://other.computer.lol/dir/for/pkgs/$arch/', package2.repository.baseurl)
-        self.assertEqual(libpkgmanifest.ChecksumMethod_MD5, package2.checksum.method)
+        self.assertEqual(libpkgmanifest.manifest.ChecksumMethod_MD5, package2.checksum.method)
         self.assertEqual('fedcba', package2.checksum.digest)
         self.assertEqual('package2', package2.nevra.name)
         self.assertEqual('3', package2.nevra.epoch)
@@ -81,7 +82,7 @@ class TestManifestParser(base_test_case.BaseTestCase):
         self.assertEqual('file:///home/user/my/repository', package3.repository.baseurl)
         self.assertEqual('https://my.user.repository.org/metalink', package3.repository.metalink)
         self.assertEqual('http://mirrors.user.repository.org/mirrors.txt', package3.repository.mirrorlist)
-        self.assertEqual(libpkgmanifest.ChecksumMethod_SHA256, package3.checksum.method)
+        self.assertEqual(libpkgmanifest.manifest.ChecksumMethod_SHA256, package3.checksum.method)
         self.assertEqual('qpwoeiru', package3.checksum.digest)
         self.assertEqual('package3', package3.nevra.name)
         self.assertEqual('', package3.nevra.epoch)
@@ -92,14 +93,14 @@ class TestManifestParser(base_test_case.BaseTestCase):
         self.assertEqual('', package3.module.stream)
 
     def test_modify_parsed_manifest(self):
-        manifest = libpkgmanifest.Parser().parse_manifest(self.test_manifest_file)
+        manifest = libpkgmanifest.manifest.Parser().parse(self.test_manifest_file)
         manifest.version.major = 6
         self.assertEqual(6, manifest.version.major)
 
     def test_replace_parsed_manifest(self):
-        manifest = libpkgmanifest.Parser().parse_manifest(self.test_manifest_file)
+        manifest = libpkgmanifest.manifest.Parser().parse(self.test_manifest_file)
 
-        version = libpkgmanifest.Version()
+        version = libpkgmanifest.common.Version()
         version.major = 6
 
         manifest.version = version
