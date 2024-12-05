@@ -1,11 +1,11 @@
-import libpkgmanifest
+import libpkgmanifest.input
 
 import base_test_case
 
 
 class TestInputParser(base_test_case.BaseTestCase):
     def test_parse_simple_input(self):
-        input = libpkgmanifest.Parser().parse_input(self.test_input_file)
+        input = libpkgmanifest.input.Parser().parse(self.test_input_file)
 
         self.assertEqual('rpm-package-input', input.document)
         self.assertEqual(6, input.version.major)
@@ -34,7 +34,7 @@ class TestInputParser(base_test_case.BaseTestCase):
         self.assertEqual('aarch64', input.archs[2])
 
     def test_parse_simple_prototype_input(self):
-        input = libpkgmanifest.Parser().parse_prototype_input(self.test_input_prototype_file)
+        input = libpkgmanifest.input.Parser().parse_prototype(self.test_input_prototype_file)
 
         self.assertEqual('rpm-package-input-prototype', input.document)
         self.assertEqual(0, input.version.major)
