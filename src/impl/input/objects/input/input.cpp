@@ -8,16 +8,19 @@ Input::Input()
     : document()
     , version(nullptr)
     , repositories(nullptr)
-    , packages()
+    , packages(nullptr)
+    , modules(nullptr)
+    , options(nullptr)
     , archs() {}
 
 Input::Input(const Input & other) 
     : document(other.document)
     , version(other.version->clone())
     , repositories(other.repositories->clone())
-    , packages(other.packages)
-    , archs(other.archs)
-    , allow_erasing(other.allow_erasing) {}
+    , packages(other.packages->clone())
+    , modules(other.modules->clone())
+    , options(other.options->clone())
+    , archs(other.archs) {}
 
 std::unique_ptr<IInput> Input::clone() const {
     return std::unique_ptr<IInput>(new Input(*this));
@@ -43,20 +46,20 @@ IRepositories & Input::get_repositories() {
     return *repositories;
 }
 
-const std::map<std::string, std::vector<std::string>> & Input::get_packages() const {
-    return packages;
+const IPackages & Input::get_packages() const {
+    return *packages;
 }
 
-std::map<std::string, std::vector<std::string>> & Input::get_packages() {
-    return packages;
+IPackages & Input::get_packages() {
+    return *packages;
 }
 
-const std::map<std::string, std::vector<std::string>> & Input::get_modules() const {
-    return modules;
+const IModules & Input::get_modules() const {
+    return *modules;
 }
 
-std::map<std::string, std::vector<std::string>> & Input::get_modules() {
-    return modules;
+IModules & Input::get_modules() {
+    return *modules;
 }
 
 const std::vector<std::string> & Input::get_archs() const {
@@ -67,8 +70,12 @@ std::vector<std::string> & Input::get_archs() {
     return archs;
 }
 
-bool Input::get_allow_erasing() const {
-    return allow_erasing;
+const IOptions & Input::get_options() const {
+    return *options;
+}
+
+IOptions & Input::get_options() {
+    return *options;
 }
 
 void Input::set_document(const std::string & document) {
@@ -83,8 +90,16 @@ void Input::set_repositories(std::unique_ptr<IRepositories> repositories) {
     this->repositories = std::move(repositories);
 }
 
-void Input::set_allow_erasing(bool allow_erasing) {
-    this->allow_erasing = allow_erasing;
+void Input::set_packages(std::unique_ptr<IPackages> packages) {
+    this->packages = std::move(packages);
+}
+
+void Input::set_modules(std::unique_ptr<IModules> modules) {
+    this->modules = std::move(modules);
+}
+
+void Input::set_options(std::unique_ptr<IOptions> options) {
+    this->options = std::move(options);
 }
 
 }

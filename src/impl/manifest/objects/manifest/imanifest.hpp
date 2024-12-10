@@ -1,8 +1,8 @@
 #pragma once
 
-#include "impl/manifest/objects/packages/ipackages.hpp"
 #include "impl/common/objects/repositories/irepositories.hpp"
 #include "impl/common/objects/version/iversion.hpp"
+#include "impl/manifest/objects/packages/ipackages.hpp"
 
 #include <memory>
 #include <string>

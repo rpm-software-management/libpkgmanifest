@@ -1,5 +1,9 @@
 #pragma once
 
+#include "modules_impl.hpp"
+#include "options_impl.hpp"
+#include "packages_impl.hpp"
+
 #include "libpkgmanifest/input/input.hpp"
 
 #include "api/common/repositories_impl.hpp"
@@ -7,6 +11,9 @@
 #include "impl/common/objects/repositories/repositoriesfactory.hpp"
 #include "impl/common/objects/version/versionfactory.hpp"
 #include "impl/input/objects/input/inputfactory.hpp"
+#include "impl/input/objects/modules/modulesfactory.hpp"
+#include "impl/input/objects/options/optionsfactory.hpp"
+#include "impl/input/objects/packages/packagesfactory.hpp"
 
 namespace libpkgmanifest::input {
 
@@ -21,7 +28,10 @@ public:
         , factory_input(nullptr)
         , parsed_input(nullptr)
         , repositories()
-        , version() {}
+        , version()
+        , packages()
+        , modules()
+        , options() {}
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -55,10 +65,28 @@ public:
         return version;
     }
 
+    Packages & get_packages() {
+        ensure_object_exists();
+        return packages;
+    }
+
+    Modules & get_modules() {
+        ensure_object_exists();
+        return modules;
+    }
+
+    Options & get_options() {
+        ensure_object_exists();
+        return options;
+    }
+
     void init(IInput * input) {
         this->input = input;
         repositories.p_impl->init(&input->get_repositories());
         version.p_impl->init(&input->get_version());
+        packages.p_impl->init(&input->get_packages());
+        modules.p_impl->init(&input->get_modules());
+        options.p_impl->init(&input->get_options());
     }
     
     void set(std::unique_ptr<IInput> parsed_input) {
@@ -81,7 +109,10 @@ private:
         if (!input) {
             auto input_factory = InputFactory(
                 std::shared_ptr<IRepositoriesFactory>(new RepositoriesFactory()),
-                std::shared_ptr<IVersionFactory>(new VersionFactory()));
+                std::shared_ptr<IVersionFactory>(new VersionFactory()),
+                std::shared_ptr<IPackagesFactory>(new PackagesFactory()),
+                std::shared_ptr<IModulesFactory>(new ModulesFactory()),
+                std::shared_ptr<IOptionsFactory>(new OptionsFactory()));
             factory_input = input_factory.create();
             init(factory_input.get());
         }
@@ -92,6 +123,9 @@ private:
     std::unique_ptr<IInput> parsed_input;
     Repositories repositories;
     Version version;
+    Packages packages;
+    Modules modules;
+    Options options;
 };
 
 }

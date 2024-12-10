@@ -1,10 +1,17 @@
-#include "impl/input/mocks/objects/input/inputfactorymock.hpp"
-#include "impl/input/mocks/objects/input/inputmock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesparsermock.hpp"
 #include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/common/mocks/objects/version/versionparsermock.hpp"
+#include "impl/common/mocks/operations/stringlistparsermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
+#include "impl/input/mocks/objects/input/inputfactorymock.hpp"
+#include "impl/input/mocks/objects/input/inputmock.hpp"
+#include "impl/input/mocks/objects/modules/modulesmock.hpp"
+#include "impl/input/mocks/objects/modules/modulesparsermock.hpp"
+#include "impl/input/mocks/objects/options/optionsmock.hpp"
+#include "impl/input/mocks/objects/options/optionsparsermock.hpp"
+#include "impl/input/mocks/objects/packages/packagesmock.hpp"
+#include "impl/input/mocks/objects/packages/packagesparsermock.hpp"
 
 #include "impl/input/objects/input/inputparser.hpp"
 
@@ -40,6 +47,18 @@ protected:
         auto version_parser_wrapper = std::make_unique<NiceMock<VersionParserMock>>();
         version_parser = version_parser_wrapper.get();
 
+        auto packages_parser_wrapper = std::make_unique<NiceMock<PackagesParserMock>>();
+        packages_parser = packages_parser_wrapper.get();
+
+        auto modules_parser_wrapper = std::make_unique<NiceMock<ModulesParserMock>>();
+        modules_parser = modules_parser_wrapper.get();
+
+        auto options_parser_wrapper = std::make_unique<NiceMock<OptionsParserMock>>();
+        options_parser = options_parser_wrapper.get();
+
+        auto string_list_parser_wrapper = std::make_unique<NiceMock<StringListParserMock>>();
+        string_list_parser = string_list_parser_wrapper.get();
+
         EXPECT_CALL(yaml_node, get(_))
             .Times(AnyNumber())
             .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
@@ -53,13 +72,21 @@ protected:
         parser = std::make_unique<InputParser>(
             std::move(input_factory_wrapper),
             std::move(repositories_parser_wrapper),
-            std::move(version_parser_wrapper)
+            std::move(version_parser_wrapper),
+            std::move(packages_parser_wrapper),
+            std::move(modules_parser_wrapper),
+            std::move(options_parser_wrapper),
+            std::move(string_list_parser_wrapper)
         );
     }
 
     NiceMock<InputMock> * input;
     NiceMock<RepositoriesParserMock> * repositories_parser;
     NiceMock<VersionParserMock> * version_parser;
+    NiceMock<PackagesParserMock> * packages_parser;
+    NiceMock<ModulesParserMock> * modules_parser;
+    NiceMock<OptionsParserMock> * options_parser;
+    NiceMock<StringListParserMock> * string_list_parser;
     NiceMock<RepositoriesMock> repositories;
     NiceMock<YamlNodeMock> yaml_node;
 
@@ -102,77 +129,45 @@ TEST_F(InputParserTest, ParserSetsRepositoriesFromRepositoriesParser) {
     parser->parse(yaml_node);
 }
 
-TEST_F(InputParserTest, ParserAddsInstallPackagesFromYamlNode) {
-    std::map<std::string, std::vector<std::string>> packages;
-    EXPECT_CALL(*input, get_packages()).WillRepeatedly(ReturnPointee(&packages));
-
-    std::vector<std::unique_ptr<IYamlNode>> install_package_nodes; 
-    auto package1_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*package1_node, as_string()).WillOnce(Return("pkg1"));
-    auto package2_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*package2_node, as_string()).WillOnce(Return("pkg2"));
-    install_package_nodes.push_back(std::move(package1_node));
-    install_package_nodes.push_back(std::move(package2_node));
-
+TEST_F(InputParserTest, ParserSetsPackagesFromPackagesParser) {
     auto packages_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto install_packages_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*install_packages_node, as_list()).WillOnce(Return(std::move(install_package_nodes)));
+    auto packages_node_ptr = packages_node.get();
 
-    EXPECT_CALL(*packages_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*packages_node, has("install")).WillOnce(Return(true));
-    EXPECT_CALL(*packages_node, get("install")).WillOnce(Return(std::move(install_packages_node)));
+    auto packages = std::make_unique<NiceMock<PackagesMock>>();
+    auto packages_ptr = packages.get();
+
     EXPECT_CALL(yaml_node, get("packages")).WillOnce(Return(std::move(packages_node)));
+    EXPECT_CALL(*packages_parser, parse(Ref(*packages_node_ptr))).WillOnce(Return(std::move(packages)));
+    EXPECT_CALL(*input, set_packages(Pointer(packages_ptr)));
     parser->parse(yaml_node);
-    EXPECT_THAT(packages["install"], ElementsAre("pkg1", "pkg2"));
 }
 
-TEST_F(InputParserTest, ParserAddsReinstallPackagesFromYamlNode) {
-    std::map<std::string, std::vector<std::string>> packages;
-    EXPECT_CALL(*input, get_packages()).WillRepeatedly(ReturnPointee(&packages));
-
-    std::vector<std::unique_ptr<IYamlNode>> reinstall_package_nodes; 
-    auto package1_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*package1_node, as_string()).WillOnce(Return("package1"));
-    auto package2_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*package2_node, as_string()).WillOnce(Return("package2"));
-    reinstall_package_nodes.push_back(std::move(package1_node));
-    reinstall_package_nodes.push_back(std::move(package2_node));
-
-    auto packages_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto reinstall_packages_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*reinstall_packages_node, as_list()).WillOnce(Return(std::move(reinstall_package_nodes)));
-
-    EXPECT_CALL(*packages_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*packages_node, has("reinstall")).WillOnce(Return(true));
-    EXPECT_CALL(*packages_node, get("reinstall")).WillOnce(Return(std::move(reinstall_packages_node)));
-    EXPECT_CALL(yaml_node, get("packages")).WillOnce(Return(std::move(packages_node)));
-    parser->parse(yaml_node);
-    EXPECT_THAT(packages["reinstall"], ElementsAre("package1", "package2"));
-}
-
-TEST_F(InputParserTest, ParserAddsEnableModulesFromYamlNode) {
-    std::map<std::string, std::vector<std::string>> modules;
-    EXPECT_CALL(*input, get_modules()).WillRepeatedly(ReturnPointee(&modules));
-
-    std::vector<std::unique_ptr<IYamlNode>> enable_module_nodes; 
-    auto module1_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*module1_node, as_string()).WillOnce(Return("module1"));
-    auto module2_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*module2_node, as_string()).WillOnce(Return("module2"));
-    enable_module_nodes.push_back(std::move(module1_node));
-    enable_module_nodes.push_back(std::move(module2_node));
-
+TEST_F(InputParserTest, ParserSetsModulesFromModulesParser) {
     auto modules_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto enable_modules_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*enable_modules_node, as_list()).WillOnce(Return(std::move(enable_module_nodes)));
+    auto modules_node_ptr = modules_node.get();
 
-    EXPECT_CALL(*modules_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*modules_node, has("enable")).WillOnce(Return(true));
-    EXPECT_CALL(*modules_node, get("enable")).WillOnce(Return(std::move(enable_modules_node)));
+    auto modules = std::make_unique<NiceMock<ModulesMock>>();
+    auto modules_ptr = modules.get();
+
     EXPECT_CALL(yaml_node, has("modules")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("modules")).WillOnce(Return(std::move(modules_node)));
+    EXPECT_CALL(*modules_parser, parse(Ref(*modules_node_ptr))).WillOnce(Return(std::move(modules)));
+    EXPECT_CALL(*input, set_modules(Pointer(modules_ptr)));
     parser->parse(yaml_node);
-    EXPECT_THAT(modules["enable"], ElementsAre("module1", "module2"));
+}
+
+TEST_F(InputParserTest, ParserSetsOptionsFromOptionsParser) {
+    auto options_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto options_node_ptr = options_node.get();
+
+    auto options = std::make_unique<NiceMock<OptionsMock>>();
+    auto options_ptr = options.get();
+
+    EXPECT_CALL(yaml_node, has("options")).WillOnce(Return(true));
+    EXPECT_CALL(yaml_node, get("options")).WillOnce(Return(std::move(options_node)));
+    EXPECT_CALL(*options_parser, parse(Ref(*options_node_ptr))).WillOnce(Return(std::move(options)));
+    EXPECT_CALL(*input, set_options(Pointer(options_ptr)));
+    parser->parse(yaml_node);
 }
 
 TEST_F(InputParserTest, ParserAddsArchsFromYamlNode) {
@@ -197,21 +192,6 @@ TEST_F(InputParserTest, ParserAddsArchsFromYamlNode) {
     EXPECT_CALL(yaml_node, get("archs")).WillOnce(Return(std::move(node)));
     parser->parse(yaml_node);
     EXPECT_THAT(archs, ElementsAre("x86_64", "i686", "src"));
-}
-
-// TODO: To be refactored under options
-TEST_F(InputParserTest, ParserSetsAllowErasingOptionFromYamlNode) {
-    auto options_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto allow_erasing_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    EXPECT_CALL(*allow_erasing_node, as_bool()).WillOnce(Return(true));
-
-    EXPECT_CALL(*options_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*options_node, has("allow_erasing")).WillOnce(Return(true));
-    EXPECT_CALL(*options_node, get("allow_erasing")).WillOnce(Return(std::move(allow_erasing_node)));
-    EXPECT_CALL(yaml_node, has("options")).WillOnce(Return(true));
-    EXPECT_CALL(yaml_node, get("options")).WillOnce(Return(std::move(options_node)));
-    EXPECT_CALL(*input, set_allow_erasing(true));
-    parser->parse(yaml_node);
 }
 
 TEST_F(InputParserTest, ParserReturnsTheObjectCreatedByFactory) {

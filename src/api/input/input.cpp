@@ -39,12 +39,20 @@ Repositories & Input::get_repositories() {
     return p_impl->get_repositories();
 }
 
-std::vector<std::string> & Input::get_packages() {
-    return p_impl->get()->get_packages()["install"]; // TODO: To refactor API
+Packages & Input::get_packages() {
+    return p_impl->get_packages();
+}
+
+Modules & Input::get_modules() {
+    return p_impl->get_modules();
 }
 
 std::vector<std::string> & Input::get_archs() {
     return p_impl->get()->get_archs();
+}
+
+Options & Input::get_options() {
+    return p_impl->get_options();
 }
 
 void Input::set_document(const std::string & document) {
@@ -59,6 +67,21 @@ void Input::set_version(Version & version) {
 void Input::set_repositories(Repositories & repositories) {
     p_impl->get()->set_repositories(repositories.p_impl->get_factory_object());
     p_impl->get_repositories().p_impl->init(&p_impl->get()->get_repositories());
+}
+
+void Input::set_packages(Packages & packages) {
+    p_impl->get()->set_packages(packages.p_impl->get_factory_object());
+    p_impl->get_packages().p_impl->init(&p_impl->get()->get_packages());
+}
+
+void Input::set_modules(Modules & modules) {
+    p_impl->get()->set_modules(modules.p_impl->get_factory_object());
+    p_impl->get_modules().p_impl->init(&p_impl->get()->get_modules());
+}
+
+void Input::set_options(Options & options) {
+    p_impl->get()->set_options(options.p_impl->get_factory_object());
+    p_impl->get_options().p_impl->init(&p_impl->get()->get_options());
 }
 
 }
