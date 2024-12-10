@@ -16,7 +16,7 @@ constexpr const char * INPUT_DOCUMENT_ID = "rpm-package-input";
 
 constexpr int INPUT_DOCUMENT_VERSION_MAJOR = 0;
 constexpr int INPUT_DOCUMENT_VERSION_MINOR = 0;
-constexpr int INPUT_DOCUMENT_VERSION_PATCH = 1;
+constexpr int INPUT_DOCUMENT_VERSION_PATCH = 2;
 
 class InputFactory : public IInputFactory {
 public:

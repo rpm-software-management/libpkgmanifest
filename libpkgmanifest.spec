@@ -1,5 +1,5 @@
 %global version_major 0
-%global version_minor 4
+%global version_minor 5
 %global version_patch 0
 
 Name:       libpkgmanifest

@@ -15,7 +15,7 @@ constexpr const char * MANIFEST_DOCUMENT_ID = "rpm-package-manifest";
 
 constexpr int MANIFEST_DOCUMENT_VERSION_MAJOR = 0;
 constexpr int MANIFEST_DOCUMENT_VERSION_MINOR = 2;
-constexpr int MANIFEST_DOCUMENT_VERSION_PATCH = 0;
+constexpr int MANIFEST_DOCUMENT_VERSION_PATCH = 1;
 
 class ManifestFactory : public IManifestFactory {
 public:
