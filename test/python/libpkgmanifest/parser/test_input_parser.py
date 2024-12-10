@@ -23,10 +23,11 @@ class TestInputParser(base_test_case.BaseTestCase):
         self.assertEqual('sources', repository2.id)
         self.assertEqual('https://src.location.lol/content/public/dist/lol2/source/SRPMS', repository2.baseurl)
 
-        self.assertEqual(3, len(input.packages))
-        self.assertEqual('bootc', input.packages[0])
-        self.assertEqual('dnf', input.packages[1])
-        self.assertEqual('podman', input.packages[2])
+        install_packages = input.packages.installs
+        self.assertEqual(3, len(install_packages))
+        self.assertEqual('bootc', install_packages[0])
+        self.assertEqual('dnf', install_packages[1])
+        self.assertEqual('podman', install_packages[2])
 
         self.assertEqual(3, len(input.archs))
         self.assertEqual('i686', input.archs[0])
@@ -68,13 +69,14 @@ class TestInputParser(base_test_case.BaseTestCase):
         self.assertEqual('ubi-9-codeready-builder-source', repository6.id)
         self.assertEqual('https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/source/SRPMS', repository6.baseurl)
 
-        self.assertEqual(6, len(input.packages))
-        self.assertEqual('gettext', input.packages[0])
-        self.assertEqual('hostname', input.packages[1])
-        self.assertEqual('nss_wrapper', input.packages[2])
-        self.assertEqual('bind-utils', input.packages[3])
-        self.assertEqual('varnish', input.packages[4])
-        self.assertEqual('gcc', input.packages[5])
+        install_packages = input.packages.installs
+        self.assertEqual(6, len(install_packages))
+        self.assertEqual('gettext', install_packages[0])
+        self.assertEqual('hostname', install_packages[1])
+        self.assertEqual('nss_wrapper', install_packages[2])
+        self.assertEqual('bind-utils', install_packages[3])
+        self.assertEqual('varnish', install_packages[4])
+        self.assertEqual('gcc', install_packages[5])
 
         self.assertEqual(4, len(input.archs))
         self.assertEqual('x86_64', input.archs[0])
