@@ -66,8 +66,7 @@ Requires:       libpkgmanifest%{?_isa} = %{version}-%{release}
 Python 3 bindings for the libpkgmanifest library.
 
 %files -n python3-libpkgmanifest
-%pycached %{python3_sitearch}/libpkgmanifest.py
-%{python3_sitearch}/_libpkgmanifest.so*
+%{python3_sitearch}/libpkgmanifest
 %{python3_sitearch}/libpkgmanifest-*.dist-info
 %endif
 
