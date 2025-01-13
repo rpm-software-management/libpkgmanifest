@@ -1,0 +1,41 @@
+name: Coverity Scan
+
+on:
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+  COVERITY_TOKEN: ${{ secrets.COVERITY_TOKEN }}
+
+jobs:
+  coverity-scan:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: sudo apt install libgmock-dev libgtest-dev libyaml-cpp-dev swig -y
+
+    - name: Configure
+      run: cmake -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+
+    - name: Set up Coverity Scan
+      run: |
+        wget https://scan.coverity.com/download/linux64 --post-data "token=${{ env.COVERITY_TOKEN }}&project=rpm-software-management%2Flibpkgmanifest" -O coverity_tool.tgz
+        tar -xzvf coverity_tool.tgz
+
+    - name: Build with Coverity
+      run: |
+        cd build
+        ../cov-analysis-*/bin/cov-build --dir cov-int make -j$(nproc)
+
+    - name: Upload Coverity results
+      run: |
+        tar czvf cov-int.tgz cov-int
+        curl --form token=${{ env.COVERITY_TOKEN }} \
+             --form email=jkolarik@redhat.com \
+             --form file=@cov-int.tgz \
+             --form version=`git log --oneline -1 | awk '{ print $1;}'` \
+             --form description="libpkgmanifest - Library for working with RPM manifests" \
+             https://scan.coverity.com/builds?project=rpm-software-management%2Flibpkgmanifest
