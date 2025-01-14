@@ -32,7 +32,7 @@ Package::Package(const Package & other)
     , repository(other.repository) {}
 
 std::unique_ptr<IPackage> Package::clone() const {
-    return std::unique_ptr<IPackage>(new Package(*this));
+    return std::make_unique<Package>(*this);
 }
 
 std::string Package::get_repo_id() const {

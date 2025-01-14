@@ -7,7 +7,7 @@ Modules::Modules()
     , disables() {}
 
 std::unique_ptr<IModules> Modules::clone() const {
-    return std::unique_ptr<IModules>(new Modules(*this));
+    return std::make_unique<Modules>(*this);
 }
 
 const std::vector<std::string> & Modules::get_enables() const {

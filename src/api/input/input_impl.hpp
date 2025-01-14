@@ -108,11 +108,11 @@ private:
     void ensure_object_exists() {
         if (!input) {
             auto input_factory = InputFactory(
-                std::shared_ptr<IRepositoriesFactory>(new RepositoriesFactory()),
-                std::shared_ptr<IVersionFactory>(new VersionFactory()),
-                std::shared_ptr<IPackagesFactory>(new PackagesFactory()),
-                std::shared_ptr<IModulesFactory>(new ModulesFactory()),
-                std::shared_ptr<IOptionsFactory>(new OptionsFactory()));
+                std::make_shared<RepositoriesFactory>(),
+                std::make_shared<VersionFactory>(),
+                std::make_shared<PackagesFactory>(),
+                std::make_shared<ModulesFactory>(),
+                std::make_shared<OptionsFactory>());
             factory_input = input_factory.create();
             init(factory_input.get());
         }

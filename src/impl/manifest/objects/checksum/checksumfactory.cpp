@@ -4,7 +4,7 @@
 namespace libpkgmanifest::internal::manifest {
 
 std::unique_ptr<IChecksum> ChecksumFactory::create() const {
-    return std::unique_ptr<IChecksum>(new Checksum());
+    return std::make_unique<Checksum>();
 }   
 
 }

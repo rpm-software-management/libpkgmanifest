@@ -91,10 +91,10 @@ private:
     void ensure_object_exists() {
         if (!manifest) {
             auto manifest_factory = ManifestFactory(
-                std::shared_ptr<IPackagesFactory>(new PackagesFactory()),
-                std::shared_ptr<IRepositoriesFactory>(new RepositoriesFactory()),
-                std::shared_ptr<IVersionFactory>(new VersionFactory()),
-                std::shared_ptr<IPackageRepositoryBinder>(new PackageRepositoryBinder()));
+                std::make_shared<PackagesFactory>(),
+                std::make_shared<RepositoriesFactory>(),
+                std::make_shared<VersionFactory>(),
+                std::make_shared<PackageRepositoryBinder>());
             factory_manifest = manifest_factory.create();
             init(factory_manifest.get());
         }

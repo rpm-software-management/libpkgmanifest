@@ -23,7 +23,7 @@ Input::Input(const Input & other)
     , archs(other.archs) {}
 
 std::unique_ptr<IInput> Input::clone() const {
-    return std::unique_ptr<IInput>(new Input(*this));
+    return std::make_unique<Input>(*this);
 }
 
 std::string Input::get_document() const {

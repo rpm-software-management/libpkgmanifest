@@ -9,7 +9,7 @@ Checksum::Checksum()
     , digest() {}
 
 std::unique_ptr<IChecksum> Checksum::clone() const {
-    return std::unique_ptr<IChecksum>(new Checksum(*this));
+    return std::make_unique<Checksum>(*this);
 }
 
 ChecksumMethod Checksum::get_method() const {

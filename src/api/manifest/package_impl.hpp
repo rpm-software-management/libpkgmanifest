@@ -109,9 +109,9 @@ private:
     void ensure_object_exists() {
         if (!package) {
             auto package_factory = PackageFactory(
-                std::shared_ptr<IChecksumFactory>(new ChecksumFactory()),
-                std::shared_ptr<INevraFactory>(new NevraFactory()),
-                std::shared_ptr<IModuleFactory>(new ModuleFactory())); 
+                std::make_shared<ChecksumFactory>(),
+                std::make_shared<NevraFactory>(),
+                std::make_shared<ModuleFactory>()); 
             factory_package = package_factory.create();
             init(factory_package.get());
         }
