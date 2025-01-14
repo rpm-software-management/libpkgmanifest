@@ -1,6 +1,8 @@
 libpkgmanifest
 ==============
 
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/31236/badge.svg)](https://scan.coverity.com/projects/rpm-software-management-libpkgmanifest)
+
 This library provides functionality for parsing and serializing RPM package manifest files.
 
 Written in C++ with TDD, the library offers a simple, ABI-compatible API layer for users.
