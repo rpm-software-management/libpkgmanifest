@@ -7,8 +7,8 @@ using namespace libpkgmanifest::internal::common;
 ModuleParser::ModuleParser(
     std::shared_ptr<IModuleFactory> module_factory,
     std::shared_ptr<IStringSplitter> string_splitter)
-    : module_factory(module_factory) 
-    , string_splitter(string_splitter) {}
+    : module_factory(std::move(module_factory))
+    , string_splitter(std::move(string_splitter)) {}
 
 std::unique_ptr<IModule> ModuleParser::parse(const IYamlNode & node) const {
     auto module = module_factory->create();

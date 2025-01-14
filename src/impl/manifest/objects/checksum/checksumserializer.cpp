@@ -7,7 +7,7 @@ using ChecksumMethod = libpkgmanifest::manifest::ChecksumMethod;
 
 ChecksumSerializer::ChecksumSerializer(
     std::shared_ptr<IYamlNodeFactory> node_factory)
-    : node_factory(node_factory) {}
+    : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> ChecksumSerializer::serialize(const IChecksum & checksum) const {
     std::string method_string;

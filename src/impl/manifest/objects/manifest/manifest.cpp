@@ -71,7 +71,7 @@ void Manifest::set_repositories(std::unique_ptr<IRepositories> repositories) {
 }
 
 void Manifest::set_package_repository_binder(std::shared_ptr<IPackageRepositoryBinder> binder) {
-    this->binder = binder;
+    this->binder = std::move(binder);
 }
 
 }

@@ -8,7 +8,7 @@ using namespace libpkgmanifest::internal::common;
 
 PrototypeFileConverter::PrototypeFileConverter(
     std::shared_ptr<IYamlNodeFactory> node_factory)
-    : node_factory(node_factory) {}
+    : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> PrototypeFileConverter::convert(const IYamlNode & node) const {
     auto result = node_factory->create();

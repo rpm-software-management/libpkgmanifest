@@ -7,7 +7,7 @@ using namespace libpkgmanifest::internal::common;
 PackagesSerializer::PackagesSerializer(
     std::shared_ptr<IYamlNodeFactory> node_factory,
     std::unique_ptr<IPackageSerializer> package_serializer)
-    : node_factory(node_factory)
+    : node_factory(std::move(node_factory))
     , package_serializer(std::move(package_serializer)) {}
 
 std::unique_ptr<IYamlNode> PackagesSerializer::serialize(const IPackages & packages) const {

@@ -8,7 +8,7 @@ NevraParseError::NevraParseError(const std::string & message)
     : std::runtime_error(message) {}
 
 NevraParser::NevraParser(std::shared_ptr<INevraFactory> nevra_factory)
-    : nevra_factory(nevra_factory) {}
+    : nevra_factory(std::move(nevra_factory)) {}
 
 // TODO: Refactor to share the common evr logic
 
