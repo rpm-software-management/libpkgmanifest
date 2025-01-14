@@ -10,9 +10,7 @@ using namespace libpkgmanifest::internal::input;
 
 class Modules::Impl {
 public:
-    Impl() 
-        : modules(nullptr)
-        , factory_modules(nullptr) {}
+    Impl() = default;
     
     Impl(const Impl & other) {
         copy_object(other);
@@ -57,7 +55,7 @@ private:
         }
     }
 
-    IModules * modules;
+    IModules * modules = nullptr;
     std::unique_ptr<IModules> factory_modules;
 };
 

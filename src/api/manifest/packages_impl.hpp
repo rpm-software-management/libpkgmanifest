@@ -13,10 +13,7 @@ using namespace libpkgmanifest::internal::manifest;
 
 class Packages::Impl {
 public:
-    Impl() 
-        : packages(nullptr)
-        , factory_packages(nullptr)
-        , binder() {}
+    Impl() = default;
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -80,7 +77,7 @@ private:
         }
     }
 
-    IPackages * packages;
+    IPackages * packages = nullptr;
     std::unique_ptr<IPackages> factory_packages;
     PackageRepositoryBinder binder;
 };

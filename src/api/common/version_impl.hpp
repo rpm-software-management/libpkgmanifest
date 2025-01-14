@@ -10,9 +10,7 @@ using namespace libpkgmanifest::internal::common;
 
 class Version::Impl {
 public:
-    Impl() 
-        : version(nullptr)
-        , factory_version(nullptr) {}
+    Impl() = default;
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -57,7 +55,7 @@ private:
         }
     }
 
-    IVersion * version;
+    IVersion * version = nullptr;
     std::unique_ptr<IVersion> factory_version;
 };
 

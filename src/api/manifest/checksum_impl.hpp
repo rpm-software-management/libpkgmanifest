@@ -10,9 +10,7 @@ using namespace libpkgmanifest::internal::manifest;
 
 class Checksum::Impl {
 public:
-    Impl() 
-        : checksum(nullptr)
-        , factory_checksum(nullptr) {}
+    Impl() = default;
     
     Impl(const Impl & other) {
         copy_object(other);
@@ -57,7 +55,7 @@ private:
         }
     }
 
-    IChecksum * checksum;
+    IChecksum * checksum = nullptr;
     std::unique_ptr<IChecksum> factory_checksum;
 };
 

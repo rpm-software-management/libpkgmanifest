@@ -10,9 +10,7 @@ using namespace libpkgmanifest::internal::input;
 
 class Options::Impl {
 public:
-    Impl() 
-        : options(nullptr)
-        , factory_options(nullptr) {}
+    Impl() = default;
     
     Impl(const Impl & other) {
         copy_object(other);
@@ -57,7 +55,7 @@ private:
         }
     }
 
-    IOptions * options;
+    IOptions * options = nullptr;
     std::unique_ptr<IOptions> factory_options;
 };
 

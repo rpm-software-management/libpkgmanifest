@@ -12,9 +12,7 @@ using namespace libpkgmanifest::internal::common;
 
 class Repositories::Impl {
 public:
-    Impl() 
-        : repositories(nullptr)
-        , factory_repositories(nullptr) {}
+    Impl() = default;
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -65,7 +63,7 @@ private:
         }
     }
 
-    IRepositories * repositories;
+    IRepositories * repositories = nullptr;
     std::unique_ptr<IRepositories> factory_repositories;
 };
 
