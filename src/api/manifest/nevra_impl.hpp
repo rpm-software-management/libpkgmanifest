@@ -10,9 +10,7 @@ using namespace libpkgmanifest::internal::manifest;
 
 class Nevra::Impl {
 public:
-    Impl() 
-        : nevra(nullptr)
-        , factory_nevra(nullptr) {}
+    Impl() = default;
     
     Impl(const Impl & other) {
         copy_object(other);
@@ -57,7 +55,7 @@ private:
         }
     }
 
-    INevra * nevra;
+    INevra * nevra = nullptr;
     std::unique_ptr<INevra> factory_nevra;
 };
 

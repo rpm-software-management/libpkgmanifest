@@ -23,15 +23,7 @@ using namespace libpkgmanifest::internal::input;
 
 class Input::Impl {
 public:
-    Impl() 
-        : input(nullptr)
-        , factory_input(nullptr)
-        , parsed_input(nullptr)
-        , repositories()
-        , version()
-        , packages()
-        , modules()
-        , options() {}
+    Impl() = default;
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -118,7 +110,7 @@ private:
         }
     }
 
-    IInput * input;
+    IInput * input = nullptr;
     std::unique_ptr<IInput> factory_input;
     std::unique_ptr<IInput> parsed_input;
     Repositories repositories;

@@ -20,15 +20,7 @@ using namespace libpkgmanifest::internal::manifest;
 
 class Package::Impl {
 public:
-    Impl()
-        : package(nullptr)
-        , factory_package(nullptr)
-        , repository()
-        , checksum()
-        , nevra()
-        , srpm()
-        , module()
-        , binder() {}
+    Impl() = default;
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -117,7 +109,7 @@ private:
         }
     }
 
-    IPackage * package;
+    IPackage * package = nullptr;
     std::unique_ptr<IPackage> factory_package;
     Repository repository;
     Checksum checksum;

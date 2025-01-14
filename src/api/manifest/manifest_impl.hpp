@@ -20,13 +20,7 @@ using namespace libpkgmanifest::internal::manifest;
 
 class Manifest::Impl {
 public:
-    Impl() 
-        : manifest(nullptr)
-        , factory_manifest(nullptr)
-        , parsed_manifest(nullptr)
-        , packages()
-        , repositories()
-        , version() {}
+    Impl() = default;
 
     Impl(const Impl & other) {
         copy_object(other);
@@ -100,7 +94,7 @@ private:
         }
     }
 
-    IManifest * manifest;
+    IManifest * manifest = nullptr;
     std::unique_ptr<IManifest> factory_manifest;
     std::unique_ptr<IManifest> parsed_manifest;
     Packages packages;
