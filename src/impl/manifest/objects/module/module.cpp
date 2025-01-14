@@ -7,7 +7,7 @@ Module::Module()
     , stream() {}
 
 std::unique_ptr<IModule> Module::clone() const {
-    return std::unique_ptr<IModule>(new Module(*this));
+    return std::make_unique<Module>(*this);
 }
 
 std::string Module::get_name() const {

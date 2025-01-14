@@ -11,7 +11,7 @@ Repositories::Repositories(const Repositories & other) {
 }
 
 std::unique_ptr<IRepositories> Repositories::clone() const {
-    return std::unique_ptr<IRepositories>(new Repositories(*this));
+    return std::make_unique<Repositories>(*this);
 }
 
 const std::map<std::string, std::unique_ptr<IRepository>> & Repositories::get() const {

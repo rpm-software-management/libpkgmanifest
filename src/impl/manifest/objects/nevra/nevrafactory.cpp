@@ -4,7 +4,7 @@
 namespace libpkgmanifest::internal::manifest {
 
 std::unique_ptr<INevra> NevraFactory::create() const {
-    return std::unique_ptr<INevra>(new Nevra());
+    return std::make_unique<Nevra>();
 }   
 
 }

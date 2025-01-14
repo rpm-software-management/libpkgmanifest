@@ -12,7 +12,7 @@ Nevra::Nevra()
     , arch() {}
 
 std::unique_ptr<INevra> Nevra::clone() const {
-    return std::unique_ptr<INevra>(new Nevra(*this));
+    return std::make_unique<Nevra>(*this);
 }
 
 std::string Nevra::get_name() const {

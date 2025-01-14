@@ -7,7 +7,7 @@ Packages::Packages()
     , reinstalls() {}
 
 std::unique_ptr<IPackages> Packages::clone() const {
-    return std::unique_ptr<IPackages>(new Packages(*this));
+    return std::make_unique<Packages>(*this);
 }
 
 const std::vector<std::string> & Packages::get_installs() const {

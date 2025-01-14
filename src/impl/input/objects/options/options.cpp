@@ -6,7 +6,7 @@ Options::Options()
     : allow_erasing(false) {}
 
 std::unique_ptr<IOptions> Options::clone() const {
-    return std::unique_ptr<IOptions>(new Options(*this));
+    return std::make_unique<Options>(*this);
 }
 
 bool Options::get_allow_erasing() const {

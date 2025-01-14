@@ -13,7 +13,7 @@ YamlParseError::YamlParseError(const std::string & message)
 
 std::unique_ptr<IYamlNode> YamlParser::from_string(const std::string & yaml) const {
     try {
-        return std::unique_ptr<YamlNode>(new YamlNode(YAML::Load(yaml)));
+        return std::make_unique<YamlNode>(YAML::Load(yaml));
     } catch(YAML::ParserException & ex) {
         throw YamlParseError(ex.msg);
     }
@@ -21,7 +21,7 @@ std::unique_ptr<IYamlNode> YamlParser::from_string(const std::string & yaml) con
 
 std::unique_ptr<IYamlNode> YamlParser::from_file(const std::string & path) const {
     try {
-        return std::unique_ptr<YamlNode>(new YamlNode(YAML::LoadFile(path)));
+        return std::make_unique<YamlNode>(YAML::LoadFile(path));
     } catch(YAML::BadFile & ex) {
         throw YamlFileError(ex.msg);
     } catch(YAML::ParserException & ex) {

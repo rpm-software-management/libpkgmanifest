@@ -4,7 +4,7 @@
 namespace libpkgmanifest::internal::input {
 
 std::unique_ptr<IOptions> OptionsFactory::create() const {
-    return std::unique_ptr<IOptions>(new Options());
+    return std::make_unique<Options>();
 }   
 
 }

@@ -23,7 +23,7 @@ Manifest::Manifest(const Manifest & other)
     }
 
 std::unique_ptr<IManifest> Manifest::clone() const {
-    return std::unique_ptr<IManifest>(new Manifest(*this));
+    return std::make_unique<Manifest>(*this);
 }
 
 std::string Manifest::get_document() const {

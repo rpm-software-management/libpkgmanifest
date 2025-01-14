@@ -9,7 +9,7 @@ Repository::Repository()
     , mirrorlist() {}
 
 std::unique_ptr<IRepository> Repository::clone() const {
-    return std::unique_ptr<IRepository>(new Repository(*this));
+    return std::make_unique<Repository>(*this);
 }
 
 std::string Repository::get_id() const {

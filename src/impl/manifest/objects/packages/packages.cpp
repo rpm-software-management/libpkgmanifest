@@ -18,7 +18,7 @@ Packages::Packages(const Packages & other) {
 }
 
 std::unique_ptr<IPackages> Packages::clone() const {
-    return std::unique_ptr<IPackages>(new Packages(*this));
+    return std::make_unique<Packages>(*this);
 }
 
 const std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & Packages::get() const {
