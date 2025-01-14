@@ -28,7 +28,11 @@ public:
     }
 
     std::unique_ptr<IYamlNode> get(const std::string & key) const override {
-        return std::unique_ptr<IYamlNode>(new YamlNodeInternalStub(*dynamic_cast<YamlNodeInternalStub*>(nodes_map.at(key).get())));
+        auto * yaml_node_internal_stub = dynamic_cast<YamlNodeInternalStub*>(nodes_map.at(key).get());
+        if (!yaml_node_internal_stub) {
+            throw std::runtime_error("Node is not an instance of YamlNodeInternalStub");
+        }
+        return std::unique_ptr<IYamlNode>(new YamlNodeInternalStub(*yaml_node_internal_stub));
     }
 
     std::string as_string() const override {
