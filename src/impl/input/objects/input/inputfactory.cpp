@@ -11,11 +11,11 @@ InputFactory::InputFactory(
     std::shared_ptr<IPackagesFactory> packages_factory,
     std::shared_ptr<IModulesFactory> modules_factory,
     std::shared_ptr<IOptionsFactory> options_factory)
-    : repositories_factory(repositories_factory)
-    , version_factory(version_factory)
-    , packages_factory(packages_factory)
-    , modules_factory(modules_factory)
-    , options_factory(options_factory) {}
+    : repositories_factory(std::move(repositories_factory))
+    , version_factory(std::move(version_factory))
+    , packages_factory(std::move(packages_factory))
+    , modules_factory(std::move(modules_factory))
+    , options_factory(std::move(options_factory)) {}
 
 std::unique_ptr<IInput> InputFactory::create() const {
     auto input = std::make_unique<Input>();

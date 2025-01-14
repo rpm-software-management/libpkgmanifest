@@ -12,7 +12,7 @@ PackageParser::PackageParser(
     : checksum_parser(std::move(checksum_parser))
     , nevra_parser(std::move(nevra_parser))
     , module_parser(std::move(module_parser))
-    , package_factory(package_factory) {}
+    , package_factory(std::move(package_factory)) {}
 
 std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const IYamlNode & node) const {
     auto package = package_factory->create();

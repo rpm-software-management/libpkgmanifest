@@ -10,11 +10,11 @@ ManifestSerializer::ManifestSerializer(
     std::unique_ptr<IRepositoriesSerializer> repositories_serializer,
     std::unique_ptr<IVersionSerializer> version_serializer,
     std::shared_ptr<IPackageRepositoryBinder> binder)
-    : node_factory(node_factory)
+    : node_factory(std::move(node_factory))
     , packages_serializer(std::move(packages_serializer))
     , repositories_serializer(std::move(repositories_serializer))
     , version_serializer(std::move(version_serializer))
-    , binder(binder) {}
+    , binder(std::move(binder)) {}
 
 std::unique_ptr<IYamlNode> ManifestSerializer::serialize(const IManifest & manifest) const {
     auto & repositories = manifest.get_repositories();

@@ -5,8 +5,8 @@ namespace libpkgmanifest::internal::common {
 VersionParser::VersionParser(
     std::shared_ptr<IVersionFactory> version_factory,
     std::shared_ptr<IStringSplitter> string_splitter)
-    : version_factory(version_factory) 
-    , string_splitter(string_splitter) {}
+    : version_factory(std::move(version_factory))
+    , string_splitter(std::move(string_splitter)) {}
 
 std::unique_ptr<IVersion> VersionParser::parse(const IYamlNode & node) const {
     // TODO: Handle invalid version parts number?

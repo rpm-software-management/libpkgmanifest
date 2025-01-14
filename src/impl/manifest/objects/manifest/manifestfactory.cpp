@@ -10,10 +10,10 @@ ManifestFactory::ManifestFactory(
     std::shared_ptr<IRepositoriesFactory> repositories_factory,
     std::shared_ptr<IVersionFactory> version_factory,
     std::shared_ptr<IPackageRepositoryBinder> binder)
-    : packages_factory(packages_factory)
-    , repositories_factory(repositories_factory)
-    , version_factory(version_factory)
-    , binder(binder) {}
+    : packages_factory(std::move(packages_factory))
+    , repositories_factory(std::move(repositories_factory))
+    , version_factory(std::move(version_factory))
+    , binder(std::move(binder)) {}
 
 std::unique_ptr<IManifest> ManifestFactory::create() const {
     auto manifest = std::make_unique<Manifest>();

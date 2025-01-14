@@ -11,8 +11,8 @@ using ChecksumMethod = libpkgmanifest::manifest::ChecksumMethod;
 ChecksumParser::ChecksumParser(
     std::shared_ptr<IChecksumFactory> checksum_factory,
     std::shared_ptr<IStringSplitter> string_splitter)
-    : checksum_factory(checksum_factory)
-    , string_splitter(string_splitter) {}
+    : checksum_factory(std::move(checksum_factory))
+    , string_splitter(std::move(string_splitter)) {}
 
 std::unique_ptr<IChecksum> ChecksumParser::parse(const IYamlNode & node) const {
     auto checksum = checksum_factory->create();

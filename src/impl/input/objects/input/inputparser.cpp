@@ -13,12 +13,12 @@ InputParser::InputParser(
     std::shared_ptr<IOptionsParser> options_parser,
     std::shared_ptr<IStringListParser> string_list_parser)
     : input_factory(std::move(input_factory))
-    , repositories_parser(repositories_parser)
-    , version_parser(version_parser)
-    , packages_parser(packages_parser)
-    , modules_parser(modules_parser)
-    , options_parser(options_parser)
-    , string_list_parser(string_list_parser) {}
+    , repositories_parser(std::move(repositories_parser))
+    , version_parser(std::move(version_parser))
+    , packages_parser(std::move(packages_parser))
+    , modules_parser(std::move(modules_parser))
+    , options_parser(std::move(options_parser))
+    , string_list_parser(std::move(string_list_parser)) {}
 
 std::unique_ptr<IInput> InputParser::parse(const IYamlNode & node) const {
     auto input = input_factory->create();

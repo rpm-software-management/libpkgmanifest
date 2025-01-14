@@ -7,9 +7,9 @@ PackageFactory::PackageFactory(
     std::shared_ptr<IChecksumFactory> checksum_factory,
     std::shared_ptr<INevraFactory> nevra_factory,
     std::shared_ptr<IModuleFactory> module_factory)
-    : checksum_factory(checksum_factory)
-    , nevra_factory(nevra_factory)
-    , module_factory(module_factory) {}
+    : checksum_factory(std::move(checksum_factory))
+    , nevra_factory(std::move(nevra_factory))
+    , module_factory(std::move(module_factory)) {}
 
 std::unique_ptr<IPackage> PackageFactory::create() const {
     auto package = std::make_unique<Package>();

@@ -6,7 +6,7 @@
 namespace libpkgmanifest::internal::common {
 
 RepositoryParser::RepositoryParser(std::shared_ptr<IRepositoryFactory> repository_factory)
-    : repository_factory(repository_factory) {}
+    : repository_factory(std::move(repository_factory)) {}
 
 std::unique_ptr<IRepository> RepositoryParser::parse(const IYamlNode & node) const {
     auto repository = repository_factory->create();

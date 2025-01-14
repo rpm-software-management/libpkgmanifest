@@ -4,7 +4,7 @@ namespace libpkgmanifest::internal::common {
 
 RepositorySerializer::RepositorySerializer(
     std::shared_ptr<IYamlNodeFactory> node_factory)
-    : node_factory(node_factory) {}
+    : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> RepositorySerializer::serialize(const IRepository & repository) const {
     auto node = node_factory->create();
