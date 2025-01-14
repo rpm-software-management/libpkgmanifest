@@ -10,7 +10,11 @@ FileOutputError::FileOutputError(const std::string & message)
     : std::runtime_error(message) {}
 
 std::string YamlSerializer::to_string(const IYamlNode & node) const {
-    return dynamic_cast<const YamlNode *>(&node)->get_node().as<std::string>();
+    auto * yaml_node = dynamic_cast<const YamlNode *>(&node);
+    if (!yaml_node) {
+        throw std::runtime_error("Node is not an instance of YamlNode");
+    }
+    return yaml_node->get_node().as<std::string>();
 }
 
 void YamlSerializer::to_file(const IYamlNode & node, const std::string & path) const {
