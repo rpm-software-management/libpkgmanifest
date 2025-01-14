@@ -26,11 +26,12 @@ jobs:
         tar -xzvf coverity_tool.tgz
 
     - name: Build with Coverity
+      working-directory: ${{ github.workspace }}/build
       run: |
-        cd build
         ../cov-analysis-*/bin/cov-build --dir cov-int make -j$(nproc)
 
     - name: Upload Coverity results
+      working-directory: ${{ github.workspace }}/build
       run: |
         tar czvf cov-int.tgz cov-int
         curl --form token=${{ env.COVERITY_TOKEN }} \
