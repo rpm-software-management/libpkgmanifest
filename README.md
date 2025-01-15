@@ -1,6 +1,7 @@
 libpkgmanifest
 ==============
 
+[![Code Coverage Status](https://codecov.io/gh/rpm-software-management/libpkgmanifest/graph/badge.svg?token=AV781ZJ0G9)](https://codecov.io/gh/rpm-software-management/libpkgmanifest)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/31236/badge.svg)](https://scan.coverity.com/projects/rpm-software-management-libpkgmanifest)
 [![CMake Build And Tests Status](https://github.com/rpm-software-management/libpkgmanifest/actions/workflows/build-and-tests.yml/badge.svg)](https://github.com/rpm-software-management/libpkgmanifest/actions/workflows/build-and-tests.yml)
 
