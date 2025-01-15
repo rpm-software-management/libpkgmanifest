@@ -22,8 +22,8 @@ BuildRequires:  clang
 BuildRequires:  gcc-c++ >= 10.1
 %endif
 
-BuildRequires:  cmake
-BuildRequires:  pkgconfig(yaml-cpp)
+BuildRequires:  cmake >= 3.13
+BuildRequires:  pkgconfig(yaml-cpp) >= 0.7.0
 
 %if %{with tests}
 BuildRequires:  pkgconfig(gmock)
