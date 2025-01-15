@@ -10,6 +10,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(WITH_TESTS "Build unit tests" ON)
 option(WITH_DOCS "Build documentation" ON)
 option(WITH_PYTHON "Build Python bindings" ON)
+option(WITH_CODE_COVERAGE "Enable coverage reporting" OFF)
+
+add_library(coverage_config INTERFACE)
+
+if(WITH_CODE_COVERAGE)
+  target_compile_options(coverage_config INTERFACE -O0 -g --coverage)
+  target_link_options(coverage_config INTERFACE --coverage)
+endif()
 
 include(GNUInstallDirs)
 
