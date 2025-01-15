@@ -13,6 +13,7 @@ install(TARGETS libpkgmanifest LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
 
 list(APPEND libpkgmanifest_PC_REQUIRES "${YAMLCPP_MODULE_NAME}")
 target_link_libraries(libpkgmanifest PRIVATE ${YAMLCPP_LIBRARIES})
+target_link_libraries(libpkgmanifest PUBLIC coverage_config)
 
 list(SORT libpkgmanifest_PC_REQUIRES)
 list(JOIN libpkgmanifest_PC_REQUIRES ", " libpkgmanifest_PC_REQUIRES_STRING)
