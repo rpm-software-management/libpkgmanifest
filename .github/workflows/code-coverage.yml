@@ -1,0 +1,36 @@
+name: Code Coverage
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: sudo apt install lcov libgmock-dev libgtest-dev libyaml-cpp-dev swig -y
+
+    - name: Configure
+      run: cmake -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DWITH_CODE_COVERAGE=ON
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Tests
+      working-directory: ${{ github.workspace }}/build
+      run: ctest -V --test-dir test
+    
+    - name: Generate And Upload Code Coverage Results
+      working-directory: ${{ github.workspace }}/build
+      run: |
+        lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch --rc geninfo_unexecuted_blocks=1
+        lcov --ignore-errors unused --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' '*/test/*' '*/bindings/*' '*/api/*' --output-file coverage.info
+        lcov --list coverage.info
+        bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
