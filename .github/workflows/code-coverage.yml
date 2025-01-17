@@ -31,6 +31,7 @@ jobs:
       working-directory: ${{ github.workspace }}/build
       run: |
         lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch --rc geninfo_unexecuted_blocks=1
-        lcov --ignore-errors unused --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' '*/test/*' '*/bindings/*' '*/api/*' --output-file coverage.info
-        lcov --list coverage.info
-        bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+        lcov --extract coverage.info '*/src/api/*' --output-file coverage_api.info
+        lcov --extract coverage.info '*/src/impl/*' --output-file coverage_impl.info
+        bash <(curl -s https://codecov.io/bash) -f coverage_api.info -F api || echo "Codecov did not collect API coverage reports"
+        bash <(curl -s https://codecov.io/bash) -f coverage_impl.info -F impl || echo "Codecov did not collect IMPL coverage reports"
