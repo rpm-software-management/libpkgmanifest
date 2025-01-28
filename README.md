@@ -7,6 +7,13 @@ libpkgmanifest
 
 This library provides functionality for parsing and serializing RPM package manifest files.
 
+It is primarily designed for use by package managers like [DNF](https://github.com/rpm-software-management/dnf),
+which populate information into manifest files. However, it can also be used directly
+to interact with manifest objects in custom applications.
+
+The primary purpose of this library is to streamline internal workflows for building container images,
+while also providing foundational building blocks to tackle general build system management challenges highlighted in [this upstream ticket](https://github.com/rpm-software-management/dnf5/issues/833).
+
 Written in C++ with TDD, the library offers a simple, ABI-compatible API layer for users.
 Python bindings are also available, automatically generated from the C++ API.
 
@@ -59,6 +66,31 @@ data:
 
 These files can be used for purposes such as reproducible builds, capturing system snapshots,
 or documenting packages used for an image composition.
+
+Input Files
+-----------
+
+Input files are designed to facilitate working with manifest files in a controlled and automated manner.
+They include all necessary information for package managers to resolve requested packages, describe
+dependencies, and specify sources for downloading content.
+
+Example input file:
+
+```
+document: rpm-package-input
+version: 0.0.2
+repositories:
+    - id: fedora
+      metalink: https://mirrors.fedoraproject.org/metalink?repo=fedora-40&arch=$arch
+packages:
+    install:
+        - bash
+        - zsh
+archs:
+    - x86_64
+```
+
+The library also supports the prototype input file format defined in the [konflux-ci/rpm-lockfile-prototype](https://github.com/konflux-ci/rpm-lockfile-prototype?tab=readme-ov-file#whats-the-input_file) project.
 
 Installation
 ------------
