@@ -149,7 +149,7 @@ API Examples
 To see how to use the library in C++ or Python applications, check out the unit test suite in the
 `test` subdirectory.
 
-For example, you can find how to parse a manifest file and access its items in C++ [here](https://github.com/rpm-software-management/libpkgmanifest/blob/main/test/api/libpkgmanifest/parsertest.cpp) and in Python [here](https://github.com/rpm-software-management/libpkgmanifest/blob/main/test/python/libpkgmanifest/parser/test_parser.py).
+For example, you can find how to parse a manifest file and access its items in C++ [here](https://github.com/rpm-software-management/libpkgmanifest/blob/main/test/api/manifest/parsertest.cpp) and in Python [here](https://github.com/rpm-software-management/libpkgmanifest/blob/main/test/python/libpkgmanifest/parser/test_manifest_parser.py).
 
 Developer Documentation
 -----------------------
