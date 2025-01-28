@@ -90,7 +90,7 @@ archs:
     - x86_64
 ```
 
-The library also supports the prototype input file format defined in the [konflux-ci/rpm-lockfile-prototype](https://github.com/konflux-ci/rpm-lockfile-prototype?tab=readme-ov-file#whats-the-input_file) project.
+The library also supports a subset of the prototype input file format defined in the [konflux-ci/rpm-lockfile-prototype](https://github.com/konflux-ci/rpm-lockfile-prototype?tab=readme-ov-file#whats-the-input_file) project.
 
 Installation
 ------------
