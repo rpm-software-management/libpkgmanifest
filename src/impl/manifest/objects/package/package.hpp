@@ -34,6 +34,8 @@ public:
     virtual INevra & get_srpm() override;
     virtual const IModule & get_module() const override;
     virtual IModule & get_module() override;
+    virtual const std::vector<std::string> & get_parent_archs() const override;
+    virtual std::vector<std::string> & get_parent_archs() override;
 
     virtual void set_repo_id(const std::string & repo_id) override;
     virtual void set_location(const std::string & location) override;
@@ -55,6 +57,7 @@ private:
     std::unique_ptr<INevra> srpm;
     std::unique_ptr<IModule> module;
     IRepository * repository;
+    std::vector<std::string> parent_archs;
 };
 
 }

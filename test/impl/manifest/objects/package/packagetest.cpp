@@ -11,6 +11,7 @@ namespace {
 
 using namespace libpkgmanifest::internal::manifest;
 
+using ::testing::ElementsAre;
 using ::testing::NiceMock;
 using ::testing::Ref;
 using ::testing::Return;
@@ -46,6 +47,14 @@ TEST(PackageTest, DefaultSrpmIsNull) {
 
 TEST(PackageTest, DefaultModuleIsNull) {
     EXPECT_EQ(nullptr, &Package().get_module());
+}
+
+TEST(PackageTest, DefaultParentArchsAreEmpty) {
+    Package package;
+    EXPECT_TRUE(package.get_parent_archs().empty());
+
+    const auto & const_package = package;
+    EXPECT_TRUE(const_package.get_parent_archs().empty());
 }
 
 TEST(PackageTest, SetRepoIdIsReturned) {
@@ -186,6 +195,17 @@ TEST(PackageTest, AfterSetRepositoryUrlSubstitutesTheArchInThePath) {
     package.set_repository(repository);
 
     EXPECT_EQ("http://server.org/i686/packages/p/package.rpm", package.get_url());
+}
+
+TEST(PackageTest, AddedParentArchsValuesAreReturned) {
+    Package package;
+    package.get_parent_archs().push_back("i686");
+    package.get_parent_archs().push_back("aarch64");
+
+    EXPECT_THAT(package.get_parent_archs(), ElementsAre("i686", "aarch64"));
+
+    const auto & const_package = package;
+    EXPECT_THAT(const_package.get_parent_archs(), ElementsAre("i686", "aarch64"));
 }
 
 TEST(PackageTest, ClonedUnattachedObjectHasSameValuesAsOriginal) {

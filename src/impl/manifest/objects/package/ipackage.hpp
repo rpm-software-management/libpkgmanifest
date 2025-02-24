@@ -8,6 +8,7 @@
 #include <memory>
 #include <stdint.h>
 #include <string>
+#include <vector>
 
 namespace libpkgmanifest::internal::manifest {
 
@@ -33,6 +34,8 @@ public:
     virtual INevra & get_srpm() = 0;
     virtual const IModule & get_module() const = 0;
     virtual IModule & get_module() = 0;
+    virtual const std::vector<std::string> & get_parent_archs() const = 0;
+    virtual std::vector<std::string> & get_parent_archs() = 0;
 
     virtual void set_repo_id(const std::string & repo_id) = 0;
     virtual void set_location(const std::string & location) = 0;
