@@ -103,6 +103,14 @@ IModule & Package::get_module() {
     return *module;
 }
 
+const std::vector<std::string> & Package::get_parent_archs() const {
+    return parent_archs;
+}
+
+std::vector<std::string> & Package::get_parent_archs() {
+    return parent_archs;
+}
+
 void Package::set_repo_id(const std::string & repo_id) {
     this->repo_id = repo_id;
 }

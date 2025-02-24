@@ -23,6 +23,8 @@ public:
     MOCK_METHOD(INevra &, get_srpm, (), (override));
     MOCK_METHOD(const IModule &, get_module, (), (const, override));
     MOCK_METHOD(IModule &, get_module, (), (override));
+    MOCK_METHOD(const std::vector<std::string> &, get_parent_archs, (), (const, override));
+    MOCK_METHOD(std::vector<std::string> &, get_parent_archs, (), (override));
     MOCK_METHOD(void, set_repo_id, (const std::string &), (override));
     MOCK_METHOD(void, set_location, (const std::string &), (override));
     MOCK_METHOD(void, set_size, (uint64_t), (override));
