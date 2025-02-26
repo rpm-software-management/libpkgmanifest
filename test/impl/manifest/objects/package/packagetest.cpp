@@ -197,6 +197,24 @@ TEST(PackageTest, AfterSetRepositoryUrlSubstitutesTheArchInThePath) {
     EXPECT_EQ("http://server.org/i686/packages/p/package.rpm", package.get_url());
 }
 
+TEST(PackageTest, AfterSetRepositoryAndParentArchsPresentUrlSubstitutesTheFirstParentArchInThePath) {
+    NiceMock<RepositoryMock> repository;
+    EXPECT_CALL(repository, get_baseurl()).WillRepeatedly(Return("http://server.org/$arch/packages"));
+
+    auto nevra = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra, get_arch()).WillOnce(Return("noarch"));
+
+    Package package;
+    package.set_nevra(std::move(nevra));
+    package.set_repo_id("repo1");
+    package.set_location("t/test.rpm");
+    package.set_repository(repository);
+    package.get_parent_archs().push_back("x86_64");
+    package.get_parent_archs().push_back("i686");
+
+    EXPECT_EQ("http://server.org/x86_64/packages/t/test.rpm", package.get_url());
+}
+
 TEST(PackageTest, AddedParentArchsValuesAreReturned) {
     Package package;
     package.get_parent_archs().push_back("i686");
