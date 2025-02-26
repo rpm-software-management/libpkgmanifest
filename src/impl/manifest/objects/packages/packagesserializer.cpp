@@ -13,9 +13,9 @@ PackagesSerializer::PackagesSerializer(
 std::unique_ptr<IYamlNode> PackagesSerializer::serialize(const IPackages & packages) const {
     auto node = node_factory->create();
 
-    for (auto & [arch, packages] : packages.get()) {
+    for (const auto & arch : packages.get_archs()) {
         auto arch_node = node_factory->create();
-        for (auto & package : packages) {
+        for (const auto & package : packages.get(arch)) {
             arch_node->add(package_serializer->serialize(*package));
         }
         node->insert(arch, std::move(arch_node));

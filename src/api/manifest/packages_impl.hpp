@@ -51,7 +51,12 @@ public:
         return wrapped_package;
     }
 
-    std::vector<Package> wrap_internal_items(const std::vector<std::unique_ptr<IPackage>> & packages) const {
+    Package wrap_internal_item(IPackage & package) const {
+        return wrap_internal_item(&package);
+    }
+
+    template <typename Container>
+    std::vector<Package> wrap_internal_items(const Container & packages) const {
         std::vector<Package> wrapped_packages;
         wrapped_packages.reserve(packages.size());
         for (const auto & package : packages) {

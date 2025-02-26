@@ -179,12 +179,10 @@ data:
     std::vector<std::unique_ptr<IPackage>> src_packages;
     src_packages.push_back(std::move(package3));
 
-    std::map<std::string, std::vector<std::unique_ptr<IPackage>>> package_map;
-    package_map["i686"] = std::move(i686_packages);
-    package_map["src"] = std::move(src_packages);
-
     NiceMock<PackagesMock> packages;
-    EXPECT_CALL(Const(packages), get()).WillRepeatedly(ReturnPointee(&package_map));
+    EXPECT_CALL(packages, get_archs()).WillRepeatedly(Return(std::vector<std::string>{"i686", "src"}));
+    EXPECT_CALL(packages, get("i686")).WillRepeatedly(ReturnPointee(&i686_packages));
+    EXPECT_CALL(packages, get("src")).WillRepeatedly(ReturnPointee(&src_packages));
 
     NiceMock<ManifestMock> manifest;
     EXPECT_CALL(manifest, get_document()).WillOnce(Return("my-manifest"));

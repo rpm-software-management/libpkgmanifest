@@ -16,8 +16,8 @@ void PackageRepositoryBinder::validate(const IRepositories & repositories, const
 }
 
 void PackageRepositoryBinder::validate(const IRepositories & repositories, const IPackages & packages) const {
-    for (auto & [_, arch_packages] : packages.get()) {
-        for (auto & package : arch_packages) {
+    for (auto & arch : packages.get_archs()) {
+        for (auto & package : packages.get(arch)) {
             validate(repositories, *package);
         }
     }
@@ -28,8 +28,8 @@ void PackageRepositoryBinder::bind(const IRepositories & repositories, IPackage 
 }
 
 void PackageRepositoryBinder::bind(const IRepositories & repositories, IPackages & packages) {
-    for (auto & [_, arch_packages] : packages.get()) {
-        for (auto & package : arch_packages) {
+    for (auto & arch : packages.get_archs()) {
+        for (auto & package : packages.get(arch)) {
             bind(repositories, *package);
         }
     }
