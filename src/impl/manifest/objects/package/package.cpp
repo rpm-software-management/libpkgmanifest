@@ -19,7 +19,8 @@ Package::Package()
     , nevra(nullptr)
     , srpm(nullptr)
     , module(nullptr)
-    , repository(nullptr) {}
+    , repository(nullptr)
+    , parent_archs() {}
 
 Package::Package(const Package & other) 
     : repo_id(other.repo_id)
@@ -29,7 +30,8 @@ Package::Package(const Package & other)
     , nevra(other.nevra->clone())
     , srpm(other.srpm->clone())
     , module(other.module->clone())
-    , repository(other.repository) {}
+    , repository(other.repository)
+    , parent_archs(other.parent_archs) {}
 
 std::unique_ptr<IPackage> Package::clone() const {
     return std::make_unique<Package>(*this);

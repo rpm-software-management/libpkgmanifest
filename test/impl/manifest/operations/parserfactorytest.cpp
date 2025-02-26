@@ -7,8 +7,6 @@ namespace {
 
 using namespace libpkgmanifest::internal::manifest;
 
-using ::testing::ElementsAre;
-
 TEST(ParserFactoryTest, ParseSimpleManifest) {
     auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/manifest/simple.yaml";
 
@@ -38,11 +36,11 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ("https://my.user.repository.org/metalink", repository3->get_metalink());
     EXPECT_EQ("http://mirrors.user.repository.org/mirrors.txt", repository3->get_mirrorlist());
 
-    EXPECT_EQ(2, manifest->get_packages().get().size());
-    EXPECT_EQ(2, manifest->get_packages().get()["i686"].size());
-    EXPECT_EQ(1, manifest->get_packages().get()["src"].size());
+    EXPECT_EQ(2, manifest->get_packages().get_archs().size());
+    EXPECT_EQ(2, manifest->get_packages().get("i686").size());
+    EXPECT_EQ(1, manifest->get_packages().get("src").size());
 
-    auto & package1 = manifest->get_packages().get().at("i686")[0];
+    auto & package1 = manifest->get_packages().get("i686")[0];
     EXPECT_EQ("repo1", package1->get_repo_id());
     EXPECT_EQ(152384, package1->get_size());
     EXPECT_EQ(ChecksumMethod::SHA512, package1->get_checksum().get_method());
@@ -50,7 +48,7 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ("", package1->get_module().get_name());
     EXPECT_EQ("", package1->get_module().get_stream());
 
-    auto & package2 = manifest->get_packages().get().at("i686")[1];
+    auto & package2 = manifest->get_packages().get("i686")[1];
     EXPECT_EQ("repo2", package2->get_repo_id());
     EXPECT_EQ("p/package2-3:4.5.6-2.r2.rpm", package2->get_location());
     EXPECT_EQ(378124894, package2->get_size());
@@ -59,7 +57,7 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ("name2", package2->get_module().get_name());
     EXPECT_EQ("stream2", package2->get_module().get_stream());
 
-    auto & package3 = manifest->get_packages().get().at("src")[0];
+    auto & package3 = manifest->get_packages().get("src")[0];
     EXPECT_EQ("repo3", package3->get_repo_id());
     EXPECT_EQ("another/dir/file.here", package3->get_location());
     EXPECT_EQ(97643154, package3->get_size());

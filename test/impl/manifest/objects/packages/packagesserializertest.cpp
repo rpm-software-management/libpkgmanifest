@@ -76,11 +76,9 @@ TEST_F(PackagesSerializerTest, SerializerCreatesListNodeOfPackagesFromSerializer
     EXPECT_CALL(*package_serializer_ptr, serialize(Ref(*arch2_pkg1_ptr)))
         .WillOnce(Return(std::move(arch2_pkg1_node)));
 
-    std::map<std::string, std::vector<std::unique_ptr<IPackage>>> map;
-    map["arch1"] = std::move(arch1_pkgs);
-    map["arch2"] = std::move(arch2_pkgs);
+    EXPECT_CALL(packages, get_archs()).WillOnce(Return(std::vector<std::string>{"arch1", "arch2"}));
 
-    EXPECT_CALL(Const(packages), get()).WillOnce(ReturnPointee(&map));
+    EXPECT_CALL(packages, get("arch1")).WillOnce(ReturnPointee(&arch1_pkgs));
     EXPECT_CALL(*node_ptr, insert("arch1", _)).WillOnce(
     [&](const std::string &, std::unique_ptr<IYamlNode> node) {
         auto const & node_list = node->as_list();
@@ -89,6 +87,7 @@ TEST_F(PackagesSerializerTest, SerializerCreatesListNodeOfPackagesFromSerializer
         EXPECT_EQ("arch1_pkg2", node_list[1].get()->as_string());
     });
 
+    EXPECT_CALL(packages, get("arch2")).WillOnce(ReturnPointee(&arch2_pkgs));
     EXPECT_CALL(*node_ptr, insert("arch2", _)).WillOnce(
     [&](const std::string &, std::unique_ptr<IYamlNode> node) {
         auto const & node_list = node->as_list();
@@ -100,8 +99,8 @@ TEST_F(PackagesSerializerTest, SerializerCreatesListNodeOfPackagesFromSerializer
 }
 
 TEST_F(PackagesSerializerTest, SerializerReturnsTheObjectCreatedByFactory) {
-    std::map<std::string, std::vector<std::unique_ptr<IPackage>>> map;
-    EXPECT_CALL(Const(packages), get()).WillOnce(ReturnPointee(&map));
+    std::vector<std::string> archs;
+    EXPECT_CALL(Const(packages), get_archs()).WillOnce(ReturnPointee(&archs));
 
     auto serialized_node = serializer->serialize(packages);
     EXPECT_EQ(serialized_node.get(), node_ptr);

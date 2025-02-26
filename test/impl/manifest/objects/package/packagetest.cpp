@@ -241,6 +241,7 @@ TEST(PackageTest, ClonedUnattachedObjectHasSameValuesAsOriginal) {
     package.set_nevra(std::move(nevra));
     package.set_srpm(std::move(srpm));
     package.set_module(std::move(module));
+    package.get_parent_archs().assign({"i686", "aarch64"});
 
     auto clone(package.clone());
     EXPECT_EQ(package.get_repo_id(), clone->get_repo_id());
@@ -250,6 +251,7 @@ TEST(PackageTest, ClonedUnattachedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(package.get_nevra().get_name(), clone->get_nevra().get_name());
     EXPECT_EQ(package.get_srpm().get_name(), clone->get_srpm().get_name());
     EXPECT_EQ(package.get_module().get_name(), clone->get_module().get_name());
+    EXPECT_EQ(package.get_parent_archs(), clone->get_parent_archs());
 }
 
 TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
@@ -290,6 +292,7 @@ TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     package.set_srpm(std::move(srpm));
     package.set_module(std::move(module));
     package.set_repository(repository);
+    package.get_parent_archs().assign({"i686", "x86_64"});
 
     auto clone(package.clone());
     EXPECT_EQ(package.get_repo_id(), clone->get_repo_id());
@@ -302,6 +305,7 @@ TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(package.get_nevra().get_name(), clone->get_nevra().get_name());
     EXPECT_EQ(package.get_srpm().get_name(), clone->get_srpm().get_name());
     EXPECT_EQ(package.get_module().get_name(), clone->get_module().get_name());
+    EXPECT_EQ(package.get_parent_archs(), clone->get_parent_archs());
 }
 
 }

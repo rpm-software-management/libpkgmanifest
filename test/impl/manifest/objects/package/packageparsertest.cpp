@@ -19,6 +19,7 @@ using namespace libpkgmanifest::internal::manifest;
 
 using ::testing::_;
 using ::testing::AnyNumber;
+using ::testing::ElementsAre;
 using ::testing::NiceMock;
 using ::testing::Pointer;
 using ::testing::Ref;
@@ -102,6 +103,34 @@ TEST_F(PackageParserTest, ParserSetsSizeFromYamlNode) {
     EXPECT_CALL(yaml_node, get("size")).WillOnce(Return(std::move(size_node)));
     EXPECT_CALL(*size_node_ptr, as_uint64()).WillOnce(Return(6651234566512345));
     EXPECT_CALL(*package_ptr, set_size(6651234566512345));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserAddsParentArchsFromYamlNode) {
+    std::vector<std::string> archs;
+    EXPECT_CALL(*package_ptr, get_parent_archs()).WillRepeatedly(ReturnPointee(&archs));
+
+    auto node = std::make_unique<NiceMock<YamlNodeMock>>();
+
+    std::vector<std::unique_ptr<IYamlNode>> arch_nodes; 
+    auto arch1_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*arch1_node, as_string()).WillOnce(Return("x86_64"));
+    auto arch2_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    EXPECT_CALL(*arch2_node, as_string()).WillOnce(Return("i686"));
+    arch_nodes.push_back(std::move(arch1_node));
+    arch_nodes.push_back(std::move(arch2_node));
+
+    EXPECT_CALL(*node, as_list()).WillOnce(Return(std::move(arch_nodes)));
+
+    EXPECT_CALL(yaml_node, has("parent_archs")).WillOnce(Return(true));
+    EXPECT_CALL(yaml_node, get("parent_archs")).WillOnce(Return(std::move(node)));
+    parser->parse("arch", yaml_node);
+    EXPECT_THAT(archs, ElementsAre("x86_64", "i686"));
+}
+
+TEST_F(PackageParserTest, ParserDoesNotAddParentArchsIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("parent_archs")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("parent_archs")).Times(0);
     parser->parse("arch", yaml_node);
 }
 

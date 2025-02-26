@@ -1,19 +1,24 @@
 #include "packages.hpp"
 
 #include <algorithm>
+#include <ranges>
 
 namespace libpkgmanifest::internal::manifest {
+
+PackagesNoSuchArchError::PackagesNoSuchArchError(const std::string & message)
+    : std::runtime_error(message) {}
 
 Packages::Packages() {}
 
 Packages::Packages(const Packages & other) {
-    for (const auto & [arch, arch_packages] : other.packages) {
-        std::vector<std::unique_ptr<IPackage>> new_arch_packages;
-        new_arch_packages.reserve(arch_packages.size());
+    for (const auto & arch_packages : other.packages | std::views::values) {
         for (const auto & package : arch_packages) {
-            new_arch_packages.push_back(std::unique_ptr<IPackage>(package->clone()));
+            auto cloned_package = package->clone();
+            for (const auto & parent_arch : package->get_parent_archs()) {
+                link(*cloned_package, parent_arch);
+            }
+            add(std::move(cloned_package));
         }
-        packages.insert({arch, std::move(new_arch_packages)});
     }
 }
 
@@ -21,16 +26,43 @@ std::unique_ptr<IPackages> Packages::clone() const {
     return std::make_unique<Packages>(*this);
 }
 
-const std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & Packages::get() const {
-    return packages;
+const std::vector<std::string> Packages::get_archs() const {
+    std::vector<std::string> archs;
+    std::ranges::copy(packages | std::views::keys, std::back_inserter(archs));
+    return archs;
 }
 
-std::map<std::string, std::vector<std::unique_ptr<IPackage>>> & Packages::get() {
-    return packages;
+const std::vector<std::unique_ptr<IPackage>> & Packages::get(const std::string & arch) const {
+    if (packages.find(arch) == packages.end()) {
+        throw PackagesNoSuchArchError("No packages for arch: " + arch);
+    }
+    return packages.at(arch);
+}
+
+const std::vector<std::reference_wrapper<IPackage>> & Packages::get_noarch(const std::string & basearch) const {
+    if (noarch_packages.find(basearch) == noarch_packages.end()) {
+        throw PackagesNoSuchArchError("No noarch packages for arch: " + basearch);
+    }
+    return noarch_packages.at(basearch);
 }
 
 void Packages::add(std::unique_ptr<IPackage> package) {
-    packages[package->get_nevra().get_arch()].push_back(std::move(package));
+    if (contains(*package)) {
+        return;
+    }
+
+    auto arch = package->get_nevra().get_arch();
+    packages[arch].push_back(std::move(package));
+
+    // TODO: This should be better done somewhere else
+    if (noarch_packages.find(arch) == noarch_packages.end()) {
+        noarch_packages[arch] = {};
+    }
+}
+
+void Packages::add(std::unique_ptr<IPackage> package, const std::string & basearch) {
+    link(*package, basearch);
+    add(std::move(package));
 }
 
 bool Packages::contains(const IPackage & package) const {
@@ -40,12 +72,18 @@ bool Packages::contains(const IPackage & package) const {
     }
 
     auto & arch_packages = map_it->second;
-    auto found_it = std::find_if(arch_packages.begin(), arch_packages.end(), [&](const std::unique_ptr<IPackage> & it_package) {
+    auto found_it = std::find_if(arch_packages.begin(), arch_packages.end(), [&](const auto & it_package) {
         return it_package->get_nevra().to_string() == package.get_nevra().to_string() && 
                it_package->get_repo_id() == package.get_repo_id();
     });
 
     return found_it != arch_packages.end();
+}
+
+void Packages::link(IPackage & package, const std::string & basearch) {
+    if (package.get_nevra().get_arch() == "noarch") {
+        noarch_packages[basearch].push_back(std::ref(package));
+    }
 }
 
 }

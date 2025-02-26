@@ -36,8 +36,9 @@ protected:
 
         EXPECT_CALL(Const(*package1), get_nevra()).Times(AnyNumber()).WillOnce(ReturnPointee(&nevra1));
         EXPECT_CALL(Const(*package2), get_nevra()).Times(AnyNumber()).WillOnce(ReturnPointee(&nevra2));
-        EXPECT_CALL(packages, get()).Times(AnyNumber()).WillOnce(ReturnPointee(&packages_map));
-        EXPECT_CALL(Const(packages), get()).Times(AnyNumber()).WillOnce(ReturnPointee(&packages_map));
+        EXPECT_CALL(packages, get_archs()).Times(AnyNumber()).WillOnce(Return(std::vector<std::string>{"arch1", "arch2"}));
+        EXPECT_CALL(packages, get("arch1")).Times(AnyNumber()).WillOnce(ReturnPointee(&packages_map["arch1"]));
+        EXPECT_CALL(packages, get("arch2")).Times(AnyNumber()).WillOnce(ReturnPointee(&packages_map["arch2"]));
         EXPECT_CALL(Const(repositories), get()).WillRepeatedly(ReturnPointee(&repository_map));
         binder = std::make_unique<PackageRepositoryBinder>();
     }

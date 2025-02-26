@@ -4,6 +4,8 @@
 
 #include "libpkgmanifest/manifest/packages.hpp"
 
+#include <algorithm>
+
 namespace libpkgmanifest::manifest {
 
 using namespace libpkgmanifest::common;
@@ -31,16 +33,19 @@ Packages & Packages::operator=(Packages && other) noexcept = default;
 
 std::vector<Package> Packages::get() const {
     std::vector<Package> all_packages;
-    for (const auto & [_, packages] : p_impl->get()->get()) {
-        auto wrapped_packages = p_impl->wrap_internal_items(packages);
-        all_packages.insert(all_packages.end(), wrapped_packages.begin(), wrapped_packages.end());
+    for (const auto & arch : p_impl->get()->get_archs()) {
+        auto wrapped_arch_packages = p_impl->wrap_internal_items(p_impl->get()->get(arch));
+        all_packages.insert(all_packages.end(), wrapped_arch_packages.begin(), wrapped_arch_packages.end());
     }
     return all_packages;
 }
 
 std::vector<Package> Packages::get(const std::string & arch) const {
     // TODO: Exception when no such arch
-    return p_impl->wrap_internal_items(p_impl->get()->get()[arch]);
+    auto packages = p_impl->wrap_internal_items(p_impl->get()->get(arch));
+    auto noarch_packages = p_impl->wrap_internal_items(p_impl->get()->get_noarch(arch));
+    std::move(noarch_packages.begin(), noarch_packages.end(), std::back_inserter(packages));
+    return packages;
 }
 
 void Packages::add(Package & package) {

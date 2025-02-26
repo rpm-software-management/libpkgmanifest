@@ -35,6 +35,12 @@ std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const I
         package->set_module(module_parser->parse(*node.get("module")));
     }
 
+    if (node.has("parent_archs")) {
+        for (auto & arch_node : node.get("parent_archs")->as_list()) {
+            package->get_parent_archs().push_back(arch_node->as_string());
+        }
+    }
+
     return package;
 }
 
