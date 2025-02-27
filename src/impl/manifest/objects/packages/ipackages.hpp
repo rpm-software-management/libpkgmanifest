@@ -2,7 +2,6 @@
 
 #include "impl/manifest/objects/package/ipackage.hpp"
 
-#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -17,7 +16,7 @@ public:
 
     virtual const std::vector<std::string> get_archs() const = 0;
     virtual const std::vector<std::unique_ptr<IPackage>> & get(const std::string & arch) const = 0;
-    virtual const std::vector<std::reference_wrapper<IPackage>> & get_noarch(const std::string & basearch) const = 0;
+
     virtual void add(std::unique_ptr<IPackage> package) = 0;
     virtual void add(std::unique_ptr<IPackage> package, const std::string & basearch) = 0;
 
