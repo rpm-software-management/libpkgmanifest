@@ -52,6 +52,10 @@ void Packages::add(Package & package) {
     p_impl->get()->add(package.p_impl->get_factory_object());
 }
 
+void Packages::add(Package & package, const std::string & basearch) {
+    p_impl->get()->add(package.p_impl->get_factory_object(), basearch);
+}
+
 bool Packages::contains(const Package & package) {
     return p_impl->get()->contains(*package.p_impl->get());
 }
