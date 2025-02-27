@@ -26,10 +26,11 @@ public:
     /// @return A vector containing all packages.
     std::vector<Package> get() const;
 
-    /// @brief Retrieves a list of packages filtered by the specified architecture.
-    /// @param arch The architecture used to filter the packages.
-    /// @return A vector containing the packages for the specified architecture.
-    std::vector<Package> get(const std::string & arch) const;
+    /// @brief Retrieves a list of packages filtered by the specified base architecture.
+    /// @param basearch The base architecture used to filter the packages.
+    /// @param with_source True if source packages should be included in the result.
+    /// @return A vector containing the packages for the specified base architecture.
+    std::vector<Package> get(const std::string & basearch, bool with_source = false) const;
 
     /// @brief Adds a given package to the container.
     /// @note The package is categorized within the container based on its architecture.
