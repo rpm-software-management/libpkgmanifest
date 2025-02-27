@@ -55,10 +55,10 @@ public:
         return wrap_internal_item(&package);
     }
 
-    template <typename Container>
-    std::vector<Package> wrap_internal_items(const Container & packages) const {
+    std::vector<Package> wrap_internal_items(auto & packages) const {
         std::vector<Package> wrapped_packages;
-        wrapped_packages.reserve(packages.size());
+        wrapped_packages.reserve(std::ranges::distance(packages));
+
         for (const auto & package : packages) {
             wrapped_packages.push_back(wrap_internal_item(package.get()));
         }
