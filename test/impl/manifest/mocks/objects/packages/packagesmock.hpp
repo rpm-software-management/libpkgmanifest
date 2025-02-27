@@ -11,7 +11,6 @@ public:
     MOCK_METHOD(std::unique_ptr<IPackages>, clone, (), (const, override));
     MOCK_METHOD((const std::vector<std::string>), get_archs, (), (const, override));
     MOCK_METHOD((const std::vector<std::unique_ptr<IPackage>> &), get, (const std::string &), (const, override));
-    MOCK_METHOD((const std::vector<std::reference_wrapper<IPackage>> &), get_noarch, (const std::string &), (const, override));
     MOCK_METHOD(void, add, (std::unique_ptr<IPackage>), (override));
     MOCK_METHOD(void, add, (std::unique_ptr<IPackage>, const std::string & basearch), (override));
     MOCK_METHOD(bool, contains, (const IPackage &), (const, override));
