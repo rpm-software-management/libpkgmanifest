@@ -1,6 +1,6 @@
 %global version_major 0
 %global version_minor 5
-%global version_patch 2
+%global version_patch 3
 
 Name:       libpkgmanifest
 Version:    %{version_major}.%{version_minor}.%{version_patch}
