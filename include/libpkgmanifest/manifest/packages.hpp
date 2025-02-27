@@ -36,6 +36,12 @@ public:
     /// @param package The package to be added.
     void add(Package & package);
 
+    /// @brief Adds a given package to the container and link it to the given base architecture.
+    /// @note Used when storing multiple base architectures in a manifest file.
+    /// @param package The package to be added.
+    /// @param basearch The base architecture to link the package to.
+    void add(Package & package, const std::string & basearch);
+
     /// @brief Verifies if the given package exists in the container.
     /// @note Packages are considered identical if they share the same NEVRA and repository ID.
     /// @return True if the package is present in the container.
