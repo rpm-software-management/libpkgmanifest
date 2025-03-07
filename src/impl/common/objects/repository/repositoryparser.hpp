@@ -5,6 +5,11 @@
 
 namespace libpkgmanifest::internal::common {
 
+class RepositorySourceNotProvidedError : public std::runtime_error {
+public:
+    RepositorySourceNotProvidedError(const std::string & message);
+};
+
 class RepositoryParser : public IRepositoryParser {
 public:
     RepositoryParser(std::shared_ptr<IRepositoryFactory> repository_factory);

@@ -45,6 +45,7 @@ TEST_F(RepositoryParserTest, ParserSetsIdFromYamlNode) {
     auto id_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto id_node_ptr = id_node.get();
     
+    EXPECT_CALL(yaml_node, has("baseurl")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("id")).WillOnce(Return(std::move(id_node)));
     EXPECT_CALL(*id_node_ptr, as_string()).WillOnce(Return("repo1"));
     EXPECT_CALL(*repository_ptr, set_id("repo1"));
@@ -55,7 +56,7 @@ TEST_F(RepositoryParserTest, ParserSetsBaseurlFromYamlNode) {
     auto baseurl_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto baseurl_node_ptr = baseurl_node.get();
     
-    EXPECT_CALL(yaml_node, has("baseurl")).WillOnce(Return(true));
+    EXPECT_CALL(yaml_node, has("baseurl")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("baseurl")).WillOnce(Return(std::move(baseurl_node)));
     EXPECT_CALL(*baseurl_node_ptr, as_string()).WillOnce(Return("urly urlish url"));
     EXPECT_CALL(*repository_ptr, set_baseurl("urly urlish url"));
@@ -66,7 +67,7 @@ TEST_F(RepositoryParserTest, ParserSetsMetalinkFromYamlNode) {
     auto metalink_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto metalink_node_ptr = metalink_node.get();
     
-    EXPECT_CALL(yaml_node, has("metalink")).WillOnce(Return(true));
+    EXPECT_CALL(yaml_node, has("metalink")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("metalink")).WillOnce(Return(std::move(metalink_node)));
     EXPECT_CALL(*metalink_node_ptr, as_string()).WillOnce(Return("metalink"));
     EXPECT_CALL(*repository_ptr, set_metalink("metalink"));
@@ -77,14 +78,20 @@ TEST_F(RepositoryParserTest, ParserSetsMirrorlistFromYamlNode) {
     auto mirrorlist_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto mirrorlist_node_ptr = mirrorlist_node.get();
     
-    EXPECT_CALL(yaml_node, has("mirrorlist")).WillOnce(Return(true));
+    EXPECT_CALL(yaml_node, has("mirrorlist")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("mirrorlist")).WillOnce(Return(std::move(mirrorlist_node)));
     EXPECT_CALL(*mirrorlist_node_ptr, as_string()).WillOnce(Return("mirrorlist"));
     EXPECT_CALL(*repository_ptr, set_mirrorlist("mirrorlist"));
     parser->parse(yaml_node);
 }
 
+TEST_F(RepositoryParserTest, ParserThrowsAnExceptionWhenNoSourceIsProvided) {
+    EXPECT_THROW(parser->parse(yaml_node), RepositorySourceNotProvidedError);
+}
+
 TEST_F(RepositoryParserTest, ParserReturnsTheObjectCreatedByFactory) {
+    EXPECT_CALL(yaml_node, has("baseurl")).WillRepeatedly(Return(true));
+
     auto parsed_repository = parser->parse(yaml_node);
     EXPECT_EQ(parsed_repository.get(), repository_ptr);
 }

@@ -84,7 +84,7 @@ public:
         try {
             repository.p_impl->init(&package->get_repository());
         } catch (...) {
-            // TODO: Modify IMPL to handle this in a better way.
+            // TODO(jkolarik): Modify IMPL to handle this in a better way.
         }
     }
 

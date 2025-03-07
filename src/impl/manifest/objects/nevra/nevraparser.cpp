@@ -10,7 +10,7 @@ NevraParseError::NevraParseError(const std::string & message)
 NevraParser::NevraParser(std::shared_ptr<INevraFactory> nevra_factory)
     : nevra_factory(std::move(nevra_factory)) {}
 
-// TODO: Refactor to share the common evr logic
+// TODO(jkolarik): Refactor to share the common evr logic
 
 std::unique_ptr<INevra> NevraParser::parse(const IYamlNode & node) const {
     auto nevra = nevra_factory->create();

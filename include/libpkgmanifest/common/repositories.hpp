@@ -20,6 +20,12 @@ namespace libpkgmanifest::manifest {
 
 namespace libpkgmanifest::common {
 
+/// @brief Exception thrown when a repository with a given ID does not exist.
+class NoSuchRepositoryIdError : public std::runtime_error {
+public:
+    NoSuchRepositoryIdError(const std::string & message);
+};
+
 class RepositoriesIterator;
 
 /// @brief A container for all repositories listed in the manifest.

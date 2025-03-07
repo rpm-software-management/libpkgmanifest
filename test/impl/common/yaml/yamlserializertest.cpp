@@ -6,7 +6,7 @@ namespace {
 
 using namespace libpkgmanifest::internal::common;
 
-// TODO: Test exceptions
-// TODO: Test API
+// TODO(jkolarik): Test exceptions
+// TODO(jkolarik): Test API
 
 }

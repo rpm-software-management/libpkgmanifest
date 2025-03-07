@@ -120,12 +120,28 @@ TEST_F(ChecksumParserTest, ParserSetsLowercaseMethodFromYamlNode) {
 }
 
 TEST_F(ChecksumParserTest, ParserSetsDigestFromYamlNode) {
-    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("dontcare:abcdefg"));
-    EXPECT_CALL(*string_splitter, split("dontcare:abcdefg", ':')).WillOnce(
-        Return(std::vector<std::string>{"dontcare", "abcdefg"})
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("sha512:abcdefg"));
+    EXPECT_CALL(*string_splitter, split("sha512:abcdefg", ':')).WillOnce(
+        Return(std::vector<std::string>{"sha512", "abcdefg"})
     );
     EXPECT_CALL(*checksum_ptr, set_digest("abcdefg"));
     parser->parse(yaml_node);
+}
+
+TEST_F(ChecksumParserTest, ParserThrowsAnExceptionWhenChecksumFormatIsInvalid) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("mimimimi"));
+    EXPECT_CALL(*string_splitter, split("mimimimi", ':')).WillOnce(
+        Return(std::vector<std::string>{"mimimimi"})
+    );
+    EXPECT_THROW(parser->parse(yaml_node), ChecksumFormatError);
+}
+
+TEST_F(ChecksumParserTest, ParserThrowsAnExceptionWhenChecksumMethodIsUnknown) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("unknown:abcdefg"));
+    EXPECT_CALL(*string_splitter, split("unknown:abcdefg", ':')).WillOnce(
+        Return(std::vector<std::string>{"unknown", "abcdefg"})
+    );
+    EXPECT_THROW(parser->parse(yaml_node), ChecksumFormatError);
 }
 
 TEST_F(ChecksumParserTest, ParserReturnsTheObjectCreatedByFactory) {

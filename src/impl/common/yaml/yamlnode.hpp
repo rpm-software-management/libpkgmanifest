@@ -48,7 +48,7 @@ private:
     T as() const {
         try {
             return node.as<T>();
-        } catch(YAML::TypedBadConversion<T> & ex) {
+        } catch (YAML::TypedBadConversion<T> & ex) {
             throw YamlInvalidValueConversionError(ex.msg);
         }
     }

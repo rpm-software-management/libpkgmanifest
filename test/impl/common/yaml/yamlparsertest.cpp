@@ -11,7 +11,7 @@ TEST(YamlParserTest, ParseInvalidYamlFromStringThrowsAnException) {
     EXPECT_THROW(parser.from_string("["), YamlParseError);
 }
 
-// TODO
+// TODO(jkolarik)
 // TEST(YamlParserTest, ParseInvalidYamlFromFileThrowsAnException) {
 //     YamlParser parser;
 //     EXPECT_THROW(parser.from_file("invalid.yaml"), YamlParseError);
