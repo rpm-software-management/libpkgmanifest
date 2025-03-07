@@ -88,8 +88,8 @@ del ClassName##__iter__
 %include <std_string.i>
 %include <std_vector.i>
 
-// TODO: Temporary workaround for SWIG-related issues.
-// See https://github.com/swig/swig/issues/3054.
+// TODO(jkolarik): Temporary workaround for SWIG-related issues.
+// See https://github.com/rpm-software-management/libpkgmanifest/issues/33.
 %include <std_vector_ext.i>
 
 %exception {

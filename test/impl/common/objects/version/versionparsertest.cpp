@@ -67,6 +67,12 @@ TEST_F(VersionParserTest, ParserSetsAllVersionPartsFromThreeValues) {
     parser->parse(yaml_node);
 }
 
+TEST_F(VersionParserTest, ParserThrowsAnExceptionWhenAnyPartIsNotANumber) {
+    EXPECT_CALL(yaml_node, as_string()).WillOnce(Return("1.2.a"));
+    EXPECT_CALL(*string_splitter, split("1.2.a", '.')).WillOnce(Return(std::vector<std::string>{"1", "2", "a"}));
+    EXPECT_THROW(parser->parse(yaml_node), VersionFormatError);
+}
+
 TEST_F(VersionParserTest, ParserReturnsTheObjectCreatedByFactory) {
     auto parsed_version = parser->parse(yaml_node);
     EXPECT_EQ(parsed_version.get(), version_ptr);

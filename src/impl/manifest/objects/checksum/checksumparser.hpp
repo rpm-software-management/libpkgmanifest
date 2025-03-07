@@ -9,6 +9,11 @@ namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
 
+class ChecksumFormatError : public std::runtime_error {
+public:
+    ChecksumFormatError(const std::string & message);
+};
+
 class ChecksumParser : public IChecksumParser {
 public:
     ChecksumParser(std::shared_ptr<IChecksumFactory> checksum_factory, std::shared_ptr<IStringSplitter> string_splitter);

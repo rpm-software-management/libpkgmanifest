@@ -78,8 +78,8 @@ TEST(ManifestTest, SetRepositoriesObjectIsReturned) {
 }
 
 TEST(ManifestTest, ClonedObjectHasSameValuesAsOriginal) {
-    // TODO: Tests cloned packages objects are the same
-    // TODO: Tests cloned repositories objects are the same
+    // TODO(jkolarik): Tests cloned packages objects are the same
+    // TODO(jkolarik): Tests cloned repositories objects are the same
 
     auto packages = std::make_unique<NiceMock<PackagesMock>>();
     auto cloned_packages = std::make_unique<NiceMock<PackagesMock>>();

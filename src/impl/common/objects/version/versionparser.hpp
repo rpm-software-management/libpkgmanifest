@@ -7,6 +7,11 @@
 
 namespace libpkgmanifest::internal::common {
 
+class VersionFormatError : public std::runtime_error {
+public:
+    VersionFormatError(const std::string & message);
+};
+
 class VersionParser : public IVersionParser {
 public:
     VersionParser(std::shared_ptr<IVersionFactory> version_factory, std::shared_ptr<IStringSplitter> string_splitter);

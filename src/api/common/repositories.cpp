@@ -6,6 +6,8 @@
 
 namespace libpkgmanifest::common {
 
+NoSuchRepositoryIdError::NoSuchRepositoryIdError(const std::string & message) : std::runtime_error(message) {}
+
 Repositories::Repositories() : p_impl(std::make_unique<Impl>()) {}
 
 Repositories::~Repositories() = default;
@@ -36,7 +38,9 @@ std::size_t Repositories::size() const {
 }
 
 Repository Repositories::get(const std::string & id) const {
-    // TODO: Exception when no such repo
+    if (!contains(id)) {
+        throw NoSuchRepositoryIdError("Repository with ID \"" + id + "\" does not exist.");
+    }
     return p_impl->wrap_internal_item(p_impl->get()->get()[id].get());
 }
 

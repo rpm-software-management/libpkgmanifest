@@ -115,7 +115,7 @@ TEST(InputTest, SetOptionsObjectIsReturned) {
 }
 
 TEST(InputTest, ClonedObjectHasSameValuesAsOriginal) {
-    // TODO: Tests cloned complex objects are the same
+    // TODO(jkolarik): Tests cloned complex objects are the same
 
     auto version = std::make_unique<NiceMock<VersionMock>>();
     auto cloned_version = std::make_unique<NiceMock<VersionMock>>();

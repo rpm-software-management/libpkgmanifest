@@ -8,6 +8,7 @@
 #include "impl/manifest/mocks/objects/package/packagemock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
 
+#include "impl/common/yaml/yamlnode.hpp"
 #include "impl/manifest/objects/package/packageparser.hpp"
 
 #include <gmock/gmock.h>
@@ -26,6 +27,7 @@ using ::testing::Ref;
 using ::testing::Return;
 using ::testing::ReturnPointee;
 using ::testing::Test;
+using ::testing::Throw;
 
 class PackageParserTest : public Test {
 protected:
@@ -200,6 +202,15 @@ TEST_F(PackageParserTest, ParserDoesNotSetSrpmIfNotProvided) {
     EXPECT_CALL(yaml_node, get("srpm")).Times(0);
     EXPECT_CALL(*package_ptr, set_srpm(_)).Times(0);
     parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserThrowsAnExceptionIfSizeHasInvalidFormat) {
+    auto size_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto size_node_ptr = size_node.get();
+    
+    EXPECT_CALL(yaml_node, get("size")).WillOnce(Return(std::move(size_node)));
+    EXPECT_CALL(*size_node_ptr, as_uint64()).WillOnce(Throw(YamlInvalidValueConversionError("error")));
+    EXPECT_THROW(parser->parse("arch", yaml_node), PackageSizeFormatError);
 }
 
 TEST_F(PackageParserTest, ParserReturnsTheObjectCreatedByFactory) {

@@ -11,6 +11,11 @@ namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
 
+class PackageSizeFormatError : public std::runtime_error {
+public:
+    PackageSizeFormatError(const std::string & message);
+};
+
 class PackageParser : public IPackageParser {
 public:
     PackageParser(
