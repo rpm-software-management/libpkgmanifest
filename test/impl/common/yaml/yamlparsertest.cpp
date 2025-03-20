@@ -11,11 +11,11 @@ TEST(YamlParserTest, ParseInvalidYamlFromStringThrowsAnException) {
     EXPECT_THROW(parser.from_string("["), YamlParseError);
 }
 
-// TODO(jkolarik)
-// TEST(YamlParserTest, ParseInvalidYamlFromFileThrowsAnException) {
-//     YamlParser parser;
-//     EXPECT_THROW(parser.from_file("invalid.yaml"), YamlParseError);
-// }
+TEST(YamlParserTest, ParseInvalidYamlFromFileThrowsAnException) {
+    auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/manifest/invalid.yaml";
+    YamlParser parser;
+    EXPECT_THROW(parser.from_file(file_path), YamlParseError);
+}
 
 TEST(YamlParserTest, ParseNonExistingYamlFileThrowsAnException) {
     YamlParser parser;

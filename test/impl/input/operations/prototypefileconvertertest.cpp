@@ -81,8 +81,18 @@ TEST_F(PrototypeFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputFor
     auto reinstall_package2_node = std::make_unique<YamlNodeInternalStub>();
     reinstall_package2_node->set("pkgB");
 
+    // this node is expected to be ignored
+    auto complex_reinstall_pkg_node = std::make_unique<YamlNodeInternalStub>();
+    auto complex_reinstall_pkg_name_node = std::make_unique<YamlNodeInternalStub>();
+    complex_reinstall_pkg_name_node->set("pkgC");
+    auto complex_reinstall_pkg_arch_node = std::make_unique<YamlNodeInternalStub>();
+    complex_reinstall_pkg_name_node->set("arch_only");
+    complex_reinstall_pkg_node->insert("name", std::move(complex_reinstall_pkg_name_node));
+    complex_reinstall_pkg_node->insert("arches", std::move(complex_reinstall_pkg_arch_node));
+
     reinstall_packages_node->add(std::move(reinstall_package1_node));
     reinstall_packages_node->add(std::move(reinstall_package2_node));
+    reinstall_packages_node->add(std::move(complex_reinstall_pkg_node));
 
     auto enable_modules_node = std::make_unique<YamlNodeInternalStub>();
     auto enable_module1_node = std::make_unique<YamlNodeInternalStub>();
@@ -90,8 +100,18 @@ TEST_F(PrototypeFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputFor
     auto enable_module2_node = std::make_unique<YamlNodeInternalStub>();
     enable_module2_node->set("module2");
 
+    // this node is expected to be ignored
+    auto complex_enable_module_node = std::make_unique<YamlNodeInternalStub>();
+    auto complex_enable_module_name_node = std::make_unique<YamlNodeInternalStub>();
+    complex_enable_module_name_node->set("module3");
+    auto complex_enable_module_arch_node = std::make_unique<YamlNodeInternalStub>();
+    complex_enable_module_name_node->set("arch_only");
+    complex_enable_module_node->insert("name", std::move(complex_enable_module_name_node));
+    complex_enable_module_node->insert("arches", std::move(complex_enable_module_arch_node));
+
     enable_modules_node->add(std::move(enable_module1_node));
     enable_modules_node->add(std::move(enable_module2_node));
+    enable_modules_node->add(std::move(complex_enable_module_node));
 
     auto arches_node = std::make_unique<YamlNodeInternalStub>();
     auto arch1_node = std::make_unique<YamlNodeInternalStub>();

@@ -8,10 +8,12 @@ using namespace libpkgmanifest::internal::input;
 
 TEST(InputPackagesTest, DefaultInstallsIsEmpty) {
     EXPECT_TRUE(Packages().get_installs().empty());
+    EXPECT_TRUE(static_cast<const Packages &>(Packages()).get_installs().empty());
 }
 
 TEST(InputPackagesTest, DefaultReinstallsIsEmpty) {
     EXPECT_TRUE(Packages().get_reinstalls().empty());
+    EXPECT_TRUE(static_cast<const Packages &>(Packages()).get_reinstalls().empty());
 }
 
 TEST(InputPackagesTest, ClonedObjectHasSameValuesAsOriginal) {
