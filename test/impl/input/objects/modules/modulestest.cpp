@@ -8,10 +8,12 @@ using namespace libpkgmanifest::internal::input;
 
 TEST(InputModulesTest, DefaultEnablesIsEmpty) {
     EXPECT_TRUE(Modules().get_enables().empty());
+    EXPECT_TRUE(static_cast<const Modules &>(Modules()).get_enables().empty());
 }
 
 TEST(InputModulesTest, DefaultDisablesIsEmpty) {
     EXPECT_TRUE(Modules().get_disables().empty());
+    EXPECT_TRUE(static_cast<const Modules &>(Modules()).get_disables().empty());
 }
 
 TEST(InputModulesTest, ClonedObjectHasSameValuesAsOriginal) {
