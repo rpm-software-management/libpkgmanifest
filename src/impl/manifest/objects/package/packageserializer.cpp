@@ -54,6 +54,17 @@ std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package
         node->insert("module", module_serializer->serialize(module));
     }
 
+    auto & parent_archs = package.get_parent_archs();
+    if (!parent_archs.empty()) {
+        auto archs_node = node_factory->create();
+        for (const auto & arch : parent_archs) {
+            auto arch_node = node_factory->create();
+            arch_node->set(arch);
+            archs_node->add(std::move(arch_node));
+        }
+        node->insert("parent_archs", std::move(archs_node));
+    }
+
     return node;
 }
 

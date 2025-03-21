@@ -75,6 +75,8 @@ data:
         size: 97643154
         evr: 9.9-1.r3)";
 
+    std::vector<std::string> empty_vector;
+
     auto repository1 = std::make_unique<NiceMock<RepositoryMock>>();
     EXPECT_CALL(*repository1, get_id()).WillRepeatedly(Return("repo1"));
     EXPECT_CALL(*repository1, get_metalink()).WillOnce(Return("http://some.server.gov/folder/metalink"));
@@ -124,6 +126,7 @@ data:
     EXPECT_CALL(Const(*package1), get_nevra()).WillOnce(ReturnPointee(nevra1.get()));
     EXPECT_CALL(Const(*package1), get_srpm()).WillOnce(ReturnPointee(srpm1.get()));
     EXPECT_CALL(Const(*package1), get_module()).WillOnce(ReturnPointee(module1.get()));
+    EXPECT_CALL(Const(*package1), get_parent_archs()).WillOnce(ReturnPointee(&empty_vector));
 
     auto checksum2 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum2, get_method()).WillOnce(Return(ChecksumMethod::MD5));
@@ -148,6 +151,7 @@ data:
     EXPECT_CALL(Const(*package2), get_nevra()).WillOnce(ReturnPointee(nevra2.get()));
     EXPECT_CALL(Const(*package2), get_srpm()).WillOnce(ReturnPointee(srpm2.get()));
     EXPECT_CALL(Const(*package2), get_module()).WillOnce(ReturnPointee(module2.get()));
+    EXPECT_CALL(Const(*package2), get_parent_archs()).WillOnce(ReturnPointee(&empty_vector));
 
     auto checksum3 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum3, get_method()).WillOnce(Return(ChecksumMethod::SHA256));
@@ -171,6 +175,7 @@ data:
     EXPECT_CALL(Const(*package3), get_nevra()).WillOnce(ReturnPointee(nevra3.get()));
     EXPECT_CALL(Const(*package3), get_srpm()).WillOnce(ReturnPointee(srpm3.get()));
     EXPECT_CALL(Const(*package3), get_module()).WillOnce(ReturnPointee(module3.get()));
+    EXPECT_CALL(Const(*package3), get_parent_archs()).WillOnce(ReturnPointee(&empty_vector));
 
     std::vector<std::unique_ptr<IPackage>> i686_packages;
     i686_packages.push_back(std::move(package1));

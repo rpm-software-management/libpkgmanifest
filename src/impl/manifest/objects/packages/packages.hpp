@@ -27,6 +27,9 @@ public:
     virtual bool contains(const IPackage & package) const override;
 
 private:
+    IPackage * find(const IPackage & package) const;
+    IPackage * find_or_add(std::unique_ptr<IPackage> package);
+
     std::map<std::string, std::vector<std::unique_ptr<IPackage>>> packages;
 };
 

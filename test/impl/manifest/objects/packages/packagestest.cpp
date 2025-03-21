@@ -199,6 +199,55 @@ TEST(PackagesTest, ContainsReturnsFalseWhenPackageWithDifferentRepoIdIsPresent) 
     EXPECT_FALSE(packages.contains(*checked_package));
 }
 
+TEST(PackagesTest, AddingPackageWithSameBaseArchAsItsArchDoesNotUpdateItsParentArchs) {
+    auto parent_archs = std::vector<std::string>();
+
+    auto nevra = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra, get_arch()).WillRepeatedly(Return("arch"));
+
+    auto package = std::make_unique<NiceMock<PackageMock>>();
+    EXPECT_CALL(*package, get_nevra()).WillRepeatedly(ReturnPointee(nevra.get()));
+    EXPECT_CALL(Const(*package), get_nevra()).WillRepeatedly(ReturnPointee(nevra.get()));
+    EXPECT_CALL(*package, get_parent_archs()).WillRepeatedly(ReturnPointee(&parent_archs));
+
+    Packages packages;
+    packages.add(std::move(package), "arch");
+
+    EXPECT_TRUE(parent_archs.empty());
+}
+
+TEST(PackagesTest, AddingAlreadyExistingPackageWithDifferentBaseArchOnlyLinksToTheNewBaseArch) {
+    auto parent_archs1 = std::vector<std::string>();
+    auto parent_archs2 = std::vector<std::string>();
+
+    auto nevra1 = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra1, get_arch()).WillRepeatedly(Return("arch"));
+
+    auto nevra2 = std::make_unique<NiceMock<NevraMock>>();
+    EXPECT_CALL(*nevra2, get_arch()).WillRepeatedly(Return("arch"));
+
+    auto package1 = std::make_unique<NiceMock<PackageMock>>();
+    EXPECT_CALL(*package1, get_nevra()).WillRepeatedly(ReturnPointee(nevra1.get()));
+    EXPECT_CALL(Const(*package1), get_nevra()).WillRepeatedly(ReturnPointee(nevra1.get()));
+    EXPECT_CALL(*package1, get_parent_archs()).WillRepeatedly(ReturnPointee(&parent_archs1));
+
+    auto package2 = std::make_unique<NiceMock<PackageMock>>();
+    EXPECT_CALL(*package2, get_nevra()).WillRepeatedly(ReturnPointee(nevra2.get()));
+    EXPECT_CALL(Const(*package2), get_nevra()).WillRepeatedly(ReturnPointee(nevra2.get()));
+    EXPECT_CALL(*package2, get_parent_archs()).WillRepeatedly(ReturnPointee(&parent_archs2));
+
+    // adding the same package but in the second call, link it to a different basearch
+    Packages packages;
+    packages.add(std::move(package1), "basearch1");
+    packages.add(std::move(package2), "basearch2");
+
+    // check that no second package was added
+    EXPECT_EQ(1, packages.get("arch").size());
+
+    // expect that all basearch are present in the first package
+    EXPECT_THAT(parent_archs1, ElementsAre("basearch1", "basearch2"));
+}
+
 TEST(PackagesTest, ClonedObjectHasSameValuesAsOriginal) {
     auto nevra1 = std::make_unique<NiceMock<NevraMock>>();
     EXPECT_CALL(*nevra1, get_arch()).WillRepeatedly(Return("arch1"));
