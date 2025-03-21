@@ -51,6 +51,7 @@ protected:
         EXPECT_CALL(Const(package), get_module()).WillOnce(ReturnPointee(&module));
         EXPECT_CALL(Const(package), get_nevra()).WillRepeatedly(ReturnPointee(&nevra));
         EXPECT_CALL(Const(package), get_srpm()).WillOnce(ReturnPointee(&srpm));
+        EXPECT_CALL(Const(package), get_parent_archs()).WillRepeatedly(ReturnPointee(&parent_archs));
 
         serializer = std::make_unique<PackageSerializer>(
             node_factory, 
@@ -66,6 +67,7 @@ protected:
     NiceMock<YamlNodeInternalMock> * node_ptr;
     NiceMock<ChecksumSerializerMock> * checksum_serializer_ptr;
     NiceMock<ModuleSerializerMock> * module_serializer_ptr;
+    std::vector<std::string> parent_archs;
     std::unique_ptr<PackageSerializer> serializer;
 };
 
@@ -176,6 +178,26 @@ TEST_F(PackageSerializerTest, SerializerDoesNotSetModuleIfEmpty) {
     EXPECT_CALL(module, get_name()).WillOnce(Return(""));
     EXPECT_CALL(*node_ptr, insert("module", _)).Times(0);
 
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerSetsParentArchsToNodeAsList) {
+    parent_archs = {"arch1", "arch2"};
+
+    EXPECT_CALL(*node_ptr, insert("parent_archs", _)).WillOnce(
+    [](const std::string &, std::unique_ptr<IYamlNode> node) {
+        auto list = node->as_list();
+        ASSERT_EQ(2, list.size());
+        EXPECT_EQ("arch1", list[0]->as_string());
+        EXPECT_EQ("arch2", list[1]->as_string());
+    });
+
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerDoesNotSetParentArchsIfEmpty) {
+    parent_archs = {};
+    EXPECT_CALL(*node_ptr, insert("parent_archs", _)).Times(0);
     serializer->serialize(package);
 }
 
