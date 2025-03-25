@@ -7,6 +7,7 @@ include_directories(.)
 
 add_library(libpkgmanifest SHARED ${libpkgmanifest_SOURCES})
 set_target_properties(libpkgmanifest PROPERTIES OUTPUT_NAME "pkgmanifest")
+set_target_properties(libpkgmanifest PROPERTIES SOVERSION 0)
 set_property(TARGET libpkgmanifest PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 install(TARGETS libpkgmanifest LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})

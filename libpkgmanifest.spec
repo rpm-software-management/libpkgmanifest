@@ -40,7 +40,7 @@ libpkgmanifest is a library for parsing and creating RPM manifests.
 It provides a native C++ API and Python bindings.
 
 %files -n libpkgmanifest
-%{_libdir}/libpkgmanifest.so
+%{_libdir}/libpkgmanifest.so.0
 
 %package -n libpkgmanifest-devel
 Summary:        Development files for libpkgmanifest
