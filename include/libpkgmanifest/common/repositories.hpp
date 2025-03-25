@@ -41,25 +41,31 @@ public:
     Repositories & operator=(Repositories && other) noexcept;
 
     /// @brief Checks if a given repository exists.
+    ///
     /// @param id The repository ID.
     /// @return True if the given repository exists; otherwise, false.
     bool contains(const std::string & id) const;
 
     /// @brief Gets the number of repositories in the container.
+    ///
     /// @return The size of the repositories container.
     std::size_t size() const;
 
     /// @brief Retrieves a repository by its ID.
+    ///
     /// @param id The repository ID.
     /// @return A repository with the given ID.
     Repository get(const std::string & id) const;
 
     /// @brief Adds a repository to the container.
+    ///
     /// @param repository The repository to add.
     void add(Repository & repository);
 
-    /// @brief Implements the iteration API.
+    /// @brief Returns an iterator to the beginning of the container.
     RepositoriesIterator begin();
+
+    /// @brief Returns an iterator to the end of the container.
     RepositoriesIterator end();
 
 private:

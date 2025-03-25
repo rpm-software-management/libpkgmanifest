@@ -1,6 +1,6 @@
 %global version_major 0
 %global version_minor 5
-%global version_patch 5
+%global version_patch 6
 
 Name:       libpkgmanifest
 Version:    %{version_major}.%{version_minor}.%{version_patch}
@@ -11,7 +11,7 @@ URL:        https://github.com/rpm-software-management/libpkgmanifest
 Source0:    %{url}/archive/%{version}/libpkgmanifest-%{version}.tar.gz
 
 %bcond_with    clang
-%bcond_without docs
+%bcond_with    docs
 %bcond_without python
 %bcond_without tests
 
@@ -33,6 +33,12 @@ BuildRequires:  pkgconfig(gtest)
 %if %{with python}
 BuildRequires:  python3-devel
 BuildRequires:  swig >= 4.2.0
+%endif
+
+$if %{with docs}
+BuildRequires:  python3dist(breathe)
+BuildRequires:  python3dist(sphinx)
+BuildRequires:  python3dist(sphinx-rtd-theme)
 %endif
 
 %description

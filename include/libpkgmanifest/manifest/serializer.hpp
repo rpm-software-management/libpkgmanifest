@@ -14,6 +14,7 @@ public:
     ~Serializer();
 
     /// @brief Serializes a manifest object to a specified file path.
+    ///
     /// @param manifest The manifest object containing package data.
     /// @param path The file path where the manifest should be saved.
     /// @throws SerializerError if an error occurs during serialization.

@@ -19,10 +19,12 @@ public:
     Packages & operator=(Packages && other) noexcept;
 
     /// @brief Retrieves a list of packages designated for installation when resolving manifest content.
+    ///
     /// @return A vector containing installation packages.
     std::vector<std::string> & get_installs();
 
     /// @brief Retrieves a list of packages designated for reinstallation when resolving manifest content.
+    ///
     /// @return A vector containing reinstallation packages.
     std::vector<std::string> & get_reinstalls();
 

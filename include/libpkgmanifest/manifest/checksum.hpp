@@ -22,18 +22,22 @@ public:
     Checksum & operator=(Checksum && other) noexcept;
 
     /// @brief Retrieves the method used for calculating the checksum.
+    ///
     /// @return The checksum calculation method.
     ChecksumMethod get_method() const;
 
     /// @brief Retrieves the output of the checksum hash function. 
+    ///
     /// @return The checksum digest.
     std::string get_digest() const;
 
     /// @brief Sets the method used for calculating the checksum.
+    ///
     /// @param method The checksum calculation method to be used.
     void set_method(ChecksumMethod method);
 
     /// @brief Sets the output of the checksum hash function.
+    ///
     /// @param digest The checksum digest to be set.
     void set_digest(const std::string & digest);
 

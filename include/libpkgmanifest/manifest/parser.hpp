@@ -14,6 +14,7 @@ public:
     ~Parser();
 
     /// @brief Parses the manifest file from a specified file path.
+    ///
     /// @param path The location of the manifest file.
     /// @return A manifest object containing data parsed from the file.
     /// @throws ParserError if an error occurs during file parsing.
