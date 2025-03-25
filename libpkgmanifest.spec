@@ -6,7 +6,7 @@ Name:       libpkgmanifest
 Version:    %{version_major}.%{version_minor}.%{version_patch}
 Release:    1%{?dist}
 Summary:    Library for working with RPM manifests
-License:    GPL-2.0-or-later
+License:    LGPL-2.1-or-later
 URL:        https://github.com/rpm-software-management/libpkgmanifest
 Source0:    %{url}/archive/%{version}/libpkgmanifest-%{version}.tar.gz
 
@@ -41,6 +41,7 @@ It provides a native C++ API and Python bindings.
 
 %files -n libpkgmanifest
 %{_libdir}/libpkgmanifest.so.0
+%license LICENSE
 
 %package -n libpkgmanifest-devel
 Summary:        Development files for libpkgmanifest
@@ -54,6 +55,7 @@ Development files for libpkgmanifest.
 %{_includedir}/libpkgmanifest/
 %{_libdir}/libpkgmanifest.so
 %{_libdir}/pkgconfig/libpkgmanifest.pc
+%license LICENSE
 
 %if %{with python}
 %package -n python3-libpkgmanifest
@@ -68,6 +70,7 @@ Python 3 bindings for the libpkgmanifest library.
 %files -n python3-libpkgmanifest
 %{python3_sitearch}/libpkgmanifest
 %{python3_sitearch}/libpkgmanifest-*.dist-info
+%license LICENSE
 %endif
 
 %prep
