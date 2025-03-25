@@ -14,13 +14,16 @@ public:
     ~Parser();
 
     /// @brief Parses the input file from a specified file path.
+    ///
     /// @param path The location of the input file.
     /// @return An input object containing data parsed from the file.
     /// @throws ParserError if an error occurs during file parsing.
     Input parse(const std::string & path) const;
 
     /// @brief Parses the input file in prototype format from a specified file path.
+    ///
     /// @note This ensures compatibility with clients that have already deployed the existing prototype format.
+    ///
     /// @param path The location of the input file.
     /// @return An input object containing data parsed from the file.
     /// @throws ParserError if an error occurs during file parsing.

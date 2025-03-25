@@ -114,6 +114,8 @@ The library provides several sub-packages:
 - **libpkgmanifest-devel**: The library with header and pkgconfig files
 - **python3-libpkgmanifest**: Python bindings
 
+There is also the [manifest-plugin-testing](https://copr.fedorainfracloud.org/coprs/rpmsoftwaremanagement/manifest-plugin-testing/) repository available, where the prototype version of the `dnf manifest` plugin utlizing the functionality from this library is deployed.
+
 Build
 -----
 
@@ -154,7 +156,8 @@ For example, you can find how to parse a manifest file and access its items in C
 Developer Documentation
 -----------------------
 
-Check out the [design documentation](docs/design.md) to see what's under the hood!
+The HTML version of the documentation is available [here](https://libpkgmanifest.readthedocs.io).
+Also, check out also the [design documentation](docs/design/index.rst) to see what's under the hood!
 
 Contribution
 ------------

@@ -19,10 +19,12 @@ public:
     Modules & operator=(Modules && other) noexcept;
 
     /// @brief Retrieves a list of modules to be enabled for resolving manifest content.
+    ///
     /// @return A vector containing modules to be enabled.
     std::vector<std::string> & get_enables();
 
     /// @brief Retrieves a list of modules to be disabled for resolving manifest content.
+    ///
     /// @return A vector containing modules to be disabled.
     std::vector<std::string> & get_disables();
 

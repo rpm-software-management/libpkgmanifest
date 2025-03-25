@@ -17,10 +17,12 @@ public:
     Options & operator=(Options && other) noexcept;
 
     /// @brief Checks if the package manager is allowed to remove installed packages to resolve dependency issues.
+    ///
     /// @return True if the package manager is allowed to remove packages, otherwise false.
     bool get_allow_erasing() const;
 
     /// @brief Sets whether the package manager is allowed to remove installed packages to resolve dependency issues.
+    ///
     /// @param value True to allow the package manager to remove packages, otherwise false.
     void set_allow_erasing(bool value);
 

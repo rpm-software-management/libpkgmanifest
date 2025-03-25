@@ -5,6 +5,7 @@ include_directories(${Python3_INCLUDE_DIRS})
 
 function(add_python_module LIBRARY_NAME MODULE_NAME)
     set(TARGET_NAME "python3_${MODULE_NAME}")
+    list(APPEND CMAKE_SWIG_FLAGS -doxygen)
     set_source_files_properties(../../${LIBRARY_NAME}/${MODULE_NAME}.i PROPERTIES CPLUSPLUS ON)
     swig_add_library(${TARGET_NAME} LANGUAGE python SOURCES ../../${LIBRARY_NAME}/${MODULE_NAME}.i)
     set_property(TARGET ${TARGET_NAME} PROPERTY OUTPUT_NAME ${MODULE_NAME})
