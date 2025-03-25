@@ -4,6 +4,7 @@ libpkgmanifest
 [![Core Logic Coverage Status](https://codecov.io/gh/rpm-software-management/libpkgmanifest/graph/badge.svg?flag=impl&token=AV781ZJ0G9)](https://codecov.io/gh/rpm-software-management/libpkgmanifest)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/31236/badge.svg)](https://scan.coverity.com/projects/rpm-software-management-libpkgmanifest)
 [![CMake Build And Tests Status](https://github.com/rpm-software-management/libpkgmanifest/actions/workflows/build-and-tests.yml/badge.svg)](https://github.com/rpm-software-management/libpkgmanifest/actions/workflows/build-and-tests.yml)
+[![Docs Status](https://app.readthedocs.org/projects/libpkgmanifest/badge/?version=latest)](https://app.readthedocs.org/projects/libpkgmanifest)
 
 This library provides functionality for parsing and serializing RPM package manifest files.
 
