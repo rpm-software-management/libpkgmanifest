@@ -51,7 +51,7 @@ breathe_default_project = 'libpkgmanifest'
 
 # The autoapi config is only used doc/setup.py in readthedocs workflow (not by cmake)
 autoapi_type = 'python'
-autoapi_dirs = ['@CMAKE_CURRENT_BINARY_DIR@/../bindings/python3/libpkgmanifest']
+autoapi_dirs = ['@CMAKE_CURRENT_BINARY_DIR@/../bindings/python/libpkgmanifest']
 autoapi_root = "api/python/autoapi"
 autoapi_python_use_implicit_namespaces = True
 # We don't want to automatically generate the full documentation.
