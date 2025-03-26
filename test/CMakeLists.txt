@@ -5,8 +5,6 @@ endif()
 pkg_check_modules(GTEST REQUIRED gtest)
 pkg_check_modules(GMOCK REQUIRED gmock)
 
-enable_testing()
-
 file(GLOB_RECURSE TEST_libpkgmanifest_SOURCES *.cpp)
 
 include_directories(.)

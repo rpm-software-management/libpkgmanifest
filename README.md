@@ -132,7 +132,7 @@ sudo dnf builddep libpkgmanifest.spec
 3. Build the project with the following command:
 
 ```
-mkdir build && pushd build && cmake .. && make -j`nproc` && ctest -V --test-dir test && popd
+mkdir build && pushd build && cmake .. && make -j`nproc` && ctest -V && popd
 ```
 
 This creates a build directory, compiles the project, and runs the unit tests.
