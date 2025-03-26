@@ -93,6 +93,11 @@ Python 3 bindings for the libpkgmanifest library.
     -DVERSION_PATCH=%{version_patch}
 %cmake_build
 
+%check
+%if %{with tests}
+    %ctest
+%endif
+
 %install
 %cmake_install
 

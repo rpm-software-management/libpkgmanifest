@@ -30,7 +30,7 @@ jobs:
 
     - name: Tests
       working-directory: ${{ github.workspace }}/build
-      run: ctest -V --test-dir test
+      run: ctest -V
     
     - name: Generate And Upload Code Coverage Results
       working-directory: ${{ github.workspace }}/build
