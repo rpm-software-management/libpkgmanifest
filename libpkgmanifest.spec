@@ -35,7 +35,7 @@ BuildRequires:  python3-devel
 BuildRequires:  swig >= 4.2.0
 %endif
 
-$if %{with docs}
+%if %{with docs}
 BuildRequires:  python3dist(breathe)
 BuildRequires:  python3dist(sphinx)
 BuildRequires:  python3dist(sphinx-rtd-theme)
