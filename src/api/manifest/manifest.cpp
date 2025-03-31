@@ -14,13 +14,8 @@ Manifest::Manifest(const Manifest & other) : p_impl(new Impl(*other.p_impl)) {}
 
 Manifest & Manifest::operator=(const Manifest & other) {
     if (this != &other) {
-        if (p_impl) {
-            *p_impl = *other.p_impl;
-        } else {
-            p_impl = std::make_unique<Impl>(*other.p_impl);
-        }
+        *p_impl = *other.p_impl;
     }
-
     return *this;
 }
 

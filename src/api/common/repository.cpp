@@ -12,13 +12,8 @@ Repository::Repository(const Repository & other) : p_impl(new Impl(*other.p_impl
 
 Repository & Repository::operator=(const Repository & other) {
     if (this != &other) {
-        if (p_impl) {
-            *p_impl = *other.p_impl;
-        } else {
-            p_impl = std::make_unique<Impl>(*other.p_impl);
-        }
+        *p_impl = *other.p_impl;
     }
-
     return *this;
 }
 

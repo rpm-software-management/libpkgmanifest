@@ -2,61 +2,15 @@
 
 #include "libpkgmanifest/manifest/nevra.hpp"
 
+#include "api/shared/base_impl.hpp"
 #include "impl/manifest/objects/nevra/nevrafactory.hpp"
 
 namespace libpkgmanifest::manifest {
 
 using namespace libpkgmanifest::internal::manifest;
 
-class Nevra::Impl {
-public:
-    Impl() = default;
-    
-    Impl(const Impl & other) {
-        copy_object(other);
-    }
-
-    Impl & operator=(const Impl & other) {
-        if (this != &other) {
-            copy_object(other);
-        }
-
-        return *this;
-    }
-
-    INevra * get() {
-        ensure_object_exists();
-        return nevra;
-    }
-
-    std::unique_ptr<INevra> get_factory_object() {
-        ensure_object_exists();
-        return std::move(factory_nevra);
-    }
-
-    void init(INevra * nevra) {
-        this->nevra = nevra;
-    }
-
-private:
-    void copy_object(const Impl & other) {
-        if (other.nevra) {
-            init(other.nevra);
-        } else if (other.factory_nevra) {
-            factory_nevra = other.factory_nevra->clone();
-            init(factory_nevra.get());
-        }
-    }
-
-    void ensure_object_exists() {
-        if (!nevra) {
-            factory_nevra = NevraFactory().create();
-            init(factory_nevra.get());
-        }
-    }
-
-    INevra * nevra = nullptr;
-    std::unique_ptr<INevra> factory_nevra;
+class Nevra::Impl : public BaseImpl<INevra, NevraFactory> {
+    using BaseImpl<INevra, NevraFactory>::BaseImpl;
 };
 
 }

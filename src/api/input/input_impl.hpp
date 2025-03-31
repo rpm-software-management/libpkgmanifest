@@ -8,6 +8,7 @@
 
 #include "api/common/repositories_impl.hpp"
 #include "api/common/version_impl.hpp"
+#include "api/shared/base_impl.hpp"
 #include "impl/common/objects/repositories/repositoriesfactory.hpp"
 #include "impl/common/objects/version/versionfactory.hpp"
 #include "impl/input/objects/input/inputfactory.hpp"
@@ -21,32 +22,10 @@ using namespace libpkgmanifest::common;
 using namespace libpkgmanifest::internal::common;
 using namespace libpkgmanifest::internal::input;
 
-class Input::Impl {
+class Input::Impl : public BaseImpl<IInput, InputFactory> {
+    using BaseImpl<IInput, InputFactory>::BaseImpl;
+
 public:
-    Impl() = default;
-
-    Impl(const Impl & other) {
-        copy_object(other);
-    }
-
-    Impl & operator=(const Impl & other) {
-        if (this != &other) {
-            copy_object(other);
-        }
-
-        return *this;
-    }
-
-    IInput * get() {
-        ensure_object_exists();
-        return input;
-    }
-
-    std::unique_ptr<IInput> get_factory_object() {
-        ensure_object_exists();
-        return std::move(factory_input);
-    }
-
     libpkgmanifest::common::Repositories & get_repositories() {
         ensure_object_exists();
         return repositories;
@@ -72,8 +51,8 @@ public:
         return options;
     }
 
-    void init(IInput * input) {
-        this->input = input;
+    void init(IInput * input) override {
+        object = input;
         repositories.p_impl->init(&input->get_repositories());
         version.p_impl->init(&input->get_version());
         packages.p_impl->init(&input->get_packages());
@@ -83,36 +62,24 @@ public:
     
     void set(std::unique_ptr<IInput> parsed_input) {
         init(parsed_input.get());
-        this->parsed_input = std::move(parsed_input);
+        factory_object = std::move(parsed_input);
     }
 
-private:
-    void copy_object(const Impl & other) {
-        if (other.parsed_input) {
-            parsed_input = other.parsed_input->clone();
-            init(parsed_input.get());
-        } else if (other.factory_input) {
-            factory_input = other.factory_input->clone();
-            init(factory_input.get());
-        }
-    }
-
-    void ensure_object_exists() {
-        if (!input) {
+protected:
+    void ensure_object_exists() override {
+        if (!object) {
             auto input_factory = InputFactory(
                 std::make_shared<RepositoriesFactory>(),
                 std::make_shared<VersionFactory>(),
                 std::make_shared<PackagesFactory>(),
                 std::make_shared<ModulesFactory>(),
                 std::make_shared<OptionsFactory>());
-            factory_input = input_factory.create();
-            init(factory_input.get());
+            factory_object = input_factory.create();
+            init(factory_object.get());
         }
     }
 
-    IInput * input = nullptr;
-    std::unique_ptr<IInput> factory_input;
-    std::unique_ptr<IInput> parsed_input;
+private:
     Repositories repositories;
     Version version;
     Packages packages;

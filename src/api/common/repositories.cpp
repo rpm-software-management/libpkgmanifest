@@ -16,13 +16,8 @@ Repositories::Repositories(const Repositories & other) : p_impl(new Impl(*other.
 
 Repositories & Repositories::operator=(const Repositories & other) {
     if (this != &other) {
-        if (p_impl) {
-            *p_impl = *other.p_impl;
-        } else {
-            p_impl = std::make_unique<Impl>(*other.p_impl);
-        }
+        *p_impl = *other.p_impl;
     }
-
     return *this;
 }
 
@@ -41,7 +36,10 @@ Repository Repositories::get(const std::string & id) const {
     if (!contains(id)) {
         throw NoSuchRepositoryIdError("Repository with ID \"" + id + "\" does not exist.");
     }
-    return p_impl->wrap_internal_item(p_impl->get()->get()[id].get());
+
+    Repository repository;
+    repository.p_impl->init(p_impl->get()->get()[id].get());
+    return repository;
 }
 
 void Repositories::add(Repository & repository) {
@@ -69,13 +67,8 @@ RepositoriesIterator::RepositoriesIterator(const RepositoriesIterator & other) :
 
 RepositoriesIterator & RepositoriesIterator::operator=(const RepositoriesIterator & other) {
     if (this != &other) {
-        if (p_impl) {
-            *p_impl = *other.p_impl;
-        } else {
-            p_impl = std::make_unique<Impl>(*other.p_impl);
-        }
+        *p_impl = *other.p_impl;
     }
-
     return *this;
 }
 
@@ -83,7 +76,9 @@ RepositoriesIterator::RepositoriesIterator(RepositoriesIterator && other) noexce
 RepositoriesIterator & RepositoriesIterator::operator=(RepositoriesIterator && other) noexcept = default;
 
 Repository RepositoriesIterator::operator*() {
-    return p_impl->get_object();
+    Repository repository;
+    repository.p_impl->init(p_impl->get_object());
+    return repository;
 }
 
 RepositoriesIterator & RepositoriesIterator::operator++() {
