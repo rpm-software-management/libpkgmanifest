@@ -7,7 +7,7 @@ namespace {
 
 using namespace libpkgmanifest::manifest;
 
-TEST(ApiParserTest, ParseSimpleManifest) {
+TEST(ApiManifestParserTest, ParseSimpleManifest) {
     auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/manifest/simple.yaml";
 
     Parser parser;
