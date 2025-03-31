@@ -11,10 +11,10 @@ using namespace libpkgmanifest::manifest;
 
 using ::testing::Test;
 
-class ApiSerializerTest : public Test {
+class ApiManifestSerializerTest : public Test {
 protected:
     virtual void SetUp() {
-        file_path = std::filesystem::temp_directory_path() / "ApiSerializerTest.yaml";
+        file_path = std::filesystem::temp_directory_path() / "ApiManifestSerializerTest.yaml";
     }
 
     virtual void TearDown() {
@@ -25,7 +25,7 @@ protected:
     std::filesystem::path file_path;
 };
 
-TEST_F(ApiSerializerTest, SerializeSimpleManifest) {
+TEST_F(ApiManifestSerializerTest, SerializeSimpleManifest) {
     const std::string simple_manifest_yaml = R"(document: my-manifest
 version: 1.2.3
 data:
@@ -136,7 +136,7 @@ data:
     EXPECT_EQ(read_file_buffer.str(), simple_manifest_yaml);
 }
 
-TEST_F(ApiSerializerTest, SerializeEmptyManifest) {
+TEST_F(ApiManifestSerializerTest, SerializeEmptyManifest) {
     const std::string empty_manifest_yaml = R"(document: rpm-package-manifest
 version: 0.2.2
 data:

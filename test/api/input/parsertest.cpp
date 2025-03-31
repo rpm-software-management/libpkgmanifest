@@ -1,3 +1,4 @@
+#include "libpkgmanifest/common/exception.hpp"
 #include "libpkgmanifest/input/parser.hpp"
 
 #include <gmock/gmock.h>
@@ -5,11 +6,12 @@
 
 namespace {
 
+using namespace libpkgmanifest::common;
 using namespace libpkgmanifest::input;
 
 using ::testing::ElementsAre;
 
-TEST(ApiParserTest, ParseSimpleInput) {
+TEST(ApiInputParserTest, ParseSimpleInput) {
     auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/simple.yaml";
 
     Parser parser;
@@ -81,6 +83,20 @@ TEST(ApiParserTest, ParseSimplePrototypeInput) {
 
     EXPECT_EQ(4, input.get_archs().size());
     EXPECT_THAT(input.get_archs(), ElementsAre("x86_64", "aarch64", "ppc64le", "s390x"));
+}
+
+TEST(ApiInputParserTest, ParseInvalidInputThrowsParserException) {
+    auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/invalid.yaml";
+
+    Parser parser;
+    EXPECT_THROW(parser.parse(file_path), ParserError);
+}
+
+TEST(ApiInputParserTest, ParseInvalidPrototypeInputThrowsParserException) {
+    auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/invalid.yaml";
+
+    Parser parser;
+    EXPECT_THROW(parser.parse_prototype(file_path), ParserError);
 }
 
 }
