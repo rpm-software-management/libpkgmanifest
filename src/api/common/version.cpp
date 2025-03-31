@@ -12,13 +12,8 @@ Version::Version(const Version & other) : p_impl(new Impl(*other.p_impl)) {}
 
 Version & Version::operator=(const Version & other) {
     if (this != &other) {
-        if (p_impl) {
-            *p_impl = *other.p_impl;
-        } else {
-            p_impl = std::make_unique<Impl>(*other.p_impl);
-        }
+        *p_impl = *other.p_impl;
     }
-
     return *this;
 }
 

@@ -5,6 +5,7 @@
 #include "nevra_impl.hpp"
 
 #include "api/common/repository_impl.hpp"
+#include "api/shared/base_impl.hpp"
 #include "impl/manifest/objects/checksum/checksumfactory.hpp"
 #include "impl/manifest/objects/module/modulefactory.hpp"
 #include "impl/manifest/objects/nevra/nevrafactory.hpp"
@@ -18,32 +19,10 @@ namespace libpkgmanifest::manifest {
 using namespace libpkgmanifest::common;
 using namespace libpkgmanifest::internal::manifest;
 
-class Package::Impl {
+class Package::Impl : public BaseImpl<IPackage, PackageFactory> {
+    using BaseImpl<IPackage, PackageFactory>::BaseImpl;
+
 public:
-    Impl() = default;
-
-    Impl(const Impl & other) {
-        copy_object(other);
-    }
-
-    Impl & operator=(const Impl & other) {
-        if (this != &other) {
-            copy_object(other);
-        }
-
-        return *this;
-    }
-
-    IPackage * get() {
-        ensure_object_exists();
-        return package;
-    }
-
-    std::unique_ptr<IPackage> get_factory_object() {
-        ensure_object_exists();
-        return std::move(factory_package);
-    }
-
     Repository & get_repository() {
         ensure_object_exists();
         return repository;
@@ -73,8 +52,8 @@ public:
         return binder;
     }
 
-    void init(IPackage * package) {
-        this->package = package;
+    void init(IPackage * package) override {
+        object = package;
         checksum.p_impl->init(&package->get_checksum());
         nevra.p_impl->init(&package->get_nevra());
         srpm.p_impl->init(&package->get_srpm());
@@ -88,29 +67,19 @@ public:
         }
     }
 
-private:
-    void copy_object(const Impl & other) {
-        if (other.package) {
-            init(other.package);
-        } else if (other.factory_package) {
-            factory_package = other.factory_package->clone();
-            init(factory_package.get());
-        }
-    }
-
-    void ensure_object_exists() {
-        if (!package) {
+protected:
+    void ensure_object_exists() override {
+        if (!object) {
             auto package_factory = PackageFactory(
                 std::make_shared<ChecksumFactory>(),
                 std::make_shared<NevraFactory>(),
                 std::make_shared<ModuleFactory>()); 
-            factory_package = package_factory.create();
-            init(factory_package.get());
+            factory_object = package_factory.create();
+            init(factory_object.get());
         }
     }
 
-    IPackage * package = nullptr;
-    std::unique_ptr<IPackage> factory_package;
+private:
     Repository repository;
     Checksum checksum;
     Nevra nevra;

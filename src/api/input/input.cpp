@@ -14,13 +14,8 @@ Input::Input(const Input & other) : p_impl(new Impl(*other.p_impl)) {}
 
 Input & Input::operator=(const Input & other) {
     if (this != &other) {
-        if (p_impl) {
-            *p_impl = *other.p_impl;
-        } else {
-            p_impl = std::make_unique<Impl>(*other.p_impl);
-        }
+        *p_impl = *other.p_impl;
     }
-
     return *this;
 }
 

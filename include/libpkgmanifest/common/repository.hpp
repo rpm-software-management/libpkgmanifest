@@ -66,6 +66,7 @@ public:
 private:
     friend class libpkgmanifest::manifest::Package;
     friend class Repositories;
+    friend class RepositoriesIterator;
 
     class Impl;
     std::unique_ptr<Impl> p_impl;

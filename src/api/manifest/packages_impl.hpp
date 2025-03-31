@@ -2,6 +2,7 @@
 
 #include "libpkgmanifest/manifest/packages.hpp"
 
+#include "api/shared/base_impl.hpp"
 #include "impl/manifest/objects/packages/packagesfactory.hpp"
 #include "impl/manifest/operations/packagerepositorybinder/packagerepositorybinder.hpp"
 
@@ -11,38 +12,12 @@ namespace libpkgmanifest::manifest {
 
 using namespace libpkgmanifest::internal::manifest;
 
-class Packages::Impl {
+class Packages::Impl : public BaseImpl<IPackages, PackagesFactory> {
+    using BaseImpl<IPackages, PackagesFactory>::BaseImpl;
+
 public:
-    Impl() = default;
-
-    Impl(const Impl & other) {
-        copy_object(other);
-    }
-
-    Impl & operator=(const Impl & other) {
-        if (this != &other) {
-            copy_object(other);
-        }
-
-        return *this;
-    }
-
-    IPackages * get() {
-        ensure_object_exists();
-        return packages;
-    }
-
-    std::unique_ptr<IPackages> get_factory_object() {
-        ensure_object_exists();
-        return std::move(factory_packages);
-    }
-
     IPackageRepositoryBinder & get_binder() {
         return binder;
-    }
-
-    void init(IPackages * packages) {
-        this->packages = packages;
     }
 
     Package wrap_internal_item(IPackage * package) const {
@@ -66,24 +41,6 @@ public:
     }
 
 private:
-    void copy_object(const Impl & other) {
-        if (other.packages) {
-            init(other.packages);
-        } else if (other.factory_packages) {
-            factory_packages = other.factory_packages->clone();
-            init(factory_packages.get());
-        }
-    }
-
-    void ensure_object_exists() {
-        if (!packages) {
-            factory_packages = PackagesFactory().create();
-            init(factory_packages.get());
-        }
-    }
-
-    IPackages * packages = nullptr;
-    std::unique_ptr<IPackages> factory_packages;
     PackageRepositoryBinder binder;
 };
 
