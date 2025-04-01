@@ -1,14 +1,21 @@
+%global pkg_name libpkgmanifest
+
+%global forgeurl https://github.com/rpm-software-management/%{pkg_name}
+
 %global version_major 0
 %global version_minor 5
 %global version_patch 8
 
-Name:       libpkgmanifest
+Name:       %{pkg_name}
 Version:    %{version_major}.%{version_minor}.%{version_patch}
-Release:    1%{?dist}
+Release:    %{autorelease}
+
+%forgemeta
+
 Summary:    Library for working with RPM manifests
 License:    LGPL-2.1-or-later
-URL:        https://github.com/rpm-software-management/libpkgmanifest
-Source0:    %{url}/archive/%{version}/libpkgmanifest-%{version}.tar.gz
+URL:        %{forgeurl}
+Source:     %{forgesource}
 
 %bcond_with    clang
 %bcond_with    docs
@@ -42,45 +49,45 @@ BuildRequires:  python3dist(sphinx-rtd-theme)
 %endif
 
 %description
-libpkgmanifest is a library for parsing and creating RPM manifests.
+%{name} is a library for parsing and creating RPM manifests.
 It provides a native C++ API and Python bindings.
 
-%files -n libpkgmanifest
-%{_libdir}/libpkgmanifest.so.0
+%files -n %{name}
+%{_libdir}/%{name}.so.0
 %license LICENSE
 
-%package -n libpkgmanifest-devel
-Summary:        Development files for libpkgmanifest
+%package -n %{name}-devel
+Summary:        Development files for %{name}
 License:        LGPL-2.1-or-later
-Requires:       libpkgmanifest%{?_isa} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description -n libpkgmanifest-devel
-Development files for libpkgmanifest.
+%description -n %{name}-devel
+Development files for %{name}.
 
-%files -n libpkgmanifest-devel
-%{_includedir}/libpkgmanifest/
-%{_libdir}/libpkgmanifest.so
-%{_libdir}/pkgconfig/libpkgmanifest.pc
+%files -n %{name}-devel
+%{_includedir}/%{name}/
+%{_libdir}/%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
 %license LICENSE
 
 %if %{with python}
-%package -n python3-libpkgmanifest
-%{?python_provide:%python_provide python3-libpkgmanifest}
-Summary:        Python 3 bindings for the libpkgmanifest library
+%package -n python3-%{name}
+%{?python_provide:%python_provide python3-%{name}}
+Summary:        Python 3 bindings for the %{name} library
 License:        LGPL-2.1-or-later
-Requires:       libpkgmanifest%{?_isa} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description -n python3-libpkgmanifest
-Python 3 bindings for the libpkgmanifest library.
+%description -n python3-%{name}
+Python 3 bindings for the %{name} library.
 
-%files -n python3-libpkgmanifest
-%{python3_sitearch}/libpkgmanifest
-%{python3_sitearch}/libpkgmanifest-*.dist-info
+%files -n python3-%{name}
+%{python3_sitearch}/%{name}
+%{python3_sitearch}/%{name}-*.dist-info
 %license LICENSE
 %endif
 
 %prep
-%autosetup -p1 -n libpkgmanifest-%{version}
+%autosetup -p1 -n %{name}-%{version}
 
 %build
 %cmake \
