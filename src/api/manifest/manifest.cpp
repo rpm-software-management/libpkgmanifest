@@ -43,17 +43,17 @@ void Manifest::set_document(const std::string & document) {
 }
 
 void Manifest::set_version(Version & version) {
-    p_impl->get()->set_version(version.p_impl->get_factory_object());
+    p_impl->get()->set_version(version.p_impl->get_owned_object());
     p_impl->get_version().p_impl->init(&p_impl->get()->get_version());
 }
 
 void Manifest::set_packages(Packages & packages) {
-    p_impl->get()->set_packages(packages.p_impl->get_factory_object());
+    p_impl->get()->set_packages(packages.p_impl->get_owned_object());
     p_impl->get_packages().p_impl->init(&p_impl->get()->get_packages());
 }
 
 void Manifest::set_repositories(Repositories & repositories) {
-    p_impl->get()->set_repositories(repositories.p_impl->get_factory_object());
+    p_impl->get()->set_repositories(repositories.p_impl->get_owned_object());
     p_impl->get_repositories().p_impl->init(&p_impl->get()->get_repositories());
 }
 

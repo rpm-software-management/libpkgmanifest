@@ -47,7 +47,7 @@ public:
     
     void set(std::unique_ptr<IManifest> parsed_manifest) {
         init(parsed_manifest.get());
-        factory_object = std::move(parsed_manifest);
+        owned_object = std::move(parsed_manifest);
     }
 
 protected:
@@ -58,8 +58,8 @@ protected:
                 std::make_shared<RepositoriesFactory>(),
                 std::make_shared<VersionFactory>(),
                 std::make_shared<PackageRepositoryBinder>());
-            factory_object = manifest_factory.create();
-            init(factory_object.get());
+            owned_object = manifest_factory.create();
+            init(owned_object.get());
         }
     }
 

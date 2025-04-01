@@ -74,8 +74,8 @@ protected:
                 std::make_shared<ChecksumFactory>(),
                 std::make_shared<NevraFactory>(),
                 std::make_shared<ModuleFactory>()); 
-            factory_object = package_factory.create();
-            init(factory_object.get());
+            owned_object = package_factory.create();
+            init(owned_object.get());
         }
     }
 
