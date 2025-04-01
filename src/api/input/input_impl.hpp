@@ -62,7 +62,7 @@ public:
     
     void set(std::unique_ptr<IInput> parsed_input) {
         init(parsed_input.get());
-        factory_object = std::move(parsed_input);
+        owned_object = std::move(parsed_input);
     }
 
 protected:
@@ -74,8 +74,8 @@ protected:
                 std::make_shared<PackagesFactory>(),
                 std::make_shared<ModulesFactory>(),
                 std::make_shared<OptionsFactory>());
-            factory_object = input_factory.create();
-            init(factory_object.get());
+            owned_object = input_factory.create();
+            init(owned_object.get());
         }
     }
 

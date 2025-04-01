@@ -63,11 +63,11 @@ std::vector<Package> Packages::get(const std::string & basearch, bool with_sourc
 }
 
 void Packages::add(Package & package) {
-    p_impl->get()->add(package.p_impl->get_factory_object());
+    p_impl->get()->add(package.p_impl->get_owned_object());
 }
 
 void Packages::add(Package & package, const std::string & basearch) {
-    p_impl->get()->add(package.p_impl->get_factory_object(), basearch);
+    p_impl->get()->add(package.p_impl->get_owned_object(), basearch);
 }
 
 bool Packages::contains(const Package & package) {

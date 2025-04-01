@@ -12,9 +12,10 @@ TEST(ApiManifestPackagesTest, ContainsPackage) {
 
     Package package;
     package.get_nevra().set_name("pkg1");
+    auto package_copy = package;
 
     packages.add(package);
-    EXPECT_EQ(packages.contains(package), true);
+    EXPECT_EQ(packages.contains(package_copy), true);
 }
 
 TEST(ApiManifestPackagesTest, GetPackages) {
@@ -121,14 +122,17 @@ TEST(ApiManifestPackagesTest, CopyConstructorCreatesIndependentCopy) {
     Package package2;
     package2.get_nevra().set_name("pkg2");
 
+    auto package1_copy = package1;
+    auto package2_copy = package2;
+
     packages.add(package1);
 
     Packages copied_packages(packages);
-    EXPECT_EQ(copied_packages.contains(package1), true);
+    EXPECT_EQ(copied_packages.contains(package1_copy), true);
     EXPECT_EQ(copied_packages.get()[0].get_nevra().get_name(), "pkg1");
 
     copied_packages.add(package2);
-    EXPECT_EQ(packages.contains(package2), false);
+    EXPECT_EQ(packages.contains(package2_copy), false);
 }
 
 TEST(ApiManifestPackagesTest, CopyAssignmentCreatesIndependentCopy) {
@@ -139,46 +143,47 @@ TEST(ApiManifestPackagesTest, CopyAssignmentCreatesIndependentCopy) {
     Package package2;
     package2.get_nevra().set_name("pkg2");
 
+    auto package1_copy = package1;
+    auto package2_copy = package2;
+
     packages.add(package1);
 
     Packages copied_packages;
     copied_packages = packages;
-    EXPECT_EQ(copied_packages.contains(package1), true);
+    EXPECT_EQ(copied_packages.contains(package1_copy), true);
     EXPECT_EQ(copied_packages.get()[0].get_nevra().get_name(), "pkg1");
 
     copied_packages.add(package2);
-    EXPECT_EQ(packages.contains(package2), false);
+    EXPECT_EQ(packages.contains(package2_copy), false);
 }
 
 TEST(ApiManifestPackagesTest, MoveConstructorTransfersOwnership) {
     Packages packages;
 
-    Package package1;
-    package1.get_nevra().set_name("pkg1");
-    Package package2;
-    package2.get_nevra().set_name("pkg2");
+    Package package;
+    package.get_nevra().set_name("pkg");
+    auto package_copy = package;
 
-    packages.add(package1);
+    packages.add(package);
 
     Packages moved_packages(std::move(packages));
-    EXPECT_EQ(moved_packages.contains(package1), true);
-    EXPECT_EQ(moved_packages.get()[0].get_nevra().get_name(), "pkg1");
+    EXPECT_EQ(moved_packages.contains(package_copy), true);
+    EXPECT_EQ(moved_packages.get()[0].get_nevra().get_name(), "pkg");
 }
 
 TEST(ApiManifestPackagesTest, MoveAssignmentTransfersOwnership) {
     Packages packages;
 
-    Package package1;
-    package1.get_nevra().set_name("pkg1");
-    Package package2;
-    package2.get_nevra().set_name("pkg2");
+    Package package;
+    package.get_nevra().set_name("pkg");
+    auto package_copy = package;
 
-    packages.add(package1);
+    packages.add(package);
 
     Packages moved_packages;
     moved_packages = std::move(packages);
-    EXPECT_EQ(moved_packages.contains(package1), true);
-    EXPECT_EQ(moved_packages.get()[0].get_nevra().get_name(), "pkg1");
+    EXPECT_EQ(moved_packages.contains(package_copy), true);
+    EXPECT_EQ(moved_packages.get()[0].get_nevra().get_name(), "pkg");
 }
 
 }

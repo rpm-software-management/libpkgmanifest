@@ -73,22 +73,22 @@ void Package::set_size(uint64_t size) {
 }
 
 void Package::set_checksum(Checksum & checksum) {
-    p_impl->get()->set_checksum(checksum.p_impl->get_factory_object());
+    p_impl->get()->set_checksum(checksum.p_impl->get_owned_object());
     p_impl->get_checksum().p_impl->init(&p_impl->get()->get_checksum());
 }
 
 void Package::set_nevra(Nevra & nevra) {
-    p_impl->get()->set_nevra(nevra.p_impl->get_factory_object());
+    p_impl->get()->set_nevra(nevra.p_impl->get_owned_object());
     p_impl->get_nevra().p_impl->init(&p_impl->get()->get_nevra());
 }
 
 void Package::set_srpm(Nevra & srpm) {
-    p_impl->get()->set_srpm(srpm.p_impl->get_factory_object());
+    p_impl->get()->set_srpm(srpm.p_impl->get_owned_object());
     p_impl->get_srpm().p_impl->init(&p_impl->get()->get_srpm());
 }
 
 void Package::set_module(Module & module) {
-    p_impl->get()->set_module(module.p_impl->get_factory_object());
+    p_impl->get()->set_module(module.p_impl->get_owned_object());
     p_impl->get_module().p_impl->init(&p_impl->get()->get_module());
 }
 

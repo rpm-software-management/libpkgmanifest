@@ -7,27 +7,52 @@ namespace {
 
 using namespace libpkgmanifest;
 
+class Object {
+public:
+    virtual ~Object() = default;
+    virtual std::unique_ptr<Object> clone() const {
+        return std::make_unique<Object>(*this);
+    }
+};
+
+class DefaultConstructibleFactory {
+public:
+    DefaultConstructibleFactory() = default;
+
+    std::unique_ptr<Object> create() const {
+        return std::make_unique<Object>();
+    }
+};
+
+class NonDefaultConstructibleFactory {
+public:
+    explicit NonDefaultConstructibleFactory(int) {}
+
+    std::unique_ptr<Object> create() const {
+        return std::make_unique<Object>();
+    }
+};
+
+class DefaultConstructible : public BaseImpl<Object, DefaultConstructibleFactory> {};
+class NonDefaultConstructible : public BaseImpl<Object, NonDefaultConstructibleFactory> {};
+
 TEST(ApiBaseImplTest, ThrowsWhenObjectFactoryIsNotDefaultConstructible) {
-    class Object {
-    public:
-        virtual ~Object() = default;
-        virtual std::unique_ptr<Object> clone() const {
-            return std::make_unique<Object>(*this);
-        }
-    };
-    
-    class NonDefaultConstructibleFactory {
-    public:
-        explicit NonDefaultConstructibleFactory(int) {}
-
-        std::unique_ptr<Object> create() const {
-            return std::make_unique<Object>();
-        }
-    };
-
-    class NonDefaultConstructible : public BaseImpl<Object, NonDefaultConstructibleFactory> {};
-
     EXPECT_THROW(NonDefaultConstructible().get(), std::runtime_error);
+}
+
+TEST(ApiBaseImplTest, ThrowsWhenTryToTakeOutObjectWithoutOwnership) {
+    Object object;
+    DefaultConstructible wrapper;
+    wrapper.init(&object);
+    EXPECT_THROW(wrapper.get_owned_object(), std::runtime_error);
+}
+
+TEST(ApiBaseImplTest, InitializeAlreadyOwnedObjectDoesNotThrow) {
+    Object object;
+    DefaultConstructible wrapper;
+    wrapper.get();
+    wrapper.init(&object);
+    wrapper.get();
 }
 
 }

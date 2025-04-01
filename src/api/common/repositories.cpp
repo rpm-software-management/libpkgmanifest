@@ -43,7 +43,7 @@ Repository Repositories::get(const std::string & id) const {
 }
 
 void Repositories::add(Repository & repository) {
-    p_impl->get()->add(repository.p_impl->get_factory_object());
+    p_impl->get()->add(repository.p_impl->get_owned_object());
 }
 
 RepositoriesIterator Repositories::begin() {
