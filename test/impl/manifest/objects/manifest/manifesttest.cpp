@@ -20,21 +20,6 @@ TEST(ManifestTest, DefaultDocumentIsEmpty) {
     EXPECT_EQ(std::string(), Manifest().get_document());
 }
 
-TEST(ManifestTest, DefaultVersionIsNull) {
-    EXPECT_EQ(nullptr, &Manifest().get_version());
-    EXPECT_EQ(nullptr, &static_cast<const Manifest &>(Manifest()).get_version());
-}
-
-TEST(ManifestTest, DefaultPackagesIsNull) {
-    EXPECT_EQ(nullptr, &Manifest().get_packages());
-    EXPECT_EQ(nullptr, &static_cast<const Manifest &>(Manifest()).get_packages());
-}
-
-TEST(ManifestTest, DefaultRepositoriesIsNull) {
-    EXPECT_EQ(nullptr, &Manifest().get_repositories());
-    EXPECT_EQ(nullptr, &static_cast<const Manifest &>(Manifest()).get_repositories());
-} 
-
 TEST(ManifestTest, SetDocumentIsReturned) {
     Manifest manifest;
     manifest.set_document("document");

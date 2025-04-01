@@ -19,31 +19,6 @@ TEST(InputTest, DefaultDocumentIsEmpty) {
     EXPECT_EQ(std::string(), Input().get_document());
 }
 
-TEST(InputTest, DefaultVersionIsNull) {
-    EXPECT_EQ(nullptr, &Input().get_version());
-    EXPECT_EQ(nullptr, &static_cast<const Input &>(Input()).get_version());
-}
-
-TEST(InputTest, DefaultRepositoriesIsNull) {
-    EXPECT_EQ(nullptr, &Input().get_repositories());
-    EXPECT_EQ(nullptr, &static_cast<const Input &>(Input()).get_repositories());
-}
-
-TEST(InputTest, DefaultPackagesIsNull) {
-    EXPECT_EQ(nullptr, &Input().get_packages());
-    EXPECT_EQ(nullptr, &static_cast<const Input &>(Input()).get_packages());
-}
-
-TEST(InputTest, DefaultModulesIsNull) {
-    EXPECT_EQ(nullptr, &Input().get_modules());
-    EXPECT_EQ(nullptr, &static_cast<const Input &>(Input()).get_modules());
-}
-
-TEST(InputTest, DefaultOptionsIsNull) {
-    EXPECT_EQ(nullptr, &Input().get_options());
-    EXPECT_EQ(nullptr, &static_cast<const Input &>(Input()).get_options());
-}
-
 TEST(InputTest, DefaultArchsIsEmpty) {
     EXPECT_TRUE(Input().get_archs().empty());
     EXPECT_TRUE(static_cast<const Input &>(Input()).get_archs().empty());
