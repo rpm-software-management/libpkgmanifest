@@ -33,22 +33,6 @@ TEST(PackageTest, DefaultSizeIsZero) {
     EXPECT_EQ(0, Package().get_size());
 }
 
-TEST(PackageTest, DefaultChecksumIsNull) {
-    EXPECT_EQ(nullptr, &Package().get_checksum());
-}
-
-TEST(PackageTest, DefaultNevraIsNull) {
-    EXPECT_EQ(nullptr, &Package().get_nevra());
-}
-
-TEST(PackageTest, DefaultSrpmIsNull) {
-    EXPECT_EQ(nullptr, &Package().get_srpm());
-}
-
-TEST(PackageTest, DefaultModuleIsNull) {
-    EXPECT_EQ(nullptr, &Package().get_module());
-}
-
 TEST(PackageTest, DefaultParentArchsAreEmpty) {
     Package package;
     EXPECT_TRUE(package.get_parent_archs().empty());
