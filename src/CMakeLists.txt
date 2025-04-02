@@ -12,7 +12,7 @@ set_property(TARGET libpkgmanifest PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 install(TARGETS libpkgmanifest LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
 
-list(APPEND libpkgmanifest_PC_REQUIRES "${YAMLCPP_MODULE_NAME}")
+list(APPEND libpkgmanifest_PC_REQUIRES_PRIVATE "${YAMLCPP_MODULE_NAME}")
 target_link_libraries(libpkgmanifest PRIVATE ${YAMLCPP_LIBRARIES})
 target_link_libraries(libpkgmanifest PUBLIC coverage_config)
 
