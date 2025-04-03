@@ -9,8 +9,6 @@ namespace libpkgmanifest::manifest {
 
 using namespace libpkgmanifest::internal::manifest;
 
-class Checksum::Impl : public BaseImpl<IChecksum, ChecksumFactory> {
-    using BaseImpl<IChecksum, ChecksumFactory>::BaseImpl;
-};
+class Checksum::Impl : public BaseImpl<IChecksum, ChecksumFactory> {};
 
 }
