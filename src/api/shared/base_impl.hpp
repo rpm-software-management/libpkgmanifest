@@ -14,6 +14,7 @@ template <typename ObjectInterface, typename ObjectFactory>
 class BaseImpl {
 public:
     BaseImpl() = default;
+    virtual ~BaseImpl() = default;
 
     BaseImpl(const BaseImpl & other) {
         copy_object(other);
@@ -27,10 +28,19 @@ public:
     }
 
     /// @brief Accesses the underlying object implementation.
+    ///
     /// @return A pointer to the implementation.
     virtual ObjectInterface * get() {
         ensure_object_exists();
         return object;
+    }
+
+    /// @brief Assign the ownership of the implementation to this instance.
+    ///
+    /// @param object A unique pointer to the implementation.
+    virtual void set(std::unique_ptr<ObjectInterface> object) {
+        owned_object = std::move(object);
+        init(owned_object.get());
     }
 
     /// @brief Transfers ownership of the underlying implementation.
@@ -50,7 +60,7 @@ public:
             throw std::runtime_error("Tried to take out the object without the ownership.");
         }
 
-        this->object = nullptr;
+        object = nullptr;
         return std::move(owned_object);
     }
 
