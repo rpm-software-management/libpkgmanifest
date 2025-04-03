@@ -9,8 +9,6 @@ namespace libpkgmanifest::input {
 
 using namespace libpkgmanifest::internal::input;
 
-class Packages::Impl : public BaseImpl<IPackages, PackagesFactory> {
-    using BaseImpl<IPackages, PackagesFactory>::BaseImpl;
-};
+class Packages::Impl : public BaseImpl<IPackages, PackagesFactory> {};
 
 }

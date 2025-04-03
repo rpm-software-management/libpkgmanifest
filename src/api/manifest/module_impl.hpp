@@ -9,8 +9,6 @@ namespace libpkgmanifest::manifest {
 
 using namespace libpkgmanifest::internal::manifest;
 
-class Module::Impl : public BaseImpl<IModule, ModuleFactory> {
-    using BaseImpl<IModule, ModuleFactory>::BaseImpl;
-};
+class Module::Impl : public BaseImpl<IModule, ModuleFactory> {};
 
 }

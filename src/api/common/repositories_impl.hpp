@@ -11,9 +11,7 @@ namespace libpkgmanifest::common {
 
 using namespace libpkgmanifest::internal::common;
 
-class Repositories::Impl : public BaseImpl<IRepositories, RepositoriesFactory> {
-    using BaseImpl<IRepositories, RepositoriesFactory>::BaseImpl;
-};
+class Repositories::Impl : public BaseImpl<IRepositories, RepositoriesFactory> {};
 
 class RepositoriesIterator::Impl {
 public:

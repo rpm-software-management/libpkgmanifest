@@ -9,8 +9,6 @@ namespace libpkgmanifest::common {
 
 using namespace libpkgmanifest::internal::common;
 
-class Version::Impl : public BaseImpl<IVersion, VersionFactory> {
-    using BaseImpl<IVersion, VersionFactory>::BaseImpl;
-};
+class Version::Impl : public BaseImpl<IVersion, VersionFactory> {};
 
 }

@@ -9,8 +9,6 @@ namespace libpkgmanifest::manifest {
 
 using namespace libpkgmanifest::internal::manifest;
 
-class Nevra::Impl : public BaseImpl<INevra, NevraFactory> {
-    using BaseImpl<INevra, NevraFactory>::BaseImpl;
-};
+class Nevra::Impl : public BaseImpl<INevra, NevraFactory> {};
 
 }

@@ -13,8 +13,6 @@ namespace libpkgmanifest::manifest {
 using namespace libpkgmanifest::internal::manifest;
 
 class Packages::Impl : public BaseImpl<IPackages, PackagesFactory> {
-    using BaseImpl<IPackages, PackagesFactory>::BaseImpl;
-
 public:
     IPackageRepositoryBinder & get_binder() {
         return binder;
