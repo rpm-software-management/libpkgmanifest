@@ -20,9 +20,20 @@ using namespace libpkgmanifest::internal::common;
 using namespace libpkgmanifest::internal::manifest;
 
 class Manifest::Impl : public BaseImpl<IManifest, ManifestFactory> {
-    using BaseImpl<IManifest, ManifestFactory>::BaseImpl;
-
 public:
+    Impl() = default;
+
+    Impl(const Impl & other) : BaseImpl() {
+        copy_object(other);
+    }
+
+    Impl & operator=(const Impl & other) {
+        if (this != &other) {
+            copy_object(other);
+        }
+        return *this;
+    }
+
     Packages & get_packages() {
         ensure_object_exists();
         return packages;
