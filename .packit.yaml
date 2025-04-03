@@ -1,3 +1,5 @@
+upstream_tag_template: v{version}
+
 specfile_path: libpkgmanifest.spec
 
 files_to_sync:
