@@ -45,11 +45,6 @@ public:
         version.p_impl->init(&manifest->get_version());
     }
     
-    void set(std::unique_ptr<IManifest> parsed_manifest) {
-        init(parsed_manifest.get());
-        owned_object = std::move(parsed_manifest);
-    }
-
 protected:
     void ensure_object_exists() override {
         if (!object) {
