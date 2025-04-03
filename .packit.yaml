@@ -1,27 +1,29 @@
 specfile_path: libpkgmanifest.spec
 
 files_to_sync:
-    - libpkgmanifest.spec
-    - .packit.yaml
+  - libpkgmanifest.spec
+  - .packit.yaml
 
 upstream_package_name: libpkgmanifest
 downstream_package_name: libpkgmanifest
 
 jobs:
+- job: propose_downstream
+  trigger: release
+  dist_git_branches:
+    - fedora-rawhide
+  copy_upstream_release_description: false
+- job: koji_build
+  trigger: commit
+  dist_git_branches:
+    - fedora-all
+- job: bodhi_update
+  trigger: commit
+  dist_git_branches:
+    - fedora-all
 - job: copr_build
   trigger: commit
   owner: rpmsoftwaremanagement
   project: libpkgmanifest-nightly
   targets:
-  - fedora-40-aarch64
-  - fedora-40-ppc64le
-  - fedora-40-s390x
-  - fedora-40-x86_64
-  - fedora-41-aarch64
-  - fedora-41-ppc64le
-  - fedora-41-s390x
-  - fedora-41-x86_64
-  - fedora-rawhide-aarch64
-  - fedora-rawhide-ppc64le
-  - fedora-rawhide-s390x
-  - fedora-rawhide-x86_64
+    - fedora-all
