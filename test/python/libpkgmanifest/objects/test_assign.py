@@ -13,3 +13,12 @@ class TestAssign(base_test_case.BaseTestCase):
         package.checksum = checksum
 
         self.assertEqual("a1b2c3d4", package.checksum.digest)
+
+    def test_references(self):
+        nevra = libpkgmanifest.manifest.Nevra()
+        nevra.name = "foo"
+
+        nevra_copy = nevra
+        nevra_copy.name = "bar"
+
+        self.assertEqual("bar", nevra.name)
