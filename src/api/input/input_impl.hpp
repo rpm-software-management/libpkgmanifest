@@ -23,9 +23,20 @@ using namespace libpkgmanifest::internal::common;
 using namespace libpkgmanifest::internal::input;
 
 class Input::Impl : public BaseImpl<IInput, InputFactory> {
-    using BaseImpl<IInput, InputFactory>::BaseImpl;
-
 public:
+    Impl() = default;
+
+    Impl(const Impl & other) : BaseImpl() {
+        copy_object(other);
+    }
+
+    Impl & operator=(const Impl & other) {
+        if (this != &other) {
+            copy_object(other);
+        }
+        return *this;
+    }
+
     libpkgmanifest::common::Repositories & get_repositories() {
         ensure_object_exists();
         return repositories;
@@ -60,11 +71,6 @@ public:
         options.p_impl->init(&input->get_options());
     }
     
-    void set(std::unique_ptr<IInput> parsed_input) {
-        init(parsed_input.get());
-        owned_object = std::move(parsed_input);
-    }
-
 protected:
     void ensure_object_exists() override {
         if (!object) {
