@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/input/mocks/objects/options/optionsfactorymock.hpp"
 #include "impl/input/mocks/objects/options/optionsmock.hpp"

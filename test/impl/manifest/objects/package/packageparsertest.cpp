@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/manifest/mocks/objects/checksum/checksumparsermock.hpp"
 #include "impl/manifest/mocks/objects/module/modulemock.hpp"

@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/input/mocks/objects/modules/modulesmock.hpp"
 #include "impl/input/mocks/objects/modules/modulesfactorymock.hpp"
 #include "impl/common/mocks/operations/stringlistparsermock.hpp"

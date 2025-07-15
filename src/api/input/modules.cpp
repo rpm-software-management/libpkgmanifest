@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "modules_impl.hpp"
 
 #include "libpkgmanifest/input/modules.hpp"

@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/input/operations/parser/parserfactory.hpp"
 #include "impl/input/operations/prototypefileconverter/prototypefileconverter.hpp"
 
