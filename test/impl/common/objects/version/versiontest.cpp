@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/common/objects/version/version.hpp"
 
 #include <gtest/gtest.h>

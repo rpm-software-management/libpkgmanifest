@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
 #include "impl/manifest/mocks/objects/package/packagemock.hpp"
 

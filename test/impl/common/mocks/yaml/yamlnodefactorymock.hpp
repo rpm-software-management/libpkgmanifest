@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/common/yaml/iyamlnodefactory.hpp"
 
 #include <gmock/gmock.h>

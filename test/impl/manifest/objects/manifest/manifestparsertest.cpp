@@ -1,3 +1,6 @@
+// Copyright The libpkgmanifest Authors
+// SPDX-License-Identifier: LGPL-2.1-or-later
+
 #include "impl/manifest/mocks/objects/manifest/manifestfactorymock.hpp"
 #include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
 #include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
