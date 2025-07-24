@@ -22,8 +22,9 @@ URL:        %{forgeurl}
 Source:     %{forgesource}
 
 BuildRequires:  pkgconf-pkg-config
-BuildRequires:  cmake >= 3.13
+BuildRequires:  cmake >= 3.16
 BuildRequires:  pkgconfig(yaml-cpp) >= 0.7.0
+BuildRequires:  pkgconfig(rpm)
 
 %if "%{toolchain}" == "clang"
 BuildRequires:  clang
