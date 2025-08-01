@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 
 include(VERSION.cmake)
 
@@ -22,7 +22,8 @@ endif()
 include(GNUInstallDirs)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(YAMLCPP REQUIRED yaml-cpp)
+pkg_check_modules(YAMLCPP REQUIRED IMPORTED_TARGET GLOBAL yaml-cpp)
+pkg_check_modules(RPM REQUIRED IMPORTED_TARGET GLOBAL rpm)
 
 add_compile_options(-Wall -Wextra -Werror)
 

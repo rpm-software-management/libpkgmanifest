@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install Dependencies
-      run: sudo apt install libgmock-dev libgtest-dev libyaml-cpp-dev swig -y
+      run: sudo apt install libgmock-dev libgtest-dev libyaml-cpp-dev swig librpm-dev -y
 
     - name: Configure
       run: cmake -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
