@@ -4,7 +4,7 @@
 
 %global version_major 0
 %global version_minor 5
-%global version_patch 9
+%global version_patch 10
 
 %bcond_with    docs
 %bcond_without python
