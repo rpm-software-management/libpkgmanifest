@@ -20,7 +20,7 @@ jobs:
         fetch-depth: 0
 
     - name: Install Dependencies
-      run: sudo apt install lcov libgmock-dev libgtest-dev libyaml-cpp-dev swig -y
+      run: sudo apt install lcov libgmock-dev librpm-dev libgtest-dev libyaml-cpp-dev swig -y
 
     - name: Configure
       run: cmake -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DWITH_CODE_COVERAGE=ON
