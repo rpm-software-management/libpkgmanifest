@@ -7,6 +7,7 @@ pkg_check_modules(GMOCK REQUIRED gmock)
 
 file(GLOB_RECURSE TEST_libpkgmanifest_SOURCES *.cpp)
 
+add_compile_options(-Werror)
 include_directories(.)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)

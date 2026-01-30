@@ -25,7 +25,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(YAMLCPP REQUIRED IMPORTED_TARGET GLOBAL yaml-cpp)
 pkg_check_modules(RPM REQUIRED IMPORTED_TARGET GLOBAL rpm)
 
-add_compile_options(-Wall -Wextra -Werror)
+add_compile_options(-Wall -Wextra)
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
