@@ -3,6 +3,7 @@ file(GLOB_RECURSE libpkgmanifest_SOURCES *.cpp)
 list(APPEND libpkgmanifest_PC_REQUIRES)
 list(APPEND libpkgmanifest_PC_REQUIRES_PRIVATE)
 
+add_compile_options(-Werror)
 include_directories(.)
 
 add_library(libpkgmanifest SHARED ${libpkgmanifest_SOURCES})
