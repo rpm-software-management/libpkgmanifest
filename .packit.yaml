@@ -1,6 +1,8 @@
 upstream_tag_template: v{version}
 
 specfile_path: libpkgmanifest.spec
+version_suffix: "^{PACKIT_PROJECT_SNAPSHOTID}"
+update_release: false
 
 files_to_sync:
   - libpkgmanifest.spec
