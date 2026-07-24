@@ -2,17 +2,16 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "parserfactory.hpp"
-#include "parser.hpp"
 
-#include "impl/common/objects/repository/repositoryfactory.hpp"
-#include "impl/common/objects/repository/repositoryparser.hpp"
 #include "impl/common/objects/repositories/repositoriesfactory.hpp"
 #include "impl/common/objects/repositories/repositoriesparser.hpp"
+#include "impl/common/objects/repository/repositoryfactory.hpp"
+#include "impl/common/objects/repository/repositoryparser.hpp"
 #include "impl/common/objects/version/versionfactory.hpp"
 #include "impl/common/objects/version/versionparser.hpp"
 #include "impl/common/tools/stringsplitter/stringsplitter.hpp"
-#include "impl/common/yaml/yamlparser.hpp"
 #include "impl/common/yaml/yamlnodefactory.hpp"
+#include "impl/common/yaml/yamlparser.hpp"
 #include "impl/manifest/objects/checksum/checksumfactory.hpp"
 #include "impl/manifest/objects/checksum/checksumparser.hpp"
 #include "impl/manifest/objects/manifest/manifestfactory.hpp"
@@ -26,6 +25,7 @@
 #include "impl/manifest/objects/packages/packagesfactory.hpp"
 #include "impl/manifest/objects/packages/packagesparser.hpp"
 #include "impl/manifest/operations/packagerepositorybinder/packagerepositorybinder.hpp"
+#include "parser.hpp"
 
 namespace libpkgmanifest::internal::manifest {
 
@@ -46,17 +46,10 @@ std::unique_ptr<IParser> ParserFactory::create() const {
 
     auto package_factory = std::make_shared<PackageFactory>(checksum_factory, nevra_factory, module_factory);
     auto package_parser = std::make_unique<PackageParser>(
-        std::move(checksum_parser),
-        std::move(nevra_parser),
-        std::move(module_parser),
-        std::move(package_factory)
-    );
+        std::move(checksum_parser), std::move(nevra_parser), std::move(module_parser), std::move(package_factory));
 
     auto packages_factory = std::make_shared<PackagesFactory>();
-    auto packages_parser = std::make_unique<PackagesParser>(
-        std::move(package_parser),
-        packages_factory
-    );
+    auto packages_parser = std::make_unique<PackagesParser>(std::move(package_parser), packages_factory);
 
     auto repository_factory = std::make_shared<RepositoryFactory>();
     auto repository_parser = std::make_unique<RepositoryParser>(repository_factory);
@@ -69,26 +62,15 @@ std::unique_ptr<IParser> ParserFactory::create() const {
 
     auto binder = std::make_shared<PackageRepositoryBinder>();
 
-    auto manifest_factory = std::make_unique<ManifestFactory>(
-        packages_factory, 
-        repositories_factory, 
-        version_factory, 
-        binder);
+    auto manifest_factory =
+        std::make_unique<ManifestFactory>(packages_factory, repositories_factory, version_factory, binder);
 
     auto manifest_parser = std::make_unique<ManifestParser>(
-        std::move(manifest_factory),
-        std::move(packages_parser),
-        repositories_parser,
-        version_parser,
-        binder
-    );
+        std::move(manifest_factory), std::move(packages_parser), repositories_parser, version_parser, binder);
 
     auto yaml_parser = std::make_unique<YamlParser>();
 
-    return std::make_unique<Parser>(
-        std::move(yaml_parser),
-        std::move(manifest_parser)
-    );
+    return std::make_unique<Parser>(std::move(yaml_parser), std::move(manifest_parser));
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

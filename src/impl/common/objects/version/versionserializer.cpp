@@ -7,8 +7,7 @@
 
 namespace libpkgmanifest::internal::common {
 
-VersionSerializer::VersionSerializer(
-    std::shared_ptr<IYamlNodeFactory> node_factory)
+VersionSerializer::VersionSerializer(std::shared_ptr<IYamlNodeFactory> node_factory)
     : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> VersionSerializer::serialize(const IVersion & version) const {
@@ -17,4 +16,4 @@ std::unique_ptr<IYamlNode> VersionSerializer::serialize(const IVersion & version
     return node;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

@@ -1,10 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalmock.hpp"
-
+#include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/manifest/objects/checksum/checksumserializer.hpp"
 
 #include <gmock/gmock.h>
@@ -105,4 +104,4 @@ TEST_F(ChecksumSerializerTest, SerializerReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(serialized_node.get(), node_ptr);
 }
 
-}
+}  // namespace

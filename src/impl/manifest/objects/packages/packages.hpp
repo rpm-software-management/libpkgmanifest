@@ -36,4 +36,4 @@ private:
     std::map<std::string, std::vector<std::unique_ptr<IPackage>>> packages;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

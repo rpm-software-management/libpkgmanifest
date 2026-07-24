@@ -19,7 +19,8 @@ std::unique_ptr<IRepository> RepositoryParser::parse(const IYamlNode & node) con
     repository->set_id(node.get("id")->as_string());
 
     if (!(node.has("baseurl") || node.has("metalink") || node.has("mirrorlist"))) {
-        throw RepositorySourceNotProvidedError("Source for repository with ID \"" + repository->get_id() + "\" is not provided.");
+        throw RepositorySourceNotProvidedError(
+            "Source for repository with ID \"" + repository->get_id() + "\" is not provided.");
     }
 
     if (node.has("baseurl")) {
@@ -37,4 +38,4 @@ std::unique_ptr<IRepository> RepositoryParser::parse(const IYamlNode & node) con
     return repository;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

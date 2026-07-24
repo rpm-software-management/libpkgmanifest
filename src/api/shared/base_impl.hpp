@@ -19,9 +19,7 @@ public:
     BaseImpl() = default;
     virtual ~BaseImpl() = default;
 
-    BaseImpl(const BaseImpl & other) {
-        copy_object(other);
-    }
+    BaseImpl(const BaseImpl & other) { copy_object(other); }
 
     BaseImpl & operator=(const BaseImpl & other) {
         if (this != &other) {
@@ -129,4 +127,4 @@ protected:
     std::unique_ptr<ObjectInterface> owned_object;
 };
 
-}
+}  // namespace libpkgmanifest

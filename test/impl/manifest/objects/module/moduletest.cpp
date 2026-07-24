@@ -39,4 +39,4 @@ TEST(ModuleTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(module.get_stream(), clone->get_stream());
 }
 
-}
+}  // namespace

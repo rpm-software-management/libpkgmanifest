@@ -5,9 +5,7 @@
 
 namespace libpkgmanifest::internal::input {
 
-Modules::Modules()
-    : enables()
-    , disables() {}
+Modules::Modules() : enables(), disables() {}
 
 std::unique_ptr<IModules> Modules::clone() const {
     return std::make_unique<Modules>(*this);
@@ -29,4 +27,4 @@ std::vector<std::string> & Modules::get_disables() {
     return disables;
 }
 
-}
+}  // namespace libpkgmanifest::internal::input

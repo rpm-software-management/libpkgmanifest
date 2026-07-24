@@ -1,16 +1,15 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/common/mocks/objects/repository/repositorymock.hpp"
+#include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
 #include "impl/manifest/mocks/objects/module/modulemock.hpp"
 #include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
 #include "impl/manifest/mocks/objects/package/packagemock.hpp"
 #include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
-#include "impl/common/mocks/objects/repository/repositorymock.hpp"
-#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
-#include "impl/common/mocks/objects/version/versionmock.hpp"
-
 #include "impl/manifest/operations/serializer/serializerfactory.hpp"
 
 #include <gtest/gtest.h>
@@ -30,9 +29,7 @@ using ::testing::Test;
 
 class SerializerFactoryTest : public Test {
 protected:
-    virtual void SetUp() {
-        file_path = std::filesystem::temp_directory_path() / "SerializerFactoryTest.yaml";
-    }
+    virtual void SetUp() { file_path = std::filesystem::temp_directory_path() / "SerializerFactoryTest.yaml"; }
 
     virtual void TearDown() {
         std::error_code ec;
@@ -209,4 +206,4 @@ data:
     EXPECT_EQ(read_file_buffer.str(), simple_manifest_yaml);
 }
 
-}
+}  // namespace

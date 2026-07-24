@@ -1,10 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
-#include "impl/manifest/mocks/objects/nevra/nevrafactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
+#include "impl/manifest/mocks/objects/nevra/nevrafactorymock.hpp"
+#include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
 #include "impl/manifest/objects/nevra/nevraparser.hpp"
 
 #include <gmock/gmock.h>
@@ -27,7 +26,7 @@ protected:
 
         auto nevra_factory = std::make_shared<NiceMock<NevraFactoryMock>>();
         EXPECT_CALL(*nevra_factory, create()).WillOnce(Return(std::move(nevra)));
-    
+
         parser = std::make_unique<NevraParser>(nevra_factory);
     }
 
@@ -159,4 +158,4 @@ TEST_F(NevraParserTest, EvrParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_nevra.get(), nevra_ptr);
 }
 
-}
+}  // namespace

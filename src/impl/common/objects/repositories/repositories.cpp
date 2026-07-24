@@ -29,4 +29,4 @@ void Repositories::add(std::unique_ptr<IRepository> repository) {
     repositories[repository->get_id()] = std::move(repository);
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

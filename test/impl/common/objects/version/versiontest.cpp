@@ -51,4 +51,4 @@ TEST(VersionTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(version.get_patch(), clone->get_patch());
 }
 
-}
+}  // namespace

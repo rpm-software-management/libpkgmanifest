@@ -3,10 +3,9 @@
 
 #pragma once
 
-#include "libpkgmanifest/common/version.hpp"
-
 #include "api/shared/base_impl.hpp"
 #include "impl/common/objects/version/versionfactory.hpp"
+#include "libpkgmanifest/common/version.hpp"
 
 namespace libpkgmanifest::common {
 
@@ -14,4 +13,4 @@ using namespace libpkgmanifest::internal::common;
 
 class Version::Impl : public BaseImpl<IVersion, VersionFactory> {};
 
-}
+}  // namespace libpkgmanifest::common

@@ -8,7 +8,6 @@
 
 namespace libpkgmanifest::internal::common {
 
-class IYamlNodeInternal : public IYamlNode, public IYamlNodeSetter {
-};
+class IYamlNodeInternal : public IYamlNode, public IYamlNodeSetter {};
 
-}
+}  // namespace libpkgmanifest::internal::common

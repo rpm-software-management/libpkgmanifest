@@ -4,7 +4,6 @@
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/input/mocks/objects/options/optionsfactorymock.hpp"
 #include "impl/input/mocks/objects/options/optionsmock.hpp"
-
 #include "impl/input/objects/options/optionsparser.hpp"
 
 #include <gmock/gmock.h>
@@ -29,10 +28,10 @@ protected:
         auto options_factory_wrapper = std::make_shared<NiceMock<OptionsFactoryMock>>();
         EXPECT_CALL(*options_factory_wrapper, create()).WillOnce(Return(std::move(options)));
 
-        EXPECT_CALL(yaml_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
-        
+        EXPECT_CALL(yaml_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
+
         parser = std::make_unique<OptionsParser>(options_factory_wrapper);
     }
 
@@ -58,4 +57,4 @@ TEST_F(InputOptionsParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_options.get(), options_ptr);
 }
 
-}
+}  // namespace

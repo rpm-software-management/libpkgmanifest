@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "module_impl.hpp"
-
 #include "libpkgmanifest/manifest/module.hpp"
+
+#include "module_impl.hpp"
 
 namespace libpkgmanifest::manifest {
 
@@ -39,4 +39,4 @@ void Module::set_stream(const std::string & stream) {
     p_impl->get()->set_stream(stream);
 }
 
-}
+}  // namespace libpkgmanifest::manifest

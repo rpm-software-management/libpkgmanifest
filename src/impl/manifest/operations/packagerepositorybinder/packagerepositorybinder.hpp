@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "ipackagerepositorybinder.hpp"
-
 #include "impl/common/objects/repository/irepository.hpp"
+#include "ipackagerepositorybinder.hpp"
 
 namespace libpkgmanifest::internal::manifest {
 
@@ -29,4 +28,4 @@ private:
     IRepository & get(const IRepositories & repositories, const IPackage & package) const;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

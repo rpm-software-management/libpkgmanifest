@@ -24,4 +24,4 @@ private:
     std::string stream;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

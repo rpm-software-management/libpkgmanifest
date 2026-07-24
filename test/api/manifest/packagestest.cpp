@@ -54,7 +54,7 @@ TEST(ApiManifestPackagesTest, GetBasearchPackages) {
     auto packages_vector = packages.get("x86_64");
     EXPECT_EQ(packages_vector.size(), 1);
     EXPECT_EQ(packages_vector[0].get_nevra().get_name(), "pkg1");
-    
+
     packages_vector = packages.get("aarch64");
     EXPECT_EQ(packages_vector.size(), 1);
     EXPECT_EQ(packages_vector[0].get_nevra().get_name(), "pkg2");
@@ -113,7 +113,7 @@ TEST(ApiManifestPackagesTest, AttachRepositories) {
 
     auto packages_vector = packages.get();
     auto get_package = packages_vector[0];
-    
+
     EXPECT_EQ(get_package.get_repository().get_id(), "main");
 }
 
@@ -189,4 +189,4 @@ TEST(ApiManifestPackagesTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_packages.get()[0].get_nevra().get_name(), "pkg");
 }
 
-}
+}  // namespace

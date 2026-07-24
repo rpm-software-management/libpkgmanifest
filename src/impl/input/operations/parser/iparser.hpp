@@ -18,4 +18,4 @@ public:
     virtual std::unique_ptr<IInput> parse_from_prototype(const std::string & path) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

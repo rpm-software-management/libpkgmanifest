@@ -4,7 +4,6 @@
 #pragma once
 
 #include "iinputfactory.hpp"
-
 #include "impl/common/objects/repositories/irepositoriesfactory.hpp"
 #include "impl/common/objects/version/iversionfactory.hpp"
 #include "impl/input/objects/modules/imodulesfactory.hpp"
@@ -40,4 +39,4 @@ private:
     std::shared_ptr<IOptionsFactory> options_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

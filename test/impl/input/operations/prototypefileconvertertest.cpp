@@ -3,12 +3,12 @@
 
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalstub.hpp"
-
 #include "impl/input/operations/prototypefileconverter/prototypefileconverter.hpp"
 
-#include <format>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <format>
 
 namespace {
 
@@ -22,11 +22,8 @@ class PrototypeFileConverterTest : public Test {
 protected:
     virtual void SetUp() {
         auto node_factory = std::make_shared<NiceMock<YamlNodeFactoryMock>>();
-        EXPECT_CALL(*node_factory, create())
-            .WillRepeatedly([]() { 
-                return std::make_unique<YamlNodeInternalStub>(); 
-            });
-        
+        EXPECT_CALL(*node_factory, create()).WillRepeatedly([]() { return std::make_unique<YamlNodeInternalStub>(); });
+
         converter = std::make_unique<PrototypeFileConverter>(node_factory);
     }
 
@@ -138,10 +135,13 @@ TEST_F(PrototypeFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputFor
 
     auto node = converter->convert(prototype_node);
     EXPECT_EQ(INPUT_PROTOTYPE_DOCUMENT_ID, node->get("document")->as_string());
-    EXPECT_EQ(std::format("{}.{}.{}", 
-        INPUT_PROTOTYPE_DOCUMENT_VERSION_MAJOR,
-        INPUT_PROTOTYPE_DOCUMENT_VERSION_MINOR,
-        INPUT_PROTOTYPE_DOCUMENT_VERSION_PATCH), node->get("version")->as_string());
+    EXPECT_EQ(
+        std::format(
+            "{}.{}.{}",
+            INPUT_PROTOTYPE_DOCUMENT_VERSION_MAJOR,
+            INPUT_PROTOTYPE_DOCUMENT_VERSION_MINOR,
+            INPUT_PROTOTYPE_DOCUMENT_VERSION_PATCH),
+        node->get("version")->as_string());
     EXPECT_EQ("repo1", node->get("repositories")->as_list()[0]->get("id")->as_string());
     EXPECT_EQ("baseurl1", node->get("repositories")->as_list()[0]->get("baseurl")->as_string());
     EXPECT_EQ("repo2", node->get("repositories")->as_list()[1]->get("id")->as_string());
@@ -163,4 +163,4 @@ TEST_F(PrototypeFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputFor
     EXPECT_EQ(true, node->get("options")->as_map()["allow_erasing"]->as_bool());
 }
 
-}
+}  // namespace

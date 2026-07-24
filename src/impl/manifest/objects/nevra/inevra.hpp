@@ -30,4 +30,4 @@ public:
     virtual std::string to_evr_string() const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

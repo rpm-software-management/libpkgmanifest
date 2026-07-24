@@ -1,8 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "manifest.hpp"
 #include "manifestfactory.hpp"
+
+#include "manifest.hpp"
 
 namespace libpkgmanifest::internal::manifest {
 
@@ -13,10 +14,10 @@ ManifestFactory::ManifestFactory(
     std::shared_ptr<IRepositoriesFactory> repositories_factory,
     std::shared_ptr<IVersionFactory> version_factory,
     std::shared_ptr<IPackageRepositoryBinder> binder)
-    : packages_factory(std::move(packages_factory))
-    , repositories_factory(std::move(repositories_factory))
-    , version_factory(std::move(version_factory))
-    , binder(std::move(binder)) {}
+    : packages_factory(std::move(packages_factory)),
+      repositories_factory(std::move(repositories_factory)),
+      version_factory(std::move(version_factory)),
+      binder(std::move(binder)) {}
 
 std::unique_ptr<IManifest> ManifestFactory::create() const {
     auto manifest = std::make_unique<Manifest>();
@@ -32,6 +33,6 @@ std::unique_ptr<IManifest> ManifestFactory::create() const {
     manifest->set_version(std::move(version));
 
     return manifest;
-}   
-
 }
+
+}  // namespace libpkgmanifest::internal::manifest

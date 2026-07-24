@@ -119,4 +119,4 @@ TEST(ApiRepositoriesTest, MoveAssignmentTransfersOwnership) {
     EXPECT_THAT(ids, ElementsAre("repo1", "repo2"));
 }
 
-}
+}  // namespace

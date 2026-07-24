@@ -16,4 +16,4 @@ public:
     virtual std::unique_ptr<IYamlNodeInternal> create() const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

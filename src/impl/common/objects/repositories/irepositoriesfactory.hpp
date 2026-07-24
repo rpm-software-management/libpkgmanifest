@@ -16,4 +16,4 @@ public:
     virtual std::unique_ptr<IRepositories> create() const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

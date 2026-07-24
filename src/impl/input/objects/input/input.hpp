@@ -47,4 +47,4 @@ private:
     std::vector<std::string> archs;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

@@ -1,16 +1,17 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "yamlnode.hpp"
 #include "yamlserializer.hpp"
 
-#include <fstream>
+#include "yamlnode.hpp"
+
 #include <yaml-cpp/yaml.h>
+
+#include <fstream>
 
 namespace libpkgmanifest::internal::common {
 
-FileOutputError::FileOutputError(const std::string & message)
-    : std::runtime_error(message) {}
+FileOutputError::FileOutputError(const std::string & message) : std::runtime_error(message) {}
 
 std::string YamlSerializer::to_string(const IYamlNode & node) const {
     auto * yaml_node = dynamic_cast<const YamlNode *>(&node);
@@ -36,4 +37,4 @@ void YamlSerializer::to_file(const IYamlNode & node, const std::string & path) c
     }
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

@@ -104,4 +104,4 @@ TEST(ApiManifestParserTest, ParseSimpleManifest) {
     EXPECT_EQ("", package3.get_module().get_stream());
 }
 
-}
+}  // namespace

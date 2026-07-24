@@ -12,4 +12,4 @@ public:
     virtual std::unique_ptr<IVersion> create() const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

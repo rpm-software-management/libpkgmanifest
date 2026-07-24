@@ -78,4 +78,4 @@ TEST(ApiNevraTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_nevra.get_name(), "package1");
 }
 
-}
+}  // namespace

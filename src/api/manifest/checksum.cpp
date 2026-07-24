@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "checksum_impl.hpp"
-
 #include "libpkgmanifest/manifest/checksum.hpp"
+
+#include "checksum_impl.hpp"
 
 namespace libpkgmanifest::manifest {
 
@@ -26,7 +26,7 @@ Checksum & Checksum::operator=(Checksum && other) noexcept = default;
 ChecksumMethod Checksum::get_method() const {
     return p_impl->get()->get_method();
 }
-    
+
 std::string Checksum::get_digest() const {
     return p_impl->get()->get_digest();
 }
@@ -39,4 +39,4 @@ void Checksum::set_digest(const std::string & digest) {
     p_impl->get()->set_digest(digest);
 }
 
-}
+}  // namespace libpkgmanifest::manifest

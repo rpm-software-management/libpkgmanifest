@@ -3,12 +3,6 @@
 
 #pragma once
 
-#include "modules_impl.hpp"
-#include "options_impl.hpp"
-#include "packages_impl.hpp"
-
-#include "libpkgmanifest/input/input.hpp"
-
 #include "api/common/repositories_impl.hpp"
 #include "api/common/version_impl.hpp"
 #include "api/shared/base_impl.hpp"
@@ -18,6 +12,10 @@
 #include "impl/input/objects/modules/modulesfactory.hpp"
 #include "impl/input/objects/options/optionsfactory.hpp"
 #include "impl/input/objects/packages/packagesfactory.hpp"
+#include "libpkgmanifest/input/input.hpp"
+#include "modules_impl.hpp"
+#include "options_impl.hpp"
+#include "packages_impl.hpp"
 
 namespace libpkgmanifest::input {
 
@@ -29,9 +27,7 @@ class Input::Impl : public BaseImpl<IInput, InputFactory> {
 public:
     Impl() = default;
 
-    Impl(const Impl & other) : BaseImpl() {
-        copy_object(other);
-    }
+    Impl(const Impl & other) : BaseImpl() { copy_object(other); }
 
     Impl & operator=(const Impl & other) {
         if (this != &other) {
@@ -73,7 +69,7 @@ public:
         modules.p_impl->init(&input->get_modules());
         options.p_impl->init(&input->get_options());
     }
-    
+
 protected:
     void ensure_object_exists() override {
         if (!object) {
@@ -96,4 +92,4 @@ private:
     Options options;
 };
 
-}
+}  // namespace libpkgmanifest::input

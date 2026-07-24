@@ -30,4 +30,4 @@ public:
     MOCK_METHOD(void, insert, (const std::string &, std::unique_ptr<IYamlNode>), (override));
 };
 
-}
+}  // namespace

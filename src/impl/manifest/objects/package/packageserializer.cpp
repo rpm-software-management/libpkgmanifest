@@ -11,9 +11,9 @@ PackageSerializer::PackageSerializer(
     std::shared_ptr<IYamlNodeFactory> node_factory,
     std::unique_ptr<IChecksumSerializer> checksum_serializer,
     std::unique_ptr<IModuleSerializer> module_serializer)
-    : node_factory(std::move(node_factory))
-    , checksum_serializer(std::move(checksum_serializer))
-    , module_serializer(std::move(module_serializer)) {}
+    : node_factory(std::move(node_factory)),
+      checksum_serializer(std::move(checksum_serializer)),
+      module_serializer(std::move(module_serializer)) {}
 
 std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package) const {
     auto node = node_factory->create();
@@ -71,4 +71,4 @@ std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package
     return node;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

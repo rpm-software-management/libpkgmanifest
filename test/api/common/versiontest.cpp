@@ -66,4 +66,4 @@ TEST(ApiVersionTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_version.get_major(), 5);
 }
 
-}
+}  // namespace

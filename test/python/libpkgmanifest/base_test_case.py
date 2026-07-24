@@ -16,6 +16,6 @@ class BaseTestCase(unittest.TestCase):
         self.test_input_file = os.path.join(PROJECT_SOURCE_DIR, "test/data/input/simple.yaml")
         self.test_input_prototype_file = os.path.join(PROJECT_SOURCE_DIR, "test/data/input/prototype.yaml")
         self.temp_dir = tempfile.mkdtemp(prefix="libpkgmanifest_python_unittest.")
-    
+
     def tearDown(self):
         shutil.rmtree(self.temp_dir)

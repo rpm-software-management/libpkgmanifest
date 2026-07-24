@@ -4,7 +4,6 @@
 #include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalmock.hpp"
-
 #include "impl/common/objects/version/versionserializer.hpp"
 
 #include <gmock/gmock.h>
@@ -50,4 +49,4 @@ TEST_F(VersionSerializerTest, SerializerReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(serialized_node.get(), node_ptr);
 }
 
-}
+}  // namespace

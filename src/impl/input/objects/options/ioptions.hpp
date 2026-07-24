@@ -19,4 +19,4 @@ public:
     virtual void set_allow_erasing(bool allow_erasing) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

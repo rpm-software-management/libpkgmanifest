@@ -16,4 +16,4 @@ public:
     virtual std::unique_ptr<IModule> create() const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

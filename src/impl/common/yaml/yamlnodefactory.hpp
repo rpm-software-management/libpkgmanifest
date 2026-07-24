@@ -12,4 +12,4 @@ public:
     virtual std::unique_ptr<IYamlNodeInternal> create() const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

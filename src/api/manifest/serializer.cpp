@@ -1,13 +1,12 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "manifest_impl.hpp"
-
-#include "libpkgmanifest/common/exception.hpp"
 #include "libpkgmanifest/manifest/serializer.hpp"
 
 #include "impl/manifest/objects/manifest/manifestfactory.hpp"
 #include "impl/manifest/operations/serializer/serializerfactory.hpp"
+#include "libpkgmanifest/common/exception.hpp"
+#include "manifest_impl.hpp"
 
 #include <format>
 
@@ -17,9 +16,8 @@ using namespace libpkgmanifest::internal::manifest;
 
 class Serializer::Impl {
 public:
-    Impl() {
-        serializer = SerializerFactory().create();
-    }
+    Impl() { serializer = SerializerFactory().create(); }
+
 private:
     friend Serializer;
     std::unique_ptr<ISerializer> serializer;
@@ -33,8 +31,9 @@ void Serializer::serialize(const Manifest & manifest, const std::string & path) 
     try {
         p_impl->serializer->serialize_manifest(*manifest.p_impl->get(), path);
     } catch (const std::runtime_error & error) {
-        throw SerializerError(std::format("An error occurred during serialization of the manifest file at \"{}\": {}", path, error.what()));
+        throw SerializerError(std::format(
+            "An error occurred during serialization of the manifest file at \"{}\": {}", path, error.what()));
     }
 }
 
-}
+}  // namespace libpkgmanifest::manifest

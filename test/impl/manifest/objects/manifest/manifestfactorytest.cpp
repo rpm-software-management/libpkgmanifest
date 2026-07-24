@@ -1,14 +1,13 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
-#include "impl/manifest/mocks/objects/packages/packagesfactorymock.hpp"
-#include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
-#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesfactorymock.hpp"
-#include "impl/common/mocks/objects/version/versionmock.hpp"
+#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/version/versionfactorymock.hpp"
-
+#include "impl/common/mocks/objects/version/versionmock.hpp"
+#include "impl/manifest/mocks/objects/packages/packagesfactorymock.hpp"
+#include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
 #include "impl/manifest/objects/manifest/manifestfactory.hpp"
 
 #include <gmock/gmock.h>
@@ -74,4 +73,4 @@ TEST_F(ManifestFactoryTest, CreatedObjectReturnsDocumentVersionConstant) {
     auto manifest = factory->create();
 }
 
-}
+}  // namespace

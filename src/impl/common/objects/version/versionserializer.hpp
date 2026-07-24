@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "iversionserializer.hpp"
-
 #include "impl/common/yaml/iyamlnodefactory.hpp"
+#include "iversionserializer.hpp"
 
 namespace libpkgmanifest::internal::common {
 
@@ -19,4 +18,4 @@ private:
     std::shared_ptr<IYamlNodeFactory> node_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

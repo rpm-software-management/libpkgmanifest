@@ -25,4 +25,4 @@ public:
     virtual void set_digest(const std::string & digest) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

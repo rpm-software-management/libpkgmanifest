@@ -15,7 +15,6 @@
 #include "impl/input/mocks/objects/options/optionsparsermock.hpp"
 #include "impl/input/mocks/objects/packages/packagesmock.hpp"
 #include "impl/input/mocks/objects/packages/packagesparsermock.hpp"
-
 #include "impl/input/objects/input/inputparser.hpp"
 
 #include <gmock/gmock.h>
@@ -62,15 +61,15 @@ protected:
         auto string_list_parser_wrapper = std::make_unique<NiceMock<StringListParserMock>>();
         string_list_parser = string_list_parser_wrapper.get();
 
-        EXPECT_CALL(yaml_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
+        EXPECT_CALL(yaml_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
 
         EXPECT_CALL(yaml_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
-        
-        EXPECT_CALL(*repositories_parser, parse(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<RepositoriesMock>>(); });
+
+        EXPECT_CALL(*repositories_parser, parse(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<RepositoriesMock>>();
+        });
 
         parser = std::make_unique<InputParser>(
             std::move(input_factory_wrapper),
@@ -79,8 +78,7 @@ protected:
             std::move(packages_parser_wrapper),
             std::move(modules_parser_wrapper),
             std::move(options_parser_wrapper),
-            std::move(string_list_parser_wrapper)
-        );
+            std::move(string_list_parser_wrapper));
     }
 
     NiceMock<InputMock> * input;
@@ -99,7 +97,7 @@ protected:
 TEST_F(InputParserTest, ParserSetsDocumentFromYamlNode) {
     auto document_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto document_node_ptr = document_node.get();
-    
+
     EXPECT_CALL(yaml_node, get("document")).WillOnce(Return(std::move(document_node)));
     EXPECT_CALL(*document_node_ptr, as_string()).WillOnce(Return("id"));
     EXPECT_CALL(*input, set_document("id"));
@@ -179,7 +177,7 @@ TEST_F(InputParserTest, ParserAddsArchsFromYamlNode) {
 
     auto node = std::make_unique<NiceMock<YamlNodeMock>>();
 
-    std::vector<std::unique_ptr<IYamlNode>> arch_nodes; 
+    std::vector<std::unique_ptr<IYamlNode>> arch_nodes;
     auto arch1_node = std::make_unique<NiceMock<YamlNodeMock>>();
     EXPECT_CALL(*arch1_node, as_string()).WillOnce(Return("x86_64"));
     auto arch2_node = std::make_unique<NiceMock<YamlNodeMock>>();
@@ -202,4 +200,4 @@ TEST_F(InputParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_input.get(), input);
 }
 
-}
+}  // namespace

@@ -8,9 +8,7 @@
 
 namespace libpkgmanifest::manifest {
 
-enum class ChecksumMethod {
-    SHA1, SHA224, SHA256, SHA384, SHA512, MD5, CRC32, CRC64
-};
+enum class ChecksumMethod { SHA1, SHA224, SHA256, SHA384, SHA512, MD5, CRC32, CRC64 };
 
 /// @brief Stores information about the package checksum.
 class Checksum {
@@ -29,7 +27,7 @@ public:
     /// @return The checksum calculation method.
     ChecksumMethod get_method() const;
 
-    /// @brief Retrieves the output of the checksum hash function. 
+    /// @brief Retrieves the output of the checksum hash function.
     ///
     /// @return The checksum digest.
     std::string get_digest() const;
@@ -51,4 +49,4 @@ private:
     std::unique_ptr<Impl> p_impl;
 };
 
-}
+}  // namespace libpkgmanifest::manifest

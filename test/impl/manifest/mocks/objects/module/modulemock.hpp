@@ -18,4 +18,4 @@ public:
     MOCK_METHOD(void, set_stream, (const std::string &), (override));
 };
 
-}
+}  // namespace

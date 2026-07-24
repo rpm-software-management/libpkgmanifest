@@ -4,7 +4,6 @@
 #pragma once
 
 #include "imanifestserializer.hpp"
-
 #include "impl/common/objects/repositories/irepositoriesserializer.hpp"
 #include "impl/common/objects/version/iversionserializer.hpp"
 #include "impl/common/yaml/iyamlnodefactory.hpp"
@@ -18,7 +17,7 @@ using namespace libpkgmanifest::internal::common;
 class ManifestSerializer : public IManifestSerializer {
 public:
     ManifestSerializer(
-        std::shared_ptr<IYamlNodeFactory> node_factory, 
+        std::shared_ptr<IYamlNodeFactory> node_factory,
         std::unique_ptr<IPackagesSerializer> packages_serializer,
         std::unique_ptr<IRepositoriesSerializer> repositories_serializer,
         std::unique_ptr<IVersionSerializer> version_serializer,
@@ -34,4 +33,4 @@ private:
     std::shared_ptr<IPackageRepositoryBinder> binder;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

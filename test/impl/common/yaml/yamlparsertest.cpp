@@ -25,4 +25,4 @@ TEST(YamlParserTest, ParseNonExistingYamlFileThrowsAnException) {
     EXPECT_THROW(parser.from_file("non-existing-manifest.yaml"), YamlFileError);
 }
 
-}
+}  // namespace

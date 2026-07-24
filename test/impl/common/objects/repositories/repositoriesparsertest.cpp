@@ -1,12 +1,11 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/common/mocks/objects/repository/repositorymock.hpp"
-#include "impl/common/mocks/objects/repository/repositoryparsermock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesfactorymock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/common/mocks/objects/repository/repositorymock.hpp"
+#include "impl/common/mocks/objects/repository/repositoryparsermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
 #include "impl/common/objects/repositories/repositoriesparser.hpp"
 
 #include <gmock/gmock.h>
@@ -35,10 +34,8 @@ protected:
         auto repository_parser_wrapper = std::make_unique<NiceMock<RepositoryParserMock>>();
         repository_parser = repository_parser_wrapper.get();
 
-        parser = std::make_unique<RepositoriesParser>(
-            std::move(repository_parser_wrapper),
-            repositories_factory_wrapper
-        );
+        parser =
+            std::make_unique<RepositoriesParser>(std::move(repository_parser_wrapper), repositories_factory_wrapper);
     }
 
     NiceMock<RepositoryParserMock> * repository_parser;
@@ -78,4 +75,4 @@ TEST_F(RepositoriesParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_repositories.get(), repositories_ptr);
 }
 
-}
+}  // namespace

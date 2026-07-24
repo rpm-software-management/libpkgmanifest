@@ -3,11 +3,10 @@
 
 #pragma once
 
-#include "ipackagefactory.hpp"
-
 #include "impl/manifest/objects/checksum/ichecksumfactory.hpp"
 #include "impl/manifest/objects/module/imodulefactory.hpp"
 #include "impl/manifest/objects/nevra/inevrafactory.hpp"
+#include "ipackagefactory.hpp"
 
 namespace libpkgmanifest::internal::manifest {
 
@@ -26,4 +25,4 @@ private:
     std::shared_ptr<IModuleFactory> module_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

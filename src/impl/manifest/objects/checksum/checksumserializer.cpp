@@ -8,13 +8,12 @@ namespace libpkgmanifest::internal::manifest {
 using namespace libpkgmanifest::internal::common;
 using ChecksumMethod = libpkgmanifest::manifest::ChecksumMethod;
 
-ChecksumSerializer::ChecksumSerializer(
-    std::shared_ptr<IYamlNodeFactory> node_factory)
+ChecksumSerializer::ChecksumSerializer(std::shared_ptr<IYamlNodeFactory> node_factory)
     : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> ChecksumSerializer::serialize(const IChecksum & checksum) const {
     std::string method_string;
-    switch(checksum.get_method()) {
+    switch (checksum.get_method()) {
         case ChecksumMethod::CRC32:
             method_string = "crc32";
             break;
@@ -47,4 +46,4 @@ std::unique_ptr<IYamlNode> ChecksumSerializer::serialize(const IChecksum & check
     return node;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

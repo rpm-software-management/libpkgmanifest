@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
 #include "impl/common/yaml/yamlnode.hpp"
 #include "impl/common/yaml/yamlserializer.hpp"
 
@@ -21,9 +20,7 @@ using ::testing::Test;
 
 class YamlSerializerTest : public Test {
 protected:
-    virtual void SetUp() {
-        file_path = std::filesystem::temp_directory_path() / "YamlSerializerTest.yaml";
-    }
+    virtual void SetUp() { file_path = std::filesystem::temp_directory_path() / "YamlSerializerTest.yaml"; }
 
     virtual void TearDown() {
         std::error_code ec;
@@ -74,4 +71,4 @@ TEST_F(YamlSerializerTest, SerializeSimpleYamlToStringWithUnknownNodeImplThrowsE
     EXPECT_THROW(YamlSerializer().to_string(NiceMock<YamlNodeMock>()), std::runtime_error);
 }
 
-}
+}  // namespace

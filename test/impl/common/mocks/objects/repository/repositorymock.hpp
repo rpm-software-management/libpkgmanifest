@@ -22,4 +22,4 @@ public:
     MOCK_METHOD(void, set_mirrorlist, (const std::string &), (override));
 };
 
-}
+}  // namespace

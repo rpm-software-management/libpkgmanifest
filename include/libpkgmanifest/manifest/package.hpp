@@ -4,14 +4,14 @@
 #pragma once
 
 #include "checksum.hpp"
+#include "libpkgmanifest/common/repositories.hpp"
+#include "libpkgmanifest/common/repository.hpp"
 #include "module.hpp"
 #include "nevra.hpp"
 
-#include "libpkgmanifest/common/repositories.hpp"
-#include "libpkgmanifest/common/repository.hpp"
+#include <stdint.h>
 
 #include <memory>
-#include <stdint.h>
 #include <string>
 
 namespace libpkgmanifest::manifest {
@@ -130,4 +130,4 @@ private:
     std::unique_ptr<Impl> p_impl;
 };
 
-}
+}  // namespace libpkgmanifest::manifest

@@ -27,4 +27,4 @@ private:
     unsigned patch;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

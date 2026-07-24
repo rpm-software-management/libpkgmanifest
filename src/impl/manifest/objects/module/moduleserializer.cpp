@@ -9,8 +9,7 @@ namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
 
-ModuleSerializer::ModuleSerializer(
-    std::shared_ptr<IYamlNodeFactory> node_factory)
+ModuleSerializer::ModuleSerializer(std::shared_ptr<IYamlNodeFactory> node_factory)
     : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> ModuleSerializer::serialize(const IModule & module) const {
@@ -19,4 +18,4 @@ std::unique_ptr<IYamlNode> ModuleSerializer::serialize(const IModule & module) c
     return node;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

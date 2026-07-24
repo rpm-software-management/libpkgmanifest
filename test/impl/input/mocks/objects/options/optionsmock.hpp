@@ -16,4 +16,4 @@ public:
     MOCK_METHOD(void, set_allow_erasing, (bool), (override));
 };
 
-}
+}  // namespace

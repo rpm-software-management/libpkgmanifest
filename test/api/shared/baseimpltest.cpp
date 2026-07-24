@@ -13,27 +13,21 @@ using namespace libpkgmanifest;
 class Object {
 public:
     virtual ~Object() = default;
-    virtual std::unique_ptr<Object> clone() const {
-        return std::make_unique<Object>(*this);
-    }
+    virtual std::unique_ptr<Object> clone() const { return std::make_unique<Object>(*this); }
 };
 
 class DefaultConstructibleFactory {
 public:
     DefaultConstructibleFactory() = default;
 
-    std::unique_ptr<Object> create() const {
-        return std::make_unique<Object>();
-    }
+    std::unique_ptr<Object> create() const { return std::make_unique<Object>(); }
 };
 
 class NonDefaultConstructibleFactory {
 public:
     explicit NonDefaultConstructibleFactory(int) {}
 
-    std::unique_ptr<Object> create() const {
-        return std::make_unique<Object>();
-    }
+    std::unique_ptr<Object> create() const { return std::make_unique<Object>(); }
 };
 
 class DefaultConstructible : public BaseImpl<Object, DefaultConstructibleFactory> {};
@@ -58,4 +52,4 @@ TEST(ApiBaseImplTest, InitializeAlreadyOwnedObjectDoesNotThrow) {
     wrapper.get();
 }
 
-}
+}  // namespace

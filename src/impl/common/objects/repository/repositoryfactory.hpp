@@ -12,4 +12,4 @@ public:
     virtual std::unique_ptr<IRepository> create() const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

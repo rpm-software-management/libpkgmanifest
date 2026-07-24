@@ -54,4 +54,4 @@ TEST(ApiOptionsTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_options.get_allow_erasing(), true);
 }
 
-}
+}  // namespace

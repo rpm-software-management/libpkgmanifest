@@ -1,17 +1,16 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesfactorymock.hpp"
-#include "impl/common/mocks/objects/version/versionmock.hpp"
+#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/version/versionfactorymock.hpp"
-#include "impl/input/mocks/objects/packages/packagesmock.hpp"
-#include "impl/input/mocks/objects/packages/packagesfactorymock.hpp"
-#include "impl/input/mocks/objects/modules/modulesmock.hpp"
+#include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/input/mocks/objects/modules/modulesfactorymock.hpp"
-#include "impl/input/mocks/objects/options/optionsmock.hpp"
+#include "impl/input/mocks/objects/modules/modulesmock.hpp"
 #include "impl/input/mocks/objects/options/optionsfactorymock.hpp"
-
+#include "impl/input/mocks/objects/options/optionsmock.hpp"
+#include "impl/input/mocks/objects/packages/packagesfactorymock.hpp"
+#include "impl/input/mocks/objects/packages/packagesmock.hpp"
 #include "impl/input/objects/input/inputfactory.hpp"
 
 #include <gmock/gmock.h>
@@ -59,11 +58,7 @@ protected:
         EXPECT_CALL(*options_factory, create()).WillOnce(Return(std::move(options_wrapper)));
 
         factory = std::make_unique<InputFactory>(
-            repositories_factory, 
-            version_factory,
-            packages_factory,
-            modules_factory,
-            options_factory);
+            repositories_factory, version_factory, packages_factory, modules_factory, options_factory);
     }
 
     NiceMock<RepositoriesMock> * repositories;
@@ -117,4 +112,4 @@ TEST_F(InputFactoryTest, CreatedObjectReturnsAnEmptyArchsList) {
     EXPECT_EQ(0, factory->create()->get_archs().size());
 }
 
-}
+}  // namespace

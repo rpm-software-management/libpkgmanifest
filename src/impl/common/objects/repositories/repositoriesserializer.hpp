@@ -3,18 +3,16 @@
 
 #pragma once
 
-#include "irepositoriesserializer.hpp"
-
 #include "impl/common/objects/repository/irepositoryserializer.hpp"
 #include "impl/common/yaml/iyamlnodefactory.hpp"
+#include "irepositoriesserializer.hpp"
 
 namespace libpkgmanifest::internal::common {
 
 class RepositoriesSerializer : public IRepositoriesSerializer {
 public:
     RepositoriesSerializer(
-        std::shared_ptr<IYamlNodeFactory> node_factory, 
-        std::unique_ptr<IRepositorySerializer> repository_serializer);
+        std::shared_ptr<IYamlNodeFactory> node_factory, std::unique_ptr<IRepositorySerializer> repository_serializer);
 
     virtual std::unique_ptr<IYamlNode> serialize(const IRepositories & repositories) const override;
 
@@ -23,4 +21,4 @@ private:
     std::unique_ptr<IRepositorySerializer> repository_serializer;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

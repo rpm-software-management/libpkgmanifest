@@ -197,4 +197,4 @@ TEST(YamlNodeTest, CheckKeyExists) {
     EXPECT_TRUE(node.has("item"));
 }
 
-}
+}  // namespace

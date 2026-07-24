@@ -10,15 +10,15 @@
 
 
 namespace libpkgmanifest::input {
-    class Input;
+class Input;
 };
 
 
 namespace libpkgmanifest::manifest {
-    class Manifest;
-    class Package;
-    class Packages;
-};
+class Manifest;
+class Package;
+class Packages;
+};  // namespace libpkgmanifest::manifest
 
 
 namespace libpkgmanifest::common {
@@ -110,4 +110,4 @@ private:
     std::unique_ptr<Impl> p_impl;
 };
 
-}
+}  // namespace libpkgmanifest::common

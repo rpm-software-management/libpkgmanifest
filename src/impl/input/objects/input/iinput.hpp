@@ -45,4 +45,4 @@ public:
     virtual void set_options(std::unique_ptr<IOptions> options) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

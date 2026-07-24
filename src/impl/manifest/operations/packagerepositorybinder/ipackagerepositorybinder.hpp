@@ -21,4 +21,4 @@ public:
     virtual void bind(const IRepositories & repositories, IPackages & packages) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

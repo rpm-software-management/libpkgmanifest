@@ -21,4 +21,4 @@ public:
     virtual void set_stream(const std::string & stream) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

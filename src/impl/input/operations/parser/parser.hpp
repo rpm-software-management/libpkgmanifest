@@ -3,11 +3,10 @@
 
 #pragma once
 
-#include "iparser.hpp"
-
 #include "impl/common/yaml/iyamlparser.hpp"
 #include "impl/input/objects/input/iinputparser.hpp"
 #include "impl/input/operations/prototypefileconverter/iprototypefileconverter.hpp"
+#include "iparser.hpp"
 
 namespace libpkgmanifest::internal::input {
 
@@ -29,4 +28,4 @@ private:
     std::unique_ptr<IPrototypeFileConverter> prototype_converter;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

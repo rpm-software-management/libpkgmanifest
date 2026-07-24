@@ -26,4 +26,4 @@ public:
     MOCK_METHOD(std::string, to_evr_string, (), (const, override));
 };
 
-}
+}  // namespace

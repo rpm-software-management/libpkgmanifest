@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "packages_impl.hpp"
-
 #include "api/common/repositories_impl.hpp"
 #include "api/common/version_impl.hpp"
 #include "api/shared/base_impl.hpp"
@@ -13,8 +11,8 @@
 #include "impl/manifest/objects/manifest/manifestfactory.hpp"
 #include "impl/manifest/objects/packages/packagesfactory.hpp"
 #include "impl/manifest/operations/packagerepositorybinder/packagerepositorybinder.hpp"
-
 #include "libpkgmanifest/manifest/manifest.hpp"
+#include "packages_impl.hpp"
 
 namespace libpkgmanifest::manifest {
 
@@ -26,9 +24,7 @@ class Manifest::Impl : public BaseImpl<IManifest, ManifestFactory> {
 public:
     Impl() = default;
 
-    Impl(const Impl & other) : BaseImpl() {
-        copy_object(other);
-    }
+    Impl(const Impl & other) : BaseImpl() { copy_object(other); }
 
     Impl & operator=(const Impl & other) {
         if (this != &other) {
@@ -58,7 +54,7 @@ public:
         repositories.p_impl->init(&manifest->get_repositories());
         version.p_impl->init(&manifest->get_version());
     }
-    
+
 protected:
     void ensure_object_exists() override {
         if (!object) {
@@ -78,4 +74,4 @@ private:
     Version version;
 };
 
-}
+}  // namespace libpkgmanifest::manifest

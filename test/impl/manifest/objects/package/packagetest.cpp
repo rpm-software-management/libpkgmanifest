@@ -1,11 +1,10 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/common/mocks/objects/repository/repositorymock.hpp"
 #include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/manifest/mocks/objects/module/modulemock.hpp"
 #include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
-#include "impl/common/mocks/objects/repository/repositorymock.hpp"
-
 #include "impl/manifest/objects/package/package.hpp"
 
 #include <gtest/gtest.h>
@@ -313,4 +312,4 @@ TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(package.get_parent_archs(), clone->get_parent_archs());
 }
 
-}
+}  // namespace

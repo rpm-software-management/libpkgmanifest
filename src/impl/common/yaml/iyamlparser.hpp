@@ -18,4 +18,4 @@ public:
     virtual std::unique_ptr<IYamlNode> from_file(const std::string & path) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

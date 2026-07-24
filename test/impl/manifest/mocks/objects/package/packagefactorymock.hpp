@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::unique_ptr<IPackage>, create, (), (const, override));
 };
 
-}
+}  // namespace

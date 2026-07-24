@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "nevra_impl.hpp"
-
 #include "libpkgmanifest/manifest/nevra.hpp"
+
+#include "nevra_impl.hpp"
 
 namespace libpkgmanifest::manifest {
 
@@ -67,4 +67,4 @@ std::string Nevra::to_string() const {
     return p_impl->get()->to_string();
 }
 
-}
+}  // namespace libpkgmanifest::manifest

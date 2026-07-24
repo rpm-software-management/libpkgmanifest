@@ -5,8 +5,9 @@
 
 #include "iyamlnode.hpp"
 
-#include <memory>
 #include <stdint.h>
+
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -27,4 +28,4 @@ public:
     virtual void insert(const std::string & key, std::unique_ptr<IYamlNode> value) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

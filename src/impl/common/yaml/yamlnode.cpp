@@ -5,16 +5,14 @@
 
 namespace libpkgmanifest::internal::common {
 
-YamlUnknownKeyError::YamlUnknownKeyError(const std::string & message)
-    : std::runtime_error(message) {}
+YamlUnknownKeyError::YamlUnknownKeyError(const std::string & message) : std::runtime_error(message) {}
 
 YamlInvalidValueConversionError::YamlInvalidValueConversionError(const std::string & message)
     : std::runtime_error(message) {}
 
 YamlNode::YamlNode() {}
 
-YamlNode::YamlNode(const YAML::Node & node)
-    : node(node) {}
+YamlNode::YamlNode(const YAML::Node & node) : node(node) {}
 
 bool YamlNode::has(const std::string & key) const {
     return node.IsMap() && bool(node[key]);
@@ -89,15 +87,15 @@ void YamlNode::set(uint64_t value) {
 }
 
 void YamlNode::add(std::unique_ptr<IYamlNode> value) {
-    node.push_back(static_cast<YamlNode*>(value.get())->node);
+    node.push_back(static_cast<YamlNode *>(value.get())->node);
 }
 
 void YamlNode::insert(const std::string & key, std::unique_ptr<IYamlNode> value) {
-    node[key] = static_cast<YamlNode*>(value.get())->node;
+    node[key] = static_cast<YamlNode *>(value.get())->node;
 }
 
 const YAML::Node & YamlNode::get_node() const {
     return node;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

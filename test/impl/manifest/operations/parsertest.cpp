@@ -1,11 +1,10 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
-#include "impl/manifest/mocks/objects/manifest/manifestparsermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/common/mocks/yaml/yamlparsermock.hpp"
-
+#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/manifest/mocks/objects/manifest/manifestparsermock.hpp"
 #include "impl/manifest/operations/parser/parser.hpp"
 
 #include <gmock/gmock.h>
@@ -29,9 +28,7 @@ TEST(ParserTest, ParseManifestPassesYamlNodeToManifestParser) {
     auto yaml_parser = std::make_unique<NiceMock<YamlParserMock>>();
     auto yaml_parser_ptr = yaml_parser.get();
 
-    Parser parser(
-        std::move(yaml_parser),
-        std::move(manifest_parser));
+    Parser parser(std::move(yaml_parser), std::move(manifest_parser));
 
     EXPECT_CALL(*yaml_parser_ptr, from_file(_)).WillOnce(Return(std::move(yaml_node)));
     EXPECT_CALL(*manifest_parser_ptr, parse(Ref(*yaml_node_ptr))).WillOnce(Return(std::move(manifest)));
@@ -40,4 +37,4 @@ TEST(ParserTest, ParseManifestPassesYamlNodeToManifestParser) {
     EXPECT_EQ(parsed_manifest.get(), manifest_ptr);
 }
 
-}
+}  // namespace

@@ -110,4 +110,4 @@ TEST(ApiManifestTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_manifest.get_document(), "my-manifest");
 }
 
-}
+}  // namespace

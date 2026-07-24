@@ -18,4 +18,4 @@ std::unique_ptr<IOptions> OptionsParser::parse(const IYamlNode & node) const {
     return options;
 }
 
-}
+}  // namespace libpkgmanifest::internal::input

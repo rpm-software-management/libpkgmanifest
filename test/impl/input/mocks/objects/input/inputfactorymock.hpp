@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::unique_ptr<IInput>, create, (), (const, override));
 };
 
-}
+}  // namespace

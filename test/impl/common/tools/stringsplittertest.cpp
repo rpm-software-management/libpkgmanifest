@@ -24,4 +24,4 @@ TEST(StringSplitterTest, SplitStringByDelimiterReturnsPartsOfTheString) {
     EXPECT_EQ((std::vector<std::string>{"abc", "def", "ghi"}), StringSplitter().split("abc:def:ghi", ':'));
 }
 
-}
+}  // namespace

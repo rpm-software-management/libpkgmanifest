@@ -1,8 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "input.hpp"
 #include "inputfactory.hpp"
+
+#include "input.hpp"
 
 namespace libpkgmanifest::internal::input {
 
@@ -14,11 +15,11 @@ InputFactory::InputFactory(
     std::shared_ptr<IPackagesFactory> packages_factory,
     std::shared_ptr<IModulesFactory> modules_factory,
     std::shared_ptr<IOptionsFactory> options_factory)
-    : repositories_factory(std::move(repositories_factory))
-    , version_factory(std::move(version_factory))
-    , packages_factory(std::move(packages_factory))
-    , modules_factory(std::move(modules_factory))
-    , options_factory(std::move(options_factory)) {}
+    : repositories_factory(std::move(repositories_factory)),
+      version_factory(std::move(version_factory)),
+      packages_factory(std::move(packages_factory)),
+      modules_factory(std::move(modules_factory)),
+      options_factory(std::move(options_factory)) {}
 
 std::unique_ptr<IInput> InputFactory::create() const {
     auto input = std::make_unique<Input>();
@@ -35,6 +36,6 @@ std::unique_ptr<IInput> InputFactory::create() const {
     input->set_version(std::move(version));
 
     return input;
-}   
-
 }
+
+}  // namespace libpkgmanifest::internal::input

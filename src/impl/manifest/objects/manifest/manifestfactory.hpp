@@ -4,7 +4,6 @@
 #pragma once
 
 #include "imanifestfactory.hpp"
-
 #include "impl/common/objects/repositories/irepositoriesfactory.hpp"
 #include "impl/common/objects/version/iversionfactory.hpp"
 #include "impl/manifest/objects/packages/ipackagesfactory.hpp"
@@ -37,4 +36,4 @@ private:
     std::shared_ptr<IPackageRepositoryBinder> binder;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

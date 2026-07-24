@@ -39,4 +39,4 @@ TEST(ChecksumTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(checksum.get_digest(), clone->get_digest());
 }
 
-}
+}  // namespace

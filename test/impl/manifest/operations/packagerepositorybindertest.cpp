@@ -1,12 +1,11 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
+#include "impl/common/mocks/objects/repository/repositorymock.hpp"
 #include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
 #include "impl/manifest/mocks/objects/package/packagemock.hpp"
 #include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
-#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
-#include "impl/common/mocks/objects/repository/repositorymock.hpp"
-
 #include "impl/manifest/operations/packagerepositorybinder/packagerepositorybinder.hpp"
 
 #include <gtest/gtest.h>
@@ -39,7 +38,9 @@ protected:
 
         EXPECT_CALL(Const(*package1), get_nevra()).Times(AnyNumber()).WillOnce(ReturnPointee(&nevra1));
         EXPECT_CALL(Const(*package2), get_nevra()).Times(AnyNumber()).WillOnce(ReturnPointee(&nevra2));
-        EXPECT_CALL(packages, get_archs()).Times(AnyNumber()).WillOnce(Return(std::vector<std::string>{"arch1", "arch2"}));
+        EXPECT_CALL(packages, get_archs())
+            .Times(AnyNumber())
+            .WillOnce(Return(std::vector<std::string>{"arch1", "arch2"}));
         EXPECT_CALL(packages, get("arch1")).Times(AnyNumber()).WillOnce(ReturnPointee(&packages_map["arch1"]));
         EXPECT_CALL(packages, get("arch2")).Times(AnyNumber()).WillOnce(ReturnPointee(&packages_map["arch2"]));
         EXPECT_CALL(Const(repositories), get()).WillRepeatedly(ReturnPointee(&repository_map));
@@ -124,4 +125,4 @@ TEST_F(PackageRepositoryBinderTest, BindSetsTheRepositoriesToThePackages) {
     binder->bind(repositories, packages);
 }
 
-}
+}  // namespace

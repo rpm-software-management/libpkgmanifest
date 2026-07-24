@@ -1,17 +1,16 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/manifest/manifestfactorymock.hpp"
-#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
-#include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
-#include "impl/manifest/mocks/objects/packages/packagesparsermock.hpp"
-#include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesparsermock.hpp"
 #include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/common/mocks/objects/version/versionparsermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
+#include "impl/manifest/mocks/objects/manifest/manifestfactorymock.hpp"
+#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/manifest/mocks/objects/packages/packagesparsermock.hpp"
+#include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
 #include "impl/manifest/objects/manifest/manifestparser.hpp"
 
 #include <gmock/gmock.h>
@@ -48,26 +47,26 @@ protected:
         auto version_parser_wrapper = std::make_unique<NiceMock<VersionParserMock>>();
         version_parser = version_parser_wrapper.get();
 
-        EXPECT_CALL(yaml_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
-        
+        EXPECT_CALL(yaml_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
+
         auto data_node_wrapper = std::make_unique<NiceMock<YamlNodeMock>>();
         data_node = data_node_wrapper.get();
 
         EXPECT_CALL(yaml_node, get("data")).WillOnce(Return(std::move(data_node_wrapper)));
 
-        EXPECT_CALL(*data_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
-        
-        EXPECT_CALL(*packages_parser, parse(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<PackagesMock>>(); });
+        EXPECT_CALL(*data_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
 
-        EXPECT_CALL(*repositories_parser, parse(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<RepositoriesMock>>(); });
+        EXPECT_CALL(*packages_parser, parse(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<PackagesMock>>();
+        });
+
+        EXPECT_CALL(*repositories_parser, parse(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<RepositoriesMock>>();
+        });
 
         binder = std::make_shared<NiceMock<PackageRepositoryBinderMock>>();
 
@@ -76,8 +75,7 @@ protected:
             std::move(packages_parser_wrapper),
             std::move(repositories_parser_wrapper),
             std::move(version_parser_wrapper),
-            binder
-        );
+            binder);
     }
 
     NiceMock<ManifestMock> * manifest;
@@ -95,7 +93,7 @@ protected:
 TEST_F(ManifestParserTest, ParserSetsDocumentFromYamlNode) {
     auto document_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto document_node_ptr = document_node.get();
-    
+
     EXPECT_CALL(yaml_node, get("document")).WillOnce(Return(std::move(document_node)));
     EXPECT_CALL(*document_node_ptr, as_string()).WillOnce(Return("id"));
     EXPECT_CALL(*manifest, set_document("id"));
@@ -167,4 +165,4 @@ TEST_F(ManifestParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_manifest.get(), manifest);
 }
 
-}
+}  // namespace

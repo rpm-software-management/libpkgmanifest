@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "irepositories.hpp"
-
 #include "impl/common/yaml/iyamlnode.hpp"
+#include "irepositories.hpp"
 
 #include <memory>
 
@@ -18,4 +17,4 @@ public:
     virtual std::unique_ptr<IYamlNode> serialize(const IRepositories & packages) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

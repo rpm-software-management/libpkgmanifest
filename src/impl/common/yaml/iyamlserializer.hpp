@@ -17,4 +17,4 @@ public:
     virtual void to_file(const IYamlNode & node, const std::string & path) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

@@ -3,10 +3,9 @@
 
 #pragma once
 
-#include "packages.hpp"
-
 #include "libpkgmanifest/common/repositories.hpp"
 #include "libpkgmanifest/common/version.hpp"
+#include "packages.hpp"
 
 #include <memory>
 #include <string>
@@ -79,4 +78,4 @@ private:
     std::unique_ptr<Impl> p_impl;
 };
 
-}
+}  // namespace libpkgmanifest::manifest

@@ -135,4 +135,4 @@ TEST(NevraTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(nevra.get_arch(), clone->get_arch());
 }
 
-}
+}  // namespace

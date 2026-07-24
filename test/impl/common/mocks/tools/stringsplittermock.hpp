@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::vector<std::string>, split, (const std::string &, char), (const, override));
 };
 
-}
+}  // namespace

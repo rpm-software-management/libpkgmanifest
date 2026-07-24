@@ -14,10 +14,9 @@ using ChecksumMethod = libpkgmanifest::manifest::ChecksumMethod;
 ChecksumFormatError::ChecksumFormatError(const std::string & message) : std::runtime_error(message) {}
 
 ChecksumParser::ChecksumParser(
-    std::shared_ptr<IChecksumFactory> checksum_factory,
-    std::shared_ptr<IStringSplitter> string_splitter)
-    : checksum_factory(std::move(checksum_factory))
-    , string_splitter(std::move(string_splitter)) {}
+    std::shared_ptr<IChecksumFactory> checksum_factory, std::shared_ptr<IStringSplitter> string_splitter)
+    : checksum_factory(std::move(checksum_factory)),
+      string_splitter(std::move(string_splitter)) {}
 
 std::unique_ptr<IChecksum> ChecksumParser::parse(const IYamlNode & node) const {
     auto checksum = checksum_factory->create();
@@ -32,8 +31,9 @@ std::unique_ptr<IChecksum> ChecksumParser::parse(const IYamlNode & node) const {
     auto & digest = checksum_parts[1];
 
     // case-insensitive method matching
-    std::transform(method_string.begin(), method_string.end(), method_string.begin(),
-        [](unsigned char c){ return std::tolower(c); });
+    std::transform(method_string.begin(), method_string.end(), method_string.begin(), [](unsigned char c) {
+        return std::tolower(c);
+    });
 
     if (method_string == "sha1") {
         checksum->set_method(ChecksumMethod::SHA1);
@@ -56,8 +56,8 @@ std::unique_ptr<IChecksum> ChecksumParser::parse(const IYamlNode & node) const {
     }
 
     checksum->set_digest(digest);
-    
+
     return checksum;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::unique_ptr<IManifest>, create, (), (const, override));
 };
 
-}
+}  // namespace

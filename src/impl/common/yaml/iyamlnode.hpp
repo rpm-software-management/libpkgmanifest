@@ -3,9 +3,10 @@
 
 #pragma once
 
+#include <stdint.h>
+
 #include <map>
 #include <memory>
-#include <stdint.h>
 #include <string>
 #include <vector>
 
@@ -27,4 +28,4 @@ public:
     virtual std::map<std::string, std::unique_ptr<IYamlNode>> as_map() const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

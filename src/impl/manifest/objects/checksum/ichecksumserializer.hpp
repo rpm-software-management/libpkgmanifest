@@ -4,7 +4,6 @@
 #pragma once
 
 #include "ichecksum.hpp"
-
 #include "impl/common/yaml/iyamlnode.hpp"
 
 #include <memory>
@@ -20,4 +19,4 @@ public:
     virtual std::unique_ptr<IYamlNode> serialize(const IChecksum & checksum) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

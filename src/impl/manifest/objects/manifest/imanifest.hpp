@@ -34,4 +34,4 @@ public:
     virtual void set_repositories(std::unique_ptr<IRepositories> repositories) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

@@ -59,30 +59,42 @@ TEST(ApiParserTest, ParseSimplePrototypeInput) {
 
     auto repository1 = repositories.get("ubi-9-baseos-rpms");
     EXPECT_EQ("ubi-9-baseos-rpms", repository1.get_id());
-    EXPECT_EQ("https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/os", repository1.get_baseurl());
+    EXPECT_EQ(
+        "https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/os", repository1.get_baseurl());
 
     auto repository2 = repositories.get("ubi-9-baseos-source");
     EXPECT_EQ("ubi-9-baseos-source", repository2.get_id());
-    EXPECT_EQ("https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/source/SRPMS", repository2.get_baseurl());
+    EXPECT_EQ(
+        "https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/source/SRPMS",
+        repository2.get_baseurl());
 
     auto repository3 = repositories.get("ubi-9-appstream-rpms");
     EXPECT_EQ("ubi-9-appstream-rpms", repository3.get_id());
-    EXPECT_EQ("https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/os", repository3.get_baseurl());
+    EXPECT_EQ(
+        "https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/os", repository3.get_baseurl());
 
     auto repository4 = repositories.get("ubi-9-appstream-source");
     EXPECT_EQ("ubi-9-appstream-source", repository4.get_id());
-    EXPECT_EQ("https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/source/SRPMS", repository4.get_baseurl());
+    EXPECT_EQ(
+        "https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/source/SRPMS",
+        repository4.get_baseurl());
 
     auto repository5 = repositories.get("ubi-9-codeready-builder-rpms");
     EXPECT_EQ("ubi-9-codeready-builder-rpms", repository5.get_id());
-    EXPECT_EQ("https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/os", repository5.get_baseurl());
+    EXPECT_EQ(
+        "https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/os",
+        repository5.get_baseurl());
 
     auto repository6 = repositories.get("ubi-9-codeready-builder-source");
     EXPECT_EQ("ubi-9-codeready-builder-source", repository6.get_id());
-    EXPECT_EQ("https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/source/SRPMS", repository6.get_baseurl());
+    EXPECT_EQ(
+        "https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/source/SRPMS",
+        repository6.get_baseurl());
 
     EXPECT_EQ(6, input.get_packages().get_installs().size());
-    EXPECT_THAT(input.get_packages().get_installs(), ElementsAre("gettext", "hostname", "nss_wrapper", "bind-utils", "varnish", "gcc"));
+    EXPECT_THAT(
+        input.get_packages().get_installs(),
+        ElementsAre("gettext", "hostname", "nss_wrapper", "bind-utils", "varnish", "gcc"));
 
     EXPECT_EQ(4, input.get_archs().size());
     EXPECT_THAT(input.get_archs(), ElementsAre("x86_64", "aarch64", "ppc64le", "s390x"));
@@ -102,4 +114,4 @@ TEST(ApiInputParserTest, ParseInvalidPrototypeInputThrowsParserException) {
     EXPECT_THROW(parser.parse_prototype(file_path), ParserError);
 }
 
-}
+}  // namespace

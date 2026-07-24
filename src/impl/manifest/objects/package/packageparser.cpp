@@ -16,10 +16,10 @@ PackageParser::PackageParser(
     std::unique_ptr<INevraParser> nevra_parser,
     std::unique_ptr<IModuleParser> module_parser,
     std::shared_ptr<IPackageFactory> package_factory)
-    : checksum_parser(std::move(checksum_parser))
-    , nevra_parser(std::move(nevra_parser))
-    , module_parser(std::move(module_parser))
-    , package_factory(std::move(package_factory)) {}
+    : checksum_parser(std::move(checksum_parser)),
+      nevra_parser(std::move(nevra_parser)),
+      module_parser(std::move(module_parser)),
+      package_factory(std::move(package_factory)) {}
 
 std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const IYamlNode & node) const {
     auto package = package_factory->create();
@@ -57,4 +57,4 @@ std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const I
     return package;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

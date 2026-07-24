@@ -23,4 +23,4 @@ private:
     std::vector<std::string> disables;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

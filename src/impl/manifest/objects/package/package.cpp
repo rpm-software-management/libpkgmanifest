@@ -15,26 +15,26 @@ PackageRepositoryNotAttachedError::PackageRepositoryNotAttachedError(const std::
     : std::runtime_error(message) {}
 
 Package::Package()
-    : repo_id()
-    , location()
-    , size(0)
-    , checksum(nullptr)
-    , nevra(nullptr)
-    , srpm(nullptr)
-    , module(nullptr)
-    , repository(nullptr)
-    , parent_archs() {}
+    : repo_id(),
+      location(),
+      size(0),
+      checksum(nullptr),
+      nevra(nullptr),
+      srpm(nullptr),
+      module(nullptr),
+      repository(nullptr),
+      parent_archs() {}
 
-Package::Package(const Package & other) 
-    : repo_id(other.repo_id)
-    , location(other.location)
-    , size(other.size)
-    , checksum(other.checksum->clone())
-    , nevra(other.nevra->clone())
-    , srpm(other.srpm->clone())
-    , module(other.module->clone())
-    , repository(other.repository)
-    , parent_archs(other.parent_archs) {}
+Package::Package(const Package & other)
+    : repo_id(other.repo_id),
+      location(other.location),
+      size(other.size),
+      checksum(other.checksum->clone()),
+      nevra(other.nevra->clone()),
+      srpm(other.srpm->clone()),
+      module(other.module->clone()),
+      repository(other.repository),
+      parent_archs(other.parent_archs) {}
 
 std::unique_ptr<IPackage> Package::clone() const {
     return std::make_unique<Package>(*this);
@@ -154,9 +154,9 @@ void Package::set_repository(IRepository & repository) {
 
 void Package::check_repository() const {
     if (!repository) {
-        throw PackageRepositoryNotAttachedError(std::format(
-            "Repository is not configured yet for package '{}'", nevra->to_string()));
+        throw PackageRepositoryNotAttachedError(
+            std::format("Repository is not configured yet for package '{}'", nevra->to_string()));
     }
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

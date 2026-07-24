@@ -9,8 +9,7 @@ namespace libpkgmanifest::internal::input {
 
 using namespace libpkgmanifest::internal::common;
 
-PrototypeFileConverter::PrototypeFileConverter(
-    std::shared_ptr<IYamlNodeFactory> node_factory)
+PrototypeFileConverter::PrototypeFileConverter(std::shared_ptr<IYamlNodeFactory> node_factory)
     : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> PrototypeFileConverter::convert(const IYamlNode & node) const {
@@ -21,7 +20,8 @@ std::unique_ptr<IYamlNode> PrototypeFileConverter::convert(const IYamlNode & nod
     result->insert("document", std::move(document_node));
 
     auto version_node = node_factory->create();
-    version_node->set(std::format("{}.{}.{}",
+    version_node->set(std::format(
+        "{}.{}.{}",
         INPUT_PROTOTYPE_DOCUMENT_VERSION_MAJOR,
         INPUT_PROTOTYPE_DOCUMENT_VERSION_MINOR,
         INPUT_PROTOTYPE_DOCUMENT_VERSION_PATCH));
@@ -36,7 +36,7 @@ std::unique_ptr<IYamlNode> PrototypeFileConverter::convert(const IYamlNode & nod
         result_repositories_node->add(std::move(result_repository_node));
     }
     result->insert("repositories", std::move(result_repositories_node));
-    
+
     auto result_packages_node = node_factory->create();
 
     if (node.has("packages")) {
@@ -98,4 +98,4 @@ std::unique_ptr<IYamlNode> PrototypeFileConverter::convert(const IYamlNode & nod
     return result;
 }
 
-}
+}  // namespace libpkgmanifest::internal::input
