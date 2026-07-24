@@ -3,12 +3,11 @@
 
 #pragma once
 
+#include "impl/manifest/objects/checksum/ichecksumparser.hpp"
+#include "impl/manifest/objects/module/imoduleparser.hpp"
+#include "impl/manifest/objects/nevra/inevraparser.hpp"
 #include "ipackagefactory.hpp"
 #include "ipackageparser.hpp"
-
-#include "impl/manifest/objects/checksum/ichecksumparser.hpp"
-#include "impl/manifest/objects/nevra/inevraparser.hpp"
-#include "impl/manifest/objects/module/imoduleparser.hpp"
 
 namespace libpkgmanifest::internal::manifest {
 
@@ -36,4 +35,4 @@ private:
     std::shared_ptr<IPackageFactory> package_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

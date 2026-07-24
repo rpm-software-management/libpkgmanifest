@@ -8,22 +8,22 @@ namespace libpkgmanifest::internal::input {
 using namespace libpkgmanifest::internal::common;
 
 Input::Input()
-    : document()
-    , version(nullptr)
-    , repositories(nullptr)
-    , packages(nullptr)
-    , modules(nullptr)
-    , options(nullptr)
-    , archs() {}
+    : document(),
+      version(nullptr),
+      repositories(nullptr),
+      packages(nullptr),
+      modules(nullptr),
+      options(nullptr),
+      archs() {}
 
-Input::Input(const Input & other) 
-    : document(other.document)
-    , version(other.version->clone())
-    , repositories(other.repositories->clone())
-    , packages(other.packages->clone())
-    , modules(other.modules->clone())
-    , options(other.options->clone())
-    , archs(other.archs) {}
+Input::Input(const Input & other)
+    : document(other.document),
+      version(other.version->clone()),
+      repositories(other.repositories->clone()),
+      packages(other.packages->clone()),
+      modules(other.modules->clone()),
+      options(other.options->clone()),
+      archs(other.archs) {}
 
 std::unique_ptr<IInput> Input::clone() const {
     return std::make_unique<Input>(*this);
@@ -105,4 +105,4 @@ void Input::set_options(std::unique_ptr<IOptions> options) {
     this->options = std::move(options);
 }
 
-}
+}  // namespace libpkgmanifest::internal::input

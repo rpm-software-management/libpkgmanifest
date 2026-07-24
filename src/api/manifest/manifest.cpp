@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "manifest_impl.hpp"
-
 #include "libpkgmanifest/manifest/manifest.hpp"
+
+#include "manifest_impl.hpp"
 
 namespace libpkgmanifest::manifest {
 
@@ -60,4 +60,4 @@ void Manifest::set_repositories(Repositories & repositories) {
     p_impl->get_repositories().p_impl->init(&p_impl->get()->get_repositories());
 }
 
-}
+}  // namespace libpkgmanifest::manifest

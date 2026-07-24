@@ -1,12 +1,11 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/manifest/mocks/objects/package/packagemock.hpp"
 #include "impl/manifest/mocks/objects/package/packageparsermock.hpp"
 #include "impl/manifest/mocks/objects/packages/packagesfactorymock.hpp"
 #include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
-#include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
 #include "impl/manifest/objects/packages/packagesparser.hpp"
 
 #include <gmock/gmock.h>
@@ -38,10 +37,7 @@ protected:
         auto package_parser_wrapper = std::make_unique<NiceMock<PackageParserMock>>();
         package_parser = package_parser_wrapper.get();
 
-        parser = std::make_unique<PackagesParser>(
-            std::move(package_parser_wrapper),
-            packages_factory_wrapper
-        );
+        parser = std::make_unique<PackagesParser>(std::move(package_parser_wrapper), packages_factory_wrapper);
     }
 
     NiceMock<PackageParserMock> * package_parser;
@@ -90,8 +86,10 @@ TEST_F(PackagesParserTest, ParserAddsAllPackagesForEachArchInYamlNode) {
     EXPECT_CALL(*aarch64_node_ptr, as_list()).WillOnce(Return(std::move(aarch64_package_nodes)));
     EXPECT_CALL(*i686_node_ptr, as_list()).WillOnce(Return(std::move(i686_package_nodes)));
 
-    EXPECT_CALL(*package_parser, parse("aarch64", Ref(*aarch64_pkg1_node_ptr))).WillOnce(Return(std::move(aarch64_pkg1)));
-    EXPECT_CALL(*package_parser, parse("aarch64", Ref(*aarch64_pkg2_node_ptr))).WillOnce(Return(std::move(aarch64_pkg2)));
+    EXPECT_CALL(*package_parser, parse("aarch64", Ref(*aarch64_pkg1_node_ptr)))
+        .WillOnce(Return(std::move(aarch64_pkg1)));
+    EXPECT_CALL(*package_parser, parse("aarch64", Ref(*aarch64_pkg2_node_ptr)))
+        .WillOnce(Return(std::move(aarch64_pkg2)));
     EXPECT_CALL(*package_parser, parse("i686", Ref(*i686_pkg1_node_ptr))).WillOnce(Return(std::move(i686_pkg1)));
     EXPECT_CALL(*package_parser, parse("i686", Ref(*i686_pkg2_node_ptr))).WillOnce(Return(std::move(i686_pkg2)));
 
@@ -108,4 +106,4 @@ TEST_F(PackagesParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_packages.get(), packages_ptr);
 }
 
-}
+}  // namespace

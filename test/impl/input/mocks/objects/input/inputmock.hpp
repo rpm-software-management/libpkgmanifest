@@ -33,4 +33,4 @@ public:
     MOCK_METHOD(void, set_options, (std::unique_ptr<IOptions>), (override));
 };
 
-}
+}  // namespace

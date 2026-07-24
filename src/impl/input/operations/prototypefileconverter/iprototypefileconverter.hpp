@@ -18,4 +18,4 @@ public:
     virtual std::unique_ptr<IYamlNode> convert(const IYamlNode & node) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

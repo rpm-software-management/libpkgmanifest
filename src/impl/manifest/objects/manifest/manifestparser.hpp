@@ -5,7 +5,6 @@
 
 #include "imanifestfactory.hpp"
 #include "imanifestparser.hpp"
-
 #include "impl/common/objects/repositories/irepositoriesparser.hpp"
 #include "impl/common/objects/version/iversionparser.hpp"
 #include "impl/manifest/objects/packages/ipackagesparser.hpp"
@@ -34,4 +33,4 @@ private:
     std::shared_ptr<IPackageRepositoryBinder> binder;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

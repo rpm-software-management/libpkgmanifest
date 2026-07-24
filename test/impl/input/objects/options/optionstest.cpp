@@ -27,4 +27,4 @@ TEST(InputOptionsTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(options.get_allow_erasing(), clone->get_allow_erasing());
 }
 
-}
+}  // namespace

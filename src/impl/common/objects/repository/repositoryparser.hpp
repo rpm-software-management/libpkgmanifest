@@ -23,4 +23,4 @@ private:
     std::shared_ptr<IRepositoryFactory> repository_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

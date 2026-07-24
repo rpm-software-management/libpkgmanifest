@@ -7,9 +7,7 @@ namespace libpkgmanifest::internal::manifest {
 
 using ChecksumMethod = libpkgmanifest::manifest::ChecksumMethod;
 
-Checksum::Checksum()
-    : method(ChecksumMethod::SHA256)
-    , digest() {}
+Checksum::Checksum() : method(ChecksumMethod::SHA256), digest() {}
 
 std::unique_ptr<IChecksum> Checksum::clone() const {
     return std::make_unique<Checksum>(*this);
@@ -31,4 +29,4 @@ void Checksum::set_digest(const std::string & digest) {
     this->digest = digest;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

@@ -16,4 +16,4 @@ public:
     virtual void serialize_manifest(const IManifest & manifest, const std::string & path) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

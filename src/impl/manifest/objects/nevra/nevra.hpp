@@ -36,4 +36,4 @@ private:
     std::string arch;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

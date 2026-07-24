@@ -16,4 +16,4 @@ public:
     virtual std::unique_ptr<IInput> create() const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

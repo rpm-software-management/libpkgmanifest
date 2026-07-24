@@ -3,16 +3,17 @@
 
 #pragma once
 
+#include "impl/common/objects/repository/irepositoryparser.hpp"
 #include "irepositoriesfactory.hpp"
 #include "irepositoriesparser.hpp"
-
-#include "impl/common/objects/repository/irepositoryparser.hpp"
 
 namespace libpkgmanifest::internal::common {
 
 class RepositoriesParser : public IRepositoriesParser {
 public:
-    RepositoriesParser(std::unique_ptr<IRepositoryParser> repository_parser, std::shared_ptr<IRepositoriesFactory> repositories_factory);
+    RepositoriesParser(
+        std::unique_ptr<IRepositoryParser> repository_parser,
+        std::shared_ptr<IRepositoriesFactory> repositories_factory);
 
     virtual std::unique_ptr<IRepositories> parse(const IYamlNode & node) const override;
 
@@ -21,4 +22,4 @@ private:
     std::shared_ptr<IRepositoriesFactory> repositories_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

@@ -15,4 +15,4 @@ public:
     MOCK_METHOD(void, to_file, (const IYamlNode &, const std::string &), (const, override));
 };
 
-}
+}  // namespace

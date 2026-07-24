@@ -18,4 +18,4 @@ private:
     std::shared_ptr<IOptionsFactory> options_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

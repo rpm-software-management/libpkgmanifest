@@ -1,13 +1,12 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/repository/repositorymock.hpp"
 #include "impl/common/mocks/objects/repository/repositoryserializermock.hpp"
-#include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalmock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalstub.hpp"
-
 #include "impl/common/objects/repositories/repositoriesserializer.hpp"
 
 #include <gmock/gmock.h>
@@ -35,11 +34,9 @@ protected:
         node_ptr = node.get();
 
         auto node_factory = std::make_shared<NiceMock<YamlNodeFactoryMock>>();
-        EXPECT_CALL(*node_factory, create())
-            .WillOnce(Return(std::move(node)))
-            .WillRepeatedly([]() { 
-                return std::make_unique<YamlNodeInternalStub>(); 
-            });
+        EXPECT_CALL(*node_factory, create()).WillOnce(Return(std::move(node))).WillRepeatedly([]() {
+            return std::make_unique<YamlNodeInternalStub>();
+        });
 
         serializer = std::make_unique<RepositoriesSerializer>(node_factory, std::move(repository_serializer));
     }
@@ -87,4 +84,4 @@ TEST_F(RepositoriesSerializerTest, SerializerReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(serialized_node.get(), node_ptr);
 }
 
-}
+}  // namespace

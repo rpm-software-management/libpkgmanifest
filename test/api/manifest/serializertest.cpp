@@ -16,9 +16,7 @@ using ::testing::Test;
 
 class ApiManifestSerializerTest : public Test {
 protected:
-    virtual void SetUp() {
-        file_path = std::filesystem::temp_directory_path() / "ApiManifestSerializerTest.yaml";
-    }
+    virtual void SetUp() { file_path = std::filesystem::temp_directory_path() / "ApiManifestSerializerTest.yaml"; }
 
     virtual void TearDown() {
         std::error_code ec;
@@ -157,4 +155,4 @@ data:
     EXPECT_EQ(read_file_buffer.str(), empty_manifest_yaml);
 }
 
-}
+}  // namespace

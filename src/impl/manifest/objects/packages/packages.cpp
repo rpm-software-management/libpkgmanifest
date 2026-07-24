@@ -8,8 +8,7 @@
 
 namespace libpkgmanifest::internal::manifest {
 
-PackagesNoSuchArchError::PackagesNoSuchArchError(const std::string & message)
-    : std::runtime_error(message) {}
+PackagesNoSuchArchError::PackagesNoSuchArchError(const std::string & message) : std::runtime_error(message) {}
 
 Packages::Packages() {}
 
@@ -61,7 +60,7 @@ IPackage * Packages::find(const IPackage & package) const {
 
     auto & arch_packages = map_it->second;
     auto found_it = std::find_if(arch_packages.begin(), arch_packages.end(), [&](const auto & it_package) {
-        return it_package->get_nevra().to_string() == package.get_nevra().to_string() && 
+        return it_package->get_nevra().to_string() == package.get_nevra().to_string() &&
                it_package->get_repo_id() == package.get_repo_id();
     });
 
@@ -84,4 +83,4 @@ IPackage * Packages::find_or_add(std::unique_ptr<IPackage> package) {
     return result;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

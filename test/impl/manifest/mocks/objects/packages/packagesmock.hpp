@@ -19,4 +19,4 @@ public:
     MOCK_METHOD(bool, contains, (const IPackage &), (const, override));
 };
 
-}
+}  // namespace

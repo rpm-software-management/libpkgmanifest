@@ -8,7 +8,7 @@
 
 
 namespace libpkgmanifest::manifest {
-    class Package;
+class Package;
 };
 
 
@@ -75,4 +75,4 @@ private:
     std::unique_ptr<Impl> p_impl;
 };
 
-}
+}  // namespace libpkgmanifest::common

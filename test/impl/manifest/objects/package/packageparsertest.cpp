@@ -1,6 +1,8 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/common/mocks/yaml/yamlnodemock.hpp"
+#include "impl/common/yaml/yamlnode.hpp"
 #include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/manifest/mocks/objects/checksum/checksumparsermock.hpp"
 #include "impl/manifest/mocks/objects/module/modulemock.hpp"
@@ -9,9 +11,6 @@
 #include "impl/manifest/mocks/objects/nevra/nevraparsermock.hpp"
 #include "impl/manifest/mocks/objects/package/packagefactorymock.hpp"
 #include "impl/manifest/mocks/objects/package/packagemock.hpp"
-#include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
-#include "impl/common/yaml/yamlnode.hpp"
 #include "impl/manifest/objects/package/packageparser.hpp"
 
 #include <gmock/gmock.h>
@@ -50,9 +49,9 @@ protected:
         auto module_parser_wrapper = std::make_unique<NiceMock<ModuleParserMock>>();
         module_parser = module_parser_wrapper.get();
 
-        EXPECT_CALL(yaml_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
+        EXPECT_CALL(yaml_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
 
         EXPECT_CALL(yaml_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
 
@@ -60,8 +59,7 @@ protected:
             std::move(checksum_parser_wrapper),
             std::move(nevra_parser_wrapper),
             std::move(module_parser_wrapper),
-            package_factory_wrapper
-        );
+            package_factory_wrapper);
     }
 
     NiceMock<ChecksumParserMock> * checksum_parser;
@@ -76,7 +74,7 @@ protected:
 TEST_F(PackageParserTest, ParserSetsRepoIdFromYamlNode) {
     auto repoid_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto repoid_node_ptr = repoid_node.get();
-    
+
     EXPECT_CALL(yaml_node, get("repo_id")).WillOnce(Return(std::move(repoid_node)));
     EXPECT_CALL(*repoid_node_ptr, as_string()).WillOnce(Return("id"));
     EXPECT_CALL(*package_ptr, set_repo_id("id"));
@@ -86,7 +84,7 @@ TEST_F(PackageParserTest, ParserSetsRepoIdFromYamlNode) {
 TEST_F(PackageParserTest, ParserSetsLocationFromYamlNode) {
     auto location_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto location_node_ptr = location_node.get();
-    
+
     EXPECT_CALL(yaml_node, has("location")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("location")).WillOnce(Return(std::move(location_node)));
     EXPECT_CALL(*location_node_ptr, as_string()).WillOnce(Return("path"));
@@ -104,7 +102,7 @@ TEST_F(PackageParserTest, ParserDoesNotSetLocationIfNotProvided) {
 TEST_F(PackageParserTest, ParserSetsSizeFromYamlNode) {
     auto size_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto size_node_ptr = size_node.get();
-    
+
     EXPECT_CALL(yaml_node, get("size")).WillOnce(Return(std::move(size_node)));
     EXPECT_CALL(*size_node_ptr, as_uint64()).WillOnce(Return(6651234566512345));
     EXPECT_CALL(*package_ptr, set_size(6651234566512345));
@@ -117,7 +115,7 @@ TEST_F(PackageParserTest, ParserAddsParentArchsFromYamlNode) {
 
     auto node = std::make_unique<NiceMock<YamlNodeMock>>();
 
-    std::vector<std::unique_ptr<IYamlNode>> arch_nodes; 
+    std::vector<std::unique_ptr<IYamlNode>> arch_nodes;
     auto arch1_node = std::make_unique<NiceMock<YamlNodeMock>>();
     EXPECT_CALL(*arch1_node, as_string()).WillOnce(Return("x86_64"));
     auto arch2_node = std::make_unique<NiceMock<YamlNodeMock>>();
@@ -210,7 +208,7 @@ TEST_F(PackageParserTest, ParserDoesNotSetSrpmIfNotProvided) {
 TEST_F(PackageParserTest, ParserThrowsAnExceptionIfSizeHasInvalidFormat) {
     auto size_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto size_node_ptr = size_node.get();
-    
+
     EXPECT_CALL(yaml_node, get("size")).WillOnce(Return(std::move(size_node)));
     EXPECT_CALL(*size_node_ptr, as_uint64()).WillOnce(Throw(YamlInvalidValueConversionError("error")));
     EXPECT_THROW(parser->parse("arch", yaml_node), PackageSizeFormatError);
@@ -221,4 +219,4 @@ TEST_F(PackageParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_package.get(), package_ptr);
 }
 
-}
+}  // namespace

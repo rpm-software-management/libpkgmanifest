@@ -3,12 +3,11 @@
 
 #pragma once
 
+#include "libpkgmanifest/common/repositories.hpp"
+#include "libpkgmanifest/common/version.hpp"
 #include "modules.hpp"
 #include "options.hpp"
 #include "packages.hpp"
-
-#include "libpkgmanifest/common/repositories.hpp"
-#include "libpkgmanifest/common/version.hpp"
 
 #include <memory>
 #include <string>
@@ -108,4 +107,4 @@ private:
     std::unique_ptr<Impl> p_impl;
 };
 
-}
+}  // namespace libpkgmanifest::input

@@ -38,4 +38,4 @@ public:
     MOCK_METHOD(void, set_repository, (IRepository &), (override));
 };
 
-}
+}  // namespace

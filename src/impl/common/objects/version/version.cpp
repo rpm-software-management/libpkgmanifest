@@ -5,10 +5,7 @@
 
 namespace libpkgmanifest::internal::common {
 
-Version::Version()
-    : major(0)
-    , minor(0)
-    , patch(0) {}
+Version::Version() : major(0), minor(0), patch(0) {}
 
 std::unique_ptr<IVersion> Version::clone() const {
     return std::make_unique<Version>(*this);
@@ -38,4 +35,4 @@ void Version::set_patch(unsigned patch) {
     this->patch = patch;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

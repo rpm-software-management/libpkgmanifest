@@ -15,4 +15,4 @@ public:
     MOCK_METHOD(std::unique_ptr<IYamlNode>, from_file, (const std::string &), (const, override));
 };
 
-}
+}  // namespace

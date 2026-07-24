@@ -7,12 +7,7 @@
 
 namespace libpkgmanifest::internal::manifest {
 
-Nevra::Nevra()
-    : name()
-    , epoch()
-    , version()
-    , release()
-    , arch() {}
+Nevra::Nevra() : name(), epoch(), version(), release(), arch() {}
 
 std::unique_ptr<INevra> Nevra::clone() const {
     return std::make_unique<Nevra>(*this);
@@ -79,4 +74,4 @@ std::string Nevra::to_evr_string() const {
     return std::format("{}{}-{}", epoch_string, version, release);
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

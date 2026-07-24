@@ -20,4 +20,4 @@ private:
     bool allow_erasing;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

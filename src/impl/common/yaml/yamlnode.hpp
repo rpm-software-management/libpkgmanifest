@@ -47,7 +47,7 @@ public:
     const YAML::Node & get_node() const;
 
 private:
-    template<typename T>
+    template <typename T>
     T as() const {
         try {
             return node.as<T>();
@@ -59,4 +59,4 @@ private:
     YAML::Node node;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

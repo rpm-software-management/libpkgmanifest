@@ -26,4 +26,4 @@ public:
     virtual bool contains(const IPackage & package) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

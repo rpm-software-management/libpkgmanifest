@@ -18,4 +18,4 @@ public:
     MOCK_METHOD(void, set_digest, (const std::string &), (override));
 };
 
-}
+}  // namespace

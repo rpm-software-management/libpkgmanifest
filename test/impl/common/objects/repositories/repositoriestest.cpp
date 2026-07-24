@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "impl/common/mocks/objects/repository/repositorymock.hpp"
-
 #include "impl/common/objects/repositories/repositories.hpp"
 
 #include <gtest/gtest.h>
@@ -72,4 +71,4 @@ TEST(RepositoriesTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(repositories.get()["repo_id_2"]->get_id(), clone->get()["repo_id_2"]->get_id());
 }
 
-}
+}  // namespace

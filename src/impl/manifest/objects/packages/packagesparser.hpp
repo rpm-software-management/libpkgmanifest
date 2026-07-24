@@ -3,10 +3,9 @@
 
 #pragma once
 
+#include "impl/manifest/objects/package/ipackageparser.hpp"
 #include "ipackagesfactory.hpp"
 #include "ipackagesparser.hpp"
-
-#include "impl/manifest/objects/package/ipackageparser.hpp"
 
 namespace libpkgmanifest::internal::manifest {
 
@@ -23,4 +22,4 @@ private:
     std::shared_ptr<IPackagesFactory> packages_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

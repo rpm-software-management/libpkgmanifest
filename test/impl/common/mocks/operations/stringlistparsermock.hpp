@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::vector<std::string>, parse, (const IYamlNode &), (const, override));
 };
 
-}
+}  // namespace

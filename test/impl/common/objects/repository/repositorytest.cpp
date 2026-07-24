@@ -55,4 +55,4 @@ TEST(RepositoryTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(repository.get_mirrorlist(), clone->get_mirrorlist());
 }
 
-}
+}  // namespace

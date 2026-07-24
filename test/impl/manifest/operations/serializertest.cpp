@@ -1,11 +1,10 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
-#include "impl/manifest/mocks/objects/manifest/manifestserializermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/common/mocks/yaml/yamlserializermock.hpp"
-
+#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/manifest/mocks/objects/manifest/manifestserializermock.hpp"
 #include "impl/manifest/operations/serializer/serializer.hpp"
 
 #include <gmock/gmock.h>
@@ -38,4 +37,4 @@ TEST(SerializerTest, ManifestIsPassedOverToYamlSerializer) {
     serializer.serialize_manifest(manifest, "path");
 }
 
-}
+}  // namespace

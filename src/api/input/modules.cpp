@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "modules_impl.hpp"
-
 #include "libpkgmanifest/input/modules.hpp"
+
+#include "modules_impl.hpp"
 
 namespace libpkgmanifest::input {
 
@@ -31,4 +31,4 @@ std::vector<std::string> & Modules::get_disables() {
     return p_impl->get()->get_disables();
 }
 
-}
+}  // namespace libpkgmanifest::input

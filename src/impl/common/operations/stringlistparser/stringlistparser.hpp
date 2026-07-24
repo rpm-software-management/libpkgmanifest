@@ -14,4 +14,4 @@ public:
     virtual std::vector<std::string> parse(const IYamlNode & node) const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

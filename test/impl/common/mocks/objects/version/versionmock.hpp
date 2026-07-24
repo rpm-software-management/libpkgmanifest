@@ -20,4 +20,4 @@ public:
     MOCK_METHOD(void, set_patch, (unsigned), (override));
 };
 
-}
+}  // namespace

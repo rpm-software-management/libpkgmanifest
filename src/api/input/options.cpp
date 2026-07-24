@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "options_impl.hpp"
-
 #include "libpkgmanifest/input/options.hpp"
+
+#include "options_impl.hpp"
 
 namespace libpkgmanifest::input {
 
@@ -31,4 +31,4 @@ void Options::set_allow_erasing(bool value) {
     return p_impl->get()->set_allow_erasing(value);
 }
 
-}
+}  // namespace libpkgmanifest::input

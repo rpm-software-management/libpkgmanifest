@@ -1,76 +1,75 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include <rpm/rpmver.h>
 #include "nevraparser.hpp"
+
+#include <rpm/rpmver.h>
 
 namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
 
-NevraParseError::NevraParseError(const std::string & message)
-    : std::runtime_error(message) {}
+NevraParseError::NevraParseError(const std::string & message) : std::runtime_error(message) {}
 
-NevraParser::NevraParser(std::shared_ptr<INevraFactory> nevra_factory)
-    : nevra_factory(std::move(nevra_factory)) {}
+NevraParser::NevraParser(std::shared_ptr<INevraFactory> nevra_factory) : nevra_factory(std::move(nevra_factory)) {}
 
 namespace {
-    void splitEVRA(std::unique_ptr<INevra> & nevra, const std::string & evr_string, bool extract_arch = true) {
-        rpmver evr = NULL;
-        const char *e = NULL;
-        const char *v = NULL;
-        const char *r = NULL;
-        std::string val;
-        std::string arch;
-        size_t last_dot_position;
+void splitEVRA(std::unique_ptr<INevra> & nevra, const std::string & evr_string, bool extract_arch = true) {
+    rpmver evr = NULL;
+    const char * e = NULL;
+    const char * v = NULL;
+    const char * r = NULL;
+    std::string val;
+    std::string arch;
+    size_t last_dot_position;
 
-        last_dot_position = evr_string.find_last_of('.');
+    last_dot_position = evr_string.find_last_of('.');
 
-        if (extract_arch && last_dot_position != std::string::npos) {
-            arch = evr_string.substr(last_dot_position + 1);
-            nevra->set_arch(arch);
-            evr = rpmverParse(evr_string.substr(0, last_dot_position).c_str());
-        } else {
-            evr = rpmverParse(evr_string.c_str());
-        }
+    if (extract_arch && last_dot_position != std::string::npos) {
+        arch = evr_string.substr(last_dot_position + 1);
+        nevra->set_arch(arch);
+        evr = rpmverParse(evr_string.substr(0, last_dot_position).c_str());
+    } else {
+        evr = rpmverParse(evr_string.c_str());
+    }
 
-        if (evr == NULL) {
+    if (evr == NULL) {
+        throw NevraParseError("Failed to parse epoch:version-release substring: " + evr_string);
+    }
+
+    try {
+        // collect the components
+        e = rpmverE(evr);
+        v = rpmverV(evr);
+        r = rpmverR(evr);
+
+        // a NULL epoch is ok, but we at least need version and release
+        if (v == NULL || r == NULL) {
             throw NevraParseError("Failed to parse epoch:version-release substring: " + evr_string);
         }
 
-        try {
-            // collect the components
-            e = rpmverE(evr);
-            v = rpmverV(evr);
-            r = rpmverR(evr);
-
-            // a NULL epoch is ok, but we at least need version and release
-            if (v == NULL || r == NULL) {
-                throw NevraParseError("Failed to parse epoch:version-release substring: " + evr_string);
-            }
-
-            // save the EVR components
-            if (e != NULL) {
-                val = e;
-                nevra->set_epoch(val);
-            }
-
-            val = v;
-            nevra->set_version(val);
-
-            val = r;
-            nevra->set_release(val);
-
-            // cleanup
-            rpmverFree(evr);
-        } catch(...) {
-            rpmverFree(evr);
-            throw;
+        // save the EVR components
+        if (e != NULL) {
+            val = e;
+            nevra->set_epoch(val);
         }
 
-        return;
+        val = v;
+        nevra->set_version(val);
+
+        val = r;
+        nevra->set_release(val);
+
+        // cleanup
+        rpmverFree(evr);
+    } catch (...) {
+        rpmverFree(evr);
+        throw;
     }
+
+    return;
 }
+}  // namespace
 
 std::unique_ptr<INevra> NevraParser::parse(const IYamlNode & node) const {
     auto nevra = nevra_factory->create();
@@ -88,7 +87,8 @@ std::unique_ptr<INevra> NevraParser::parse(const IYamlNode & node) const {
 
     // Validate that we have at least two hyphens for name-version-release.arch format
     if (second_last_dash_position == std::string::npos) {
-        throw NevraParseError("Invalid NEVRA format - at least two hyphens needed for name-version-release.arch: " + nevra_string);
+        throw NevraParseError(
+            "Invalid NEVRA format - at least two hyphens needed for name-version-release.arch: " + nevra_string);
     }
 
     // Get the EVR substring
@@ -103,7 +103,8 @@ std::unique_ptr<INevra> NevraParser::parse(const IYamlNode & node) const {
     return nevra;
 }
 
-std::unique_ptr<INevra> NevraParser::parse(const std::string & name, const std::string & arch, const IYamlNode & node) const {
+std::unique_ptr<INevra> NevraParser::parse(
+    const std::string & name, const std::string & arch, const IYamlNode & node) const {
     auto nevra = nevra_factory->create();
     auto evr_string = node.as_string();
 
@@ -114,4 +115,4 @@ std::unique_ptr<INevra> NevraParser::parse(const std::string & name, const std::
     return nevra;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

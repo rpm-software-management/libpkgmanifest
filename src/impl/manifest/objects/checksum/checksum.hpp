@@ -26,4 +26,4 @@ private:
     std::string digest;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

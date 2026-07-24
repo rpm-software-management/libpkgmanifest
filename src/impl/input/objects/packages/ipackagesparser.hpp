@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "ipackages.hpp"
-
 #include "impl/common/yaml/iyamlnode.hpp"
+#include "ipackages.hpp"
 
 #include <memory>
 
@@ -20,4 +19,4 @@ public:
     virtual std::unique_ptr<IPackages> parse(const IYamlNode & node) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

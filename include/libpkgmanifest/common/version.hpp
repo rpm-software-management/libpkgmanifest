@@ -7,12 +7,12 @@
 
 
 namespace libpkgmanifest::input {
-    class Input;
+class Input;
 };
 
 
 namespace libpkgmanifest::manifest {
-    class Manifest;
+class Manifest;
 };
 
 
@@ -68,4 +68,4 @@ private:
     std::unique_ptr<Impl> p_impl;
 };
 
-}
+}  // namespace libpkgmanifest::common

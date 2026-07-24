@@ -1,13 +1,12 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/manifest/mocks/objects/checksum/checksumfactorymock.hpp"
-#include "impl/manifest/mocks/objects/module/modulemock.hpp"
+#include "impl/manifest/mocks/objects/checksum/checksummock.hpp"
 #include "impl/manifest/mocks/objects/module/modulefactorymock.hpp"
-#include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
+#include "impl/manifest/mocks/objects/module/modulemock.hpp"
 #include "impl/manifest/mocks/objects/nevra/nevrafactorymock.hpp"
-
+#include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
 #include "impl/manifest/objects/package/packagefactory.hpp"
 
 #include <gtest/gtest.h>
@@ -34,9 +33,7 @@ TEST(PackageFactoryTest, CreateReturnsAnObjectWithAnInstanceOfChecksumNevraSrpmA
     auto module_factory = std::make_shared<NiceMock<ModuleFactoryMock>>();
     EXPECT_CALL(*module_factory, create()).WillOnce(Return(std::move(module)));
     auto nevra_factory = std::make_shared<NiceMock<NevraFactoryMock>>();
-    EXPECT_CALL(*nevra_factory, create())
-        .WillOnce(Return(std::move(nevra)))
-        .WillOnce(Return(std::move(srpm)));
+    EXPECT_CALL(*nevra_factory, create()).WillOnce(Return(std::move(nevra))).WillOnce(Return(std::move(srpm)));
 
     PackageFactory package_factory(checksum_factory, nevra_factory, module_factory);
     auto package = package_factory.create();
@@ -46,4 +43,4 @@ TEST(PackageFactoryTest, CreateReturnsAnObjectWithAnInstanceOfChecksumNevraSrpmA
     EXPECT_EQ(&package->get_srpm(), srpm_ptr);
 }
 
-}
+}  // namespace

@@ -5,9 +5,7 @@
 
 namespace libpkgmanifest::internal::manifest {
 
-Module::Module()
-    : name()
-    , stream() {}
+Module::Module() : name(), stream() {}
 
 std::unique_ptr<IModule> Module::clone() const {
     return std::make_unique<Module>(*this);
@@ -29,4 +27,4 @@ void Module::set_stream(const std::string & stream) {
     this->stream = stream;
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

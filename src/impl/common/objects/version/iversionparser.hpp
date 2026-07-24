@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "iversion.hpp"
-
 #include "impl/common/yaml/iyamlnode.hpp"
+#include "iversion.hpp"
 
 #include <memory>
 
@@ -18,4 +17,4 @@ public:
     virtual std::unique_ptr<IVersion> parse(const IYamlNode & node) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

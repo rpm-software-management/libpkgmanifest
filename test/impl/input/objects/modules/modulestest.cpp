@@ -30,4 +30,4 @@ TEST(InputModulesTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(modules.get_disables(), clone->get_disables());
 }
 
-}
+}  // namespace

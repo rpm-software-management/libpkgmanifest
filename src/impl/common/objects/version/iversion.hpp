@@ -22,4 +22,4 @@ public:
     virtual void set_patch(unsigned patch) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

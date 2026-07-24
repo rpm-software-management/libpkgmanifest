@@ -3,10 +3,9 @@
 
 #include "impl/common/mocks/objects/repository/repositorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
-#include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalmock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalstub.hpp"
-
+#include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/common/objects/repository/repositoryserializer.hpp"
 
 #include <gmock/gmock.h>
@@ -33,12 +32,10 @@ protected:
         EXPECT_CALL(*node_ptr, insert(_, _)).Times(AnyNumber());
 
         auto node_factory = std::make_shared<NiceMock<YamlNodeFactoryMock>>();
-        EXPECT_CALL(*node_factory, create())
-            .WillOnce(Return(std::move(node)))
-            .WillRepeatedly([]() { 
-                return std::make_unique<YamlNodeInternalStub>(); 
-            });
-        
+        EXPECT_CALL(*node_factory, create()).WillOnce(Return(std::move(node))).WillRepeatedly([]() {
+            return std::make_unique<YamlNodeInternalStub>();
+        });
+
         serializer = std::make_unique<RepositorySerializer>(node_factory);
     }
 
@@ -50,10 +47,9 @@ protected:
 TEST_F(RepositorySerializerTest, SerializerSetsIdAsStringToYamlNode) {
     EXPECT_CALL(repository, get_id()).WillOnce(Return("repo1"));
 
-    EXPECT_CALL(*node_ptr, insert("id", _)).WillOnce(
-        [](const std::string &, std::unique_ptr<IYamlNode> node) {
-            EXPECT_EQ("repo1", node->as_string());
-        });
+    EXPECT_CALL(*node_ptr, insert("id", _)).WillOnce([](const std::string &, std::unique_ptr<IYamlNode> node) {
+        EXPECT_EQ("repo1", node->as_string());
+    });
 
     serializer->serialize(repository);
 }
@@ -61,8 +57,7 @@ TEST_F(RepositorySerializerTest, SerializerSetsIdAsStringToYamlNode) {
 TEST_F(RepositorySerializerTest, SerializerSetsBaseurlAsStringToYamlNode) {
     EXPECT_CALL(repository, get_baseurl()).WillOnce(Return("address"));
 
-    EXPECT_CALL(*node_ptr, insert("baseurl", _)).WillOnce(
-    [](const std::string &, std::unique_ptr<IYamlNode> node) {
+    EXPECT_CALL(*node_ptr, insert("baseurl", _)).WillOnce([](const std::string &, std::unique_ptr<IYamlNode> node) {
         EXPECT_EQ("address", node->as_string());
     });
 
@@ -79,8 +74,7 @@ TEST_F(RepositorySerializerTest, SerializerDoesNotSetBaseurlIfEmpty) {
 TEST_F(RepositorySerializerTest, SerializerSetsMetalinkAsStringToYamlNode) {
     EXPECT_CALL(repository, get_metalink()).WillOnce(Return("meta_address"));
 
-    EXPECT_CALL(*node_ptr, insert("metalink", _)).WillOnce(
-    [](const std::string &, std::unique_ptr<IYamlNode> node) {
+    EXPECT_CALL(*node_ptr, insert("metalink", _)).WillOnce([](const std::string &, std::unique_ptr<IYamlNode> node) {
         EXPECT_EQ("meta_address", node->as_string());
     });
 
@@ -97,8 +91,7 @@ TEST_F(RepositorySerializerTest, SerializerDoesNotSetMetalinkIfEmpty) {
 TEST_F(RepositorySerializerTest, SerializerSetsMirrorlistAsStringToYamlNode) {
     EXPECT_CALL(repository, get_mirrorlist()).WillOnce(Return("mirrors"));
 
-    EXPECT_CALL(*node_ptr, insert("mirrorlist", _)).WillOnce(
-    [](const std::string &, std::unique_ptr<IYamlNode> node) {
+    EXPECT_CALL(*node_ptr, insert("mirrorlist", _)).WillOnce([](const std::string &, std::unique_ptr<IYamlNode> node) {
         EXPECT_EQ("mirrors", node->as_string());
     });
 
@@ -117,4 +110,4 @@ TEST_F(RepositorySerializerTest, SerializerReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(serialized_node.get(), node_ptr);
 }
 
-}
+}  // namespace

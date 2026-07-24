@@ -72,4 +72,4 @@ TEST(ApiRepositoryTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_repository.get_id(), "repo1");
 }
 
-}
+}  // namespace

@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "repository_impl.hpp"
-
 #include "libpkgmanifest/common/repository.hpp"
+
+#include "repository_impl.hpp"
 
 namespace libpkgmanifest::common {
 
@@ -55,4 +55,4 @@ void Repository::set_mirrorlist(const std::string & mirrorlist) {
     p_impl->get()->set_mirrorlist(mirrorlist);
 }
 
-}
+}  // namespace libpkgmanifest::common

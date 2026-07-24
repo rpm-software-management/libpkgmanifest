@@ -1,12 +1,11 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "manifest_impl.hpp"
-
-#include "libpkgmanifest/common/exception.hpp"
 #include "libpkgmanifest/manifest/parser.hpp"
 
 #include "impl/manifest/operations/parser/parserfactory.hpp"
+#include "libpkgmanifest/common/exception.hpp"
+#include "manifest_impl.hpp"
 
 #include <format>
 
@@ -16,9 +15,8 @@ using namespace libpkgmanifest::internal::manifest;
 
 class Parser::Impl {
 public:
-    Impl() {
-        parser = ParserFactory().create();
-    }
+    Impl() { parser = ParserFactory().create(); }
+
 private:
     friend Parser;
     std::unique_ptr<IParser> parser;
@@ -34,10 +32,11 @@ Manifest Parser::parse(const std::string & path) const {
     try {
         manifest.p_impl->set(p_impl->parser->parse(path));
     } catch (const std::runtime_error & error) {
-        throw ParserError(std::format("An error occurred during parsing of the manifest file at \"{}\": {}", path, error.what()));
+        throw ParserError(
+            std::format("An error occurred during parsing of the manifest file at \"{}\": {}", path, error.what()));
     }
 
     return manifest;
 }
 
-}
+}  // namespace libpkgmanifest::manifest

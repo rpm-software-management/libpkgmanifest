@@ -15,4 +15,4 @@ std::vector<std::string> StringListParser::parse(const IYamlNode & node) const {
     return items;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

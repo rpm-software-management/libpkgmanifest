@@ -5,7 +5,6 @@
 #include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
 #include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
-
 #include "impl/manifest/objects/manifest/manifest.hpp"
 
 #include <gtest/gtest.h>
@@ -116,4 +115,4 @@ TEST(ManifestTest, CloneAttachesClonedPackagesToTheClonedRepositoriesUsingBinder
     manifest.clone();
 }
 
-}
+}  // namespace

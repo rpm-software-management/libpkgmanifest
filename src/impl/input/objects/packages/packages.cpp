@@ -5,9 +5,7 @@
 
 namespace libpkgmanifest::internal::input {
 
-Packages::Packages()
-    : installs()
-    , reinstalls() {}
+Packages::Packages() : installs(), reinstalls() {}
 
 std::unique_ptr<IPackages> Packages::clone() const {
     return std::make_unique<Packages>(*this);
@@ -29,4 +27,4 @@ std::vector<std::string> & Packages::get_reinstalls() {
     return reinstalls;
 }
 
-}
+}  // namespace libpkgmanifest::internal::input

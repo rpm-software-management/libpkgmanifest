@@ -5,11 +5,7 @@
 
 namespace libpkgmanifest::internal::common {
 
-Repository::Repository()
-    : id()
-    , baseurl()
-    , metalink()
-    , mirrorlist() {}
+Repository::Repository() : id(), baseurl(), metalink(), mirrorlist() {}
 
 std::unique_ptr<IRepository> Repository::clone() const {
     return std::make_unique<Repository>(*this);
@@ -47,4 +43,4 @@ void Repository::set_mirrorlist(const std::string & mirrorlist) {
     this->mirrorlist = mirrorlist;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

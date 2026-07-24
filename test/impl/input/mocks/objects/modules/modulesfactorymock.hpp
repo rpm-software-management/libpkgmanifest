@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::unique_ptr<IModules>, create, (), (const, override));
 };
 
-}
+}  // namespace

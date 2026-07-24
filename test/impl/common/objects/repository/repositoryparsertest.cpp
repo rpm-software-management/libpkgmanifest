@@ -1,10 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/common/mocks/objects/repository/repositorymock.hpp"
 #include "impl/common/mocks/objects/repository/repositoryfactorymock.hpp"
+#include "impl/common/mocks/objects/repository/repositorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
 #include "impl/common/objects/repository/repositoryparser.hpp"
 
 #include <gmock/gmock.h>
@@ -29,10 +28,10 @@ protected:
         auto repository_factory = std::make_shared<NiceMock<RepositoryFactoryMock>>();
         EXPECT_CALL(*repository_factory, create()).WillOnce(Return(std::move(repository)));
 
-        EXPECT_CALL(yaml_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
-        
+        EXPECT_CALL(yaml_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
+
         EXPECT_CALL(yaml_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
 
         parser = std::make_unique<RepositoryParser>(repository_factory);
@@ -47,7 +46,7 @@ protected:
 TEST_F(RepositoryParserTest, ParserSetsIdFromYamlNode) {
     auto id_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto id_node_ptr = id_node.get();
-    
+
     EXPECT_CALL(yaml_node, has("baseurl")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("id")).WillOnce(Return(std::move(id_node)));
     EXPECT_CALL(*id_node_ptr, as_string()).WillOnce(Return("repo1"));
@@ -58,7 +57,7 @@ TEST_F(RepositoryParserTest, ParserSetsIdFromYamlNode) {
 TEST_F(RepositoryParserTest, ParserSetsBaseurlFromYamlNode) {
     auto baseurl_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto baseurl_node_ptr = baseurl_node.get();
-    
+
     EXPECT_CALL(yaml_node, has("baseurl")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("baseurl")).WillOnce(Return(std::move(baseurl_node)));
     EXPECT_CALL(*baseurl_node_ptr, as_string()).WillOnce(Return("urly urlish url"));
@@ -69,7 +68,7 @@ TEST_F(RepositoryParserTest, ParserSetsBaseurlFromYamlNode) {
 TEST_F(RepositoryParserTest, ParserSetsMetalinkFromYamlNode) {
     auto metalink_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto metalink_node_ptr = metalink_node.get();
-    
+
     EXPECT_CALL(yaml_node, has("metalink")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("metalink")).WillOnce(Return(std::move(metalink_node)));
     EXPECT_CALL(*metalink_node_ptr, as_string()).WillOnce(Return("metalink"));
@@ -80,7 +79,7 @@ TEST_F(RepositoryParserTest, ParserSetsMetalinkFromYamlNode) {
 TEST_F(RepositoryParserTest, ParserSetsMirrorlistFromYamlNode) {
     auto mirrorlist_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto mirrorlist_node_ptr = mirrorlist_node.get();
-    
+
     EXPECT_CALL(yaml_node, has("mirrorlist")).WillRepeatedly(Return(true));
     EXPECT_CALL(yaml_node, get("mirrorlist")).WillOnce(Return(std::move(mirrorlist_node)));
     EXPECT_CALL(*mirrorlist_node_ptr, as_string()).WillOnce(Return("mirrorlist"));
@@ -99,4 +98,4 @@ TEST_F(RepositoryParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_repository.get(), repository_ptr);
 }
 
-}
+}  // namespace

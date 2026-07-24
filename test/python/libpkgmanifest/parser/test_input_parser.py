@@ -47,27 +47,33 @@ class TestInputParser(base_test_case.BaseTestCase):
 
         repository1 = repositories['ubi-9-baseos-rpms']
         self.assertEqual('ubi-9-baseos-rpms', repository1.id)
-        self.assertEqual('https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/os', repository1.baseurl)
+        self.assertEqual(
+            'https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/os', repository1.baseurl)
 
         repository2 = repositories['ubi-9-baseos-source']
         self.assertEqual('ubi-9-baseos-source', repository2.id)
-        self.assertEqual('https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/source/SRPMS', repository2.baseurl)
+        self.assertEqual(
+            'https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/baseos/source/SRPMS', repository2.baseurl)
 
         repository3 = repositories['ubi-9-appstream-rpms']
         self.assertEqual('ubi-9-appstream-rpms', repository3.id)
-        self.assertEqual('https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/os', repository3.baseurl)
+        self.assertEqual(
+            'https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/os', repository3.baseurl)
 
         repository4 = repositories['ubi-9-appstream-source']
         self.assertEqual('ubi-9-appstream-source', repository4.id)
-        self.assertEqual('https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/source/SRPMS', repository4.baseurl)
+        self.assertEqual(
+            'https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/source/SRPMS', repository4.baseurl)
 
         repository5 = repositories['ubi-9-codeready-builder-rpms']
         self.assertEqual('ubi-9-codeready-builder-rpms', repository5.id)
-        self.assertEqual('https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/os', repository5.baseurl)
+        self.assertEqual(
+            'https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/os', repository5.baseurl)
 
         repository6 = repositories['ubi-9-codeready-builder-source']
         self.assertEqual('ubi-9-codeready-builder-source', repository6.id)
-        self.assertEqual('https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/source/SRPMS', repository6.baseurl)
+        self.assertEqual(
+            'https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/codeready-builder/source/SRPMS', repository6.baseurl)
 
         install_packages = input.packages.installs
         self.assertEqual(6, len(install_packages))

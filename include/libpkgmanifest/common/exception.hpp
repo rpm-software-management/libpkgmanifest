@@ -20,4 +20,4 @@ public:
     SerializerError(const std::string & message);
 };
 
-}
+}  // namespace libpkgmanifest::common

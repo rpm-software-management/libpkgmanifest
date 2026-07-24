@@ -68,4 +68,4 @@ TEST(ApiInputPackagesTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_packages.get_installs()[0], "pkg1");
 }
 
-}
+}  // namespace

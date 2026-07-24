@@ -4,7 +4,6 @@
 #pragma once
 
 #include "imanifest.hpp"
-
 #include "impl/manifest/operations/packagerepositorybinder/ipackagerepositorybinder.hpp"
 
 namespace libpkgmanifest::internal::manifest {
@@ -41,4 +40,4 @@ private:
     std::shared_ptr<IPackageRepositoryBinder> binder;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

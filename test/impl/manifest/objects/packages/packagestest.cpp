@@ -3,7 +3,6 @@
 
 #include "impl/manifest/mocks/objects/nevra/nevramock.hpp"
 #include "impl/manifest/mocks/objects/package/packagemock.hpp"
-
 #include "impl/manifest/objects/packages/packages.hpp"
 
 #include <gtest/gtest.h>
@@ -293,4 +292,4 @@ TEST(PackagesTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(packages.get("noarch")[0]->get_location(), clone->get("noarch")[0]->get_location());
 }
 
-}
+}  // namespace

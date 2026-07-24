@@ -139,4 +139,4 @@ TEST(ApiInputTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_input.get_document(), "my-input");
 }
 
-}
+}  // namespace

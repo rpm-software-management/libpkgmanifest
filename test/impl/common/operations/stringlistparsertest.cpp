@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
 #include "impl/common/operations/stringlistparser/stringlistparser.hpp"
 
 #include <gmock/gmock.h>
@@ -17,7 +16,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 
 TEST(StringListParserTest, ParseAddsAllListItemsToTheOutputVector) {
-    std::vector<std::unique_ptr<IYamlNode>> items_nodes; 
+    std::vector<std::unique_ptr<IYamlNode>> items_nodes;
     auto item1_node = std::make_unique<NiceMock<YamlNodeMock>>();
     EXPECT_CALL(*item1_node, as_string()).WillOnce(Return("item1"));
     auto item2_node = std::make_unique<NiceMock<YamlNodeMock>>();
@@ -33,4 +32,4 @@ TEST(StringListParserTest, ParseAddsAllListItemsToTheOutputVector) {
     EXPECT_THAT(result, ElementsAre("item1", "item2"));
 }
 
-}
+}  // namespace

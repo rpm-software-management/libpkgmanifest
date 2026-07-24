@@ -44,7 +44,7 @@ TEST(ApiPackageTest, SetChecksum) {
 
 TEST(ApiPackageTest, SetNevra) {
     Package package;
-    
+
     Nevra nevra;
     nevra.set_name("package1");
 
@@ -56,7 +56,7 @@ TEST(ApiPackageTest, SetNevra) {
 
 TEST(ApiPackageTest, SetSrpm) {
     Package package;
-    
+
     Nevra srpm;
     srpm.set_name("source1");
 
@@ -132,4 +132,4 @@ TEST(ApiPackageTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_package.get_location(), "path/to/package");
 }
 
-}
+}  // namespace

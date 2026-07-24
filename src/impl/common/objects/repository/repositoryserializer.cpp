@@ -5,8 +5,7 @@
 
 namespace libpkgmanifest::internal::common {
 
-RepositorySerializer::RepositorySerializer(
-    std::shared_ptr<IYamlNodeFactory> node_factory)
+RepositorySerializer::RepositorySerializer(std::shared_ptr<IYamlNodeFactory> node_factory)
     : node_factory(std::move(node_factory)) {}
 
 std::unique_ptr<IYamlNode> RepositorySerializer::serialize(const IRepository & repository) const {
@@ -40,4 +39,4 @@ std::unique_ptr<IYamlNode> RepositorySerializer::serialize(const IRepository & r
     return node;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

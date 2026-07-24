@@ -23,4 +23,4 @@ public:
     virtual void add(std::unique_ptr<IRepository> repository) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

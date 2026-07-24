@@ -1,10 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/module/modulemock.hpp"
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalmock.hpp"
-
+#include "impl/manifest/mocks/objects/module/modulemock.hpp"
 #include "impl/manifest/objects/module/moduleserializer.hpp"
 
 #include <gmock/gmock.h>
@@ -49,4 +48,4 @@ TEST_F(ModuleSerializerTest, SerializerReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(serialized_node.get(), node_ptr);
 }
 
-}
+}  // namespace

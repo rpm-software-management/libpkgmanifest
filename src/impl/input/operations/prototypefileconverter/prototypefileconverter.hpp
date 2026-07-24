@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "iprototypefileconverter.hpp"
-
 #include "impl/common/yaml/iyamlnodefactory.hpp"
+#include "iprototypefileconverter.hpp"
 
 namespace libpkgmanifest::internal::input {
 
@@ -27,4 +26,4 @@ private:
     std::shared_ptr<IYamlNodeFactory> node_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

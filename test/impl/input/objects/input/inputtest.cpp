@@ -6,7 +6,6 @@
 #include "impl/input/mocks/objects/modules/modulesmock.hpp"
 #include "impl/input/mocks/objects/options/optionsmock.hpp"
 #include "impl/input/mocks/objects/packages/packagesmock.hpp"
-
 #include "impl/input/objects/input/input.hpp"
 
 #include <gtest/gtest.h>
@@ -136,4 +135,4 @@ TEST(InputTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(input.get_version().get_major(), clone->get_version().get_major());
 }
 
-}
+}  // namespace

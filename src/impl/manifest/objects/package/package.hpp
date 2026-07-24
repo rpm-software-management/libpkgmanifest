@@ -63,4 +63,4 @@ private:
     std::vector<std::string> parent_archs;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

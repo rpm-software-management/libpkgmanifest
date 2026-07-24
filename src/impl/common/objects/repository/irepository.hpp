@@ -25,4 +25,4 @@ public:
     virtual void set_mirrorlist(const std::string & mirrorlist) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

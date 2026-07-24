@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::unique_ptr<IYamlNode>, convert, (const IYamlNode &), (const, override));
 };
 
-}
+}  // namespace

@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "iversion.hpp"
-
 #include "impl/common/yaml/iyamlnode.hpp"
+#include "iversion.hpp"
 
 #include <memory>
 
@@ -18,4 +17,4 @@ public:
     virtual std::unique_ptr<IYamlNode> serialize(const IVersion & version) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

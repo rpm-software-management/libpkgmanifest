@@ -4,7 +4,6 @@
 #pragma once
 
 #include "ichecksumserializer.hpp"
-
 #include "impl/common/yaml/iyamlnodefactory.hpp"
 
 namespace libpkgmanifest::internal::manifest {
@@ -21,4 +20,4 @@ private:
     std::shared_ptr<IYamlNodeFactory> node_factory;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

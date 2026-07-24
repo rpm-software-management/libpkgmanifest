@@ -21,4 +21,4 @@ public:
     virtual std::vector<std::string> & get_disables() = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

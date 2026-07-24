@@ -5,7 +5,6 @@
 
 #include "iinputfactory.hpp"
 #include "iinputparser.hpp"
-
 #include "impl/common/objects/repositories/irepositoriesparser.hpp"
 #include "impl/common/objects/version/iversionparser.hpp"
 #include "impl/common/operations/stringlistparser/istringlistparser.hpp"
@@ -40,4 +39,4 @@ private:
     std::shared_ptr<IStringListParser> string_list_parser;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

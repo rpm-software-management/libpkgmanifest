@@ -12,4 +12,4 @@ public:
     virtual std::unique_ptr<IPackages> create() const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

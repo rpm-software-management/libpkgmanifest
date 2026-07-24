@@ -18,4 +18,4 @@ public:
     virtual void to_file(const IYamlNode & node, const std::string & path) const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

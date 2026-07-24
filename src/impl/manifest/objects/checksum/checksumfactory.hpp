@@ -12,4 +12,4 @@ public:
     virtual std::unique_ptr<IChecksum> create() const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

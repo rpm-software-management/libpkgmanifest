@@ -25,4 +25,4 @@ public:
     MOCK_METHOD(void, set_repositories, (std::unique_ptr<IRepositories>), (override));
 };
 
-}
+}  // namespace

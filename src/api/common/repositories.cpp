@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "repositories_impl.hpp"
-
 #include "libpkgmanifest/common/repositories.hpp"
+
+#include "repositories_impl.hpp"
 
 #include <vector>
 
@@ -93,4 +93,4 @@ bool RepositoriesIterator::operator!=(const RepositoriesIterator & other) const 
     return p_impl->get() != other.p_impl->get();
 }
 
-}
+}  // namespace libpkgmanifest::common

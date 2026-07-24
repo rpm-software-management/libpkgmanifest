@@ -23,4 +23,4 @@ private:
     std::vector<std::string> reinstalls;
 };
 
-}
+}  // namespace libpkgmanifest::internal::input

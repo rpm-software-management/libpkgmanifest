@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "packages_impl.hpp"
-
 #include "libpkgmanifest/input/packages.hpp"
+
+#include "packages_impl.hpp"
 
 namespace libpkgmanifest::input {
 
@@ -31,4 +31,4 @@ std::vector<std::string> & Packages::get_reinstalls() {
     return p_impl->get()->get_reinstalls();
 }
 
-}
+}  // namespace libpkgmanifest::input

@@ -14,4 +14,4 @@ public:
     MOCK_METHOD(std::unique_ptr<IYamlNode>, serialize, (const IModule &), (const, override));
 };
 
-}
+}  // namespace

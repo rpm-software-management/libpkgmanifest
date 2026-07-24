@@ -12,4 +12,4 @@ public:
     virtual std::unique_ptr<ISerializer> create() const override;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

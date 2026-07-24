@@ -1,10 +1,6 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
-#include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
-#include "impl/manifest/mocks/objects/packages/packagesserializermock.hpp"
-#include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesserializermock.hpp"
 #include "impl/common/mocks/objects/version/versionmock.hpp"
@@ -12,7 +8,10 @@
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalmock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalstub.hpp"
-
+#include "impl/manifest/mocks/objects/manifest/manifestmock.hpp"
+#include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
+#include "impl/manifest/mocks/objects/packages/packagesserializermock.hpp"
+#include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
 #include "impl/manifest/objects/manifest/manifestserializer.hpp"
 
 #include <gmock/gmock.h>
@@ -48,12 +47,10 @@ protected:
         EXPECT_CALL(*node_ptr, insert(_, _)).Times(AnyNumber());
 
         auto node_factory = std::make_shared<NiceMock<YamlNodeFactoryMock>>();
-        EXPECT_CALL(*node_factory, create())
-            .WillOnce(Return(std::move(node)))
-            .WillRepeatedly([]() { 
-                return std::make_unique<YamlNodeInternalStub>(); 
-            });
-        
+        EXPECT_CALL(*node_factory, create()).WillOnce(Return(std::move(node))).WillRepeatedly([]() {
+            return std::make_unique<YamlNodeInternalStub>();
+        });
+
         EXPECT_CALL(Const(manifest), get_packages()).WillOnce(ReturnPointee(&packages));
         EXPECT_CALL(Const(manifest), get_repositories()).WillOnce(ReturnPointee(&repositories));
         EXPECT_CALL(Const(manifest), get_version()).WillOnce(ReturnPointee(&version));
@@ -88,10 +85,9 @@ TEST_F(ManifestSerializerTest, RepositoriesAreValidatedForPackagesWithBinderAtTh
 TEST_F(ManifestSerializerTest, SerializerSetsDocumentAsStringToYamlNode) {
     EXPECT_CALL(manifest, get_document()).WillOnce(Return("rpm-package-manifest"));
 
-    EXPECT_CALL(*node_ptr, insert("document", _)).WillOnce(
-        [](const std::string &, std::unique_ptr<IYamlNode> node) {
-            EXPECT_EQ("rpm-package-manifest", node->as_string());
-        });
+    EXPECT_CALL(*node_ptr, insert("document", _)).WillOnce([](const std::string &, std::unique_ptr<IYamlNode> node) {
+        EXPECT_EQ("rpm-package-manifest", node->as_string());
+    });
 
     serializer->serialize(manifest);
 }
@@ -113,10 +109,9 @@ TEST_F(ManifestSerializerTest, SerializerSetsPackagesFromPackagesSerializer) {
 
     EXPECT_CALL(*packages_serializer_ptr, serialize(Ref(packages))).WillOnce(Return(std::move(packages_node)));
 
-    EXPECT_CALL(*node_ptr, insert("data", _)).WillOnce(
-        [](const std::string &, std::unique_ptr<IYamlNode> node) {
-            EXPECT_EQ("packages_node", node->get("packages")->as_string());
-        });
+    EXPECT_CALL(*node_ptr, insert("data", _)).WillOnce([](const std::string &, std::unique_ptr<IYamlNode> node) {
+        EXPECT_EQ("packages_node", node->get("packages")->as_string());
+    });
 
     serializer->serialize(manifest);
 }
@@ -126,12 +121,12 @@ TEST_F(ManifestSerializerTest, SerializerSetsRepositoriesFromRepositoriesSeriali
     auto repositories_node_ptr = repositories_node.get();
     repositories_node_ptr->set("repositories_node");
 
-    EXPECT_CALL(*repositories_serializer_ptr, serialize(Ref(repositories))).WillOnce(Return(std::move(repositories_node)));
+    EXPECT_CALL(*repositories_serializer_ptr, serialize(Ref(repositories)))
+        .WillOnce(Return(std::move(repositories_node)));
 
-    EXPECT_CALL(*node_ptr, insert("data", _)).WillOnce(
-        [](const std::string &, std::unique_ptr<IYamlNode> node) {
-            EXPECT_EQ("repositories_node", node->get("repositories")->as_string());
-        });
+    EXPECT_CALL(*node_ptr, insert("data", _)).WillOnce([](const std::string &, std::unique_ptr<IYamlNode> node) {
+        EXPECT_EQ("repositories_node", node->get("repositories")->as_string());
+    });
 
     serializer->serialize(manifest);
 }
@@ -141,4 +136,4 @@ TEST_F(ManifestSerializerTest, SerializerReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(serialized_node.get(), node_ptr);
 }
 
-}
+}  // namespace

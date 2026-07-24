@@ -60,4 +60,4 @@ TEST(ApiModuleTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_module.get_name(), "module1");
 }
 
-}
+}  // namespace

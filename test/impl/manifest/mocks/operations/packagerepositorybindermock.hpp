@@ -17,4 +17,4 @@ public:
     MOCK_METHOD(void, bind, (const IRepositories &, IPackages &), (override));
 };
 
-}
+}  // namespace

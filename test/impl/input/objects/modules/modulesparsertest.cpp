@@ -1,11 +1,10 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/input/mocks/objects/modules/modulesmock.hpp"
-#include "impl/input/mocks/objects/modules/modulesfactorymock.hpp"
 #include "impl/common/mocks/operations/stringlistparsermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
+#include "impl/input/mocks/objects/modules/modulesfactorymock.hpp"
+#include "impl/input/mocks/objects/modules/modulesmock.hpp"
 #include "impl/input/objects/modules/modulesparser.hpp"
 
 #include <gmock/gmock.h>
@@ -33,12 +32,12 @@ protected:
 
         string_list_parser = std::make_shared<NiceMock<StringListParserMock>>();
 
-        EXPECT_CALL(yaml_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
+        EXPECT_CALL(yaml_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
 
         EXPECT_CALL(yaml_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
-    
+
         parser = std::make_unique<ModulesParser>(modules_factory, string_list_parser);
     }
 
@@ -86,4 +85,4 @@ TEST_F(InputModulesParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_modules.get(), modules_ptr);
 }
 
-}
+}  // namespace

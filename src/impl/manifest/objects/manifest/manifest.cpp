@@ -7,23 +7,18 @@ namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
 
-Manifest::Manifest()
-    : document()
-    , version(nullptr)
-    , packages(nullptr)
-    , repositories(nullptr)
-    , binder(nullptr) {}
+Manifest::Manifest() : document(), version(nullptr), packages(nullptr), repositories(nullptr), binder(nullptr) {}
 
-Manifest::Manifest(const Manifest & other) 
-    : document(other.document)
-    , version(other.version->clone())
-    , packages(other.packages->clone())
-    , repositories(other.repositories->clone())
-    , binder(other.binder) {
-        if (binder) {
-            binder->bind(*repositories, *packages);
-        }
+Manifest::Manifest(const Manifest & other)
+    : document(other.document),
+      version(other.version->clone()),
+      packages(other.packages->clone()),
+      repositories(other.repositories->clone()),
+      binder(other.binder) {
+    if (binder) {
+        binder->bind(*repositories, *packages);
     }
+}
 
 std::unique_ptr<IManifest> Manifest::clone() const {
     return std::make_unique<Manifest>(*this);
@@ -77,4 +72,4 @@ void Manifest::set_package_repository_binder(std::shared_ptr<IPackageRepositoryB
     this->binder = std::move(binder);
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

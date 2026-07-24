@@ -17,4 +17,4 @@ public:
     virtual std::unique_ptr<IManifest> parse(const std::string & path) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

@@ -45,9 +45,10 @@ IRepository & PackageRepositoryBinder::get(const IRepositories & repositories, c
     if (it == map.end()) {
         throw PackageRepositoryBinderIdNotFoundError(std::format(
             "Repository with '{}' id does not exist in configured repositories for package '{}'",
-            repo_id, package.get_nevra().to_string()));
+            repo_id,
+            package.get_nevra().to_string()));
     }
     return *it->second.get();
 }
 
-}
+}  // namespace libpkgmanifest::internal::manifest

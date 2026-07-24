@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "input_impl.hpp"
-
 #include "libpkgmanifest/input/input.hpp"
+
+#include "input_impl.hpp"
 
 namespace libpkgmanifest::input {
 
@@ -82,4 +82,4 @@ void Input::set_options(Options & options) {
     p_impl->get_options().p_impl->init(&p_impl->get()->get_options());
 }
 
-}
+}  // namespace libpkgmanifest::input

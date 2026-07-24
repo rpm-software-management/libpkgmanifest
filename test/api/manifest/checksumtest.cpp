@@ -60,4 +60,4 @@ TEST(ApiChecksumTest, MoveAssignmentTransfersOwnership) {
     EXPECT_EQ(moved_checksum.get_digest(), "abcdef");
 }
 
-}
+}  // namespace

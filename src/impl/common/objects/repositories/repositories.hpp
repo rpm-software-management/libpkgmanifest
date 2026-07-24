@@ -22,4 +22,4 @@ private:
     std::map<std::string, std::unique_ptr<IRepository>> repositories;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

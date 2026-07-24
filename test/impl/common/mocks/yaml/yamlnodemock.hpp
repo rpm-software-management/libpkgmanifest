@@ -22,4 +22,4 @@ public:
     MOCK_METHOD((std::map<std::string, std::unique_ptr<IYamlNode>>), as_map, (), (const, override));
 };
 
-}
+}  // namespace

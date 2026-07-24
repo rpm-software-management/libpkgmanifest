@@ -1,9 +1,9 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "version_impl.hpp"
-
 #include "libpkgmanifest/common/version.hpp"
+
+#include "version_impl.hpp"
 
 namespace libpkgmanifest::common {
 
@@ -47,4 +47,4 @@ void Version::set_patch(unsigned patch) {
     p_impl->get()->set_patch(patch);
 }
 
-}
+}  // namespace libpkgmanifest::common

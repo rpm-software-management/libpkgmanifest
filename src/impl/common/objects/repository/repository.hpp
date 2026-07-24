@@ -30,4 +30,4 @@ private:
     std::string mirrorlist;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

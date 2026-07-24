@@ -32,4 +32,4 @@ TEST(InputPackagesTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(packages.get_reinstalls(), clone->get_reinstalls());
 }
 
-}
+}  // namespace

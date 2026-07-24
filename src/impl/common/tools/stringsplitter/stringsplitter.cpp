@@ -20,4 +20,4 @@ std::vector<std::string> StringSplitter::split(const std::string & string, char 
     return parts;
 }
 
-}
+}  // namespace libpkgmanifest::internal::common

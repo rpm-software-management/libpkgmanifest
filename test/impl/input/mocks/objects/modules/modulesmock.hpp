@@ -18,4 +18,4 @@ public:
     MOCK_METHOD(std::vector<std::string> &, get_disables, (), (override));
 };
 
-}
+}  // namespace

@@ -17,4 +17,4 @@ public:
     virtual std::vector<std::string> parse(const IYamlNode & node) const = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::common

@@ -8,8 +8,9 @@
 #include "impl/manifest/objects/module/imodule.hpp"
 #include "impl/manifest/objects/nevra/inevra.hpp"
 
-#include <memory>
 #include <stdint.h>
+
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -50,4 +51,4 @@ public:
     virtual void set_repository(IRepository & repository) = 0;
 };
 
-}
+}  // namespace libpkgmanifest::internal::manifest

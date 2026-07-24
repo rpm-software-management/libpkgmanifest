@@ -5,7 +5,6 @@
 #include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/common/mocks/tools/stringsplittermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
-
 #include "impl/common/objects/version/versionparser.hpp"
 
 #include <gmock/gmock.h>
@@ -30,10 +29,10 @@ protected:
         auto version_factory_wrapper = std::make_shared<NiceMock<VersionFactoryMock>>();
         EXPECT_CALL(*version_factory_wrapper, create()).WillOnce(Return(std::move(version)));
 
-        EXPECT_CALL(yaml_node, get(_))
-            .Times(AnyNumber())
-            .WillRepeatedly([]() { return std::make_unique<NiceMock<YamlNodeMock>>(); });
-        
+        EXPECT_CALL(yaml_node, get(_)).Times(AnyNumber()).WillRepeatedly([]() {
+            return std::make_unique<NiceMock<YamlNodeMock>>();
+        });
+
         string_splitter = std::make_shared<NiceMock<StringSplitterMock>>();
         parser = std::make_unique<VersionParser>(version_factory_wrapper, string_splitter);
     }
@@ -81,4 +80,4 @@ TEST_F(VersionParserTest, ParserReturnsTheObjectCreatedByFactory) {
     EXPECT_EQ(parsed_version.get(), version_ptr);
 }
 
-}
+}  // namespace

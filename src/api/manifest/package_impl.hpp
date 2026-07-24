@@ -3,19 +3,17 @@
 
 #pragma once
 
-#include "checksum_impl.hpp"
-#include "module_impl.hpp"
-#include "nevra_impl.hpp"
-
 #include "api/common/repository_impl.hpp"
 #include "api/shared/base_impl.hpp"
+#include "checksum_impl.hpp"
 #include "impl/manifest/objects/checksum/checksumfactory.hpp"
 #include "impl/manifest/objects/module/modulefactory.hpp"
 #include "impl/manifest/objects/nevra/nevrafactory.hpp"
 #include "impl/manifest/objects/package/packagefactory.hpp"
 #include "impl/manifest/operations/packagerepositorybinder/packagerepositorybinder.hpp"
-
 #include "libpkgmanifest/manifest/package.hpp"
+#include "module_impl.hpp"
+#include "nevra_impl.hpp"
 
 namespace libpkgmanifest::manifest {
 
@@ -26,9 +24,7 @@ class Package::Impl : public BaseImpl<IPackage, PackageFactory> {
 public:
     Impl() = default;
 
-    Impl(const Impl & other) : BaseImpl() {
-        copy_object(other);
-    }
+    Impl(const Impl & other) : BaseImpl() { copy_object(other); }
 
     Impl & operator=(const Impl & other) {
         if (this != &other) {
@@ -62,9 +58,7 @@ public:
         return module;
     }
 
-    IPackageRepositoryBinder & get_binder() {
-        return binder;
-    }
+    IPackageRepositoryBinder & get_binder() { return binder; }
 
     void init(IPackage * package) override {
         object = package;
@@ -87,7 +81,7 @@ protected:
             auto package_factory = PackageFactory(
                 std::make_shared<ChecksumFactory>(),
                 std::make_shared<NevraFactory>(),
-                std::make_shared<ModuleFactory>()); 
+                std::make_shared<ModuleFactory>());
             owned_object = package_factory.create();
             init(owned_object.get());
         }
@@ -102,4 +96,4 @@ private:
     PackageRepositoryBinder binder;
 };
 
-}
+}  // namespace libpkgmanifest::manifest
