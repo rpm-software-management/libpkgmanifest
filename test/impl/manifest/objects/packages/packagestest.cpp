@@ -24,6 +24,27 @@ TEST(PackagesTest, DefaultGetThrowsAnException) {
     EXPECT_THROW(Packages().get("arch"), PackagesNoSuchArchError);
 }
 
+TEST(PackagesTest, AddArchReturnsEmptyForRegisteredArch) {
+    Packages packages;
+    packages.add_arch("x86_64");
+    EXPECT_EQ(0, packages.get("x86_64").size());
+}
+
+TEST(PackagesTest, AddArchIncludesArchInGetArchs) {
+    Packages packages;
+    packages.add_arch("x86_64");
+    auto archs = packages.get_archs();
+    EXPECT_EQ(1, archs.size());
+    EXPECT_EQ("x86_64", archs[0]);
+}
+
+TEST(PackagesTest, AddArchIsIdempotent) {
+    Packages packages;
+    packages.add_arch("x86_64");
+    packages.add_arch("x86_64");
+    EXPECT_EQ(1, packages.get_archs().size());
+}
+
 TEST(PackagesTest, AddedPackageIsReturned) {
     auto nevra = std::make_unique<NiceMock<NevraMock>>();
     EXPECT_CALL(*nevra, get_arch()).WillRepeatedly(Return("arch"));
@@ -290,6 +311,13 @@ TEST(PackagesTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(packages.get("arch1")[0]->get_location(), clone->get("arch1")[0]->get_location());
     EXPECT_EQ(packages.get("noarch").size(), clone->get("noarch").size());
     EXPECT_EQ(packages.get("noarch")[0]->get_location(), clone->get("noarch")[0]->get_location());
+}
+
+TEST(PackagesTest, CopyPreservesEmptyArches) {
+    Packages packages;
+    packages.add_arch("x86_64");
+    Packages copied_packages(packages);
+    EXPECT_EQ(1, copied_packages.get_archs().size());
 }
 
 }  // namespace

@@ -23,6 +23,8 @@ public:
     virtual void add(std::unique_ptr<IPackage> package) = 0;
     virtual void add(std::unique_ptr<IPackage> package, const std::string & basearch) = 0;
 
+    virtual void add_arch(const std::string & arch) = 0;
+
     virtual bool contains(const IPackage & package) const = 0;
 };
 
