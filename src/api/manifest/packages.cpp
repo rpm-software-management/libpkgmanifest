@@ -74,6 +74,10 @@ void Packages::add(Package & package, const std::string & basearch) {
     p_impl->get()->add(package.p_impl->get_owned_object(), basearch);
 }
 
+void Packages::add_arch(const std::string & arch) {
+    p_impl->get()->add_arch(arch);
+}
+
 bool Packages::contains(const Package & package) {
     return p_impl->get()->contains(*package.p_impl->get());
 }

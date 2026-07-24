@@ -52,6 +52,16 @@ public:
     /// @param basearch The base architecture to link the package to.
     void add(Package & package, const std::string & basearch);
 
+    /// @brief Registers an architecture in the container.
+    ///
+    /// @note Ensures the architecture exists in the container, even if no
+    /// packages have been added for it. Calling get() for a registered
+    /// architecture returns an empty list instead of throwing. If the
+    /// architecture is already present, this is a no-op.
+    ///
+    /// @param arch The architecture to register.
+    void add_arch(const std::string & arch);
+
     /// @brief Verifies if the given package exists in the container.
     ///
     /// @note Packages are considered identical if they share the same NEVRA and repository ID.

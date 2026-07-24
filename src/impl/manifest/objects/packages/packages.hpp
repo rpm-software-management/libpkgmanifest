@@ -27,6 +27,8 @@ public:
     virtual void add(std::unique_ptr<IPackage> package) override;
     virtual void add(std::unique_ptr<IPackage> package, const std::string & basearch) override;
 
+    virtual void add_arch(const std::string & arch) override;
+
     virtual bool contains(const IPackage & package) const override;
 
 private:

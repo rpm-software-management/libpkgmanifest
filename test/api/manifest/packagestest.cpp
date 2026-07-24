@@ -38,6 +38,14 @@ TEST(ApiManifestPackagesTest, GetPackages) {
     EXPECT_EQ(packages_vector[1].get_nevra().get_name(), "pkg2");
 }
 
+TEST(ApiManifestPackagesTest, AddArchRegistersEmptyArch) {
+    Packages packages;
+
+    packages.add_arch("x86_64");
+    auto packages_vector = packages.get("x86_64");
+    EXPECT_EQ(packages_vector.size(), 0);
+}
+
 TEST(ApiManifestPackagesTest, GetBasearchPackages) {
     Packages packages;
 

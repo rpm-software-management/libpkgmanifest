@@ -13,7 +13,8 @@ PackagesNoSuchArchError::PackagesNoSuchArchError(const std::string & message) : 
 Packages::Packages() {}
 
 Packages::Packages(const Packages & other) {
-    for (const auto & arch_packages : other.packages | std::views::values) {
+    for (const auto & [arch, arch_packages] : other.packages) {
+        add_arch(arch);
         for (const auto & package : arch_packages) {
             add(package->clone());
         }
@@ -46,6 +47,10 @@ void Packages::add(std::unique_ptr<IPackage> package, const std::string & basear
     if (added_package->get_nevra().get_arch() != basearch) {
         added_package->get_parent_archs().push_back(basearch);
     }
+}
+
+void Packages::add_arch(const std::string & arch) {
+    packages.try_emplace(arch);
 }
 
 bool Packages::contains(const IPackage & package) const {

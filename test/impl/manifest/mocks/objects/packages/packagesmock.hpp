@@ -16,6 +16,7 @@ public:
     MOCK_METHOD((const std::vector<std::unique_ptr<IPackage>> &), get, (const std::string &), (const, override));
     MOCK_METHOD(void, add, (std::unique_ptr<IPackage>), (override));
     MOCK_METHOD(void, add, (std::unique_ptr<IPackage>, const std::string & basearch), (override));
+    MOCK_METHOD(void, add_arch, (const std::string &), (override));
     MOCK_METHOD(bool, contains, (const IPackage &), (const, override));
 };
 
