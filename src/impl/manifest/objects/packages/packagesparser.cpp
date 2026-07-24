@@ -15,6 +15,7 @@ PackagesParser::PackagesParser(
 std::unique_ptr<IPackages> PackagesParser::parse(const IYamlNode & node) const {
     auto packages = packages_factory->create();
     for (auto & [arch, package_nodes] : node.as_map()) {
+        packages->add_arch(arch);
         for (auto & package_node : package_nodes->as_list()) {
             auto package = package_parser->parse(arch, *package_node);
             packages->add(std::move(package));
