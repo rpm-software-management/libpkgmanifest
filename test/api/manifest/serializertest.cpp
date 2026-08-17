@@ -60,7 +60,8 @@ data:
         location: another/dir/file.here
         checksum: sha256:qpwoeiru
         size: 97643154
-        evr: 9.9-1.r3)";
+        evr: 9.9-1.r3
+)";
 
     Repository repository1;
     repository1.set_id("repo1");
@@ -142,7 +143,8 @@ TEST_F(ApiManifestSerializerTest, SerializeEmptyManifest) {
 version: 0.2.2
 data:
   repositories: ~
-  packages: ~)";
+  packages: ~
+)";
 
     Manifest manifest;
     Serializer serializer;
