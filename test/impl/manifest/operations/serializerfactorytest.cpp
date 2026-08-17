@@ -73,7 +73,8 @@ data:
         location: another/dir/file.here
         checksum: sha256:qpwoeiru
         size: 97643154
-        evr: 9.9-1.r3)";
+        evr: 9.9-1.r3
+)";
 
     std::vector<std::string> empty_vector;
 

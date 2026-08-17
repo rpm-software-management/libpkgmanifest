@@ -40,7 +40,7 @@ TEST_F(YamlSerializerTest, SerializeSimpleYamlToFile) {
     std::ifstream file_stream(file_path);
     std::string content((std::istreambuf_iterator<char>(file_stream)), std::istreambuf_iterator<char>());
 
-    EXPECT_EQ("value", content);
+    EXPECT_EQ("value\n", content);
 }
 
 TEST_F(YamlSerializerTest, SerializeSimpleYamlToFileWithUnknownNodeImplThrowsException) {
@@ -64,7 +64,7 @@ TEST_F(YamlSerializerTest, SerializeSimpleYamlToString) {
     YamlSerializer serializer;
     auto content = serializer.to_string(node);
 
-    EXPECT_EQ("value", content);
+    EXPECT_EQ("value\n", content);
 }
 
 TEST_F(YamlSerializerTest, SerializeSimpleYamlToStringWithUnknownNodeImplThrowsException) {
