@@ -5,14 +5,16 @@
 
 namespace libpkgmanifest::internal::input {
 
-Options::Options() : allow_erasing(false) {}
-
 std::unique_ptr<IOptions> Options::clone() const {
     return std::make_unique<Options>(*this);
 }
 
+bool Options::has_allow_erasing() const {
+    return allow_erasing.has_value();
+}
+
 bool Options::get_allow_erasing() const {
-    return allow_erasing;
+    return allow_erasing.value_or(false);
 }
 
 void Options::set_allow_erasing(bool allow_erasing) {
