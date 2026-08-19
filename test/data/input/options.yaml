@@ -1,0 +1,12 @@
+document: rpm-package-input
+version: 6.6.5
+repositories:
+    - id: main
+      metalink: https://community.server.org/metalink
+packages:
+    install:
+        - bootc
+archs:
+    - x86_64
+options:
+    allow_erasing: false
