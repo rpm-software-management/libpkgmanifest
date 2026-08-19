@@ -102,6 +102,7 @@ public:
 
 private:
     friend class Parser;
+    friend class Serializer;
 
     class Impl;
     std::unique_ptr<Impl> p_impl;
