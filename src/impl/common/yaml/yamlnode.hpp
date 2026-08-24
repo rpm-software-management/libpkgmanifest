@@ -23,6 +23,7 @@ class YamlNode : public IYamlNodeInternal {
 public:
     YamlNode();
     YamlNode(const YAML::Node & node);
+    YamlNode(const YAML::Node & node, const std::string & path);
 
     virtual bool has(const std::string & key) const override;
     virtual std::unique_ptr<IYamlNode> get(const std::string & key) const override;
@@ -56,7 +57,10 @@ private:
         }
     }
 
+    std::string child_path(const std::string & key) const;
+
     YAML::Node node;
+    std::string path;
 };
 
 }  // namespace libpkgmanifest::internal::common

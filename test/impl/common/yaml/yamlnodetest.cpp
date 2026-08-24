@@ -17,6 +17,47 @@ TEST(YamlNodeTest, ParseNonExistingItemFromYamlThrowsAnException) {
     EXPECT_THROW(node.get("key"), YamlUnknownKeyError);
 }
 
+TEST(YamlNodeTest, MissingKeyErrorContainsFullPath) {
+    YamlNode node(YAML::Load("packages:\n  install:\n    - name: pkg1"));
+    try {
+        node.get("packages")->get("install")->as_list()[0]->get("missing");
+        FAIL() << "Expected YamlUnknownKeyError";
+    } catch (const YamlUnknownKeyError & ex) {
+        EXPECT_THAT(std::string(ex.what()), ::testing::HasSubstr("packages.install[0].missing"));
+    }
+}
+
+TEST(YamlNodeTest, MissingKeyErrorAtTopLevelShowsKeyOnly) {
+    YamlNode node(YAML::Load("foo: bar"));
+    try {
+        node.get("missing");
+        FAIL() << "Expected YamlUnknownKeyError";
+    } catch (const YamlUnknownKeyError & ex) {
+        EXPECT_THAT(std::string(ex.what()), ::testing::HasSubstr("Missing field: missing"));
+    }
+}
+
+TEST(YamlNodeTest, MissingKeyErrorAtNestedLevelShowsFullPath) {
+    YamlNode node(YAML::Load("data:\n  repos:\n    id: 1"));
+    try {
+        node.get("data")->get("repos")->get("nonexistent");
+        FAIL() << "Expected YamlUnknownKeyError";
+    } catch (const YamlUnknownKeyError & ex) {
+        EXPECT_THAT(std::string(ex.what()), ::testing::HasSubstr("data.repos.nonexistent"));
+    }
+}
+
+TEST(YamlNodeTest, MapEntriesCarryPath) {
+    YamlNode node(YAML::Load("x86_64:\n  - name: pkg1"));
+    auto map = node.as_map();
+    try {
+        map["x86_64"]->as_list()[0]->get("missing");
+        FAIL() << "Expected YamlUnknownKeyError";
+    } catch (const YamlUnknownKeyError & ex) {
+        EXPECT_THAT(std::string(ex.what()), ::testing::HasSubstr("x86_64[0].missing"));
+    }
+}
+
 TEST(YamlNodeTest, ParseNodeFromYaml) {
     YamlNode node(YAML::Load("string_item: \"value\""));
     EXPECT_EQ("value", node.get("string_item")->as_string());
