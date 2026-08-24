@@ -14,6 +14,8 @@ YamlNode::YamlNode() {}
 
 YamlNode::YamlNode(const YAML::Node & node) : node(node) {}
 
+YamlNode::YamlNode(const YAML::Node & node, const std::string & path) : node(node), path(path) {}
+
 bool YamlNode::has(const std::string & key) const {
     return node.IsMap() && bool(node[key]);
 }
@@ -21,9 +23,9 @@ bool YamlNode::has(const std::string & key) const {
 std::unique_ptr<IYamlNode> YamlNode::get(const std::string & key) const {
     auto inner_node = node[key];
     if (!inner_node) {
-        throw YamlUnknownKeyError("Unknown key: " + key);
+        throw YamlUnknownKeyError("Missing field: " + child_path(key));
     }
-    return std::make_unique<YamlNode>(std::move(inner_node));
+    return std::make_unique<YamlNode>(std::move(inner_node), child_path(key));
 }
 
 std::string YamlNode::as_string() const {
@@ -49,7 +51,8 @@ uint64_t YamlNode::as_uint64() const {
 std::vector<std::unique_ptr<IYamlNode>> YamlNode::as_list() const {
     std::vector<std::unique_ptr<IYamlNode>> nodes;
     for (std::size_t i = 0; i < node.size(); i++) {
-        nodes.push_back(std::make_unique<YamlNode>(node[i]));
+        auto element_path = path + "[" + std::to_string(i) + "]";
+        nodes.push_back(std::make_unique<YamlNode>(node[i], element_path));
     }
     return nodes;
 }
@@ -57,7 +60,8 @@ std::vector<std::unique_ptr<IYamlNode>> YamlNode::as_list() const {
 std::map<std::string, std::unique_ptr<IYamlNode>> YamlNode::as_map() const {
     std::map<std::string, std::unique_ptr<IYamlNode>> nodes;
     for (auto it = node.begin(); it != node.end(); it++) {
-        nodes.insert({it->first.as<std::string>(), std::make_unique<YamlNode>(it->second)});
+        auto key = it->first.as<std::string>();
+        nodes.insert({key, std::make_unique<YamlNode>(it->second, child_path(key))});
     }
     return nodes;
 }
@@ -96,6 +100,13 @@ void YamlNode::insert(const std::string & key, std::unique_ptr<IYamlNode> value)
 
 const YAML::Node & YamlNode::get_node() const {
     return node;
+}
+
+std::string YamlNode::child_path(const std::string & key) const {
+    if (path.empty()) {
+        return key;
+    }
+    return path + "." + key;
 }
 
 }  // namespace libpkgmanifest::internal::common
