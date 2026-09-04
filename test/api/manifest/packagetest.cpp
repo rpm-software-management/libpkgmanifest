@@ -42,6 +42,20 @@ TEST(ApiPackageTest, SetChecksum) {
     EXPECT_EQ(package_checksum.get_digest(), "1234567890abcdef");
 }
 
+TEST(ApiPackageTest, SetHdrChecksum) {
+    Package package;
+
+    Checksum hdr_checksum;
+    hdr_checksum.set_method(ChecksumMethod::SHA256);
+    hdr_checksum.set_digest("1234567890abcdef");
+
+    package.set_hdr_checksum(hdr_checksum);
+
+    auto & package_hdr_checksum = package.get_hdr_checksum();
+    EXPECT_EQ(package_hdr_checksum.get_method(), ChecksumMethod::SHA256);
+    EXPECT_EQ(package_hdr_checksum.get_digest(), "1234567890abcdef");
+}
+
 TEST(ApiPackageTest, SetNevra) {
     Package package;
 
