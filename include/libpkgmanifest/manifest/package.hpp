@@ -62,6 +62,11 @@ public:
     /// @return The package checksum.
     Checksum & get_checksum();
 
+    /// @brief Retrieves the header checksum associated with this package.
+    ///
+    /// @return The package header checksum.
+    Checksum & get_hdr_checksum();
+
     /// @brief Retrieves the NEVRA package identifier.
     ///
     /// @return The NEVRA identifier of the package.
@@ -98,6 +103,11 @@ public:
     ///
     /// @param checksum The checksum to be set for the package.
     void set_checksum(Checksum & checksum);
+
+    /// @brief Sets the header checksum associated with this package.
+    ///
+    /// @param hdr_checksum The header checksum to be set for the package.
+    void set_hdr_checksum(Checksum & hdr_checksum);
 
     /// @brief Sets the package NEVRA identifier.
     ///

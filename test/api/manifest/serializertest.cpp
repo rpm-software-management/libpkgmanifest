@@ -44,6 +44,7 @@ data:
       - name: package1
         repo_id: repo1
         checksum: sha512:abcdef
+        hdr_checksum: sha1:aabbcc
         size: 152384
         evr: 1.2.3-1.r1
         srpm: package1-1.2.3-1.r1.src
@@ -82,6 +83,8 @@ data:
     package1.set_size(152384);
     package1.get_checksum().set_method(ChecksumMethod::SHA512);
     package1.get_checksum().set_digest("abcdef");
+    package1.get_hdr_checksum().set_method(ChecksumMethod::SHA1);
+    package1.get_hdr_checksum().set_digest("aabbcc");
     package1.get_nevra().set_name("package1");
     package1.get_nevra().set_version("1.2.3");
     package1.get_nevra().set_release("1.r1");
@@ -140,7 +143,7 @@ data:
 
 TEST_F(ApiManifestSerializerTest, SerializeEmptyManifest) {
     const std::string empty_manifest_yaml = R"(document: rpm-package-manifest
-version: 0.2.2
+version: 0.2.3
 data:
   repositories: ~
   packages: ~

@@ -74,6 +74,19 @@ TEST(PackageTest, SetChecksumObjectIsReturned) {
     EXPECT_EQ(checksum_ptr, &const_package.get_checksum());
 }
 
+TEST(PackageTest, SetHdrChecksumObjectIsReturned) {
+    auto hdr_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    auto hdr_checksum_ptr = hdr_checksum.get();
+
+    Package package;
+    package.set_hdr_checksum(std::move(hdr_checksum));
+
+    EXPECT_EQ(hdr_checksum_ptr, &package.get_hdr_checksum());
+
+    const auto & const_package = package;
+    EXPECT_EQ(hdr_checksum_ptr, &const_package.get_hdr_checksum());
+}
+
 TEST(PackageTest, SetNevraObjectIsReturned) {
     auto nevra = std::make_unique<NiceMock<NevraMock>>();
     auto nevra_ptr = nevra.get();
@@ -219,6 +232,12 @@ TEST(PackageTest, ClonedUnattachedObjectHasSameValuesAsOriginal) {
     EXPECT_CALL(*cloned_checksum, get_digest()).WillOnce(Return("same_digest"));
     EXPECT_CALL(*checksum, clone()).WillOnce(Return(std::move(cloned_checksum)));
 
+    auto hdr_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    auto cloned_hdr_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    EXPECT_CALL(*hdr_checksum, get_digest()).WillOnce(Return("same_hdr_digest"));
+    EXPECT_CALL(*cloned_hdr_checksum, get_digest()).WillOnce(Return("same_hdr_digest"));
+    EXPECT_CALL(*hdr_checksum, clone()).WillOnce(Return(std::move(cloned_hdr_checksum)));
+
     auto nevra = std::make_unique<NiceMock<NevraMock>>();
     auto cloned_nevra = std::make_unique<NiceMock<NevraMock>>();
     EXPECT_CALL(*nevra, get_name()).WillOnce(Return("same_package"));
@@ -242,6 +261,7 @@ TEST(PackageTest, ClonedUnattachedObjectHasSameValuesAsOriginal) {
     package.set_location("loc123");
     package.set_size(1979843615U);
     package.set_checksum(std::move(checksum));
+    package.set_hdr_checksum(std::move(hdr_checksum));
     package.set_nevra(std::move(nevra));
     package.set_srpm(std::move(srpm));
     package.set_module(std::move(module));
@@ -252,6 +272,7 @@ TEST(PackageTest, ClonedUnattachedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(package.get_location(), clone->get_location());
     EXPECT_EQ(package.get_size(), clone->get_size());
     EXPECT_EQ(package.get_checksum().get_digest(), clone->get_checksum().get_digest());
+    EXPECT_EQ(package.get_hdr_checksum().get_digest(), clone->get_hdr_checksum().get_digest());
     EXPECT_EQ(package.get_nevra().get_name(), clone->get_nevra().get_name());
     EXPECT_EQ(package.get_srpm().get_name(), clone->get_srpm().get_name());
     EXPECT_EQ(package.get_module().get_name(), clone->get_module().get_name());
@@ -269,6 +290,12 @@ TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     EXPECT_CALL(*cloned_checksum, get_digest()).WillOnce(Return("same_digest"));
     EXPECT_CALL(*checksum, clone()).WillOnce(Return(std::move(cloned_checksum)));
 
+    auto hdr_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    auto cloned_hdr_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    EXPECT_CALL(*hdr_checksum, get_digest()).WillOnce(Return("same_hdr_digest"));
+    EXPECT_CALL(*cloned_hdr_checksum, get_digest()).WillOnce(Return("same_hdr_digest"));
+    EXPECT_CALL(*hdr_checksum, clone()).WillOnce(Return(std::move(cloned_hdr_checksum)));
+
     auto nevra = std::make_unique<NiceMock<NevraMock>>();
     auto cloned_nevra = std::make_unique<NiceMock<NevraMock>>();
     EXPECT_CALL(*nevra, get_name()).WillOnce(Return("same_package"));
@@ -292,6 +319,7 @@ TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     package.set_location("loc123");
     package.set_size(1979843615U);
     package.set_checksum(std::move(checksum));
+    package.set_hdr_checksum(std::move(hdr_checksum));
     package.set_nevra(std::move(nevra));
     package.set_srpm(std::move(srpm));
     package.set_module(std::move(module));
@@ -306,6 +334,7 @@ TEST(PackageTest, ClonedAttachedObjectHasSameValuesAsOriginal) {
     EXPECT_EQ(package.get_repository().get_id(), clone->get_repository().get_id());
     EXPECT_EQ(package.get_repository().get_baseurl(), clone->get_repository().get_baseurl());
     EXPECT_EQ(package.get_checksum().get_digest(), clone->get_checksum().get_digest());
+    EXPECT_EQ(package.get_hdr_checksum().get_digest(), clone->get_hdr_checksum().get_digest());
     EXPECT_EQ(package.get_nevra().get_name(), clone->get_nevra().get_name());
     EXPECT_EQ(package.get_srpm().get_name(), clone->get_srpm().get_name());
     EXPECT_EQ(package.get_module().get_name(), clone->get_module().get_name());

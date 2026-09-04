@@ -43,6 +43,11 @@ public:
         return checksum;
     }
 
+    Checksum & get_hdr_checksum() {
+        ensure_object_exists();
+        return hdr_checksum;
+    }
+
     Nevra & get_nevra() {
         ensure_object_exists();
         return nevra;
@@ -63,6 +68,7 @@ public:
     void init(IPackage * package) override {
         object = package;
         checksum.p_impl->init(&package->get_checksum());
+        hdr_checksum.p_impl->init(&package->get_hdr_checksum());
         nevra.p_impl->init(&package->get_nevra());
         srpm.p_impl->init(&package->get_srpm());
         module.p_impl->init(&package->get_module());
@@ -90,6 +96,7 @@ protected:
 private:
     Repository repository;
     Checksum checksum;
+    Checksum hdr_checksum;
     Nevra nevra;
     Nevra srpm;
     Module module;

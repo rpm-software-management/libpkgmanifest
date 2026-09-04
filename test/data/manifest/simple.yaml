@@ -15,6 +15,7 @@ data:
             - name: package1
               repo_id: repo1
               checksum: sha512:abcdef
+              hdr_checksum: sha1:aabbcc
               size: 152384
               evr: 1.2.3-1.r1
               srpm: package1-1.2.3-1.r1.src

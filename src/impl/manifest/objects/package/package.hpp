@@ -31,6 +31,8 @@ public:
     virtual IRepository & get_repository() override;
     virtual const IChecksum & get_checksum() const override;
     virtual IChecksum & get_checksum() override;
+    virtual const IChecksum & get_hdr_checksum() const override;
+    virtual IChecksum & get_hdr_checksum() override;
     virtual const INevra & get_nevra() const override;
     virtual INevra & get_nevra() override;
     virtual const INevra & get_srpm() const override;
@@ -44,6 +46,7 @@ public:
     virtual void set_location(const std::string & location) override;
     virtual void set_size(uint64_t size) override;
     virtual void set_checksum(std::unique_ptr<IChecksum> checksum) override;
+    virtual void set_hdr_checksum(std::unique_ptr<IChecksum> hdr_checksum) override;
     virtual void set_nevra(std::unique_ptr<INevra> nevra) override;
     virtual void set_srpm(std::unique_ptr<INevra> srpm) override;
     virtual void set_module(std::unique_ptr<IModule> module) override;
@@ -56,6 +59,7 @@ private:
     std::string location;
     uint64_t size;
     std::unique_ptr<IChecksum> checksum;
+    std::unique_ptr<IChecksum> hdr_checksum;
     std::unique_ptr<INevra> nevra;
     std::unique_ptr<INevra> srpm;
     std::unique_ptr<IModule> module;

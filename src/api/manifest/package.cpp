@@ -50,6 +50,10 @@ Checksum & Package::get_checksum() {
     return p_impl->get_checksum();
 }
 
+Checksum & Package::get_hdr_checksum() {
+    return p_impl->get_hdr_checksum();
+}
+
 Nevra & Package::get_nevra() {
     return p_impl->get_nevra();
 }
@@ -77,6 +81,11 @@ void Package::set_size(uint64_t size) {
 void Package::set_checksum(Checksum & checksum) {
     p_impl->get()->set_checksum(checksum.p_impl->get_owned_object());
     p_impl->get_checksum().p_impl->init(&p_impl->get()->get_checksum());
+}
+
+void Package::set_hdr_checksum(Checksum & hdr_checksum) {
+    p_impl->get()->set_hdr_checksum(hdr_checksum.p_impl->get_owned_object());
+    p_impl->get_hdr_checksum().p_impl->init(&p_impl->get()->get_hdr_checksum());
 }
 
 void Package::set_nevra(Nevra & nevra) {

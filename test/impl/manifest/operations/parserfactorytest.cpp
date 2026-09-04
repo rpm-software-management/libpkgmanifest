@@ -48,6 +48,8 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ(152384, package1->get_size());
     EXPECT_EQ(ChecksumMethod::SHA512, package1->get_checksum().get_method());
     EXPECT_EQ("abcdef", package1->get_checksum().get_digest());
+    EXPECT_EQ(ChecksumMethod::SHA1, package1->get_hdr_checksum().get_method());
+    EXPECT_EQ("aabbcc", package1->get_hdr_checksum().get_digest());
     EXPECT_EQ("", package1->get_module().get_name());
     EXPECT_EQ("", package1->get_module().get_stream());
 
@@ -57,6 +59,7 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ(378124894, package2->get_size());
     EXPECT_EQ(ChecksumMethod::MD5, package2->get_checksum().get_method());
     EXPECT_EQ("fedcba", package2->get_checksum().get_digest());
+    EXPECT_EQ("", package2->get_hdr_checksum().get_digest());
     EXPECT_EQ("name2", package2->get_module().get_name());
     EXPECT_EQ("stream2", package2->get_module().get_stream());
 
@@ -66,6 +69,7 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ(97643154, package3->get_size());
     EXPECT_EQ(ChecksumMethod::SHA256, package3->get_checksum().get_method());
     EXPECT_EQ("qpwoeiru", package3->get_checksum().get_digest());
+    EXPECT_EQ("", package3->get_hdr_checksum().get_digest());
     EXPECT_EQ("", package3->get_module().get_name());
     EXPECT_EQ("", package3->get_module().get_stream());
 }

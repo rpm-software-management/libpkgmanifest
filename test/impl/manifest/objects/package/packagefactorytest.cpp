@@ -18,9 +18,11 @@ using namespace libpkgmanifest::internal::manifest;
 using ::testing::NiceMock;
 using ::testing::Return;
 
-TEST(PackageFactoryTest, CreateReturnsAnObjectWithAnInstanceOfChecksumNevraSrpmAndModule) {
+TEST(PackageFactoryTest, CreateReturnsAnObjectWithAnInstanceOfChecksumHdrChecksumNevraSrpmAndModule) {
     auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
     auto checksum_ptr = checksum.get();
+    auto hdr_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    auto hdr_checksum_ptr = hdr_checksum.get();
     auto module = std::make_unique<NiceMock<ModuleMock>>();
     auto module_ptr = module.get();
     auto nevra = std::make_unique<NiceMock<NevraMock>>();
@@ -29,7 +31,9 @@ TEST(PackageFactoryTest, CreateReturnsAnObjectWithAnInstanceOfChecksumNevraSrpmA
     auto srpm_ptr = srpm.get();
 
     auto checksum_factory = std::make_shared<NiceMock<ChecksumFactoryMock>>();
-    EXPECT_CALL(*checksum_factory, create()).WillOnce(Return(std::move(checksum)));
+    EXPECT_CALL(*checksum_factory, create())
+        .WillOnce(Return(std::move(checksum)))
+        .WillOnce(Return(std::move(hdr_checksum)));
     auto module_factory = std::make_shared<NiceMock<ModuleFactoryMock>>();
     EXPECT_CALL(*module_factory, create()).WillOnce(Return(std::move(module)));
     auto nevra_factory = std::make_shared<NiceMock<NevraFactoryMock>>();
@@ -38,6 +42,7 @@ TEST(PackageFactoryTest, CreateReturnsAnObjectWithAnInstanceOfChecksumNevraSrpmA
     PackageFactory package_factory(checksum_factory, nevra_factory, module_factory);
     auto package = package_factory.create();
     EXPECT_EQ(&package->get_checksum(), checksum_ptr);
+    EXPECT_EQ(&package->get_hdr_checksum(), hdr_checksum_ptr);
     EXPECT_EQ(&package->get_module(), module_ptr);
     EXPECT_EQ(&package->get_nevra(), nevra_ptr);
     EXPECT_EQ(&package->get_srpm(), srpm_ptr);

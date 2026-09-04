@@ -19,6 +19,7 @@ Package::Package()
       location(),
       size(0),
       checksum(nullptr),
+      hdr_checksum(nullptr),
       nevra(nullptr),
       srpm(nullptr),
       module(nullptr),
@@ -30,6 +31,7 @@ Package::Package(const Package & other)
       location(other.location),
       size(other.size),
       checksum(other.checksum->clone()),
+      hdr_checksum(other.hdr_checksum->clone()),
       nevra(other.nevra->clone()),
       srpm(other.srpm->clone()),
       module(other.module->clone()),
@@ -88,6 +90,14 @@ IChecksum & Package::get_checksum() {
     return *checksum;
 }
 
+const IChecksum & Package::get_hdr_checksum() const {
+    return *hdr_checksum;
+}
+
+IChecksum & Package::get_hdr_checksum() {
+    return *hdr_checksum;
+}
+
 const INevra & Package::get_nevra() const {
     return *nevra;
 }
@@ -134,6 +144,10 @@ void Package::set_size(uint64_t size) {
 
 void Package::set_checksum(std::unique_ptr<IChecksum> checksum) {
     this->checksum = std::move(checksum);
+}
+
+void Package::set_hdr_checksum(std::unique_ptr<IChecksum> hdr_checksum) {
+    this->hdr_checksum = std::move(hdr_checksum);
 }
 
 void Package::set_nevra(std::unique_ptr<INevra> nevra) {

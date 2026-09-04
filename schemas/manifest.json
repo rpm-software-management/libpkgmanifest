@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "RPM Package Manifest Schema",
-    "schemaVersion": "0.2.2",
+    "schemaVersion": "0.2.3",
     "description": "Schema for RPM manifest files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
     "type": "object",
     "required": [
@@ -76,7 +76,6 @@
                                 "required": [
                                     "name",
                                     "repo_id",
-                                    "checksum",
                                     "size",
                                     "evr"
                                 ],
@@ -97,6 +96,11 @@
                                         "type": "string",
                                         "pattern": "^(sha1|sha224|sha256|sha384|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
                                         "description": "The checksum of the package in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits or Base64 format). Only lowercase letters are supported."
+                                    },
+                                    "hdr_checksum": {
+                                        "type": "string",
+                                        "pattern": "^(sha1|sha224|sha256|sha384|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
+                                        "description": "The checksum of the package header in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits or Base64 format). Only lowercase letters are supported."
                                     },
                                     "size": {
                                         "type": "integer",
