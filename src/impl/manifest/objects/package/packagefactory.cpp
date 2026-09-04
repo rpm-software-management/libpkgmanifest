@@ -18,6 +18,7 @@ PackageFactory::PackageFactory(
 std::unique_ptr<IPackage> PackageFactory::create() const {
     auto package = std::make_unique<Package>();
     package->set_checksum(checksum_factory->create());
+    package->set_hdr_checksum(checksum_factory->create());
     package->set_nevra(nevra_factory->create());
     package->set_srpm(nevra_factory->create());
     package->set_module(module_factory->create());

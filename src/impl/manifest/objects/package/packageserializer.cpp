@@ -35,7 +35,15 @@ std::unique_ptr<IYamlNode> PackageSerializer::serialize(const IPackage & package
         node->insert("location", std::move(location_node));
     }
 
-    node->insert("checksum", checksum_serializer->serialize(package.get_checksum()));
+    auto & checksum = package.get_checksum();
+    if (!checksum.get_digest().empty()) {
+        node->insert("checksum", checksum_serializer->serialize(checksum));
+    }
+
+    auto & hdr_checksum = package.get_hdr_checksum();
+    if (!hdr_checksum.get_digest().empty()) {
+        node->insert("hdr_checksum", checksum_serializer->serialize(hdr_checksum));
+    }
 
     auto size_node = node_factory->create();
     size_node->set(package.get_size());

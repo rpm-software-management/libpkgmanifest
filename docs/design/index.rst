@@ -46,7 +46,7 @@ Manifest Generation
 The library shall provide an API to create manifest files containing essential metadata fields for each package, including:
 
 - Package Name, Version, Release, Architecture (NEVRA)
-- Checksum for verifying package integrity
+- Checksums for verifying package or package header integrity
 - Name of the corresponding source RPM if requested
 
 Manifest files shall be generated in YAML format, adhering to a predefined schema for consistency and validated upon creation. Validation errors shall result in structured feedback to the user, either as exceptions or error codes, depending on the client environment.

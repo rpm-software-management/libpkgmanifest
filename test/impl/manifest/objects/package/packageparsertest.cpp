@@ -143,9 +143,37 @@ TEST_F(PackageParserTest, ParserSetsChecksumFromChecksumParser) {
     auto checksum = std::make_unique<NiceMock<ChecksumMock>>();
     auto checksum_ptr = checksum.get();
 
+    EXPECT_CALL(yaml_node, has("checksum")).WillOnce(Return(true));
     EXPECT_CALL(yaml_node, get("checksum")).WillOnce(Return(std::move(checksum_node)));
     EXPECT_CALL(*checksum_parser, parse(Ref(*checksum_node_ptr))).WillOnce(Return(std::move(checksum)));
     EXPECT_CALL(*package_ptr, set_checksum(Pointer(checksum_ptr)));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetChecksumIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("checksum")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("checksum")).Times(0);
+    EXPECT_CALL(*package_ptr, set_checksum(_)).Times(0);
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserSetsHdrChecksumFromChecksumParser) {
+    auto hdr_checksum_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto hdr_checksum_node_ptr = hdr_checksum_node.get();
+    auto hdr_checksum = std::make_unique<NiceMock<ChecksumMock>>();
+    auto hdr_checksum_ptr = hdr_checksum.get();
+
+    EXPECT_CALL(yaml_node, has("hdr_checksum")).WillOnce(Return(true));
+    EXPECT_CALL(yaml_node, get("hdr_checksum")).WillOnce(Return(std::move(hdr_checksum_node)));
+    EXPECT_CALL(*checksum_parser, parse(Ref(*hdr_checksum_node_ptr))).WillOnce(Return(std::move(hdr_checksum)));
+    EXPECT_CALL(*package_ptr, set_hdr_checksum(Pointer(hdr_checksum_ptr)));
+    parser->parse("arch", yaml_node);
+}
+
+TEST_F(PackageParserTest, ParserDoesNotSetHdrChecksumIfNotProvided) {
+    EXPECT_CALL(yaml_node, has("hdr_checksum")).WillOnce(Return(false));
+    EXPECT_CALL(yaml_node, get("hdr_checksum")).Times(0);
+    EXPECT_CALL(*package_ptr, set_hdr_checksum(_)).Times(0);
     parser->parse("arch", yaml_node);
 }
 
