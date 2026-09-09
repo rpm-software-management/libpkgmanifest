@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
     - uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
     - name: Generate And Upload Code Coverage Results
       working-directory: ${{ github.workspace }}/build
       run: |
-        lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch --rc geninfo_unexecuted_blocks=1
+        lcov --directory . --capture --output-file coverage.info --ignore-errors inconsistent,mismatch --rc geninfo_unexecuted_blocks=1
         lcov --extract coverage.info '*/src/api/*' --output-file coverage_api.info
         lcov --extract coverage.info '*/src/impl/*' --output-file coverage_impl.info
         bash <(curl -s https://codecov.io/bash) -f coverage_api.info -F api || echo "Codecov did not collect API coverage reports"
