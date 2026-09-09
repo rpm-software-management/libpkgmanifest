@@ -33,13 +33,13 @@ TEST(ApiPackageTest, SetChecksum) {
 
     Checksum checksum;
     checksum.set_method(ChecksumMethod::SHA256);
-    checksum.set_digest("1234567890abcdef");
+    checksum.set_digest("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
 
     package.set_checksum(checksum);
 
     auto & package_checksum = package.get_checksum();
     EXPECT_EQ(package_checksum.get_method(), ChecksumMethod::SHA256);
-    EXPECT_EQ(package_checksum.get_digest(), "1234567890abcdef");
+    EXPECT_EQ(package_checksum.get_digest(), "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
 }
 
 TEST(ApiPackageTest, SetHdrChecksum) {
@@ -47,13 +47,13 @@ TEST(ApiPackageTest, SetHdrChecksum) {
 
     Checksum hdr_checksum;
     hdr_checksum.set_method(ChecksumMethod::SHA256);
-    hdr_checksum.set_digest("1234567890abcdef");
+    hdr_checksum.set_digest("1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
 
     package.set_hdr_checksum(hdr_checksum);
 
     auto & package_hdr_checksum = package.get_hdr_checksum();
     EXPECT_EQ(package_hdr_checksum.get_method(), ChecksumMethod::SHA256);
-    EXPECT_EQ(package_hdr_checksum.get_digest(), "1234567890abcdef");
+    EXPECT_EQ(package_hdr_checksum.get_digest(), "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
 }
 
 TEST(ApiPackageTest, SetNevra) {

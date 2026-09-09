@@ -43,15 +43,15 @@ data:
     i686:
       - name: package1
         repo_id: repo1
-        checksum: sha512:abcdef
-        hdr_checksum: sha1:aabbcc
+        checksum: sha512:abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        hdr_checksum: sha1:aabbcc1111111111111111111111111111111111
         size: 152384
         evr: 1.2.3-1.r1
         srpm: package1-1.2.3-1.r1.src
       - name: package2
         repo_id: repo2
         location: p/package2-3:4.5.6-2.r2.rpm
-        checksum: md5:fedcba
+        checksum: md5:fedcba22222222222222222222222222
         size: 378124894
         evr: 3:4.5.6-2.r2
         module: name2:stream2
@@ -59,7 +59,7 @@ data:
       - name: package3
         repo_id: repo3
         location: another/dir/file.here
-        checksum: sha256:qpwoeiru
+        checksum: sha256:3333333333333333333333333333333333333333333333333333333333333333
         size: 97643154
         evr: 9.9-1.r3
 )";
@@ -82,9 +82,9 @@ data:
     package1.set_repo_id("repo1");
     package1.set_size(152384);
     package1.get_checksum().set_method(ChecksumMethod::SHA512);
-    package1.get_checksum().set_digest("abcdef");
+    package1.get_checksum().set_digest("abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
     package1.get_hdr_checksum().set_method(ChecksumMethod::SHA1);
-    package1.get_hdr_checksum().set_digest("aabbcc");
+    package1.get_hdr_checksum().set_digest("aabbcc1111111111111111111111111111111111");
     package1.get_nevra().set_name("package1");
     package1.get_nevra().set_version("1.2.3");
     package1.get_nevra().set_release("1.r1");
@@ -99,7 +99,7 @@ data:
     package2.set_location("p/package2-3:4.5.6-2.r2.rpm");
     package2.set_size(378124894);
     package2.get_checksum().set_method(ChecksumMethod::MD5);
-    package2.get_checksum().set_digest("fedcba");
+    package2.get_checksum().set_digest("fedcba22222222222222222222222222");
     package2.get_nevra().set_name("package2");
     package2.get_nevra().set_epoch("3");
     package2.get_nevra().set_version("4.5.6");
@@ -113,7 +113,7 @@ data:
     package3.set_location("another/dir/file.here");
     package3.set_size(97643154);
     package3.get_checksum().set_method(ChecksumMethod::SHA256);
-    package3.get_checksum().set_digest("qpwoeiru");
+    package3.get_checksum().set_digest("3333333333333333333333333333333333333333333333333333333333333333");
     package3.get_nevra().set_name("package3");
     package3.get_nevra().set_version("9.9");
     package3.get_nevra().set_release("1.r3");
