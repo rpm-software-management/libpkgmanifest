@@ -47,7 +47,8 @@ protected:
             return std::make_unique<YamlNodeInternalStub>();
         });
 
-        EXPECT_CALL(Const(package), get_checksum()).WillOnce(ReturnPointee(&checksum));
+        EXPECT_CALL(Const(package), get_checksum()).WillRepeatedly(ReturnPointee(&checksum));
+        EXPECT_CALL(Const(package), get_hdr_checksum()).WillRepeatedly(ReturnPointee(&hdr_checksum));
         EXPECT_CALL(Const(package), get_module()).WillOnce(ReturnPointee(&module));
         EXPECT_CALL(Const(package), get_nevra()).WillRepeatedly(ReturnPointee(&nevra));
         EXPECT_CALL(Const(package), get_srpm()).WillOnce(ReturnPointee(&srpm));
@@ -59,6 +60,7 @@ protected:
 
     NiceMock<PackageMock> package;
     NiceMock<ChecksumMock> checksum;
+    NiceMock<ChecksumMock> hdr_checksum;
     NiceMock<ModuleMock> module;
     NiceMock<NevraMock> nevra;
     NiceMock<NevraMock> srpm;
@@ -97,6 +99,8 @@ TEST_F(PackageSerializerTest, SerializerDoesNotSetLocationIfEmpty) {
 }
 
 TEST_F(PackageSerializerTest, SerializerSetsChecksumFromChecksumSerializer) {
+    EXPECT_CALL(checksum, get_digest()).WillRepeatedly(Return("digest"));
+
     auto checksum_node = std::make_unique<NiceMock<YamlNodeMock>>();
     auto checksum_node_ptr = checksum_node.get();
     EXPECT_CALL(*checksum_serializer_ptr, serialize(Ref(checksum))).WillOnce(Return(std::move(checksum_node)));
@@ -105,6 +109,33 @@ TEST_F(PackageSerializerTest, SerializerSetsChecksumFromChecksumSerializer) {
 
     serializer->serialize(package);
 }
+
+TEST_F(PackageSerializerTest, SerializerDoesNotSetChecksumIfEmpty) {
+    EXPECT_CALL(checksum, get_digest()).WillRepeatedly(Return(""));
+    EXPECT_CALL(*node_ptr, insert("checksum", _)).Times(0);
+
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerSetsHdrChecksumFromChecksumSerializer) {
+    EXPECT_CALL(hdr_checksum, get_digest()).WillRepeatedly(Return("digest"));
+
+    auto hdr_checksum_node = std::make_unique<NiceMock<YamlNodeMock>>();
+    auto hdr_checksum_node_ptr = hdr_checksum_node.get();
+    EXPECT_CALL(*checksum_serializer_ptr, serialize(Ref(hdr_checksum))).WillOnce(Return(std::move(hdr_checksum_node)));
+
+    EXPECT_CALL(*node_ptr, insert("hdr_checksum", Pointer(hdr_checksum_node_ptr)));
+
+    serializer->serialize(package);
+}
+
+TEST_F(PackageSerializerTest, SerializerDoesNotSetHdrChecksumIfEmpty) {
+    EXPECT_CALL(hdr_checksum, get_digest()).WillRepeatedly(Return(""));
+    EXPECT_CALL(*node_ptr, insert("hdr_checksum", _)).Times(0);
+
+    serializer->serialize(package);
+}
+
 
 TEST_F(PackageSerializerTest, SerializerSetsSizeAsUInt64ToYamlNode) {
     EXPECT_CALL(package, get_size()).WillOnce(Return(123456789123456789U));

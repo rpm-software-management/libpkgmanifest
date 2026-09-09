@@ -20,6 +20,8 @@ public:
     MOCK_METHOD(IRepository &, get_repository, (), (override));
     MOCK_METHOD(const IChecksum &, get_checksum, (), (const, override));
     MOCK_METHOD(IChecksum &, get_checksum, (), (override));
+    MOCK_METHOD(const IChecksum &, get_hdr_checksum, (), (const, override));
+    MOCK_METHOD(IChecksum &, get_hdr_checksum, (), (override));
     MOCK_METHOD(const INevra &, get_nevra, (), (const, override));
     MOCK_METHOD(INevra &, get_nevra, (), (override));
     MOCK_METHOD(const INevra &, get_srpm, (), (const, override));
@@ -32,6 +34,7 @@ public:
     MOCK_METHOD(void, set_location, (const std::string &), (override));
     MOCK_METHOD(void, set_size, (uint64_t), (override));
     MOCK_METHOD(void, set_checksum, (std::unique_ptr<IChecksum>), (override));
+    MOCK_METHOD(void, set_hdr_checksum, (std::unique_ptr<IChecksum>), (override));
     MOCK_METHOD(void, set_nevra, (std::unique_ptr<INevra>), (override));
     MOCK_METHOD(void, set_srpm, (std::unique_ptr<INevra>), (override));
     MOCK_METHOD(void, set_module, (std::unique_ptr<IModule>), (override));

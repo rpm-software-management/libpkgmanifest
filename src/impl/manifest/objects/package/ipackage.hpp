@@ -32,6 +32,8 @@ public:
     virtual IRepository & get_repository() = 0;
     virtual const IChecksum & get_checksum() const = 0;
     virtual IChecksum & get_checksum() = 0;
+    virtual const IChecksum & get_hdr_checksum() const = 0;
+    virtual IChecksum & get_hdr_checksum() = 0;
     virtual const INevra & get_nevra() const = 0;
     virtual INevra & get_nevra() = 0;
     virtual const INevra & get_srpm() const = 0;
@@ -45,6 +47,7 @@ public:
     virtual void set_location(const std::string & location) = 0;
     virtual void set_size(uint64_t size) = 0;
     virtual void set_checksum(std::unique_ptr<IChecksum> checksum) = 0;
+    virtual void set_hdr_checksum(std::unique_ptr<IChecksum> hdr_checksum) = 0;
     virtual void set_nevra(std::unique_ptr<INevra> nevra) = 0;
     virtual void set_srpm(std::unique_ptr<INevra> srpm) = 0;
     virtual void set_module(std::unique_ptr<IModule> module) = 0;

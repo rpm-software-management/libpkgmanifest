@@ -34,7 +34,14 @@ std::unique_ptr<IPackage> PackageParser::parse(const std::string & arch, const I
     }
 
     package->set_nevra(nevra_parser->parse(node.get("name")->as_string(), arch, *node.get("evr")));
-    package->set_checksum(checksum_parser->parse(*node.get("checksum")));
+
+    if (node.has("checksum")) {
+        package->set_checksum(checksum_parser->parse(*node.get("checksum")));
+    }
+
+    if (node.has("hdr_checksum")) {
+        package->set_hdr_checksum(checksum_parser->parse(*node.get("hdr_checksum")));
+    }
 
     if (node.has("location")) {
         package->set_location(node.get("location")->as_string());

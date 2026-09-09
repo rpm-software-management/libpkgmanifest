@@ -50,7 +50,9 @@ TEST(ApiManifestParserTest, ParseSimpleManifest) {
     EXPECT_EQ("repo1", package1.get_repository().get_id());
     EXPECT_EQ("http://some.server.gov/folder/metalink", package1.get_repository().get_metalink());
     EXPECT_EQ(ChecksumMethod::SHA512, package1.get_checksum().get_method());
-    EXPECT_EQ("abcdef", package1.get_checksum().get_digest());
+    EXPECT_EQ("abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", package1.get_checksum().get_digest());
+    EXPECT_EQ(ChecksumMethod::SHA1, package1.get_hdr_checksum().get_method());
+    EXPECT_EQ("aabbcc1111111111111111111111111111111111", package1.get_hdr_checksum().get_digest());
     EXPECT_EQ("package1", package1.get_nevra().get_name());
     EXPECT_EQ("", package1.get_nevra().get_epoch());
     EXPECT_EQ("1.2.3", package1.get_nevra().get_version());
@@ -72,7 +74,8 @@ TEST(ApiManifestParserTest, ParseSimpleManifest) {
     EXPECT_EQ("repo2", package2.get_repository().get_id());
     EXPECT_EQ("http://other.computer.lol/dir/for/pkgs/$arch/", package2.get_repository().get_baseurl());
     EXPECT_EQ(ChecksumMethod::MD5, package2.get_checksum().get_method());
-    EXPECT_EQ("fedcba", package2.get_checksum().get_digest());
+    EXPECT_EQ("fedcba22222222222222222222222222", package2.get_checksum().get_digest());
+    EXPECT_EQ("", package2.get_hdr_checksum().get_digest());
     EXPECT_EQ("package2", package2.get_nevra().get_name());
     EXPECT_EQ("3", package2.get_nevra().get_epoch());
     EXPECT_EQ("4.5.6", package2.get_nevra().get_version());
@@ -93,7 +96,8 @@ TEST(ApiManifestParserTest, ParseSimpleManifest) {
     EXPECT_EQ("https://my.user.repository.org/metalink", package3.get_repository().get_metalink());
     EXPECT_EQ("http://mirrors.user.repository.org/mirrors.txt", package3.get_repository().get_mirrorlist());
     EXPECT_EQ(ChecksumMethod::SHA256, package3.get_checksum().get_method());
-    EXPECT_EQ("qpwoeiru", package3.get_checksum().get_digest());
+    EXPECT_EQ("3333333333333333333333333333333333333333333333333333333333333333", package3.get_checksum().get_digest());
+    EXPECT_EQ("", package3.get_hdr_checksum().get_digest());
     EXPECT_EQ("package3", package3.get_nevra().get_name());
     EXPECT_EQ("", package3.get_nevra().get_epoch());
     EXPECT_EQ("9.9", package3.get_nevra().get_version());
