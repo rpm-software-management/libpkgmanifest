@@ -56,15 +56,15 @@ data:
     i686:
       - name: package1
         repo_id: repo1
-        checksum: sha512:abcdef
-        hdr_checksum: sha1:aabbcc
+        checksum: sha512:abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        hdr_checksum: sha1:aabbcc1111111111111111111111111111111111
         size: 152384
         evr: 1.2.3-1.r1
         srpm: package1-1.2.3-1.r1.src
       - name: package2
         repo_id: repo2
         location: p/package2-3:4.5.6-2.r2.rpm
-        checksum: md5:fedcba
+        checksum: md5:fedcba22222222222222222222222222
         size: 378124894
         evr: 3:4.5.6-2.r2
         module: name2:stream2
@@ -72,7 +72,7 @@ data:
       - name: package3
         repo_id: repo3
         location: another/dir/file.here
-        checksum: sha256:qpwoeiru
+        checksum: sha256:3333333333333333333333333333333333333333333333333333333333333333
         size: 97643154
         evr: 9.9-1.r3
 )";
@@ -108,11 +108,11 @@ data:
 
     auto checksum1 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum1, get_method()).WillOnce(Return(ChecksumMethod::SHA512));
-    EXPECT_CALL(*checksum1, get_digest()).WillRepeatedly(Return("abcdef"));
+    EXPECT_CALL(*checksum1, get_digest()).WillRepeatedly(Return("abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
 
     auto hdr_checksum1 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*hdr_checksum1, get_method()).WillOnce(Return(ChecksumMethod::SHA1));
-    EXPECT_CALL(*hdr_checksum1, get_digest()).WillRepeatedly(Return("aabbcc"));
+    EXPECT_CALL(*hdr_checksum1, get_digest()).WillRepeatedly(Return("aabbcc1111111111111111111111111111111111"));
 
     auto nevra1 = std::make_unique<NiceMock<NevraMock>>();
     EXPECT_CALL(*nevra1, get_name()).WillOnce(Return("package1"));
@@ -137,7 +137,7 @@ data:
 
     auto checksum2 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum2, get_method()).WillOnce(Return(ChecksumMethod::MD5));
-    EXPECT_CALL(*checksum2, get_digest()).WillRepeatedly(Return("fedcba"));
+    EXPECT_CALL(*checksum2, get_digest()).WillRepeatedly(Return("fedcba22222222222222222222222222"));
 
     auto hdr_checksum2 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*hdr_checksum2, get_digest()).WillRepeatedly(Return(""));
@@ -166,7 +166,7 @@ data:
 
     auto checksum3 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum3, get_method()).WillOnce(Return(ChecksumMethod::SHA256));
-    EXPECT_CALL(*checksum3, get_digest()).WillRepeatedly(Return("qpwoeiru"));
+    EXPECT_CALL(*checksum3, get_digest()).WillRepeatedly(Return("3333333333333333333333333333333333333333333333333333333333333333"));
 
     auto hdr_checksum3 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*hdr_checksum3, get_digest()).WillRepeatedly(Return(""));
