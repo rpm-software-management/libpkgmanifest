@@ -9,6 +9,7 @@
     #include "libpkgmanifest/input/options.hpp"
     #include "libpkgmanifest/input/packages.hpp"
     #include "libpkgmanifest/input/parser.hpp"
+    #include "libpkgmanifest/input/serializer.hpp"
 %}
 
 %include "libpkgmanifest/input/packages.hpp"
@@ -17,6 +18,7 @@
 
 %include "libpkgmanifest/input/input.hpp"
 %include "libpkgmanifest/input/parser.hpp"
+%include "libpkgmanifest/input/serializer.hpp"
 
 %pythoncode %{
 add_property_accessors(Input)

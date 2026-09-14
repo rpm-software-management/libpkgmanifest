@@ -42,6 +42,28 @@ TEST(ParserFactoryTest, ParseSimpleInput) {
     EXPECT_THAT(input->get_archs(), ElementsAre("i686", "x86_64", "aarch64"));
 }
 
+TEST(ParserFactoryTest, ParseInputWithoutOptionsHasNoAllowErasing) {
+    auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/simple.yaml";
+
+    ParserFactory parser_factory;
+    auto parser = parser_factory.create();
+    auto input = parser->parse(file_path);
+
+    EXPECT_FALSE(input->get_options().has_allow_erasing());
+    EXPECT_FALSE(input->get_options().get_allow_erasing());
+}
+
+TEST(ParserFactoryTest, ParseInputWithAllowErasingFalseHasAllowErasing) {
+    auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/options.yaml";
+
+    ParserFactory parser_factory;
+    auto parser = parser_factory.create();
+    auto input = parser->parse(file_path);
+
+    EXPECT_TRUE(input->get_options().has_allow_erasing());
+    EXPECT_FALSE(input->get_options().get_allow_erasing());
+}
+
 TEST(ParserFactoryTest, ParseSimplePrototypeInput) {
     auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/prototype.yaml";
 
