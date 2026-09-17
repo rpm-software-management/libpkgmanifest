@@ -16,6 +16,7 @@ public:
     virtual bool has_allow_erasing() const override;
     virtual bool get_allow_erasing() const override;
     virtual void set_allow_erasing(bool allow_erasing) override;
+    virtual bool empty() const override;
 
 private:
     std::optional<bool> allow_erasing;

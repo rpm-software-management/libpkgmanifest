@@ -41,6 +41,7 @@ protected:
 };
 
 TEST_F(OptionsSerializerTest, SerializerSetsAllowErasingWhenTrue) {
+    EXPECT_CALL(options, empty()).WillOnce(Return(false));
     EXPECT_CALL(options, has_allow_erasing()).WillOnce(Return(true));
     EXPECT_CALL(options, get_allow_erasing()).WillOnce(Return(true));
 
@@ -51,6 +52,7 @@ TEST_F(OptionsSerializerTest, SerializerSetsAllowErasingWhenTrue) {
 }
 
 TEST_F(OptionsSerializerTest, SerializerSetsAllowErasingWhenExplicitlyFalse) {
+    EXPECT_CALL(options, empty()).WillOnce(Return(false));
     EXPECT_CALL(options, has_allow_erasing()).WillOnce(Return(true));
     EXPECT_CALL(options, get_allow_erasing()).WillOnce(Return(false));
 
@@ -62,7 +64,7 @@ TEST_F(OptionsSerializerTest, SerializerSetsAllowErasingWhenExplicitlyFalse) {
 
 TEST(OptionsSerializerNullptrTest, SerializerReturnsNullptrWhenNoOptionsSet) {
     NiceMock<OptionsMock> options;
-    EXPECT_CALL(options, has_allow_erasing()).WillOnce(Return(false));
+    EXPECT_CALL(options, empty()).WillOnce(Return(true));
 
     auto node_factory = std::make_shared<NiceMock<YamlNodeFactoryMock>>();
     auto serializer = std::make_unique<OptionsSerializer>(node_factory);
@@ -71,6 +73,7 @@ TEST(OptionsSerializerNullptrTest, SerializerReturnsNullptrWhenNoOptionsSet) {
 }
 
 TEST_F(OptionsSerializerTest, SerializerReturnsNodeWhenOptionsSet) {
+    EXPECT_CALL(options, empty()).WillOnce(Return(false));
     EXPECT_CALL(options, has_allow_erasing()).WillOnce(Return(true));
     EXPECT_CALL(options, get_allow_erasing()).WillOnce(Return(true));
 

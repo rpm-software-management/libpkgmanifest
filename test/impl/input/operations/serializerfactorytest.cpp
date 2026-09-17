@@ -89,7 +89,7 @@ archs:
     EXPECT_CALL(Const(modules), get_disables()).WillRepeatedly(ReturnPointee(&disables));
 
     NiceMock<OptionsMock> options;
-    EXPECT_CALL(options, get_allow_erasing()).WillRepeatedly(Return(false));
+    EXPECT_CALL(options, empty()).WillOnce(Return(true));
 
     std::vector<std::string> archs = {"i686", "x86_64", "aarch64"};
 
@@ -163,8 +163,9 @@ options:
     EXPECT_CALL(Const(modules), get_disables()).WillRepeatedly(ReturnPointee(&disables));
 
     NiceMock<OptionsMock> options;
-    EXPECT_CALL(options, has_allow_erasing()).WillRepeatedly(Return(true));
-    EXPECT_CALL(options, get_allow_erasing()).WillRepeatedly(Return(true));
+    EXPECT_CALL(options, empty()).WillOnce(Return(false));
+    EXPECT_CALL(options, has_allow_erasing()).WillOnce(Return(true));
+    EXPECT_CALL(options, get_allow_erasing()).WillOnce(Return(true));
 
     std::vector<std::string> archs = {"x86_64"};
 

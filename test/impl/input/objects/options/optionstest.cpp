@@ -23,6 +23,16 @@ TEST(InputOptionsTest, HasAllowErasingIsTrueAfterSet) {
     EXPECT_TRUE(options.has_allow_erasing());
 }
 
+TEST(InputOptionsTest, DefaultIsEmpty) {
+    EXPECT_TRUE(Options().empty());
+}
+
+TEST(InputOptionsTest, IsNotEmptyAfterSet) {
+    Options options;
+    options.set_allow_erasing(false);
+    EXPECT_FALSE(options.empty());
+}
+
 TEST(InputOptionsTest, SetAllowErasingIsReturned) {
     Options options;
     options.set_allow_erasing(true);

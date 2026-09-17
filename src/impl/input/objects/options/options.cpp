@@ -21,4 +21,10 @@ void Options::set_allow_erasing(bool allow_erasing) {
     this->allow_erasing = allow_erasing;
 }
 
+bool Options::empty() const {
+    // Check whether any option has been set.
+    // Currently, allow_erasing is the only supported option.
+    return !has_allow_erasing();
+}
+
 }  // namespace libpkgmanifest::internal::input
