@@ -14,15 +14,13 @@
     "properties": {
         "document": {
             "type": "string",
-            "enum": [
-                "rpm-package-input"
-            ],
+            "const": "rpm-package-input",
             "description": "Indicates the type of document."
         },
         "version": {
             "type": "string",
-            "pattern": "^[0-9]+(?:\\.[0-9]+)?(?:\\.[0-9]+)?$",
-            "description": "The version of the input file. This should follow the semantic versioning format (x.y.z), where x, y, and z are integers."
+            "const": "0.0.2",
+            "description": "The version of the input file."
         },
         "repositories": {
             "type": "array",
