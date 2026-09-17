@@ -54,7 +54,7 @@ BuildRequires:  python3dist(sphinx-rtd-theme)
 
 %files -n %{name}
 %{_libdir}/%{name}.so.0
-%license LICENSE
+%license COPYING.LIB
 %doc README.md
 
 %package -n %{name}-devel
