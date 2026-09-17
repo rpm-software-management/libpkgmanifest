@@ -40,8 +40,8 @@ protected:
 };
 
 TEST_F(SerializerFactoryTest, SerializeSimpleManifest) {
-    const std::string simple_manifest_yaml = R"(document: my-manifest
-version: 1.2.3
+    const std::string simple_manifest_yaml = R"(document: rpm-package-manifest
+version: 0.2.3
 data:
   repositories:
     - id: repo1
@@ -102,13 +102,15 @@ data:
     EXPECT_CALL(Const(repositories), get()).WillRepeatedly(ReturnPointee(&repository_map));
 
     NiceMock<VersionMock> version;
-    EXPECT_CALL(version, get_major()).WillOnce(Return(1));
+    EXPECT_CALL(version, get_major()).WillOnce(Return(0));
     EXPECT_CALL(version, get_minor()).WillOnce(Return(2));
     EXPECT_CALL(version, get_patch()).WillOnce(Return(3));
 
     auto checksum1 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum1, get_method()).WillOnce(Return(ChecksumMethod::SHA512));
-    EXPECT_CALL(*checksum1, get_digest()).WillRepeatedly(Return("abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
+    EXPECT_CALL(*checksum1, get_digest())
+        .WillRepeatedly(Return("abcdef000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                               "00000000000000000000000000000000000000000"));
 
     auto hdr_checksum1 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*hdr_checksum1, get_method()).WillOnce(Return(ChecksumMethod::SHA1));
@@ -166,7 +168,8 @@ data:
 
     auto checksum3 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*checksum3, get_method()).WillOnce(Return(ChecksumMethod::SHA256));
-    EXPECT_CALL(*checksum3, get_digest()).WillRepeatedly(Return("3333333333333333333333333333333333333333333333333333333333333333"));
+    EXPECT_CALL(*checksum3, get_digest())
+        .WillRepeatedly(Return("3333333333333333333333333333333333333333333333333333333333333333"));
 
     auto hdr_checksum3 = std::make_unique<NiceMock<ChecksumMock>>();
     EXPECT_CALL(*hdr_checksum3, get_digest()).WillRepeatedly(Return(""));
@@ -205,7 +208,7 @@ data:
     EXPECT_CALL(packages, get("src")).WillRepeatedly(ReturnPointee(&src_packages));
 
     NiceMock<ManifestMock> manifest;
-    EXPECT_CALL(manifest, get_document()).WillOnce(Return("my-manifest"));
+    EXPECT_CALL(manifest, get_document()).WillOnce(Return("rpm-package-manifest"));
     EXPECT_CALL(Const(manifest), get_version()).WillOnce(ReturnPointee(&version));
     EXPECT_CALL(Const(manifest), get_packages()).WillOnce(ReturnPointee(&packages));
     EXPECT_CALL(Const(manifest), get_repositories()).WillOnce(ReturnPointee(&repositories));

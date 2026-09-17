@@ -3,16 +3,16 @@
 
 #include "manifest.hpp"
 
+#include "manifestfactory.hpp"
+
 namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
 
-Manifest::Manifest() : document(), version(nullptr), packages(nullptr), repositories(nullptr), binder(nullptr) {}
+Manifest::Manifest() : packages(nullptr), repositories(nullptr), binder(nullptr) {}
 
 Manifest::Manifest(const Manifest & other)
-    : document(other.document),
-      version(other.version->clone()),
-      packages(other.packages->clone()),
+    : packages(other.packages->clone()),
       repositories(other.repositories->clone()),
       binder(other.binder) {
     if (binder) {
@@ -25,15 +25,11 @@ std::unique_ptr<IManifest> Manifest::clone() const {
 }
 
 std::string Manifest::get_document() const {
-    return document;
+    return MANIFEST_DOCUMENT_ID;
 }
 
 const IVersion & Manifest::get_version() const {
-    return *version;
-}
-
-IVersion & Manifest::get_version() {
-    return *version;
+    return MANIFEST_DOCUMENT_VERSION;
 }
 
 const IPackages & Manifest::get_packages() const {
@@ -50,14 +46,6 @@ const IRepositories & Manifest::get_repositories() const {
 
 IRepositories & Manifest::get_repositories() {
     return *repositories;
-}
-
-void Manifest::set_document(const std::string & document) {
-    this->document = document;
-}
-
-void Manifest::set_version(std::unique_ptr<IVersion> version) {
-    this->version = std::move(version);
 }
 
 void Manifest::set_packages(std::unique_ptr<IPackages> packages) {

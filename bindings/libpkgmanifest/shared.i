@@ -47,10 +47,9 @@ def add_property_accessors(target_cls, src_cls=None, src_getter=None):
     for attr in attrs:
         getter_name = getter_prefix + attr
         setter_name = setter_prefix + attr
-        setattr(target_cls, attr, property(
-            create_getter(getter_name),
-            create_setter(setter_name)
-        ))
+        getter = create_getter(getter_name) if getter_name in dir(src_cls) else None
+        setter = create_setter(setter_name) if setter_name in dir(src_cls) else None
+        setattr(target_cls, attr, property(getter, setter))
 %}
 
 // Helper functions for implementing the Python iterator API based on the existing C++ iterator.

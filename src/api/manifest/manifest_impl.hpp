@@ -4,10 +4,8 @@
 #pragma once
 
 #include "api/common/repositories_impl.hpp"
-#include "api/common/version_impl.hpp"
 #include "api/shared/base_impl.hpp"
 #include "impl/common/objects/repositories/repositoriesfactory.hpp"
-#include "impl/common/objects/version/versionfactory.hpp"
 #include "impl/manifest/objects/manifest/manifestfactory.hpp"
 #include "impl/manifest/objects/packages/packagesfactory.hpp"
 #include "impl/manifest/operations/packagerepositorybinder/packagerepositorybinder.hpp"
@@ -43,16 +41,10 @@ public:
         return repositories;
     }
 
-    Version & get_version() {
-        ensure_object_exists();
-        return version;
-    }
-
     void init(IManifest * manifest) override {
         object = manifest;
         packages.p_impl->init(&manifest->get_packages());
         repositories.p_impl->init(&manifest->get_repositories());
-        version.p_impl->init(&manifest->get_version());
     }
 
 protected:
@@ -61,7 +53,6 @@ protected:
             auto manifest_factory = ManifestFactory(
                 std::make_shared<PackagesFactory>(),
                 std::make_shared<RepositoriesFactory>(),
-                std::make_shared<VersionFactory>(),
                 std::make_shared<PackageRepositoryBinder>());
             owned_object = manifest_factory.create();
             init(owned_object.get());
@@ -71,7 +62,6 @@ protected:
 private:
     Packages packages;
     Repositories repositories;
-    Version version;
 };
 
 }  // namespace libpkgmanifest::manifest

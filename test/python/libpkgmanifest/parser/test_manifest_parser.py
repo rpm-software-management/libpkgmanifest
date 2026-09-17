@@ -9,7 +9,7 @@ class TestManifestParser(base_test_case.BaseTestCase):
         manifest = libpkgmanifest.manifest.Parser().parse(self.test_manifest_file)
 
         self.assertEqual('rpm-package-manifest', manifest.document)
-        self.assertEqual(1, manifest.version.major)
+        self.assertEqual(0, manifest.version.major)
         self.assertEqual(2, manifest.version.minor)
         self.assertEqual(3, manifest.version.patch)
 
@@ -42,7 +42,8 @@ class TestManifestParser(base_test_case.BaseTestCase):
         self.assertEqual('repo1', package1.repository.id)
         self.assertEqual('http://some.server.gov/folder/metalink', package1.repository.metalink)
         self.assertEqual(libpkgmanifest.manifest.ChecksumMethod_SHA512, package1.checksum.method)
-        self.assertEqual('abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', package1.checksum.digest)
+        self.assertEqual(
+            'abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', package1.checksum.digest)
         self.assertEqual(libpkgmanifest.manifest.ChecksumMethod_SHA1, package1.hdr_checksum.method)
         self.assertEqual('aabbcc1111111111111111111111111111111111', package1.hdr_checksum.digest)
         self.assertEqual('package1', package1.nevra.name)
@@ -96,17 +97,18 @@ class TestManifestParser(base_test_case.BaseTestCase):
         self.assertEqual('', package3.module.name)
         self.assertEqual('', package3.module.stream)
 
-    def test_modify_parsed_manifest(self):
+    def test_modify_parsed_manifest_version_does_not_change_metadata(self):
         manifest = libpkgmanifest.manifest.Parser().parse(self.test_manifest_file)
         manifest.version.major = 6
-        self.assertEqual(6, manifest.version.major)
+        self.assertEqual(0, manifest.version.major)
 
-    def test_replace_parsed_manifest(self):
+    def test_replace_parsed_manifest_version_does_not_change_metadata(self):
         manifest = libpkgmanifest.manifest.Parser().parse(self.test_manifest_file)
 
         version = libpkgmanifest.common.Version()
         version.major = 6
 
-        manifest.version = version
+        with self.assertRaises(AttributeError):
+            manifest.version = version
 
-        self.assertEqual(6, manifest.version.major)
+        self.assertEqual(0, manifest.version.major)

@@ -18,7 +18,7 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     auto manifest = parser->parse(file_path);
 
     EXPECT_EQ("rpm-package-manifest", manifest->get_document());
-    EXPECT_EQ(1, manifest->get_version().get_major());
+    EXPECT_EQ(0, manifest->get_version().get_major());
     EXPECT_EQ(2, manifest->get_version().get_minor());
     EXPECT_EQ(3, manifest->get_version().get_patch());
 
@@ -47,7 +47,10 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ("repo1", package1->get_repo_id());
     EXPECT_EQ(152384, package1->get_size());
     EXPECT_EQ(ChecksumMethod::SHA512, package1->get_checksum().get_method());
-    EXPECT_EQ("abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", package1->get_checksum().get_digest());
+    EXPECT_EQ(
+        "abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        "000000000000000000",
+        package1->get_checksum().get_digest());
     EXPECT_EQ(ChecksumMethod::SHA1, package1->get_hdr_checksum().get_method());
     EXPECT_EQ("aabbcc1111111111111111111111111111111111", package1->get_hdr_checksum().get_digest());
     EXPECT_EQ("", package1->get_module().get_name());
@@ -68,7 +71,8 @@ TEST(ParserFactoryTest, ParseSimpleManifest) {
     EXPECT_EQ("another/dir/file.here", package3->get_location());
     EXPECT_EQ(97643154, package3->get_size());
     EXPECT_EQ(ChecksumMethod::SHA256, package3->get_checksum().get_method());
-    EXPECT_EQ("3333333333333333333333333333333333333333333333333333333333333333", package3->get_checksum().get_digest());
+    EXPECT_EQ(
+        "3333333333333333333333333333333333333333333333333333333333333333", package3->get_checksum().get_digest());
     EXPECT_EQ("", package3->get_hdr_checksum().get_digest());
     EXPECT_EQ("", package3->get_module().get_name());
     EXPECT_EQ("", package3->get_module().get_stream());

@@ -4,10 +4,8 @@
 #pragma once
 
 #include "api/common/repositories_impl.hpp"
-#include "api/common/version_impl.hpp"
 #include "api/shared/base_impl.hpp"
 #include "impl/common/objects/repositories/repositoriesfactory.hpp"
-#include "impl/common/objects/version/versionfactory.hpp"
 #include "impl/input/objects/input/inputfactory.hpp"
 #include "impl/input/objects/modules/modulesfactory.hpp"
 #include "impl/input/objects/options/optionsfactory.hpp"
@@ -41,11 +39,6 @@ public:
         return repositories;
     }
 
-    libpkgmanifest::common::Version & get_version() {
-        ensure_object_exists();
-        return version;
-    }
-
     Packages & get_packages() {
         ensure_object_exists();
         return packages;
@@ -64,7 +57,6 @@ public:
     void init(IInput * input) override {
         object = input;
         repositories.p_impl->init(&input->get_repositories());
-        version.p_impl->init(&input->get_version());
         packages.p_impl->init(&input->get_packages());
         modules.p_impl->init(&input->get_modules());
         options.p_impl->init(&input->get_options());
@@ -75,7 +67,6 @@ protected:
         if (!object) {
             auto input_factory = InputFactory(
                 std::make_shared<RepositoriesFactory>(),
-                std::make_shared<VersionFactory>(),
                 std::make_shared<PackagesFactory>(),
                 std::make_shared<ModulesFactory>(),
                 std::make_shared<OptionsFactory>());
@@ -86,7 +77,6 @@ protected:
 
 private:
     Repositories repositories;
-    Version version;
     Packages packages;
     Modules modules;
     Options options;

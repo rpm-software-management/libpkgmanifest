@@ -8,9 +8,9 @@ class TestInputParser(base_test_case.BaseTestCase):
         input = libpkgmanifest.input.Parser().parse(self.test_input_file)
 
         self.assertEqual('rpm-package-input', input.document)
-        self.assertEqual(6, input.version.major)
-        self.assertEqual(6, input.version.minor)
-        self.assertEqual(5, input.version.patch)
+        self.assertEqual(0, input.version.major)
+        self.assertEqual(0, input.version.minor)
+        self.assertEqual(2, input.version.patch)
 
         repositories = input.repositories
         self.assertEqual(2, repositories.size())
@@ -37,10 +37,10 @@ class TestInputParser(base_test_case.BaseTestCase):
     def test_parse_simple_prototype_input(self):
         input = libpkgmanifest.input.Parser().parse_prototype(self.test_input_prototype_file)
 
-        self.assertEqual('rpm-package-input-prototype', input.document)
+        self.assertEqual('rpm-package-input', input.document)
         self.assertEqual(0, input.version.major)
         self.assertEqual(0, input.version.minor)
-        self.assertEqual(1, input.version.patch)
+        self.assertEqual(2, input.version.patch)
 
         repositories = input.repositories
         self.assertEqual(6, repositories.size())
@@ -89,3 +89,8 @@ class TestInputParser(base_test_case.BaseTestCase):
         self.assertEqual('aarch64', input.archs[1])
         self.assertEqual('ppc64le', input.archs[2])
         self.assertEqual('s390x', input.archs[3])
+
+    def test_modify_parsed_input_version_does_not_change_metadata(self):
+        input = libpkgmanifest.input.Parser().parse(self.test_input_file)
+        input.version.major = 6
+        self.assertEqual(0, input.version.major)

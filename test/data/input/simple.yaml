@@ -1,5 +1,5 @@
 document: rpm-package-input
-version: 6.6.5
+version: 0.0.2
 repositories:
     - id: main
       metalink: https://community.server.org/metalink

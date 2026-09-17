@@ -1,6 +1,7 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/input/objects/input/inputfactory.hpp"
 #include "libpkgmanifest/input/input.hpp"
 
 #include <gmock/gmock.h>
@@ -10,25 +11,16 @@ namespace {
 
 using namespace libpkgmanifest::input;
 
-TEST(ApiInputTest, SetDocument) {
+TEST(ApiInputTest, DocumentIsCanonical) {
     Input input;
-    input.set_document("my-input");
-    EXPECT_EQ(input.get_document(), "my-input");
+    EXPECT_EQ(input.get_document(), libpkgmanifest::internal::input::INPUT_DOCUMENT_ID);
 }
 
-TEST(ApiInputTest, SetVersion) {
+TEST(ApiInputTest, VersionIsCanonical) {
     Input input;
-
-    Version version;
-    version.set_major(1);
-    version.set_minor(2);
-    version.set_patch(3);
-
-    input.set_version(version);
-
-    EXPECT_EQ(input.get_version().get_major(), 1);
-    EXPECT_EQ(input.get_version().get_minor(), 2);
-    EXPECT_EQ(input.get_version().get_patch(), 3);
+    EXPECT_EQ(input.get_version().get_major(), libpkgmanifest::internal::input::INPUT_DOCUMENT_VERSION.get_major());
+    EXPECT_EQ(input.get_version().get_minor(), libpkgmanifest::internal::input::INPUT_DOCUMENT_VERSION.get_minor());
+    EXPECT_EQ(input.get_version().get_patch(), libpkgmanifest::internal::input::INPUT_DOCUMENT_VERSION.get_patch());
 }
 
 TEST(ApiInputTest, SetRepositories) {
@@ -103,40 +95,40 @@ TEST(ApiInputTest, SetOptions) {
 
 TEST(ApiInputTest, CopyConstructorCreatesIndependentCopy) {
     Input input;
-    input.set_document("my-input");
+    input.get_archs().push_back("x86_64");
 
     Input copied_input(input);
-    EXPECT_EQ(copied_input.get_document(), "my-input");
-    copied_input.set_document("my-precious-input");
-    EXPECT_EQ(input.get_document(), "my-input");
+    copied_input.get_archs().push_back("aarch64");
+    EXPECT_THAT(input.get_archs(), ::testing::ElementsAre("x86_64"));
+    EXPECT_THAT(copied_input.get_archs(), ::testing::ElementsAre("x86_64", "aarch64"));
 }
 
 TEST(ApiInputTest, CopyAssignmentCreatesIndependentCopy) {
     Input input;
-    input.set_document("my-input");
+    input.get_archs().push_back("x86_64");
 
     Input copied_input;
     copied_input = input;
-    EXPECT_EQ(copied_input.get_document(), "my-input");
-    copied_input.set_document("my-precious-input");
-    EXPECT_EQ(input.get_document(), "my-input");
+    copied_input.get_archs().push_back("aarch64");
+    EXPECT_THAT(input.get_archs(), ::testing::ElementsAre("x86_64"));
+    EXPECT_THAT(copied_input.get_archs(), ::testing::ElementsAre("x86_64", "aarch64"));
 }
 
 TEST(ApiInputTest, MoveConstructorTransfersOwnership) {
     Input input;
-    input.set_document("my-input");
+    input.get_archs().push_back("x86_64");
 
     Input moved_input(std::move(input));
-    EXPECT_EQ(moved_input.get_document(), "my-input");
+    EXPECT_THAT(moved_input.get_archs(), ::testing::ElementsAre("x86_64"));
 }
 
 TEST(ApiInputTest, MoveAssignmentTransfersOwnership) {
     Input input;
-    input.set_document("my-input");
+    input.get_archs().push_back("x86_64");
 
     Input moved_input;
     moved_input = std::move(input);
-    EXPECT_EQ(moved_input.get_document(), "my-input");
+    EXPECT_THAT(moved_input.get_archs(), ::testing::ElementsAre("x86_64"));
 }
 
 }  // namespace

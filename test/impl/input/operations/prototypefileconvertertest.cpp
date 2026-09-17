@@ -3,12 +3,11 @@
 
 #include "impl/common/mocks/yaml/yamlnodefactorymock.hpp"
 #include "impl/common/mocks/yaml/yamlnodeinternalstub.hpp"
+#include "impl/input/objects/input/inputfactory.hpp"
 #include "impl/input/operations/prototypefileconverter/prototypefileconverter.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
-#include <format>
 
 namespace {
 
@@ -134,14 +133,8 @@ TEST_F(PrototypeFileConverterTest, ConverterConvertsTheNodeToTheExpectedInputFor
     prototype_node.insert("allowerasing", std::move(allowerasing_node));
 
     auto node = converter->convert(prototype_node);
-    EXPECT_EQ(INPUT_PROTOTYPE_DOCUMENT_ID, node->get("document")->as_string());
-    EXPECT_EQ(
-        std::format(
-            "{}.{}.{}",
-            INPUT_PROTOTYPE_DOCUMENT_VERSION_MAJOR,
-            INPUT_PROTOTYPE_DOCUMENT_VERSION_MINOR,
-            INPUT_PROTOTYPE_DOCUMENT_VERSION_PATCH),
-        node->get("version")->as_string());
+    EXPECT_EQ(INPUT_DOCUMENT_ID, node->get("document")->as_string());
+    EXPECT_EQ(input_document_version_string(), node->get("version")->as_string());
     EXPECT_EQ("repo1", node->get("repositories")->as_list()[0]->get("id")->as_string());
     EXPECT_EQ("baseurl1", node->get("repositories")->as_list()[0]->get("baseurl")->as_string());
     EXPECT_EQ("repo2", node->get("repositories")->as_list()[1]->get("id")->as_string());

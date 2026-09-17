@@ -29,8 +29,12 @@ std::string Manifest::get_document() const {
     return p_impl->get()->get_document();
 }
 
-Version & Manifest::get_version() {
-    return p_impl->get_version();
+libpkgmanifest::common::Version Manifest::get_version() const {
+    libpkgmanifest::common::Version version;
+    version.set_major(MANIFEST_DOCUMENT_VERSION.get_major());
+    version.set_minor(MANIFEST_DOCUMENT_VERSION.get_minor());
+    version.set_patch(MANIFEST_DOCUMENT_VERSION.get_patch());
+    return version;
 }
 
 Packages & Manifest::get_packages() {
@@ -39,15 +43,6 @@ Packages & Manifest::get_packages() {
 
 Repositories & Manifest::get_repositories() {
     return p_impl->get_repositories();
-}
-
-void Manifest::set_document(const std::string & document) {
-    p_impl->get()->set_document(document);
-}
-
-void Manifest::set_version(Version & version) {
-    p_impl->get()->set_version(version.p_impl->get_owned_object());
-    p_impl->get_version().p_impl->init(&p_impl->get()->get_version());
 }
 
 void Manifest::set_packages(Packages & packages) {

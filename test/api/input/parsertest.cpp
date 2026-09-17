@@ -21,9 +21,9 @@ TEST(ApiInputParserTest, ParseSimpleInput) {
     auto input = parser.parse(file_path);
 
     EXPECT_EQ("rpm-package-input", input.get_document());
-    EXPECT_EQ(6, input.get_version().get_major());
-    EXPECT_EQ(6, input.get_version().get_minor());
-    EXPECT_EQ(5, input.get_version().get_patch());
+    EXPECT_EQ(0, input.get_version().get_major());
+    EXPECT_EQ(0, input.get_version().get_minor());
+    EXPECT_EQ(2, input.get_version().get_patch());
 
     auto & repositories = input.get_repositories();
     EXPECT_EQ(2, repositories.size());
@@ -49,10 +49,10 @@ TEST(ApiParserTest, ParseSimplePrototypeInput) {
     Parser parser;
     auto input = parser.parse_prototype(file_path);
 
-    EXPECT_EQ("rpm-package-input-prototype", input.get_document());
+    EXPECT_EQ("rpm-package-input", input.get_document());
     EXPECT_EQ(0, input.get_version().get_major());
     EXPECT_EQ(0, input.get_version().get_minor());
-    EXPECT_EQ(1, input.get_version().get_patch());
+    EXPECT_EQ(2, input.get_version().get_patch());
 
     auto & repositories = input.get_repositories();
     EXPECT_EQ(6, repositories.size());
@@ -102,6 +102,20 @@ TEST(ApiParserTest, ParseSimplePrototypeInput) {
 
 TEST(ApiInputParserTest, ParseInvalidInputThrowsParserException) {
     auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/invalid.yaml";
+
+    Parser parser;
+    EXPECT_THROW(parser.parse(file_path), ParserError);
+}
+
+TEST(ApiInputParserTest, ParseWrongDocumentThrowsParserException) {
+    auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/wrong-document.yaml";
+
+    Parser parser;
+    EXPECT_THROW(parser.parse(file_path), ParserError);
+}
+
+TEST(ApiInputParserTest, ParseWrongVersionThrowsParserException) {
+    auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/wrong-version.yaml";
 
     Parser parser;
     EXPECT_THROW(parser.parse(file_path), ParserError);

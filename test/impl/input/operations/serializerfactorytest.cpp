@@ -38,7 +38,7 @@ protected:
 
 TEST_F(InputSerializerFactoryTest, SerializeSimpleInput) {
     const std::string simple_input_yaml = R"(document: rpm-package-input
-version: 6.6.5
+version: 0.0.2
 repositories:
   - id: main
     metalink: https://community.server.org/metalink
@@ -72,9 +72,9 @@ archs:
     EXPECT_CALL(Const(repositories), get()).WillRepeatedly(ReturnPointee(&repository_map));
 
     NiceMock<VersionMock> version;
-    EXPECT_CALL(version, get_major()).WillOnce(Return(6));
-    EXPECT_CALL(version, get_minor()).WillOnce(Return(6));
-    EXPECT_CALL(version, get_patch()).WillOnce(Return(5));
+    EXPECT_CALL(version, get_major()).WillOnce(Return(0));
+    EXPECT_CALL(version, get_minor()).WillOnce(Return(0));
+    EXPECT_CALL(version, get_patch()).WillOnce(Return(2));
 
     std::vector<std::string> installs = {"bootc", "dnf", "podman"};
     std::vector<std::string> reinstalls;
@@ -115,7 +115,7 @@ archs:
 
 TEST_F(InputSerializerFactoryTest, SerializeInputWithModulesAndOptions) {
     const std::string input_yaml = R"(document: rpm-package-input
-version: 1.0.0
+version: 0.0.2
 repositories:
   - id: repo1
     baseurl: http://example.com/repo
@@ -146,9 +146,9 @@ options:
     EXPECT_CALL(Const(repositories), get()).WillRepeatedly(ReturnPointee(&repository_map));
 
     NiceMock<VersionMock> version;
-    EXPECT_CALL(version, get_major()).WillOnce(Return(1));
+    EXPECT_CALL(version, get_major()).WillOnce(Return(0));
     EXPECT_CALL(version, get_minor()).WillOnce(Return(0));
-    EXPECT_CALL(version, get_patch()).WillOnce(Return(0));
+    EXPECT_CALL(version, get_patch()).WillOnce(Return(2));
 
     std::vector<std::string> installs = {"pkg1"};
     std::vector<std::string> reinstalls = {"pkg2"};

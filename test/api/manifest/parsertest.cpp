@@ -1,6 +1,7 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "libpkgmanifest/common/exception.hpp"
 #include "libpkgmanifest/manifest/parser.hpp"
 
 #include <gmock/gmock.h>
@@ -9,6 +10,7 @@
 namespace {
 
 using namespace libpkgmanifest::manifest;
+using namespace libpkgmanifest::common;
 
 TEST(ApiManifestParserTest, ParseSimpleManifest) {
     auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/manifest/simple.yaml";
@@ -17,7 +19,7 @@ TEST(ApiManifestParserTest, ParseSimpleManifest) {
     auto manifest = parser.parse(file_path);
 
     EXPECT_EQ("rpm-package-manifest", manifest.get_document());
-    EXPECT_EQ(1, manifest.get_version().get_major());
+    EXPECT_EQ(0, manifest.get_version().get_major());
     EXPECT_EQ(2, manifest.get_version().get_minor());
     EXPECT_EQ(3, manifest.get_version().get_patch());
 
@@ -50,7 +52,10 @@ TEST(ApiManifestParserTest, ParseSimpleManifest) {
     EXPECT_EQ("repo1", package1.get_repository().get_id());
     EXPECT_EQ("http://some.server.gov/folder/metalink", package1.get_repository().get_metalink());
     EXPECT_EQ(ChecksumMethod::SHA512, package1.get_checksum().get_method());
-    EXPECT_EQ("abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", package1.get_checksum().get_digest());
+    EXPECT_EQ(
+        "abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        "000000000000000000",
+        package1.get_checksum().get_digest());
     EXPECT_EQ(ChecksumMethod::SHA1, package1.get_hdr_checksum().get_method());
     EXPECT_EQ("aabbcc1111111111111111111111111111111111", package1.get_hdr_checksum().get_digest());
     EXPECT_EQ("package1", package1.get_nevra().get_name());
@@ -106,6 +111,20 @@ TEST(ApiManifestParserTest, ParseSimpleManifest) {
     EXPECT_EQ("", package3.get_srpm().to_string());
     EXPECT_EQ("", package3.get_module().get_name());
     EXPECT_EQ("", package3.get_module().get_stream());
+}
+
+TEST(ApiManifestParserTest, ParseWrongDocumentThrowsParserException) {
+    auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/manifest/wrong-document.yaml";
+
+    Parser parser;
+    EXPECT_THROW(parser.parse(file_path), ParserError);
+}
+
+TEST(ApiManifestParserTest, ParseWrongVersionThrowsParserException) {
+    auto file_path = std::string(std::getenv("PROJECT_SOURCE_DIR")) + "/test/data/manifest/wrong-version.yaml";
+
+    Parser parser;
+    EXPECT_THROW(parser.parse(file_path), ParserError);
 }
 
 }  // namespace

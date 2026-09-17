@@ -28,7 +28,7 @@ protected:
 
 TEST_F(ApiInputSerializerTest, SerializeSimpleInput) {
     const std::string simple_input_yaml = R"(document: rpm-package-input
-version: 6.6.5
+version: 0.0.2
 repositories:
   - id: main
     metalink: https://community.server.org/metalink
@@ -54,10 +54,6 @@ archs:
     repository2.set_baseurl("https://src.location.lol/content/public/dist/lol2/source/SRPMS");
 
     Input input;
-    input.set_document("rpm-package-input");
-    input.get_version().set_major(6);
-    input.get_version().set_minor(6);
-    input.get_version().set_patch(5);
     input.get_repositories().add(repository1);
     input.get_repositories().add(repository2);
     input.get_packages().get_installs().push_back("bootc");
@@ -79,7 +75,7 @@ archs:
 
 TEST_F(ApiInputSerializerTest, SerializeInputWithAllFields) {
     const std::string full_input_yaml = R"(document: rpm-package-input
-version: 1.0.0
+version: 0.0.2
 repositories:
   - id: repo1
     baseurl: http://example.com/repo
@@ -104,10 +100,6 @@ options:
     repository1.set_baseurl("http://example.com/repo");
 
     Input input;
-    input.set_document("rpm-package-input");
-    input.get_version().set_major(1);
-    input.get_version().set_minor(0);
-    input.get_version().set_patch(0);
     input.get_repositories().add(repository1);
     input.get_packages().get_installs().push_back("pkg1");
     input.get_packages().get_reinstalls().push_back("pkg2");
