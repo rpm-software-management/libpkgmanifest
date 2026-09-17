@@ -38,7 +38,7 @@ public:
     /// @note This version changes if the structure or format of the document's properties has been updated.
     ///
     /// @return The document version.
-    Version & get_version();
+    Version get_version() const;
 
     /// @brief Retrieves a structure containing all the packages defined in the manifest file.
     ///
@@ -49,16 +49,6 @@ public:
     ///
     /// @return A structure with the repositories listed in the manifest.
     Repositories & get_repositories();
-
-    /// @brief Sets the YAML document identifier.
-    ///
-    /// @param document The YAML identifier to set.
-    void set_document(const std::string & document);
-
-    /// @brief Sets the version of the YAML document.
-    ///
-    /// @param version The version to set for the document.
-    void set_version(Version & version);
 
     /// @brief Assigns a structure with all the packages to be included in the manifest file.
     ///

@@ -3,8 +3,6 @@
 
 #include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
 #include "impl/common/mocks/objects/repositories/repositoriesparsermock.hpp"
-#include "impl/common/mocks/objects/version/versionmock.hpp"
-#include "impl/common/mocks/objects/version/versionparsermock.hpp"
 #include "impl/common/mocks/operations/stringlistparsermock.hpp"
 #include "impl/common/mocks/yaml/yamlnodemock.hpp"
 #include "impl/input/mocks/objects/input/inputfactorymock.hpp"
@@ -15,6 +13,7 @@
 #include "impl/input/mocks/objects/options/optionsparsermock.hpp"
 #include "impl/input/mocks/objects/packages/packagesmock.hpp"
 #include "impl/input/mocks/objects/packages/packagesparsermock.hpp"
+#include "impl/input/objects/input/inputfactory.hpp"
 #include "impl/input/objects/input/inputparser.hpp"
 
 #include <gmock/gmock.h>
@@ -26,6 +25,7 @@ using namespace libpkgmanifest::internal::input;
 
 using ::testing::_;
 using ::testing::AnyNumber;
+using ::testing::AtMost;
 using ::testing::ElementsAre;
 using ::testing::NiceMock;
 using ::testing::Pointer;
@@ -41,13 +41,10 @@ protected:
         input = input_wrapper.get();
 
         auto input_factory_wrapper = std::make_unique<NiceMock<InputFactoryMock>>();
-        EXPECT_CALL(*input_factory_wrapper, create()).WillOnce(Return(std::move(input_wrapper)));
+        EXPECT_CALL(*input_factory_wrapper, create()).Times(AtMost(1)).WillOnce(Return(std::move(input_wrapper)));
 
         auto repositories_parser_wrapper = std::make_unique<NiceMock<RepositoriesParserMock>>();
         repositories_parser = repositories_parser_wrapper.get();
-
-        auto version_parser_wrapper = std::make_unique<NiceMock<VersionParserMock>>();
-        version_parser = version_parser_wrapper.get();
 
         auto packages_parser_wrapper = std::make_unique<NiceMock<PackagesParserMock>>();
         packages_parser = packages_parser_wrapper.get();
@@ -65,6 +62,16 @@ protected:
             return std::make_unique<NiceMock<YamlNodeMock>>();
         });
 
+        auto document_node_wrapper = std::make_unique<NiceMock<YamlNodeMock>>();
+        document_node = document_node_wrapper.get();
+        ON_CALL(*document_node, as_string()).WillByDefault(Return(INPUT_DOCUMENT_ID));
+        EXPECT_CALL(yaml_node, get("document")).WillOnce(Return(std::move(document_node_wrapper)));
+
+        auto version_node_wrapper = std::make_unique<NiceMock<YamlNodeMock>>();
+        version_node = version_node_wrapper.get();
+        ON_CALL(*version_node, as_string()).WillByDefault(Return(input_document_version_string()));
+        EXPECT_CALL(yaml_node, get("version")).Times(AtMost(1)).WillOnce(Return(std::move(version_node_wrapper)));
+
         EXPECT_CALL(yaml_node, has(_)).Times(AnyNumber()).WillRepeatedly(Return(false));
 
         EXPECT_CALL(*repositories_parser, parse(_)).Times(AnyNumber()).WillRepeatedly([]() {
@@ -74,7 +81,6 @@ protected:
         parser = std::make_unique<InputParser>(
             std::move(input_factory_wrapper),
             std::move(repositories_parser_wrapper),
-            std::move(version_parser_wrapper),
             std::move(packages_parser_wrapper),
             std::move(modules_parser_wrapper),
             std::move(options_parser_wrapper),
@@ -83,38 +89,26 @@ protected:
 
     NiceMock<InputMock> * input;
     NiceMock<RepositoriesParserMock> * repositories_parser;
-    NiceMock<VersionParserMock> * version_parser;
     NiceMock<PackagesParserMock> * packages_parser;
     NiceMock<ModulesParserMock> * modules_parser;
     NiceMock<OptionsParserMock> * options_parser;
     NiceMock<StringListParserMock> * string_list_parser;
     NiceMock<RepositoriesMock> repositories;
     NiceMock<YamlNodeMock> yaml_node;
+    NiceMock<YamlNodeMock> * document_node;
+    NiceMock<YamlNodeMock> * version_node;
 
     std::unique_ptr<InputParser> parser;
 };
 
-TEST_F(InputParserTest, ParserSetsDocumentFromYamlNode) {
-    auto document_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto document_node_ptr = document_node.get();
-
-    EXPECT_CALL(yaml_node, get("document")).WillOnce(Return(std::move(document_node)));
-    EXPECT_CALL(*document_node_ptr, as_string()).WillOnce(Return("id"));
-    EXPECT_CALL(*input, set_document("id"));
-    parser->parse(yaml_node);
+TEST_F(InputParserTest, ParserRejectsWrongDocument) {
+    EXPECT_CALL(*document_node, as_string()).WillOnce(Return("wrong-document"));
+    EXPECT_THROW(parser->parse(yaml_node), std::runtime_error);
 }
 
-TEST_F(InputParserTest, ParserSetsVersionFromVersionParser) {
-    auto version_node = std::make_unique<NiceMock<YamlNodeMock>>();
-    auto version_node_ptr = version_node.get();
-
-    auto version = std::make_unique<NiceMock<VersionMock>>();
-    auto version_ptr = version.get();
-
-    EXPECT_CALL(yaml_node, get("version")).WillOnce(Return(std::move(version_node)));
-    EXPECT_CALL(*version_parser, parse(Ref(*version_node_ptr))).WillOnce(Return(std::move(version)));
-    EXPECT_CALL(*input, set_version(Pointer(version_ptr)));
-    parser->parse(yaml_node);
+TEST_F(InputParserTest, ParserRejectsUnsupportedVersion) {
+    EXPECT_CALL(*version_node, as_string()).WillOnce(Return("0.0.1"));
+    EXPECT_THROW(parser->parse(yaml_node), std::runtime_error);
 }
 
 TEST_F(InputParserTest, ParserSetsRepositoriesFromRepositoriesParser) {

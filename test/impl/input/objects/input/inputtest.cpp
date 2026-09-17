@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
-#include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/input/mocks/objects/modules/modulesmock.hpp"
 #include "impl/input/mocks/objects/options/optionsmock.hpp"
 #include "impl/input/mocks/objects/packages/packagesmock.hpp"
 #include "impl/input/objects/input/input.hpp"
+#include "impl/input/objects/input/inputfactory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -17,39 +17,29 @@ using namespace libpkgmanifest::internal::input;
 using ::testing::NiceMock;
 using ::testing::Return;
 
-TEST(InputTest, DefaultDocumentIsEmpty) {
-    EXPECT_EQ(std::string(), Input().get_document());
+Input create_input() {
+    return Input();
 }
 
 TEST(InputTest, DefaultArchsIsEmpty) {
-    EXPECT_TRUE(Input().get_archs().empty());
-    EXPECT_TRUE(static_cast<const Input &>(Input()).get_archs().empty());
+    auto input = create_input();
+    EXPECT_TRUE(input.get_archs().empty());
+    EXPECT_TRUE(static_cast<const Input &>(input).get_archs().empty());
 }
 
-TEST(InputTest, SetDocumentIsReturned) {
+TEST(InputTest, ConstantMetadataIsReturned) {
     Input input;
-    input.set_document("document");
-    EXPECT_EQ("document", input.get_document());
-}
-
-TEST(InputTest, SetVersionObjectIsReturned) {
-    auto version = std::make_unique<NiceMock<VersionMock>>();
-    auto version_ptr = version.get();
-
-    Input input;
-    input.set_version(std::move(version));
-
-    EXPECT_EQ(version_ptr, &input.get_version());
-
-    const auto & const_input = input;
-    EXPECT_EQ(version_ptr, &const_input.get_version());
+    EXPECT_EQ(INPUT_DOCUMENT_ID, input.get_document());
+    EXPECT_EQ(INPUT_DOCUMENT_VERSION.get_major(), input.get_version().get_major());
+    EXPECT_EQ(INPUT_DOCUMENT_VERSION.get_minor(), input.get_version().get_minor());
+    EXPECT_EQ(INPUT_DOCUMENT_VERSION.get_patch(), input.get_version().get_patch());
 }
 
 TEST(InputTest, SetRepositoriesObjectIsReturned) {
     auto repositories = std::make_unique<NiceMock<RepositoriesMock>>();
     auto repositories_ptr = repositories.get();
 
-    Input input;
+    auto input = create_input();
     input.set_repositories(std::move(repositories));
 
     EXPECT_EQ(repositories_ptr, &input.get_repositories());
@@ -62,7 +52,7 @@ TEST(InputTest, SetPackagesObjectIsReturned) {
     auto packages = std::make_unique<NiceMock<PackagesMock>>();
     auto packages_ptr = packages.get();
 
-    Input input;
+    auto input = create_input();
     input.set_packages(std::move(packages));
 
     EXPECT_EQ(packages_ptr, &input.get_packages());
@@ -75,7 +65,7 @@ TEST(InputTest, SetModulesObjectIsReturned) {
     auto modules = std::make_unique<NiceMock<ModulesMock>>();
     auto modules_ptr = modules.get();
 
-    Input input;
+    auto input = create_input();
     input.set_modules(std::move(modules));
 
     EXPECT_EQ(modules_ptr, &input.get_modules());
@@ -88,7 +78,7 @@ TEST(InputTest, SetOptionsObjectIsReturned) {
     auto options = std::make_unique<NiceMock<OptionsMock>>();
     auto options_ptr = options.get();
 
-    Input input;
+    auto input = create_input();
     input.set_options(std::move(options));
 
     EXPECT_EQ(options_ptr, &input.get_options());
@@ -99,12 +89,6 @@ TEST(InputTest, SetOptionsObjectIsReturned) {
 
 TEST(InputTest, ClonedObjectHasSameValuesAsOriginal) {
     // TODO(jkolarik): Tests cloned complex objects are the same
-
-    auto version = std::make_unique<NiceMock<VersionMock>>();
-    auto cloned_version = std::make_unique<NiceMock<VersionMock>>();
-    EXPECT_CALL(*version, get_major()).WillOnce(Return(4));
-    EXPECT_CALL(*cloned_version, get_major()).WillOnce(Return(4));
-    EXPECT_CALL(*version, clone()).WillOnce(Return(std::move(cloned_version)));
 
     auto repositories = std::make_unique<NiceMock<RepositoriesMock>>();
     auto cloned_repositories = std::make_unique<NiceMock<RepositoriesMock>>();
@@ -123,8 +107,6 @@ TEST(InputTest, ClonedObjectHasSameValuesAsOriginal) {
     EXPECT_CALL(*options, clone()).WillOnce(Return(std::move(cloned_options)));
 
     Input input;
-    input.set_document("input1");
-    input.set_version(std::move(version));
     input.set_repositories(std::move(repositories));
     input.set_packages(std::move(packages));
     input.set_modules(std::move(modules));

@@ -6,7 +6,6 @@
 #include "iinputfactory.hpp"
 #include "iinputparser.hpp"
 #include "impl/common/objects/repositories/irepositoriesparser.hpp"
-#include "impl/common/objects/version/iversionparser.hpp"
 #include "impl/common/operations/stringlistparser/istringlistparser.hpp"
 #include "impl/input/objects/modules/imodulesparser.hpp"
 #include "impl/input/objects/options/ioptionsparser.hpp"
@@ -21,7 +20,6 @@ public:
     InputParser(
         std::unique_ptr<IInputFactory> input_factory,
         std::shared_ptr<IRepositoriesParser> repositories_parser,
-        std::shared_ptr<IVersionParser> version_parser,
         std::shared_ptr<IPackagesParser> packages_parser,
         std::shared_ptr<IModulesParser> modules_parser,
         std::shared_ptr<IOptionsParser> options_parser,
@@ -32,7 +30,6 @@ public:
 private:
     std::unique_ptr<IInputFactory> input_factory;
     std::shared_ptr<IRepositoriesParser> repositories_parser;
-    std::shared_ptr<IVersionParser> version_parser;
     std::shared_ptr<IPackagesParser> packages_parser;
     std::shared_ptr<IModulesParser> modules_parser;
     std::shared_ptr<IOptionsParser> options_parser;

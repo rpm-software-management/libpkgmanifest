@@ -5,7 +5,7 @@
 
 #include "iinputfactory.hpp"
 #include "impl/common/objects/repositories/irepositoriesfactory.hpp"
-#include "impl/common/objects/version/iversionfactory.hpp"
+#include "impl/common/objects/version/version.hpp"
 #include "impl/input/objects/modules/imodulesfactory.hpp"
 #include "impl/input/objects/options/ioptionsfactory.hpp"
 #include "impl/input/objects/packages/ipackagesfactory.hpp"
@@ -16,15 +16,24 @@ using namespace libpkgmanifest::internal::common;
 
 constexpr const char * INPUT_DOCUMENT_ID = "rpm-package-input";
 
-constexpr int INPUT_DOCUMENT_VERSION_MAJOR = 0;
-constexpr int INPUT_DOCUMENT_VERSION_MINOR = 0;
-constexpr int INPUT_DOCUMENT_VERSION_PATCH = 2;
+inline const Version INPUT_DOCUMENT_VERSION = [] {
+    Version version;
+    version.set_major(0);
+    version.set_minor(0);
+    version.set_patch(2);
+    return version;
+}();
+
+inline std::string input_document_version_string() {
+    return std::to_string(INPUT_DOCUMENT_VERSION.get_major()) + "." +
+           std::to_string(INPUT_DOCUMENT_VERSION.get_minor()) + "." +
+           std::to_string(INPUT_DOCUMENT_VERSION.get_patch());
+}
 
 class InputFactory : public IInputFactory {
 public:
     InputFactory(
         std::shared_ptr<IRepositoriesFactory> repositories_factory,
-        std::shared_ptr<IVersionFactory> version_factory,
         std::shared_ptr<IPackagesFactory> packages_factory,
         std::shared_ptr<IModulesFactory> modules_factory,
         std::shared_ptr<IOptionsFactory> options_factory);
@@ -33,7 +42,6 @@ public:
 
 private:
     std::shared_ptr<IRepositoriesFactory> repositories_factory;
-    std::shared_ptr<IVersionFactory> version_factory;
     std::shared_ptr<IPackagesFactory> packages_factory;
     std::shared_ptr<IModulesFactory> modules_factory;
     std::shared_ptr<IOptionsFactory> options_factory;

@@ -1,6 +1,7 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/manifest/objects/manifest/manifestfactory.hpp"
 #include "libpkgmanifest/manifest/manifest.hpp"
 
 #include <gmock/gmock.h>
@@ -10,25 +11,19 @@ namespace {
 
 using namespace libpkgmanifest::manifest;
 
-TEST(ApiManifestTest, SetDocument) {
+TEST(ApiManifestTest, DocumentIsCanonical) {
     Manifest manifest;
-    manifest.set_document("my-manifest");
-    EXPECT_EQ(manifest.get_document(), "my-manifest");
+    EXPECT_EQ(manifest.get_document(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_ID);
 }
 
-TEST(ApiManifestTest, SetVersion) {
+TEST(ApiManifestTest, VersionIsCanonical) {
     Manifest manifest;
-
-    Version version;
-    version.set_major(6);
-    version.set_minor(9);
-    version.set_patch(1);
-
-    manifest.set_version(version);
-
-    EXPECT_EQ(manifest.get_version().get_major(), 6);
-    EXPECT_EQ(manifest.get_version().get_minor(), 9);
-    EXPECT_EQ(manifest.get_version().get_patch(), 1);
+    EXPECT_EQ(
+        manifest.get_version().get_major(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_VERSION.get_major());
+    EXPECT_EQ(
+        manifest.get_version().get_minor(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_VERSION.get_minor());
+    EXPECT_EQ(
+        manifest.get_version().get_patch(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_VERSION.get_patch());
 }
 
 TEST(ApiManifestTest, SetPackages) {
@@ -74,40 +69,44 @@ TEST(ApiManifestTest, SetRepositories) {
 
 TEST(ApiManifestTest, CopyConstructorCreatesIndependentCopy) {
     Manifest manifest;
-    manifest.set_document("my-manifest");
+    Repository repository;
+    repository.set_id("repo1");
+    manifest.get_repositories().add(repository);
 
     Manifest copied_manifest(manifest);
-    EXPECT_EQ(copied_manifest.get_document(), "my-manifest");
-    copied_manifest.set_document("other-manifest");
-    EXPECT_EQ(manifest.get_document(), "my-manifest");
+    repository.set_id("repo2");
+    copied_manifest.get_repositories().add(repository);
+    EXPECT_EQ(manifest.get_repositories().size(), 1);
+    EXPECT_EQ(copied_manifest.get_repositories().size(), 2);
 }
 
 TEST(ApiManifestTest, CopyAssignmentCreatesIndependentCopy) {
     Manifest manifest;
-    manifest.set_document("my-manifest");
+    Repository repository;
+    repository.set_id("repo1");
+    manifest.get_repositories().add(repository);
 
     Manifest copied_manifest;
     copied_manifest = manifest;
-    EXPECT_EQ(copied_manifest.get_document(), "my-manifest");
-    copied_manifest.set_document("other-manifest");
-    EXPECT_EQ(manifest.get_document(), "my-manifest");
+    repository.set_id("repo2");
+    copied_manifest.get_repositories().add(repository);
+    EXPECT_EQ(manifest.get_repositories().size(), 1);
+    EXPECT_EQ(copied_manifest.get_repositories().size(), 2);
 }
 
 TEST(ApiManifestTest, MoveConstructorTransfersOwnership) {
     Manifest manifest;
-    manifest.set_document("my-manifest");
 
     Manifest moved_manifest(std::move(manifest));
-    EXPECT_EQ(moved_manifest.get_document(), "my-manifest");
+    EXPECT_EQ(moved_manifest.get_document(), "rpm-package-manifest");
 }
 
 TEST(ApiManifestTest, MoveAssignmentTransfersOwnership) {
     Manifest manifest;
-    manifest.set_document("my-manifest");
 
     Manifest moved_manifest;
     moved_manifest = std::move(manifest);
-    EXPECT_EQ(moved_manifest.get_document(), "my-manifest");
+    EXPECT_EQ(moved_manifest.get_document(), "rpm-package-manifest");
 }
 
 }  // namespace

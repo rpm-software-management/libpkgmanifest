@@ -29,8 +29,12 @@ std::string Input::get_document() const {
     return p_impl->get()->get_document();
 }
 
-Version & Input::get_version() {
-    return p_impl->get_version();
+libpkgmanifest::common::Version Input::get_version() const {
+    libpkgmanifest::common::Version version;
+    version.set_major(INPUT_DOCUMENT_VERSION.get_major());
+    version.set_minor(INPUT_DOCUMENT_VERSION.get_minor());
+    version.set_patch(INPUT_DOCUMENT_VERSION.get_patch());
+    return version;
 }
 
 Repositories & Input::get_repositories() {
@@ -51,15 +55,6 @@ std::vector<std::string> & Input::get_archs() {
 
 Options & Input::get_options() {
     return p_impl->get_options();
-}
-
-void Input::set_document(const std::string & document) {
-    p_impl->get()->set_document(document);
-}
-
-void Input::set_version(Version & version) {
-    p_impl->get()->set_version(version.p_impl->get_owned_object());
-    p_impl->get_version().p_impl->init(&p_impl->get()->get_version());
 }
 
 void Input::set_repositories(Repositories & repositories) {

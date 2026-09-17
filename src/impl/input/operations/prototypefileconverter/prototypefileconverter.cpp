@@ -3,7 +3,7 @@
 
 #include "prototypefileconverter.hpp"
 
-#include <format>
+#include "impl/input/objects/input/inputfactory.hpp"
 
 namespace libpkgmanifest::internal::input {
 
@@ -16,15 +16,11 @@ std::unique_ptr<IYamlNode> PrototypeFileConverter::convert(const IYamlNode & nod
     auto result = node_factory->create();
 
     auto document_node = node_factory->create();
-    document_node->set(INPUT_PROTOTYPE_DOCUMENT_ID);
+    document_node->set(INPUT_DOCUMENT_ID);
     result->insert("document", std::move(document_node));
 
     auto version_node = node_factory->create();
-    version_node->set(std::format(
-        "{}.{}.{}",
-        INPUT_PROTOTYPE_DOCUMENT_VERSION_MAJOR,
-        INPUT_PROTOTYPE_DOCUMENT_VERSION_MINOR,
-        INPUT_PROTOTYPE_DOCUMENT_VERSION_PATCH));
+    version_node->set(input_document_version_string());
     result->insert("version", std::move(version_node));
 
     auto result_repositories_node = node_factory->create();
