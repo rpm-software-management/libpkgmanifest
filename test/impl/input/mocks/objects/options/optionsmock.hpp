@@ -15,6 +15,7 @@ public:
     MOCK_METHOD(bool, has_allow_erasing, (), (const, override));
     MOCK_METHOD(bool, get_allow_erasing, (), (const, override));
     MOCK_METHOD(void, set_allow_erasing, (bool), (override));
+    MOCK_METHOD(bool, empty, (), (const, override));
 };
 
 }  // namespace
