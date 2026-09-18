@@ -12,7 +12,7 @@
 
 Name:       %{pkg_name}
 Version:    %{version_major}.%{version_minor}.%{version_patch}
-Release:    %{autorelease}
+Release:    1%{?dist}
 
 %forgemeta
 
@@ -108,4 +108,5 @@ Python 3 bindings for the %{name} library.
 %cmake_install
 
 %changelog
-%autochangelog
+* Fri Sep 18 2026 Petr Pisar <ppisar@redhat.com> - 0.6.0-1
+- Developmental snapshot
