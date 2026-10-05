@@ -9,18 +9,19 @@
 #include "impl/input/objects/modules/imodulesfactory.hpp"
 #include "impl/input/objects/options/ioptionsfactory.hpp"
 #include "impl/input/objects/packages/ipackagesfactory.hpp"
+#include "libpkgmanifest/input/input.hpp"
 
 namespace libpkgmanifest::internal::input {
 
 using namespace libpkgmanifest::internal::common;
 
-constexpr const char * INPUT_DOCUMENT_ID = "rpm-package-input";
+constexpr const char * INPUT_DOCUMENT_ID = libpkgmanifest::input::INPUT_DOCUMENT_IDENTIFIER;
 
 inline const Version INPUT_DOCUMENT_VERSION = [] {
     Version version;
-    version.set_major(0);
-    version.set_minor(0);
-    version.set_patch(2);
+    version.set_major(libpkgmanifest::input::CURRENT_INPUT_SCHEMA_VERSION.get_major());
+    version.set_minor(libpkgmanifest::input::CURRENT_INPUT_SCHEMA_VERSION.get_minor());
+    version.set_patch(libpkgmanifest::input::CURRENT_INPUT_SCHEMA_VERSION.get_patch());
     return version;
 }();
 

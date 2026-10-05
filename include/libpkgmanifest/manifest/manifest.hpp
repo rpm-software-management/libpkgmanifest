@@ -14,6 +14,18 @@ namespace libpkgmanifest::manifest {
 
 using namespace libpkgmanifest::common;
 
+inline constexpr const char * MANIFEST_DOCUMENT_IDENTIFIER = "rpm-package-manifest";
+
+#ifndef SWIG
+inline const Version CURRENT_MANIFEST_SCHEMA_VERSION = [] {
+    Version version;
+    version.set_major(0);
+    version.set_minor(2);
+    version.set_patch(3);
+    return version;
+}();
+#endif
+
 /// @brief The primary data class that stores all information related to the items in the manifest file.
 class Manifest {
 public:

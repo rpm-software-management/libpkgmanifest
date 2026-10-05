@@ -17,6 +17,18 @@ namespace libpkgmanifest::input {
 
 using namespace libpkgmanifest::common;
 
+inline constexpr const char * INPUT_DOCUMENT_IDENTIFIER = "rpm-package-input";
+
+#ifndef SWIG
+inline const Version CURRENT_INPUT_SCHEMA_VERSION = [] {
+    Version version;
+    version.set_major(0);
+    version.set_minor(0);
+    version.set_patch(2);
+    return version;
+}();
+#endif
+
 /// @brief Stores all information related to the items defined in the input file.
 ///
 /// @note The file serves as input data for clients generating the manifest.

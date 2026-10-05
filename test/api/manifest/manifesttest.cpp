@@ -1,7 +1,6 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/manifest/objects/manifest/manifestfactory.hpp"
 #include "libpkgmanifest/manifest/manifest.hpp"
 
 #include <gmock/gmock.h>
@@ -13,17 +12,14 @@ using namespace libpkgmanifest::manifest;
 
 TEST(ApiManifestTest, DocumentIsCanonical) {
     Manifest manifest;
-    EXPECT_EQ(manifest.get_document(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_ID);
+    EXPECT_EQ(manifest.get_document(), MANIFEST_DOCUMENT_IDENTIFIER);
 }
 
 TEST(ApiManifestTest, VersionIsCanonical) {
     Manifest manifest;
-    EXPECT_EQ(
-        manifest.get_version().get_major(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_VERSION.get_major());
-    EXPECT_EQ(
-        manifest.get_version().get_minor(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_VERSION.get_minor());
-    EXPECT_EQ(
-        manifest.get_version().get_patch(), libpkgmanifest::internal::manifest::MANIFEST_DOCUMENT_VERSION.get_patch());
+    EXPECT_EQ(manifest.get_version().get_major(), CURRENT_MANIFEST_SCHEMA_VERSION.get_major());
+    EXPECT_EQ(manifest.get_version().get_minor(), CURRENT_MANIFEST_SCHEMA_VERSION.get_minor());
+    EXPECT_EQ(manifest.get_version().get_patch(), CURRENT_MANIFEST_SCHEMA_VERSION.get_patch());
 }
 
 TEST(ApiManifestTest, SetPackages) {
