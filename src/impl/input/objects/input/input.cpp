@@ -3,23 +3,16 @@
 
 #include "input.hpp"
 
+#include "inputfactory.hpp"
+
 namespace libpkgmanifest::internal::input {
 
 using namespace libpkgmanifest::internal::common;
 
-Input::Input()
-    : document(),
-      version(nullptr),
-      repositories(nullptr),
-      packages(nullptr),
-      modules(nullptr),
-      options(nullptr),
-      archs() {}
+Input::Input() : repositories(nullptr), packages(nullptr), modules(nullptr), options(nullptr), archs() {}
 
 Input::Input(const Input & other)
-    : document(other.document),
-      version(other.version->clone()),
-      repositories(other.repositories->clone()),
+    : repositories(other.repositories->clone()),
       packages(other.packages->clone()),
       modules(other.modules->clone()),
       options(other.options->clone()),
@@ -30,15 +23,11 @@ std::unique_ptr<IInput> Input::clone() const {
 }
 
 std::string Input::get_document() const {
-    return document;
+    return INPUT_DOCUMENT_ID;
 }
 
 const IVersion & Input::get_version() const {
-    return *version;
-}
-
-IVersion & Input::get_version() {
-    return *version;
+    return INPUT_DOCUMENT_VERSION;
 }
 
 const IRepositories & Input::get_repositories() const {
@@ -79,14 +68,6 @@ const IOptions & Input::get_options() const {
 
 IOptions & Input::get_options() {
     return *options;
-}
-
-void Input::set_document(const std::string & document) {
-    this->document = document;
-}
-
-void Input::set_version(std::unique_ptr<IVersion> version) {
-    this->version = std::move(version);
 }
 
 void Input::set_repositories(std::unique_ptr<IRepositories> repositories) {

@@ -12,15 +12,13 @@
     "properties": {
         "document": {
             "type": "string",
-            "enum": [
-                "rpm-package-manifest"
-            ],
+            "const": "rpm-package-manifest",
             "description": "Indicates the type of document."
         },
         "version": {
             "type": "string",
-            "pattern": "^[0-9]+(?:\\.[0-9]+)?(?:\\.[0-9]+)?$",
-            "description": "The version of the manifest file. This should follow the semantic versioning format (x.y.z), where x, y, and z are integers."
+            "const": "0.2.3",
+            "description": "The version of the manifest file."
         },
         "data": {
             "type": "object",

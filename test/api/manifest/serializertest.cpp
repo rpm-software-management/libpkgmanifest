@@ -27,8 +27,8 @@ protected:
 };
 
 TEST_F(ApiManifestSerializerTest, SerializeSimpleManifest) {
-    const std::string simple_manifest_yaml = R"(document: my-manifest
-version: 1.2.3
+    const std::string simple_manifest_yaml = R"(document: rpm-package-manifest
+version: 0.2.3
 data:
   repositories:
     - id: repo1
@@ -82,7 +82,9 @@ data:
     package1.set_repo_id("repo1");
     package1.set_size(152384);
     package1.get_checksum().set_method(ChecksumMethod::SHA512);
-    package1.get_checksum().set_digest("abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+    package1.get_checksum().set_digest(
+        "abcdef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        "000000000000000000");
     package1.get_hdr_checksum().set_method(ChecksumMethod::SHA1);
     package1.get_hdr_checksum().set_digest("aabbcc1111111111111111111111111111111111");
     package1.get_nevra().set_name("package1");
@@ -120,10 +122,6 @@ data:
     package3.get_nevra().set_arch("src");
 
     Manifest manifest;
-    manifest.set_document("my-manifest");
-    manifest.get_version().set_major(1);
-    manifest.get_version().set_minor(2);
-    manifest.get_version().set_patch(3);
     manifest.get_repositories().add(repository1);
     manifest.get_repositories().add(repository2);
     manifest.get_repositories().add(repository3);

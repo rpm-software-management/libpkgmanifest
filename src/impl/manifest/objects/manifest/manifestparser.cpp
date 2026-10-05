@@ -3,6 +3,11 @@
 
 #include "manifestparser.hpp"
 
+#include "manifestfactory.hpp"
+
+#include <format>
+#include <stdexcept>
+
 namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
@@ -11,19 +16,26 @@ ManifestParser::ManifestParser(
     std::unique_ptr<IManifestFactory> manifest_factory,
     std::unique_ptr<IPackagesParser> packages_parser,
     std::shared_ptr<IRepositoriesParser> repositories_parser,
-    std::shared_ptr<IVersionParser> version_parser,
     std::shared_ptr<IPackageRepositoryBinder> binder)
     : manifest_factory(std::move(manifest_factory)),
       packages_parser(std::move(packages_parser)),
       repositories_parser(std::move(repositories_parser)),
-      version_parser(std::move(version_parser)),
       binder(std::move(binder)) {}
 
 std::unique_ptr<IManifest> ManifestParser::parse(const IYamlNode & node) const {
-    auto manifest = manifest_factory->create();
+    auto document = node.get("document")->as_string();
+    if (document != MANIFEST_DOCUMENT_ID) {
+        throw std::runtime_error(
+            std::format("Invalid document identifier: expected '{}', got '{}'", MANIFEST_DOCUMENT_ID, document));
+    }
 
-    manifest->set_document(node.get("document")->as_string());
-    manifest->set_version(version_parser->parse(*node.get("version")));
+    auto version = node.get("version")->as_string();
+    if (version != manifest_document_version_string()) {
+        throw std::runtime_error(std::format(
+            "Unsupported document version: expected '{}', got '{}'", manifest_document_version_string(), version));
+    }
+
+    auto manifest = manifest_factory->create();
 
     auto data_node = node.get("data");
     auto repositories = repositories_parser->parse(*data_node->get("repositories"));

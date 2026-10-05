@@ -10,6 +10,17 @@ namespace {
 
 using namespace libpkgmanifest::input;
 
+TEST(ApiOptionsTest, DefaultHasAllowErasingIsFalse) {
+    Options options;
+    EXPECT_FALSE(options.has_allow_erasing());
+}
+
+TEST(ApiOptionsTest, HasAllowErasingIsTrueAfterSet) {
+    Options options;
+    options.set_allow_erasing(false);
+    EXPECT_TRUE(options.has_allow_erasing());
+}
+
 TEST(ApiOptionsTest, SetAllowErasing) {
     Options options;
     options.set_allow_erasing(true);

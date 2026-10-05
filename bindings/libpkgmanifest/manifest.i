@@ -36,6 +36,11 @@ add_property_accessors(Module)
 add_property_accessors(Nevra)
 add_property_accessors(Package)
 add_property_accessors(Package, Nevra, Package.get_nevra)
+
+CURRENT_MANIFEST_SCHEMA_VERSION = Version()
+CURRENT_MANIFEST_SCHEMA_VERSION.set_major(0)
+CURRENT_MANIFEST_SCHEMA_VERSION.set_minor(2)
+CURRENT_MANIFEST_SCHEMA_VERSION.set_patch(3)
 %}
 
 // Allow Nevra to be convertible to string

@@ -23,6 +23,10 @@ Options & Options::operator=(const Options & other) {
 Options::Options(Options && other) noexcept = default;
 Options & Options::operator=(Options && other) noexcept = default;
 
+bool Options::has_allow_erasing() const {
+    return p_impl->get()->has_allow_erasing();
+}
+
 bool Options::get_allow_erasing() const {
     return p_impl->get()->get_allow_erasing();
 }

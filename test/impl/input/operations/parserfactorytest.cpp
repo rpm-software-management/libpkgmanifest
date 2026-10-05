@@ -1,8 +1,8 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include "impl/input/objects/input/inputfactory.hpp"
 #include "impl/input/operations/parser/parserfactory.hpp"
-#include "impl/input/operations/prototypefileconverter/prototypefileconverter.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -21,9 +21,9 @@ TEST(ParserFactoryTest, ParseSimpleInput) {
     auto input = parser->parse(file_path);
 
     EXPECT_EQ("rpm-package-input", input->get_document());
-    EXPECT_EQ(6, input->get_version().get_major());
-    EXPECT_EQ(6, input->get_version().get_minor());
-    EXPECT_EQ(5, input->get_version().get_patch());
+    EXPECT_EQ(0, input->get_version().get_major());
+    EXPECT_EQ(0, input->get_version().get_minor());
+    EXPECT_EQ(2, input->get_version().get_patch());
 
     auto & repositories = input->get_repositories().get();
     EXPECT_EQ(2, repositories.size());
@@ -42,6 +42,28 @@ TEST(ParserFactoryTest, ParseSimpleInput) {
     EXPECT_THAT(input->get_archs(), ElementsAre("i686", "x86_64", "aarch64"));
 }
 
+TEST(ParserFactoryTest, ParseInputWithoutOptionsHasNoAllowErasing) {
+    auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/simple.yaml";
+
+    ParserFactory parser_factory;
+    auto parser = parser_factory.create();
+    auto input = parser->parse(file_path);
+
+    EXPECT_FALSE(input->get_options().has_allow_erasing());
+    EXPECT_FALSE(input->get_options().get_allow_erasing());
+}
+
+TEST(ParserFactoryTest, ParseInputWithAllowErasingFalseHasAllowErasing) {
+    auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/options.yaml";
+
+    ParserFactory parser_factory;
+    auto parser = parser_factory.create();
+    auto input = parser->parse(file_path);
+
+    EXPECT_TRUE(input->get_options().has_allow_erasing());
+    EXPECT_FALSE(input->get_options().get_allow_erasing());
+}
+
 TEST(ParserFactoryTest, ParseSimplePrototypeInput) {
     auto file_path = std::string(getenv("PROJECT_SOURCE_DIR")) + "/test/data/input/prototype.yaml";
 
@@ -49,10 +71,10 @@ TEST(ParserFactoryTest, ParseSimplePrototypeInput) {
     auto parser = parser_factory.create();
     auto input = parser->parse_from_prototype(file_path);
 
-    EXPECT_EQ(INPUT_PROTOTYPE_DOCUMENT_ID, input->get_document());
-    EXPECT_EQ(INPUT_PROTOTYPE_DOCUMENT_VERSION_MAJOR, input->get_version().get_major());
-    EXPECT_EQ(INPUT_PROTOTYPE_DOCUMENT_VERSION_MINOR, input->get_version().get_minor());
-    EXPECT_EQ(INPUT_PROTOTYPE_DOCUMENT_VERSION_PATCH, input->get_version().get_patch());
+    EXPECT_EQ(INPUT_DOCUMENT_ID, input->get_document());
+    EXPECT_EQ(INPUT_DOCUMENT_VERSION.get_major(), input->get_version().get_major());
+    EXPECT_EQ(INPUT_DOCUMENT_VERSION.get_minor(), input->get_version().get_minor());
+    EXPECT_EQ(INPUT_DOCUMENT_VERSION.get_patch(), input->get_version().get_patch());
 
     auto & repositories = input->get_repositories().get();
     EXPECT_EQ(6, repositories.size());

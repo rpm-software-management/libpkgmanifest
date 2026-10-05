@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include "impl/common/mocks/objects/repositories/repositoriesmock.hpp"
-#include "impl/common/mocks/objects/version/versionmock.hpp"
 #include "impl/manifest/mocks/objects/packages/packagesmock.hpp"
 #include "impl/manifest/mocks/operations/packagerepositorybindermock.hpp"
 #include "impl/manifest/objects/manifest/manifest.hpp"
+#include "impl/manifest/objects/manifest/manifestfactory.hpp"
 
 #include <gtest/gtest.h>
 
@@ -18,34 +18,23 @@ using ::testing::NiceMock;
 using ::testing::Ref;
 using ::testing::Return;
 
-TEST(ManifestTest, DefaultDocumentIsEmpty) {
-    EXPECT_EQ(std::string(), Manifest().get_document());
+Manifest create_manifest() {
+    return Manifest();
 }
 
-TEST(ManifestTest, SetDocumentIsReturned) {
+TEST(ManifestTest, ConstantMetadataIsReturned) {
     Manifest manifest;
-    manifest.set_document("document");
-    EXPECT_EQ("document", manifest.get_document());
-}
-
-TEST(ManifestTest, SetVersionObjectIsReturned) {
-    auto version = std::make_unique<NiceMock<VersionMock>>();
-    auto version_ptr = version.get();
-
-    Manifest manifest;
-    manifest.set_version(std::move(version));
-
-    EXPECT_EQ(version_ptr, &manifest.get_version());
-
-    const auto & const_manifest = manifest;
-    EXPECT_EQ(version_ptr, &const_manifest.get_version());
+    EXPECT_EQ(MANIFEST_DOCUMENT_ID, manifest.get_document());
+    EXPECT_EQ(MANIFEST_DOCUMENT_VERSION.get_major(), manifest.get_version().get_major());
+    EXPECT_EQ(MANIFEST_DOCUMENT_VERSION.get_minor(), manifest.get_version().get_minor());
+    EXPECT_EQ(MANIFEST_DOCUMENT_VERSION.get_patch(), manifest.get_version().get_patch());
 }
 
 TEST(ManifestTest, SetPackagesObjectIsReturned) {
     auto packages = std::make_unique<NiceMock<PackagesMock>>();
     auto packages_ptr = packages.get();
 
-    Manifest manifest;
+    auto manifest = create_manifest();
     manifest.set_packages(std::move(packages));
 
     EXPECT_EQ(packages_ptr, &manifest.get_packages());
@@ -58,7 +47,7 @@ TEST(ManifestTest, SetRepositoriesObjectIsReturned) {
     auto repositories = std::make_unique<NiceMock<RepositoriesMock>>();
     auto repositories_ptr = repositories.get();
 
-    Manifest manifest;
+    auto manifest = create_manifest();
     manifest.set_repositories(std::move(repositories));
 
     EXPECT_EQ(repositories_ptr, &manifest.get_repositories());
@@ -75,15 +64,7 @@ TEST(ManifestTest, ClonedObjectHasSameValuesAsOriginal) {
     auto cloned_packages = std::make_unique<NiceMock<PackagesMock>>();
     auto repositories = std::make_unique<NiceMock<RepositoriesMock>>();
     auto cloned_repositories = std::make_unique<NiceMock<RepositoriesMock>>();
-    auto version = std::make_unique<NiceMock<VersionMock>>();
-    auto cloned_version = std::make_unique<NiceMock<VersionMock>>();
-    EXPECT_CALL(*version, get_major()).WillOnce(Return(7));
-    EXPECT_CALL(*cloned_version, get_major()).WillOnce(Return(7));
-    EXPECT_CALL(*version, clone()).WillOnce(Return(std::move(cloned_version)));
-
     Manifest manifest;
-    manifest.set_document("doc1");
-    manifest.set_version(std::move(version));
     manifest.set_packages(std::move(packages));
     manifest.set_repositories(std::move(repositories));
 
@@ -106,7 +87,6 @@ TEST(ManifestTest, CloneAttachesClonedPackagesToTheClonedRepositoriesUsingBinder
     auto binder = std::make_shared<NiceMock<PackageRepositoryBinderMock>>();
 
     Manifest manifest;
-    manifest.set_version(std::make_unique<NiceMock<VersionMock>>());
     manifest.set_packages(std::move(packages));
     manifest.set_repositories(std::move(repositories));
     manifest.set_package_repository_binder(binder);
