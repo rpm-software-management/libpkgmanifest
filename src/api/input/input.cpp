@@ -31,9 +31,9 @@ std::string Input::get_document() const {
 
 libpkgmanifest::common::Version Input::get_version() const {
     libpkgmanifest::common::Version version;
-    version.set_major(INPUT_DOCUMENT_VERSION.get_major());
-    version.set_minor(INPUT_DOCUMENT_VERSION.get_minor());
-    version.set_patch(INPUT_DOCUMENT_VERSION.get_patch());
+    version.set_major(CURRENT_INPUT_SCHEMA_VERSION.get_major());
+    version.set_minor(CURRENT_INPUT_SCHEMA_VERSION.get_minor());
+    version.set_patch(CURRENT_INPUT_SCHEMA_VERSION.get_patch());
     return version;
 }
 

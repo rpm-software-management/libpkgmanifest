@@ -1,7 +1,6 @@
 // Copyright The libpkgmanifest Authors
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
-#include "impl/input/objects/input/inputfactory.hpp"
 #include "libpkgmanifest/input/input.hpp"
 
 #include <gmock/gmock.h>
@@ -13,14 +12,14 @@ using namespace libpkgmanifest::input;
 
 TEST(ApiInputTest, DocumentIsCanonical) {
     Input input;
-    EXPECT_EQ(input.get_document(), libpkgmanifest::internal::input::INPUT_DOCUMENT_ID);
+    EXPECT_EQ(input.get_document(), INPUT_DOCUMENT_IDENTIFIER);
 }
 
 TEST(ApiInputTest, VersionIsCanonical) {
     Input input;
-    EXPECT_EQ(input.get_version().get_major(), libpkgmanifest::internal::input::INPUT_DOCUMENT_VERSION.get_major());
-    EXPECT_EQ(input.get_version().get_minor(), libpkgmanifest::internal::input::INPUT_DOCUMENT_VERSION.get_minor());
-    EXPECT_EQ(input.get_version().get_patch(), libpkgmanifest::internal::input::INPUT_DOCUMENT_VERSION.get_patch());
+    EXPECT_EQ(input.get_version().get_major(), CURRENT_INPUT_SCHEMA_VERSION.get_major());
+    EXPECT_EQ(input.get_version().get_minor(), CURRENT_INPUT_SCHEMA_VERSION.get_minor());
+    EXPECT_EQ(input.get_version().get_patch(), CURRENT_INPUT_SCHEMA_VERSION.get_patch());
 }
 
 TEST(ApiInputTest, SetRepositories) {

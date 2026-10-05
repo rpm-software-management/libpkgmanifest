@@ -8,18 +8,19 @@
 #include "impl/common/objects/version/version.hpp"
 #include "impl/manifest/objects/packages/ipackagesfactory.hpp"
 #include "impl/manifest/operations/packagerepositorybinder/ipackagerepositorybinder.hpp"
+#include "libpkgmanifest/manifest/manifest.hpp"
 
 namespace libpkgmanifest::internal::manifest {
 
 using namespace libpkgmanifest::internal::common;
 
-constexpr const char * MANIFEST_DOCUMENT_ID = "rpm-package-manifest";
+constexpr const char * MANIFEST_DOCUMENT_ID = libpkgmanifest::manifest::MANIFEST_DOCUMENT_IDENTIFIER;
 
 inline const Version MANIFEST_DOCUMENT_VERSION = [] {
     Version version;
-    version.set_major(0);
-    version.set_minor(2);
-    version.set_patch(3);
+    version.set_major(libpkgmanifest::manifest::CURRENT_MANIFEST_SCHEMA_VERSION.get_major());
+    version.set_minor(libpkgmanifest::manifest::CURRENT_MANIFEST_SCHEMA_VERSION.get_minor());
+    version.set_patch(libpkgmanifest::manifest::CURRENT_MANIFEST_SCHEMA_VERSION.get_patch());
     return version;
 }();
 
