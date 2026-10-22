@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "RPM Package Manifest Schema",
-    "schemaVersion": "0.2.3",
+    "schemaVersion": "0.3.0",
     "description": "Schema for RPM manifest files used by libpkgmanifest library (https://github.com/rpm-software-management/libpkgmanifest)",
     "type": "object",
     "required": [
@@ -17,14 +17,14 @@
         },
         "version": {
             "type": "string",
-            "const": "0.2.3",
+            "const": "0.3.0",
             "description": "The version of the manifest file."
         },
         "data": {
             "type": "object",
             "required": [
                 "repositories",
-                "packages"
+                "goals"
             ],
             "properties": {
                 "repositories": {
@@ -36,19 +36,35 @@
                             "id"
                         ],
                         "anyOf": [
-                            { "required": ["baseurl"] },
-                            { "required": ["metalink"] },
-                            { "required": ["mirrorlist"] }
+                            {
+                                "required": [
+                                    "baseurl"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "metalink"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "mirrorlist"
+                                ]
+                            }
                         ],
                         "properties": {
                             "id": {
                                 "type": "string",
-                                "description": "Represents the ID of the repository as defined in the repo file available to the package manager at the time of package installation."
+                                "description": "Identifier of the repository."
                             },
                             "baseurl": {
-                                "type": "string",
-                                "format": "uri",
-                                "description": "The base URL of a repository where all content is hosted."
+                                "type": "array",
+                                "description": "List of base URLs for the repository.",
+                                "minItems": 1,
+                                "items": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
                             },
                             "metalink": {
                                 "type": "string",
@@ -59,79 +75,210 @@
                                 "type": "string",
                                 "format": "uri",
                                 "description": "Specifies a URL to a file containing a list of base URLs."
+                            },
+                            "options": {
+                                "$ref": "#/definitions/options",
+                                "description": "A map of repository options."
                             }
                         }
                     }
                 },
-                "packages": {
+                "goals": {
                     "type": "object",
-                    "description": "A mapping of architecture labels to arrays of packages. Each key represents an architecture (e.g., i686, x86_64, aarch64). The value is an array of package objects associated with that architecture.",
-                    "patternProperties": {
-                        "^[a-z0-9_]+$": {
-                            "type": "array",
-                            "items": {
+                    "description": "A map of named transaction goals. By convention, the default goal is named \"default\".",
+                    "minProperties": 1,
+                    "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                            "packages"
+                        ],
+                        "properties": {
+                            "packages": {
                                 "type": "object",
-                                "required": [
-                                    "name",
-                                    "repo_id",
-                                    "size",
-                                    "evr"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the package."
-                                    },
-                                    "repo_id": {
-                                        "type": "string",
-                                        "description": "The ID of the repository from which this package originates. It references one of the repository IDs listed in the 'repositories' section."
-                                    },
-                                    "location": {
-                                        "type": "string",
-                                        "description": "The relative URL within the specified repository used to construct the full URL from which the package can be downloaded."
-                                    },
-                                    "checksum": {
-                                        "type": "string",
-                                        "pattern": "^(sha1|sha224|sha256|sha384|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
-                                        "description": "The checksum of the package in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits or Base64 format). Only lowercase letters are supported."
-                                    },
-                                    "hdr_checksum": {
-                                        "type": "string",
-                                        "pattern": "^(sha1|sha224|sha256|sha384|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
-                                        "description": "The checksum of the package header in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits or Base64 format). Only lowercase letters are supported."
-                                    },
-                                    "size": {
-                                        "type": "integer",
-                                        "minimum": 1,
-                                        "description": "The size of the package in bytes. Must be a non-negative integer."
-                                    },
-                                    "evr": {
-                                        "type": "string",
-                                        "pattern": "^(?:\\d+:)?(.+)-(.+)$",
-                                        "description": "The Epoch, Version and Release (EVR) of the package."
-                                    },
-                                    "srpm": {
-                                        "type": "string",
-                                        "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
-                                        "description": "The Name, Epoch, Version, Release, and Architecture (NEVRA) of the source package used to build this package."
-                                    },
-                                    "module": {
-                                        "type": "string",
-                                        "pattern": "^(.+):(.+)$",
-                                        "description": "The modular information about the package in the format <name>:<stream>."
-                                    },
-                                    "parent_archs": {
-                                        "type": "array",
-                                        "description": "This optional field is used with noarch packages to indicate the base architectures the package was included for.",
-                                        "items": {
-                                            "type": "string"
-                                        }
+                                "description": "Map of architecture labels to lists of packages to install and remove. Each key represents an architecture (e.g. i686, x86_64, aarch64).",
+                                "patternProperties": {
+                                    "^[a-z0-9_]+$": {
+                                        "type": "object",
+                                        "description": "Packages to install and packages to remove for a specific architecture.",
+                                        "properties": {
+                                            "install": {
+                                                "type": "array",
+                                                "description": "List of packages to install.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "description": "A single package",
+                                                    "required": [
+                                                        "name",
+                                                        "arch",
+                                                        "repo_id",
+                                                        "size",
+                                                        "evr"
+                                                    ],
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "description": "The name of the package."
+                                                        },
+                                                        "arch": {
+                                                            "type": "string",
+                                                            "pattern": "^[a-z0-9_]+$",
+                                                            "description": "The architecture of the package."
+                                                        },
+                                                        "repo_id": {
+                                                            "type": "string",
+                                                            "description": "The ID of the repository from which this package originates. It references one of the repository IDs listed in the 'repositories' section."
+                                                        },
+                                                        "location": {
+                                                            "type": "string",
+                                                            "description": "The relative URL within the specified repository used to construct the full URL from which the package can be downloaded."
+                                                        },
+                                                        "checksum": {
+                                                            "type": "string",
+                                                            "pattern": "^(sha1|sha224|sha256|sha384|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
+                                                            "description": "The checksum of the package in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits or Base64 format). Only lowercase letters are supported."
+                                                        },
+                                                        "hdr_checksum": {
+                                                            "type": "string",
+                                                            "pattern": "^(sha1|sha224|sha256|sha384|sha512|md5|crc32|crc64):[A-Za-z0-9+/]+={0,2}$",
+                                                            "description": "The checksum of the package header in the format <algorithm>:<digest>. The checksum algorithm (e.g., SHA256, MD5) is followed by a colon and the digest (a string of hexadecimal digits or Base64 format). Only lowercase letters are supported."
+                                                        },
+                                                        "size": {
+                                                            "type": "integer",
+                                                            "minimum": 1,
+                                                            "description": "The size of the package in bytes. Must be a non-negative integer."
+                                                        },
+                                                        "evr": {
+                                                            "type": "string",
+                                                            "pattern": "^(?:\\d+:)?(.+)-(.+)$",
+                                                            "description": "The Epoch, Version and Release (EVR) of the package."
+                                                        },
+                                                        "srpm": {
+                                                            "type": "string",
+                                                            "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
+                                                            "description": "The Name, Epoch, Version, Release, and Architecture (NEVRA) of the source package used to build this package."
+                                                        },
+                                                        "module": {
+                                                            "type": "string",
+                                                            "pattern": "^(.+):(.+)$",
+                                                            "description": "The modular information about the package in the format <name>:<stream>."
+                                                        },
+                                                        "parent_archs": {
+                                                            "type": "array",
+                                                            "description": "This optional field is used with noarch packages to indicate the base architectures the package was included for.",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "remove": {
+                                                "type": "array",
+                                                "description": "List of package names to remove.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "description": "A package to remove.",
+                                                    "required": [
+                                                        "name",
+                                                        "arch"
+                                                    ],
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "description": "The name of the package."
+                                                        },
+                                                        "arch": {
+                                                            "type": "string",
+                                                            "pattern": "^[a-z0-9_]+$",
+                                                            "description": "The architecture of the package."
+                                                        }
+                                                    },
+                                                    "additionalProperties": false
+                                                }
+                                            }
+                                        },
+                                        "additionalProperties": false
                                     }
                                 }
+                            },
+                            "groups": {
+                                "type": "object",
+                                "description": "A mapping of architecture labels to lists of groups.",
+                                "patternProperties": {
+                                    "^[a-z0-9_]+$": {
+                                        "type": "object",
+                                        "description": "Groups to install or remove.",
+                                        "properties": {
+                                            "install": {
+                                                "$ref": "#/definitions/array-of-string",
+                                                "description": "List of groups to install."
+                                            },
+                                            "remove": {
+                                                "$ref": "#/definitions/array-of-string",
+                                                "description": "List of groups to remove."
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "additionalProperties": false
+                            },
+                            "environments": {
+                                "type": "object",
+                                "description": "A mapping of architecture labels to lists of environments.",
+                                "patternProperties": {
+                                    "^[a-z0-9_]+$": {
+                                        "type": "object",
+                                        "description": "Environments to install or remove.",
+                                        "properties": {
+                                            "install": {
+                                                "$ref": "#/definitions/array-of-string",
+                                                "description": "List of environments to install."
+                                            },
+                                            "remove": {
+                                                "$ref": "#/definitions/array-of-string",
+                                                "description": "List of environments to remove."
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "additionalProperties": false
                             }
                         }
                     }
                 }
+            }
+        }
+    },
+    "definitions": {
+        "array-of-string": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "options": {
+            "type": "object",
+            "description": "A map of options.",
+            "additionalProperties": {
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "boolean"
+                    },
+                    {
+                        "type": "number"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         }
     }
