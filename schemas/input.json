@@ -205,17 +205,11 @@
                             "$ref": "#/definitions/package-spec-NPFB"
                         },
                         "from-repo": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
+                            "$ref": "#/definitions/array-of-string",
                             "description": "Listed packages will only be looked up in the specified repositories."
                         },
                         "from-vendor": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
+                            "$ref": "#/definitions/array-of-string",
                             "description": "Filters installed packages by the ID of the repository they were installed from."
                         }
                     }
@@ -243,17 +237,11 @@
                             "$ref": "#/definitions/package-spec-NF"
                         },
                         "from-repo": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
+                            "$ref": "#/definitions/array-of-string",
                             "description": "Listed packages will only be looked up in the specified repositories."
                         },
                         "from-vendor": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
+                            "$ref": "#/definitions/array-of-string",
                             "description": "Filters installed packages by the ID of the repository they were installed from."
                         }
                     }
@@ -279,10 +267,7 @@
                     { "type": "boolean" },
                     { "type": "number" },
                     {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
+                        "$ref": "#/definitions/array-of-string"
                     }
                 ]
             }
