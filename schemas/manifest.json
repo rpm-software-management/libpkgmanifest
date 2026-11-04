@@ -103,7 +103,7 @@
                                     "size": {
                                         "type": "integer",
                                         "minimum": 1,
-                                        "description": "The size of the package in bytes. Must be a non-negative integer."
+                                        "description": "The size of the package in bytes. Must be a positive integer."
                                     },
                                     "evr": {
                                         "type": "string",
