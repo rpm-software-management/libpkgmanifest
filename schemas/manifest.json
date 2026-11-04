@@ -112,7 +112,7 @@
                                     },
                                     "srpm": {
                                         "type": "string",
-                                        "pattern": "^([a-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
+                                        "pattern": "^([A-Za-z0-9].*)-(?:\\d+:)?(.+)-(.+)\\.(.+)$",
                                         "description": "The Name, Epoch, Version, Release, and Architecture (NEVRA) of the source package used to build this package."
                                     },
                                     "module": {
