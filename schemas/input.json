@@ -189,20 +189,45 @@
     },
     "definitions": {
         "package-entry-NPFB": {
-            "description": "",
+            "description": "A package spec, a path to a local RPM package file, with or without additional qualifiers.",
             "oneOf": [
                 {
                     "$ref": "#/definitions/package-spec-NPFB"
                 },
                 {
+                    "$ref": "#/definitions/package-path"
+                },
+                {
                     "type": "object",
-                    "description": "Package specification with additional qualifiers.",
-                    "required": [
-                        "package-spec"
+                    "description": "Package specification or path to an RPM package, with additional qualifiers.",
+                    "oneOf": [
+                        {
+                            "required": [
+                                "package-spec"
+                            ],
+                            "not": {
+                                "required": [
+                                    "package-path"
+                                ]
+                            }
+                        },
+                        {
+                            "required": [
+                                "package-path"
+                            ],
+                            "not": {
+                                "required": [
+                                    "package-spec"
+                                ]
+                            }
+                        }
                     ],
                     "properties": {
                         "package-spec": {
                             "$ref": "#/definitions/package-spec-NPFB"
+                        },
+                        "package-path": {
+                            "$ref": "#/definitions/package-path"
                         },
                         "from-repo": {
                             "$ref": "#/definitions/array-of-string",
@@ -218,7 +243,13 @@
         },
         "package-spec-NPFB": {
             "type": "string",
-            "description": "Package spec matched against (N)EVRA, (P)rovides, (F)ile provides, then (B)inaries."
+            "description": "Package spec matched against (N)EVRA, (P)rovides, (F)ile provides, then (B)inaries. Not a path to an RPM file; see package-path.",
+            "pattern": "^(?!.*\\.rpm$)"
+        },
+        "package-path": {
+            "type": "string",
+            "description": "Path to a local RPM package file, either absolute or relative.",
+            "pattern": "\\.rpm$"
         },
         "package-entry-NF": {
             "description": "",
