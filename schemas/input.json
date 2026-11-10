@@ -129,6 +129,10 @@
                             "disable": {
                                 "$ref": "#/definitions/array-of-string",
                                 "description": "List of modules to disable."
+                            },
+                            "reset": {
+                                "$ref": "#/definitions/array-of-string",
+                                "description": "List of modules to reset so they are no longer enabled or disabled."
                             }
                         }
                     },

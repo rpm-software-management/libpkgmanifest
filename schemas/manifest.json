@@ -272,6 +272,69 @@
                                     }
                                 }
                             },
+                            "modules": {
+                                "type": "object",
+                                "description": "Modules to enable, disable, or reset. This section only describes changes in module metadata; changes to the installed package set are described in the \"packages\" section.",
+                                "properties": {
+                                    "enable": {
+                                        "type": "array",
+                                        "description": "A list of modules to enable, including changes that should be made to the stream or profiles of modules that are already enabled.",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "name",
+                                                "stream",
+                                                "profiles"
+                                            ],
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "The name of the module."
+                                                },
+                                                "stream": {
+                                                    "type": "string",
+                                                    "minLength": 1,
+                                                    "description": "The module stream to enable."
+                                                },
+                                                "profiles": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "add",
+                                                        "remove"
+                                                    ],
+                                                    "properties": {
+                                                        "add": {
+                                                            "$ref": "#/definitions/array-of-string",
+                                                            "description": "Profile names to mark as installed."
+                                                        },
+                                                        "remove": {
+                                                            "$ref": "#/definitions/array-of-string",
+                                                            "description": "Profile names to mark as not installed."
+                                                        }
+                                                    },
+                                                    "additionalProperties": false
+                                                }
+                                            },
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "disable": {
+                                        "type": "array",
+                                        "description": "Modules to disable.",
+                                        "items": {
+                                            "$ref": "#/definitions/module-name-entry"
+                                        }
+                                    },
+                                    "reset": {
+                                        "type": "array",
+                                        "description": "Modules to reset so they are no longer enabled or disabled.",
+                                        "items": {
+                                            "$ref": "#/definitions/module-name-entry"
+                                        }
+                                    }
+                                },
+                                "additionalProperties": false
+                            },
                             "groups": {
                                 "type": "object",
                                 "description": "A mapping of architecture labels to lists of groups.",
@@ -356,6 +419,19 @@
         }
     },
     "definitions": {
+        "module-name-entry": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the module."
+                }
+            },
+            "additionalProperties": false
+        },
         "array-of-string": {
             "type": "array",
             "items": {
