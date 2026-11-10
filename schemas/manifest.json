@@ -111,10 +111,21 @@
                                                         "name",
                                                         "arch",
                                                         "reason",
-                                                        "repo_id",
                                                         "size",
                                                         "evr"
                                                     ],
+                                                    "if": {
+                                                        "not": {
+                                                            "required": [
+                                                                "local_path"
+                                                            ]
+                                                        }
+                                                    },
+                                                    "then": {
+                                                        "required": [
+                                                            "repo_id"
+                                                        ]
+                                                    },
                                                     "properties": {
                                                         "name": {
                                                             "type": "string",
@@ -130,11 +141,15 @@
                                                         },
                                                         "repo_id": {
                                                             "type": "string",
-                                                            "description": "The ID of the repository from which this package originates. It references one of the repository IDs listed in the 'repositories' section."
+                                                            "description": "The ID of the repository from which this package originates. It references one of the repository IDs listed in the 'repositories' section. Optional when local_path is present."
                                                         },
                                                         "location": {
                                                             "type": "string",
                                                             "description": "The relative URL within the specified repository used to construct the full URL from which the package can be downloaded."
+                                                        },
+                                                        "local_path": {
+                                                            "type": "string",
+                                                            "description": "The path to a local RPM package file on the filesystem, either absolute or relative."
                                                         },
                                                         "checksum": {
                                                             "type": "string",
