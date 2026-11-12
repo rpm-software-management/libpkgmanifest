@@ -4,7 +4,7 @@
 
 %global version_major 0
 %global version_minor 6
-%global version_patch 1
+%global version_patch 2
 
 %bcond_with    docs
 %bcond_without python
@@ -108,6 +108,9 @@ Python 3 bindings for the %{name} library.
 %cmake_install
 
 %changelog
+* Thu Nov 12 2026 Pavla Jaburkova <pkratoch@redhat.com> - 0.6.2-1
+- Developmental snapshot
+
 * Thu Sep 24 2026 Evan Goode <mail@evangoo.de> - 0.6.1-1
 - Developmental snapshot
 
