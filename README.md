@@ -1,6 +1,9 @@
 libpkgmanifest
 ==============
 
+> [!WARNING]
+> libpkgmanifest is currently experimental and pre-1.0.0. Expect breaking changes.
+
 [![Core Logic Coverage Status](https://codecov.io/gh/rpm-software-management/libpkgmanifest/graph/badge.svg?flag=impl&token=AV781ZJ0G9)](https://codecov.io/gh/rpm-software-management/libpkgmanifest)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/31236/badge.svg)](https://scan.coverity.com/projects/rpm-software-management-libpkgmanifest)
 [![CMake Build And Tests Status](https://github.com/rpm-software-management/libpkgmanifest/actions/workflows/build-and-tests.yml/badge.svg)](https://github.com/rpm-software-management/libpkgmanifest/actions/workflows/build-and-tests.yml)
@@ -15,7 +18,7 @@ to interact with manifest objects in custom applications.
 The primary purpose of this library is to streamline internal workflows for building container images,
 while also providing foundational building blocks to tackle general build system management challenges highlighted in [this upstream ticket](https://github.com/rpm-software-management/dnf5/issues/833).
 
-Written in C++ with TDD, the library offers a simple, ABI-compatible API layer for users.
+Written in C++ with TDD, the library offers a simple API layer for users. From version 1.0.0 onward, it will have a stable ABI.
 Python bindings are also available, automatically generated from the C++ API.
 
 Manifest Files
