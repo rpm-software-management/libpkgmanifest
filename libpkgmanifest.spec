@@ -53,7 +53,7 @@ BuildRequires:  python3dist(sphinx-rtd-theme)
 %{name} is a C++ library for parsing and generating RPM manifests.
 
 %files -n %{name}
-%{_libdir}/%{name}.so.0
+%{_libdir}/%{name}.so.1
 %license COPYING.LIB
 %doc README.md
 
